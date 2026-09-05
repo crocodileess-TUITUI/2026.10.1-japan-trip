@@ -165,7 +165,7 @@
     .t-plane-icon { position: absolute; top: -8px; left: 28px; font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 飞机专属 6 大流线指标 */
+    /* 飞机专属 6 大指标 */
     .t-grid-6 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -175,7 +175,7 @@
       padding: 10px 8px;
       border: 1px solid var(--glass-border);
     }
-    /* 动车专属极简 2 格流线指标（仅保留检票口与座位号） */
+    /* 动车专属极简 2 格指标 */
     .t-grid-train {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -189,7 +189,7 @@
     .t-cell-t { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
     .t-cell-v { font-size: 0.82rem; font-weight: 800; color: var(--text-main); margin-top: 2px; }
 
-    /* 可编辑座位输入框（支持 XX车XX号） */
+    /* 可编辑座位输入框 */
     .seat-badge-input {
       display: inline-flex;
       align-items: center;
@@ -224,7 +224,7 @@
       text-decoration: none;
     }
 
-    /* 纯离线手绘动线地图选项卡与容器 */
+    /* 纯离线手绘动线地图选项卡 */
     .map-tabs-bar {
       display: flex;
       background: var(--glass-bg);
@@ -383,7 +383,7 @@
       flex: 1;
       border: none;
       background: transparent;
-      padding: 6px 10px;
+      padding: 6px 8px;
       font-size: 0.72rem;
       font-weight: 700;
       border-radius: 10px;
@@ -440,7 +440,7 @@
     <div class="island" onclick="jumpToCurrentDay()">
       <div class="island-icon" id="island-icon">🚄</div>
       <div class="island-text">
-        <span class="island-title" id="island-title">广州南 $\rightarrow$ 香港西九龙</span>
+        <span class="island-title" id="island-title">广州南 → 香港西九龙</span>
         <span class="island-sub" id="island-sub">计算中...</span>
       </div>
     </div>
@@ -457,7 +457,7 @@
     <a href="#d7" class="chip" onclick="openDay('d7')">10.6 回国</a>
   </div>
 
-  <!-- 倒计时大卡片（标题与时区根据行程时间自动变换） -->
+  <!-- 倒计时大卡片（标题与时区根据行程自动变换） -->
   <div class="glass-card">
     <div class="timer-badge">
       <span id="timer-badge-title">下一站即将启程</span>
@@ -700,7 +700,6 @@
       </div>
     </div>
 
-    <!-- 动车专属极简双格：检票口 + 我的座位 -->
     <div class="t-grid-train">
       <div class="t-cell">
         <div class="t-cell-t">检票闸机</div>
@@ -730,7 +729,7 @@
     </div>
   </div>
 
-  <!-- 纯离线手绘动线地图（提供 3 种极简视图切换，无任何冗余文字批注） -->
+  <!-- 纯离线手绘动线地图（3种纯净视图切换） -->
   <div class="sec-head">
     <span>🗺️ 区域动线与据点总览</span>
     <small>100% 离线手绘 · 纯净无批注</small>
@@ -836,7 +835,7 @@
         <div class="day-badge-big"><div class="day-badge-d">9.30</div><div class="day-badge-w">周三</div></div>
         <div class="day-info">
           <h3>落地 · 烤肉</h3>
-          <p>广州南 $\rightarrow$ 香港T2 $\rightarrow$ 成田T2 · 晚上吃烤肉</p>
+          <p>广州南 → 香港T2 → 成田T2 · 晚上吃烤肉</p>
         </div>
       </div>
       <div class="day-chevron">▼</div>
@@ -1057,7 +1056,7 @@
         <div class="day-badge-big"><div class="day-badge-d">10.6</div><div class="day-badge-w">周二</div></div>
         <div class="day-info">
           <h3>回国</h3>
-          <p>01:00 羽田T3 $\rightarrow$ 04:40 香港T1 $\rightarrow$ 07:20 西九龙 $\rightarrow$ 广州南</p>
+          <p>01:00 羽田T3 → 04:40 香港T1 → 07:20 西九龙 → 广州南</p>
         </div>
       </div>
       <div class="day-chevron">▼</div>
@@ -1100,51 +1099,42 @@
     </div>
   </div>
 
-  <!-- 人性化交互式待办清单 -->
+  <!-- 人性化交互式待办清单（依重要度与时间逻辑由上至下排布） -->
   <div class="sec-head">
     <span>📌 待办事项状态管理</span>
-    <small>轻点分段按钮即可保存</small>
+    <small>重要度排序 · 轻点按钮自动保存</small>
   </div>
   <div class="glass-card">
+    <!-- 1. 护照原件 -->
     <div class="todo-item">
       <div class="todo-row">
-        <span class="todo-name">Visit Japan Web 入境与海关申报</span>
-        <span class="todo-deadline">建议提前48小时填报</span>
+        <span class="todo-name">准备护照原件 (ANA见学核验+出入境)</span>
+        <span class="todo-deadline">顶级红线 · 必须随身带</span>
       </div>
       <div class="todo-stepper">
-        <button class="todo-step-btn" id="vjw-0" onclick="setTodo('vjw', 0)">⚪ 未填写</button>
-        <button class="todo-step-btn" id="vjw-1" onclick="setTodo('vjw', 1)">🟡 填写中</button>
-        <button class="todo-step-btn" id="vjw-2" onclick="setTodo('vjw', 2)">🟢 已生成申报码</button>
+        <button class="todo-step-btn" id="pass-0" onclick="setTodo('pass', 0)">⚪ 桌面放置</button>
+        <button class="todo-step-btn" id="pass-1" onclick="setTodo('pass', 1)">🟡 证件包中</button>
+        <button class="todo-step-btn" id="pass-2" onclick="setTodo('pass', 2)">🟢 已放入随身包</button>
       </div>
     </div>
 
+    <!-- 2. 身份证 -->
     <div class="todo-item">
       <div class="todo-row">
-        <span class="todo-name">日本 7 日高速流量卡 (1张)</span>
-        <span class="todo-deadline">建议出发前2周下单</span>
+        <span class="todo-name">身份证</span>
+        <span class="todo-deadline">国内高铁乘车必备</span>
       </div>
       <div class="todo-stepper">
-        <button class="todo-step-btn" id="sim_jp-0" onclick="setTodo('sim_jp', 0)">⚪ 未下单</button>
-        <button class="todo-step-btn" id="sim_jp-1" onclick="setTodo('sim_jp', 1)">🚚 寄送中</button>
-        <button class="todo-step-btn" id="sim_jp-2" onclick="setTodo('sim_jp', 2)">🟢 已收实卡</button>
+        <button class="todo-step-btn" id="idcard-0" onclick="setTodo('idcard', 0)">⚪ 未准备</button>
+        <button class="todo-step-btn" id="idcard-1" onclick="setTodo('idcard', 1)">🟢 已放入随身包</button>
       </div>
     </div>
 
-    <div class="todo-item">
-      <div class="todo-row">
-        <span class="todo-name">香港 1 日流量卡 (2张)</span>
-        <span class="todo-deadline">转机备用</span>
-      </div>
-      <div class="todo-stepper">
-        <button class="todo-step-btn" id="sim_hk-0" onclick="setTodo('sim_hk', 0)">⚪ 未下单</button>
-        <button class="todo-step-btn" id="sim_hk-1" onclick="setTodo('sim_hk', 1)">🟢 已收到</button>
-      </div>
-    </div>
-
+    <!-- 3. 迪士尼门票 -->
     <div class="todo-item">
       <div class="todo-row">
         <span class="todo-name">东京迪士尼门票 (10月3日 周六)</span>
-        <span class="todo-deadline">建议提前锁定</span>
+        <span class="todo-deadline">万圣节热门 · 提前锁定</span>
       </div>
       <select class="todo-select" id="disney-park" onchange="setDisneyPark(this.value)">
         <option value="none">园区偏好：暂未选定</option>
@@ -1157,14 +1147,149 @@
       </div>
     </div>
 
+    <!-- 4. Visit Japan Web -->
     <div class="todo-item">
       <div class="todo-row">
-        <span class="todo-name">准备护照原件 (ANA见学报到核验)</span>
-        <span class="todo-deadline">必须随身带</span>
+        <span class="todo-name">Visit Japan Web 入境与海关申报</span>
+        <span class="todo-deadline">出发前48小时内填报</span>
       </div>
       <div class="todo-stepper">
-        <button class="todo-step-btn" id="pass-0" onclick="setTodo('pass', 0)">⚪ 还在桌面</button>
-        <button class="todo-step-btn" id="pass-1" onclick="setTodo('pass', 1)">🟢 已装入随身包</button>
+        <button class="todo-step-btn" id="vjw-0" onclick="setTodo('vjw', 0)">⚪ 未填写</button>
+        <button class="todo-step-btn" id="vjw-1" onclick="setTodo('vjw', 1)">🟡 填写中</button>
+        <button class="todo-step-btn" id="vjw-2" onclick="setTodo('vjw', 2)">🟢 已生成申报码</button>
+      </div>
+    </div>
+
+    <!-- 5. 日本流量卡 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">日本 7 日高速流量卡 (1张)</span>
+        <span class="todo-deadline">提前下单邮寄</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="sim_jp-0" onclick="setTodo('sim_jp', 0)">⚪ 未下单</button>
+        <button class="todo-step-btn" id="sim_jp-1" onclick="setTodo('sim_jp', 1)">🚚 寄送中</button>
+        <button class="todo-step-btn" id="sim_jp-2" onclick="setTodo('sim_jp', 2)">🟢 已收实卡</button>
+      </div>
+    </div>
+
+    <!-- 6. 香港流量卡 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">香港 1 日流量卡 (2张)</span>
+        <span class="todo-deadline">转机/过境备用</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="sim_hk-0" onclick="setTodo('sim_hk', 0)">⚪ 未下单</button>
+        <button class="todo-step-btn" id="sim_hk-1" onclick="setTodo('sim_hk', 1)">🟢 已收到实卡</button>
+      </div>
+    </div>
+
+    <!-- 7. 充电宝 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">充电宝</span>
+        <span class="todo-deadline">随身携带上飞机，检查容量标识</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="pbank-0" onclick="setTodo('pbank', 0)">⚪ 充电中</button>
+        <button class="todo-step-btn" id="pbank-1" onclick="setTodo('pbank', 1)">🟢 已装入随身包</button>
+      </div>
+    </div>
+
+    <!-- 8. 充电器 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">充电器（我的和猪猪在日本的充电器）</span>
+        <span class="todo-deadline">双人设备充电线与插头</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="charger-0" onclick="setTodo('charger', 0)">⚪ 在家使用中</button>
+        <button class="todo-step-btn" id="charger-1" onclick="setTodo('charger', 1)">🟢 已打包收纳</button>
+      </div>
+    </div>
+
+    <!-- 9. 理光GR 3X HDF相机 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">理光GR 3X HDF相机</span>
+        <span class="todo-deadline">备用电池+存储卡+镜头清洁</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="gr3x-0" onclick="setTodo('gr3x', 0)">⚪ 未准备</button>
+        <button class="todo-step-btn" id="gr3x-1" onclick="setTodo('gr3x', 1)">🟡 电池充电中</button>
+        <button class="todo-step-btn" id="gr3x-2" onclick="setTodo('gr3x', 2)">🟢 已装包就绪</button>
+      </div>
+    </div>
+
+    <!-- 10. LOVELIVE应援棒 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">LOVELIVE应援棒</span>
+        <span class="todo-deadline">检查电池余量</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="llblade-0" onclick="setTodo('llblade', 0)">⚪ 未装包</button>
+        <button class="todo-step-btn" id="llblade-1" onclick="setTodo('llblade', 1)">🟢 已装好电池打包</button>
+      </div>
+    </div>
+
+    <!-- 11. 雨伞 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">雨伞</span>
+        <span class="todo-deadline">折叠轻量随身备用</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="umbrella-0" onclick="setTodo('umbrella', 0)">⚪ 门口放置</button>
+        <button class="todo-step-btn" id="umbrella-1" onclick="setTodo('umbrella', 1)">🟢 已放入背包</button>
+      </div>
+    </div>
+
+    <!-- 12. 墨镜 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">墨镜</span>
+        <span class="todo-deadline">火山火山口/海岸防紫外线</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="sunglass-0" onclick="setTodo('sunglass', 0)">⚪ 未找齐</button>
+        <button class="todo-step-btn" id="sunglass-1" onclick="setTodo('sunglass', 1)">🟢 已放入随身盒</button>
+      </div>
+    </div>
+
+    <!-- 13. U型枕（严格不加任何备注） -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">U型枕</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="upillow-0" onclick="setTodo('upillow', 0)">⚪ 未装配</button>
+        <button class="todo-step-btn" id="upillow-1" onclick="setTodo('upillow', 1)">🟢 已挂在随身包</button>
+      </div>
+    </div>
+
+    <!-- 14. 香水 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">香水</span>
+        <span class="todo-deadline">分装容量 ≤100ml 或托运</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="perfume-0" onclick="setTodo('perfume', 0)">⚪ 未分装</button>
+        <button class="todo-step-btn" id="perfume-1" onclick="setTodo('perfume', 1)">🟢 已装入洗漱包</button>
+      </div>
+    </div>
+
+    <!-- 15. 家门钥匙放门口 -->
+    <div class="todo-item">
+      <div class="todo-row">
+        <span class="todo-name">家门钥匙放门口</span>
+        <span class="todo-deadline">临出门关门前最后确认！</span>
+      </div>
+      <div class="todo-stepper">
+        <button class="todo-step-btn" id="homekey-0" onclick="setTodo('homekey', 0)">⚪ 还在桌上</button>
+        <button class="todo-step-btn" id="homekey-1" onclick="setTodo('homekey', 1)">🟢 已准确放在门口</button>
       </div>
     </div>
   </div>
@@ -1207,7 +1332,7 @@
   <div class="modal-overlay" id="modal-izu-bus1">
     <div class="glass-card" style="max-height:85vh; overflow-y:auto; margin:40px auto 0; max-width:460px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.92rem; font-weight:800;">伊豆高原站 ➔ 仙人掌公园 (1号站台 430円)</h4>
+        <h4 style="font-size:0.92rem; font-weight:800;">伊豆高原站 → 仙人掌公园 (1号站台 430円)</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus1')">✕</span>
       </div>
       <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:8px;">⚠️ 橙色标记班次：仅在周末及节假日运行</p>
@@ -1228,7 +1353,7 @@
           <tr><td>13:45</td><td>14:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr style="color:var(--warn);"><td>14:20</td><td>14:35</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
           <tr><td>14:45</td><td>15:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
-          <tr><td>15:45</td><td>16:05</td><td>I80 シャ送経由</td><td>ぐらんぱる経由</td></tr>
+          <tr><td>15:45</td><td>16:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr><td>16:20</td><td>16:44</td><td>I73 シャボテン公園行</td><td>池・南原経由</td></tr>
           <tr><td>16:45</td><td>17:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
           <tr><td>17:15</td><td>17:31</td><td>I70 / I72 行</td><td>桜並木経由</td></tr>
@@ -1244,7 +1369,7 @@
   <div class="modal-overlay" id="modal-izu-bus2">
     <div class="glass-card" style="max-height:85vh; overflow-y:auto; margin:40px auto 0; max-width:460px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.92rem; font-weight:800;">仙人掌公园 ➔ 伊豆海洋公园 (2号站台 570円)</h4>
+        <h4 style="font-size:0.92rem; font-weight:800;">仙人掌公园 → 伊豆海洋公园 (2号站台 570円)</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus2')">✕</span>
       </div>
       <p style="font-size:0.72rem; color:var(--text-muted); margin-bottom:8px;">⚠️ 橙色标记班次：仅在周末及节假日运行</p>
@@ -1345,7 +1470,7 @@
       });
     }
 
-    // 10.4 与 10.5 晴雨数据库（地点均带有单点独立导航）
+    // 10.4 与 10.5 晴雨数据库（全面修正箭头字符错误）
     const customDays = {
       sunny: {
         d5_title: "箱根顺时针 · 宿热海",
@@ -1355,23 +1480,23 @@
             time: "准则",
             place: "箱根出行4大原则",
             nav: "",
-            desc: "1. 天气一定要好；2. 买箱根二日周游券（闲鱼买，最少是二日游的，不管玩几天都赚，买横滨出发，要纸质版不要电子版），免费坐所有箱根的交通工具、小田原站$\rightarrow$箱根汤本；3. 早点出门人很多，建议8点就出门；4. 顺时针玩避开傍晚回程元箱根港$\rightarrow$箱根汤本的巴士排队。"
+            desc: "1. 天气一定要好；2. 买箱根二日周游券（闲鱼买，最少是二日游的，不管玩几天都赚，买横滨出发，要纸质版不要电子版），免费坐所有箱根的交通工具、小田原站 → 箱根汤本；3. 早点出门人很多，建议8点就出门；4. 顺时针玩避开傍晚回程元箱根港 → 箱根汤本的巴士排队。"
           },
           {
             time: "08:00",
-            place: "市区 $\rightarrow$ 地铁 $\rightarrow$ 小田原站",
+            place: "市区 → 地铁 → 小田原站",
             nav: "https://maps.google.com/?q=Odawara+Station",
             desc: "用周游券坐 or 浪漫特快（单独买票）。"
           },
           {
             time: "09:00",
-            place: "小田原站 $\rightarrow$ 登山列车 $\rightarrow$ 箱根汤本站",
+            place: "小田原站 → 登山列车 → 箱根汤本站",
             nav: "https://maps.google.com/?q=Hakone-Yumoto+Station",
             desc: "箱根汤本站下车！乘登山列车进山。"
           },
           {
             time: "09:40",
-            place: "箱根汤本站 $\rightarrow$ 巴士 $\rightarrow$ 元箱根港",
+            place: "箱根汤本站 → 巴士 → 元箱根港",
             nav: "https://maps.google.com/?q=Motohakone-port",
             desc: "建议等座位，全是山路无座会挤得很难受，路途后半段开始能看到富士山。"
           },
@@ -1389,7 +1514,7 @@
           },
           {
             time: "12:30",
-            place: "元箱根港 $\rightarrow$ 海贼船 $\rightarrow$ 桃源台站 ⚓",
+            place: "元箱根港 → 海贼船 → 桃源台站 ⚓",
             nav: "https://maps.google.com/?q=Togendai+Station",
             desc: "周游券是普通席免费，加钱升舱体验会好很多，什么舱都可以上甲板。"
           },
@@ -1429,7 +1554,7 @@
           },
           {
             time: "09:25",
-            place: "伊豆高原站 $\rightarrow$ 巴士 $\rightarrow$ 仙人掌公园站",
+            place: "伊豆高原站 → 巴士 → 仙人掌公园站",
             nav: "https://maps.google.com/?q=Izu-Kogen+Station",
             desc: "大巴间隔时间很长，认准 1 号站台 (430円)。<br><button class='btn-action-pill' onclick='openModal(\"modal-izu-bus1\")'>🚏 查看此段完整时刻表</button>"
           },
@@ -1453,7 +1578,7 @@
           },
           {
             time: "13:30",
-            place: "仙人掌公园站 $\rightarrow$ 巴士 $\rightarrow$ 伊豆海洋公园",
+            place: "仙人掌公园站 → 巴士 → 伊豆海洋公园",
             nav: "https://maps.google.com/?q=Izu+Ocean+Park",
             desc: "1. 大巴间隔时间很长，海洋公园站离城崎海岸最近；2. 如果没赶上就坐大巴到伊豆高原站，走路过去 (2号站台 570円)。<br><button class='btn-action-pill' onclick='openModal(\"modal-izu-bus2\")'>🚏 查看此段完整时刻表</button>"
           },
@@ -1465,7 +1590,7 @@
           },
           {
             time: "16:00",
-            place: "城崎海岸站 $\rightarrow$ 巴士 $\rightarrow$ 伊豆高原站",
+            place: "城崎海岸站 → 巴士 → 伊豆高原站",
             nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station",
             desc: "如果时间早可以接上“WALK”的行程。"
           },
@@ -1489,7 +1614,7 @@
         d5_nodes: [
           {
             time: "08:00",
-            place: "市区 $\rightarrow$ 地铁 $\rightarrow$ 小田原站",
+            place: "市区 → 地铁 → 小田原站",
             nav: "https://maps.google.com/?q=Odawara+Station",
             desc: "用周游券坐 or 浪漫特快进山。"
           },
@@ -1593,7 +1718,12 @@
       localStorage.setItem('todo_disney_park', val);
     }
     function refreshTodoUI() {
-      ['vjw', 'sim_jp', 'sim_hk', 'disney', 'pass'].forEach(k => {
+      const allTodoKeys = [
+        'pass', 'idcard', 'disney', 'vjw', 'sim_jp', 'sim_hk', 
+        'pbank', 'charger', 'gr3x', 'llblade', 'umbrella', 'sunglass', 
+        'upillow', 'perfume', 'homekey'
+      ];
+      allTodoKeys.forEach(k => {
         const val = localStorage.getItem('todo_' + k) || 0;
         document.querySelectorAll(`[id^="${k}-"]`).forEach(el => {
           el.classList.remove('active', 'done');
@@ -1629,7 +1759,7 @@
       const now = new Date().getTime();
       let target = timelineEvents.find(e => e.time > now);
       
-      // 时区根据行程自适应切换：在日时间（9.30 20:40 至 10.6 01:00）显示 JST，其余显示 CST
+      // 时区根据行程自适应切换
       const japanLandTime = new Date("2026-09-30T20:40:00+09:00").getTime();
       const japanDepartFlightTime = new Date("2026-10-06T01:00:00+09:00").getTime();
       const tzIndicator = document.getElementById('timer-timezone-indicator');
@@ -1648,7 +1778,6 @@
       }
 
       currentDayTarget = target.dayId;
-      // 标题动态根据最近行程变换
       document.getElementById('timer-badge-title').innerText = "下一站：" + target.short;
       document.getElementById('timer-event-name').innerText = target.name;
       document.getElementById('island-title').innerText = target.short;
