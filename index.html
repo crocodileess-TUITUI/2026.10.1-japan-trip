@@ -73,12 +73,13 @@
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
-      animation: pageFadeIn 0.35s ease-out;
+      transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.3s;
     }
 
-    @keyframes pageFadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+    body.modal-open {
+      transform: scale(0.94);
+      filter: blur(2px);
+      border-radius: 20px;
     }
 
     /* 顶部吐司通知小胶囊 (Toast) */
@@ -110,7 +111,7 @@
       opacity: 1;
     }
 
-    /* 顶部灵动岛 (贴合物理开孔，开启 120Hz 高刷加速) */
+    /* 顶部灵动岛 (贴合物理开孔，可吸附、可展开次级 HUD) */
     .top-island-wrap {
       position: sticky;
       top: calc(env(safe-area-inset-top, 14px) + 2px);
@@ -121,6 +122,10 @@
       padding: 0 14px;
       will-change: transform;
       transform: translateZ(0);
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .top-island-wrap.docked {
+      top: env(safe-area-inset-top, 8px);
     }
     .top-island {
       background: var(--island-bg);
@@ -134,15 +139,50 @@
       cursor: pointer;
       width: fit-content;
       max-width: 95%;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+      position: relative;
+    }
+    .top-island-wrap.docked .top-island {
+      padding: 6px 14px;
+      transform: scale(0.95);
     }
     .top-island:active { transform: scale(0.96); }
+
+    /* 灵动岛临界倒计时动态光环 */
+    .top-island.island-urgent {
+      box-shadow: 0 0 0 2px #f59e0b, 0 12px 32px rgba(245, 158, 11, 0.45);
+      animation: islandGlow 1.5s infinite alternate;
+    }
+    @keyframes islandGlow {
+      from { box-shadow: 0 0 0 1.5px #f59e0b, 0 8px 20px rgba(245, 158, 11, 0.3); }
+      to { box-shadow: 0 0 0 3.5px #f59e0b, 0 16px 36px rgba(245, 158, 11, 0.6); }
+    }
+
     .top-island-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
     .top-island-text { display: flex; flex-direction: column; overflow: hidden; }
     .top-island-title { font-size: 0.76rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .top-island-sub { font-size: 0.65rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
 
-    /* 全局统一倒计时大卡片 */
+    /* 灵动岛次级 HUD 状态抽屉 */
+    .island-hud {
+      display: none;
+      background: var(--island-bg);
+      color: #fff;
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin-top: 8px;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+      font-size: 0.74rem;
+      line-height: 1.5;
+      border: 1px solid rgba(255,255,255,0.15);
+      animation: hudDrop 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    @keyframes hudDrop {
+      from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 全局倒计时卡片与数字上下位移动效 */
     .top-card-container { padding: 0 14px; margin-bottom: 12px; }
     .glass-card {
       background: var(--glass-card);
@@ -154,13 +194,40 @@
       margin-bottom: 14px;
       box-shadow: var(--glass-shadow);
       position: relative;
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.25s;
+    }
+    .top-timer-card:active {
+      transform: scale(0.98);
     }
 
     .timer-badge { font-size: 0.72rem; font-weight: 800; color: var(--accent); letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    
+    /* 时区 3D 翻转动画 */
+    .tz-flip {
+      display: inline-block;
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+    .tz-flip.flipped {
+      transform: rotateX(180deg);
+    }
+
     .timer-event { font-size: 1.35rem; font-weight: 900; margin-bottom: 14px; letter-spacing: -0.02em; cursor: pointer; }
     .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .timer-box { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 4px; text-align: center; }
-    .timer-val { font-size: 1.6rem; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .timer-box { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px 4px; text-align: center; overflow: hidden; }
+    
+    /* 数字滚动平滑效果 */
+    .timer-val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+      display: block;
+      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.2s;
+    }
+    .timer-val.num-tick {
+      transform: translateY(-2px);
+    }
     .timer-lbl { font-size: 0.64rem; font-weight: 700; color: var(--text-muted); margin-top: 3px; }
 
     /* 横向滑动视口 (ViewPager) */
@@ -172,7 +239,17 @@
       transform: translateZ(0);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
-    .view-pane { width: 50%; padding: 0 14px; flex-shrink: 0; min-height: 70vh; }
+    .view-pane { 
+      width: 50%; 
+      padding: 0 14px; 
+      flex-shrink: 0; 
+      min-height: 70vh; 
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .view-pane.pane-dim {
+      opacity: 0.45;
+      transform: scale(0.98);
+    }
 
     /* 底置胶囊 Dock 导航 */
     .dock-wrap {
@@ -184,6 +261,10 @@
       display: flex;
       justify-content: center;
       pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .dock-wrap.hide-dock {
+      transform: translateY(120%);
     }
     .dock-island {
       pointer-events: auto;
@@ -229,9 +310,16 @@
       transition: color 0.25s;
     }
     .dock-btn.active { color: #fff; }
+    .dock-btn:active { transform: scale(0.92); }
 
-    /* 快捷日期定位胶囊 (穿梭感设计) */
-    .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-bottom: 16px; padding: 2px; touch-action: pan-x; }
+    /* 快捷日期胶囊栏 (双侧羽化渐变遮罩) */
+    .chips-outer {
+      position: relative;
+      margin-bottom: 16px;
+      mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+    }
+    .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 8px; touch-action: pan-x; }
     .chips-bar::-webkit-scrollbar { display: none; }
     .chip {
       white-space: nowrap;
@@ -247,8 +335,9 @@
       text-decoration: none;
       box-shadow: var(--glass-shadow);
       transition: all 0.25s;
+      flex-shrink: 0;
     }
-    .chip.past-day { opacity: 0.55; }
+    .chip.past-day { opacity: 0.45; }
     .chip.active, .chip:active { background: var(--accent); color: #fff; border-color: var(--accent); opacity: 1; }
 
     .sec-head { font-size: 1rem; font-weight: 900; margin: 18px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
@@ -284,7 +373,7 @@
     .gate-pulse { animation: gateBlink 1.4s infinite; font-weight: 900; color: var(--warn) !important; }
     @keyframes gateBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    /* 羽田 T3 晚间红眼值机高光流动警戒边框 (UO623) */
+    /* 羽田 T3 晚间红眼值机流动警戒边框 (UO623) */
     .transit-card.alert-border {
       border-color: #f59e0b !important;
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.45) !important;
@@ -346,6 +435,7 @@
       outline: none;
       width: 110px;
       text-align: center;
+      text-transform: uppercase;
     }
     .seat-badge-input:focus { border-style: solid; background: var(--bg); }
     .btn-seat-zoom { border: none; background: transparent; cursor: pointer; font-size: 0.8rem; opacity: 0.8; }
@@ -366,7 +456,7 @@
       text-decoration: none;
     }
 
-    /* 手绘动线地图 */
+    /* 手绘动线地图容器 (带指北针) */
     .map-tabs-bar {
       display: flex;
       background: var(--glass-bg);
@@ -401,11 +491,35 @@
       justify-content: center;
       min-height: 240px;
       overflow: hidden;
-      touch-action: pan-y pinch-zoom;
+      touch-action: none;
+      position: relative;
     }
-    svg.apple-sketch-map { width: 100%; height: auto; display: block; max-height: 280px; transform-origin: center center; }
+    svg.apple-sketch-map { 
+      width: 100%; 
+      height: auto; 
+      display: block; 
+      max-height: 280px; 
+      transform-origin: center center;
+      transition: opacity 0.25s, transform 0.1s ease-out;
+    }
+    .map-compass {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      width: 24px;
+      height: 24px;
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 900;
+      pointer-events: none;
+    }
     .map-node { cursor: pointer; transition: transform 0.2s; }
-    .map-node:active { transform: scale(1.15); }
+    .map-node:active { transform: scale(1.3); }
 
     /* 晴雨切换 Toggle */
     .toggle-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -415,7 +529,7 @@
     .t-btn { border: none; background: transparent; padding: 6px 12px; font-size: 0.74rem; font-weight: 700; border-radius: 9px; cursor: pointer; color: var(--text-sub); }
     .t-btn.active { background: var(--accent); color: #fff; }
 
-    /* 逐日行程卡片 */
+    /* 逐日行程卡片 (无级平滑 CSS Grid 展开折叠 + 焦点光晕) */
     .day-wrapper {
       background: var(--glass-card);
       backdrop-filter: blur(28px);
@@ -425,11 +539,15 @@
       margin-bottom: 14px;
       box-shadow: var(--glass-shadow);
       overflow: hidden;
-      transition: border-color 0.25s, transform 0.2s;
+      transition: border-color 0.25s, box-shadow 0.3s;
       will-change: transform, opacity;
       transform: translateZ(0);
     }
     .day-wrapper.open { border-color: var(--accent-border); }
+    .day-wrapper.focus-halo {
+      box-shadow: 0 0 0 2.5px var(--accent), 0 12px 30px rgba(0, 113, 227, 0.35) !important;
+    }
+
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .day-meta { display: flex; align-items: center; gap: 12px; }
     .day-badge-big {
@@ -445,15 +563,32 @@
     .day-badge-w { font-size: 0.65rem; font-weight: 700; margin-top: 2px; }
     .day-info h3 { font-size: 1.05rem; font-weight: 900; line-height: 1.2; }
     .day-info p { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
-    .day-chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.25s; }
+    .day-chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1); }
     .day-wrapper.open .day-chevron { transform: rotate(180deg); color: var(--accent); }
-    .day-body { display: none; padding: 0 16px 16px; border-top: 1px dashed var(--glass-border); }
-    .day-wrapper.open .day-body { display: block; }
 
-    /* 时间轴条目 (排版独占一行与防孤字规范) */
+    /* CSS Grid 平滑折叠展开容器 */
+    .day-body-grid {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .day-wrapper.open .day-body-grid {
+      grid-template-rows: 1fr;
+    }
+    .day-body-inner {
+      overflow: hidden;
+      padding: 0 16px;
+    }
+    .day-wrapper.open .day-body-inner {
+      padding-bottom: 16px;
+      border-top: 1px dashed var(--glass-border);
+    }
+
+    /* 时间轴条目 (排版强制独占一行，杜绝孤字) */
     .timeline { position: relative; border-left: 2px solid var(--glass-border); margin-left: 10px; padding-left: 16px; margin-top: 12px; }
-    .tl-node { position: relative; margin-bottom: 16px; }
+    .tl-node { position: relative; margin-bottom: 16px; transition: opacity 0.25s; }
     .tl-node:last-child { margin-bottom: 0; }
+    .tl-node.passed-node { opacity: 0.45; }
     .tl-node::before {
       content: '';
       position: absolute;
@@ -484,7 +619,7 @@
       vertical-align: middle;
       transition: all 0.2s;
     }
-    .btn-nav-pin:hover { background: var(--accent); color: #fff; }
+    .btn-nav-pin:active { transform: scale(0.92); opacity: 0.8; }
 
     .tl-desc { 
       font-size: 0.76rem; 
@@ -537,14 +672,32 @@
       margin-top: 6px;
       text-decoration: none;
     }
+    .btn-action-pill:active { transform: scale(0.95); }
 
-    /* 待办清单 & 状态呼吸竖条 */
+    /* 待办清单 & 状态呼吸竖条 & 仅看未完成过滤 */
     .todo-header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--glass-border); }
     .ring-wrap { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 800; }
     svg.progress-ring { width: 34px; height: 34px; transform: rotate(-90deg); }
     circle.ring-bg { stroke: rgba(0,0,0,0.08); stroke-width: 3.5; fill: transparent; }
     circle.ring-val { stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; fill: transparent; stroke-dasharray: 88; stroke-dashoffset: 88; transition: stroke-dashoffset 0.35s ease, stroke 0.35s; }
     circle.ring-val.complete { stroke: var(--success); }
+
+    .todo-filter-btn {
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      padding: 3px 10px;
+      border-radius: 14px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: all 0.2s;
+    }
+    .todo-filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
 
     .todo-item {
       padding: 12px 10px 12px 14px;
@@ -557,12 +710,23 @@
       border-radius: 4px;
       margin-bottom: 6px;
       background: var(--glass-bg);
-      transition: all 0.25s;
+      transition: all 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+      max-height: 200px;
+      overflow: hidden;
     }
     .todo-item:last-child { margin-bottom: 0; }
     .todo-item.status-done { border-left-color: var(--success); }
     .todo-item.status-progress { border-left-color: var(--warn); }
     
+    .todo-item.filtered-out {
+      max-height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border: none;
+    }
+
     .todo-row { display: flex; justify-content: space-between; align-items: center; }
     .todo-name {
       font-size: 0.92rem;
@@ -621,7 +785,7 @@
       margin-bottom: 4px;
     }
 
-    /* 弹窗抽屉 */
+    /* 弹窗抽屉 (带拖拽指示条与下拉手势) */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -629,13 +793,35 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.68);
+      background: rgba(0,0,0,0.65);
       z-index: 99999;
       backdrop-filter: blur(10px);
       padding: 20px;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
     }
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--glass-card);
+      border-radius: 28px 28px 16px 16px;
+      padding: 12px 18px 24px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      touch-action: pan-y;
+      transition: transform 0.2s;
+    }
+    .modal-handle {
+      width: 38px;
+      height: 4.5px;
+      background: rgba(150,150,150,0.5);
+      border-radius: 4px;
+      margin: 4px auto 14px;
+    }
+
     .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.72rem; }
     .bus-table th, .bus-table td { border: 1px solid var(--glass-border); padding: 6px 8px; text-align: center; }
     .bus-table th { background: var(--accent-soft); color: var(--accent); font-weight: 800; }
@@ -643,6 +829,12 @@
     @media (prefers-color-scheme: dark) {
       .bus-next-row { background: #854d0e !important; color: #fef08a !important; }
     }
+    .bus-urgent-text {
+      animation: urgentPulse 1.2s infinite;
+      color: #dc2626 !important;
+      font-weight: 900;
+    }
+    @keyframes urgentPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
     /* 底部应急 */
     .footer-tools {
@@ -654,7 +846,7 @@
       font-size: 0.74rem;
     }
 
-    /* 座位特大字全屏牌 */
+    /* 座位特大字全屏牌 (支持左右轻扫切卡) */
     #seat-zoom-modal {
       display: none;
       position: fixed;
@@ -678,9 +870,36 @@
       text-align: center;
       color: #ffffff;
       box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+      max-width: 90%;
     }
     .seat-zoom-title { font-size: 0.95rem; font-weight: 700; opacity: 0.7; margin-bottom: 8px; }
     .seat-zoom-val { font-size: 3.2rem; font-weight: 900; letter-spacing: -0.02em; color: #38bdf8; font-variant-numeric: tabular-nums; }
+
+    /* 智能回顶小胶囊 */
+    #scroll-top-btn {
+      position: fixed;
+      right: 18px;
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 72px);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--island-bg);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+      z-index: 9998;
+    }
+    #scroll-top-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     /* 待办 15/15 满分纸屑容器 */
     .confetti-box {
@@ -709,31 +928,41 @@
 </head>
 <body>
 
-  <!-- 彩屑微动效容器 -->
+  <!-- 彩屑容器 -->
   <div class="confetti-box" id="confetti-box"></div>
 
   <!-- 顶部轻提示胶囊 -->
   <div id="mini-toast">已就绪！即将打开航旅纵横 App ✈️</div>
 
+  <!-- 智能回顶浮动胶囊 -->
+  <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
+
   <!-- 顶部灵动岛 -->
-  <div class="top-island-wrap">
-    <div class="top-island" onclick="jumpToCurrentDay()">
-      <div class="top-island-icon" id="top-island-icon">🚄</div>
-      <div class="top-island-text">
-        <span class="top-island-title" id="top-island-title">广州南 → 香港西九龙</span>
-        <span class="top-island-sub" id="top-island-sub">计算中...</span>
+  <div class="top-island-wrap" id="top-island-wrap">
+    <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+      <div class="top-island" id="top-island-pill" onclick="toggleIslandHud()">
+        <div class="top-island-icon" id="top-island-icon">🚄</div>
+        <div class="top-island-text">
+          <span class="top-island-title" id="top-island-title">广州南 → 香港西九龙</span>
+          <span class="top-island-sub" id="top-island-sub">计算中...</span>
+        </div>
+      </div>
+      <!-- 次级 HUD 状态抽屉 -->
+      <div class="island-hud" id="island-hud">
+        <div style="font-weight:900; margin-bottom:4px;" id="hud-title">下一行程节点详情</div>
+        <div id="hud-detail" style="opacity:0.85;">轻触主卡片直达对应日期，左右轻扫可快速预览行程。</div>
       </div>
     </div>
   </div>
 
   <!-- 顶置全局倒计时大卡片 -->
   <div class="top-card-container">
-    <div class="glass-card">
+    <div class="glass-card top-timer-card" id="top-timer-card">
       <div class="timer-badge">
         <span>NEXT MILESTONE</span>
-        <span id="timer-timezone-indicator">CST 中国标准时 (UTC+8)</span>
+        <span id="timer-timezone-indicator" class="tz-flip">CST 中国标准时 (UTC+8)</span>
       </div>
-      <div class="timer-event" id="timer-event-name" onclick="window.scrollTo({top:0, behavior:'smooth'})">广州南乘车启程 🚄</div>
+      <div class="timer-event" id="timer-event-name" onclick="jumpToCurrentDay()">广州南乘车启程 🚄</div>
       <div class="timer-grid">
         <div class="timer-box"><div class="timer-val" id="d">00</div><div class="timer-lbl">DAYS</div></div>
         <div class="timer-box"><div class="timer-val" id="h">00</div><div class="timer-lbl">HOURS</div></div>
@@ -790,8 +1019,8 @@
             <div class="t-cell">
               <div class="t-cell-t">我的座位</div>
               <div class="seat-input-wrap">
-                <input class="seat-badge-input" id="seat-train-dep" placeholder="如 02车7B号" onchange="saveSeat('train-dep', this.value)"/>
-                <button class="btn-seat-zoom" onclick="zoomSeat('G6581 高铁', document.getElementById('seat-train-dep').value)">🔍</button>
+                <input class="seat-badge-input" id="seat-train-dep" placeholder="如 02车7B号" onchange="formatAndSaveSeat('train-dep', this)"/>
+                <button class="btn-seat-zoom" onclick="zoomSeatModal(0)">🔍</button>
               </div>
             </div>
           </div>
@@ -860,8 +1089,8 @@
 
           <div class="t-meta-bar">
             <div class="seat-input-wrap">
-              <input class="seat-badge-input" id="seat-uo652" placeholder="如 12A号" onchange="saveSeat('uo652', this.value)"/>
-              <button class="btn-seat-zoom" onclick="zoomSeat('UO652 航班', document.getElementById('seat-uo652').value)">🔍</button>
+              <input class="seat-badge-input" id="seat-uo652" placeholder="如 12A号" onchange="formatAndSaveSeat('uo652', this)"/>
+              <button class="btn-seat-zoom" onclick="zoomSeatModal(1)">🔍</button>
             </div>
             <button class="btn-realtime-radar" onclick="triggerHanglvApp('UO652')">📲 航旅纵横 App ↗</button>
           </div>
@@ -925,8 +1154,8 @@
 
           <div class="t-meta-bar">
             <div class="seat-input-wrap">
-              <input class="seat-badge-input" id="seat-uo623" placeholder="如 15C号" onchange="saveSeat('uo623', this.value)"/>
-              <button class="btn-seat-zoom" onclick="zoomSeat('UO623 航班', document.getElementById('seat-uo623').value)">🔍</button>
+              <input class="seat-badge-input" id="seat-uo623" placeholder="如 15C号" onchange="formatAndSaveSeat('uo623', this)"/>
+              <button class="btn-seat-zoom" onclick="zoomSeatModal(2)">🔍</button>
             </div>
             <button class="btn-realtime-radar" onclick="triggerHanglvApp('UO623')">📲 航旅纵横 App ↗</button>
           </div>
@@ -969,8 +1198,8 @@
             <div class="t-cell">
               <div class="t-cell-t">我的座位</div>
               <div class="seat-input-wrap">
-                <input class="seat-badge-input" id="seat-train-arr" placeholder="如 05车11A号" onchange="saveSeat('train-arr', this.value)"/>
-                <button class="btn-seat-zoom" onclick="zoomSeat('G6582 高铁', document.getElementById('seat-train-arr').value)">🔍</button>
+                <input class="seat-badge-input" id="seat-train-arr" placeholder="如 05车11A号" onchange="formatAndSaveSeat('train-arr', this)"/>
+                <button class="btn-seat-zoom" onclick="zoomSeatModal(3)">🔍</button>
               </div>
             </div>
           </div>
@@ -984,15 +1213,18 @@
 
       <!-- PANE 2: 📅 逐日行程 -->
       <div class="view-pane" id="pane-itinerary">
-        <!-- 顶部日期快捷定位胶囊 -->
-        <div class="chips-bar">
-          <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
-          <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')">10.1 瞎逛</a>
-          <a href="#d3" class="chip" id="chip-d3" onclick="smoothOpenDay('d3')">10.2 ANA见学</a>
-          <a href="#d4" class="chip" id="chip-d4" onclick="smoothOpenDay('d4')">10.3 迪士尼</a>
-          <a href="#d5" class="chip" id="chip-d5" onclick="smoothOpenDay('d5')">10.4 箱根/热海</a>
-          <a href="#d6" class="chip" id="chip-d6" onclick="smoothOpenDay('d6')">10.5 伊豆/WALK</a>
-          <a href="#d7" class="chip" id="chip-d7" onclick="smoothOpenDay('d7')">10.6 回国</a>
+        
+        <!-- 顶部日期快捷定位胶囊 (双侧羽化渐变) -->
+        <div class="chips-outer">
+          <div class="chips-bar" id="chips-bar-scroll">
+            <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
+            <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')">10.1 瞎逛</a>
+            <a href="#d3" class="chip" id="chip-d3" onclick="smoothOpenDay('d3')">10.2 ANA见学</a>
+            <a href="#d4" class="chip" id="chip-d4" onclick="smoothOpenDay('d4')">10.3 迪士尼</a>
+            <a href="#d5" class="chip" id="chip-d5" onclick="smoothOpenDay('d5')">10.4 箱根/热海</a>
+            <a href="#d6" class="chip" id="chip-d6" onclick="smoothOpenDay('d6')">10.5 伊豆/WALK</a>
+            <a href="#d7" class="chip" id="chip-d7" onclick="smoothOpenDay('d7')">10.6 回国</a>
+          </div>
         </div>
 
         <!-- 10.4 - 10.5 晴雨决策切换器 -->
@@ -1018,6 +1250,7 @@
             <button class="map-tab-btn" id="tab-map-metro" onclick="showSketchMap('metro')">🗼 都会圈·大本营</button>
           </div>
           <div class="offline-map-container" id="map-zoom-container">
+            <div class="map-compass">N</div>
             <!-- 视图 1：全程大闭环 -->
             <svg class="apple-sketch-map" id="map-svg-all" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg">
               <path d="M 480,45 Q 360,95 270,110 T 150,170 T 165,215 T 155,255" fill="none" stroke="var(--accent-border)" stroke-width="4" stroke-dasharray="6"/>
@@ -1154,57 +1387,59 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">10:28</span>
-                  <span class="tl-place">广州南站乘动车</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Guangzhounan+Railway+Station" target="_blank">导航 ↗</a>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline">
+                <div class="tl-node" id="tl-d1-1">
+                  <div class="tl-top">
+                    <span class="tl-time">10:28</span>
+                    <span class="tl-place">广州南站乘动车</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Guangzhounan+Railway+Station" target="_blank">导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">搭乘高铁直达香港西九龙站办理一地两检。</div>
                 </div>
-                <div class="tl-desc">搭乘高铁直达香港西九龙站办理一地两检。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">15:10</span>
-                  <span class="tl-place">香港国际机场 T2 起飞</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Hong+Kong+International+Airport+Terminal+2" target="_blank">导航 ↗</a>
-                  <span class="tag tag-ok">UO652</span>
+                <div class="tl-node" id="tl-d1-2">
+                  <div class="tl-top">
+                    <span class="tl-time">15:10</span>
+                    <span class="tl-place">香港国际机场 T2 起飞</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Hong+Kong+International+Airport+Terminal+2" target="_blank">导航 ↗</a>
+                    <span class="tag tag-ok">UO652</span>
+                  </div>
+                  <div class="tl-desc">香港快运航空 UO652 航班准时启程起飞。</div>
                 </div>
-                <div class="tl-desc">香港快运航空 UO652 航班准时启程起飞。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">20:40</span>
-                  <span class="tl-place">成田机场 T2 落地</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Narita+Airport+Terminal+2" target="_blank">导航 ↗</a>
+                <div class="tl-node" id="tl-d1-3">
+                  <div class="tl-top">
+                    <span class="tl-time">20:40</span>
+                    <span class="tl-place">成田机场 T2 落地</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Narita+Airport+Terminal+2" target="_blank">导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">入境出示 Visit Japan Web 申报码提取行李。</div>
                 </div>
-                <div class="tl-desc">入境出示 Visit Japan Web 申报码提取行李。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">21:50</span>
-                  <span class="tl-place">电车至「东山田站」回家</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Higashi-Yamata+Station" target="_blank">导航 ↗</a>
+                <div class="tl-node" id="tl-d1-4">
+                  <div class="tl-top">
+                    <span class="tl-time">21:50</span>
+                    <span class="tl-place">电车至「东山田站」回家</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Higashi-Yamata+Station" target="_blank">导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达「东山田站」回家。</div>
                 </div>
-                <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达「东山田站」回家。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">深夜</span>
-                  <span class="tl-place">晚上去吃烤肉 🥩</span>
+                <div class="tl-node" id="tl-d1-5">
+                  <div class="tl-top">
+                    <span class="tl-time">深夜</span>
+                    <span class="tl-place">晚上去吃烤肉 🥩</span>
+                  </div>
+                  <div class="tl-desc">落地安顿好后在横滨东山田周边享用炭火烧肉晚餐。</div>
                 </div>
-                <div class="tl-desc">落地安顿好后在横滨东山田周边享用炭火烧肉晚餐。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time" style="color:var(--warn);">23:00 前</span>
-                  <span class="tl-place">🔴 天气与酒店最终决策</span>
-                  <span class="tag tag-warn">免费取消截止</span>
-                </div>
-                <div class="tl-desc">
-                  查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
-                  <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:800; color:var(--warn); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
+                <div class="tl-node" id="tl-d1-6">
+                  <div class="tl-top">
+                    <span class="tl-time" style="color:var(--warn);">23:00 前</span>
+                    <span class="tl-place">🔴 天气与酒店最终决策</span>
+                    <span class="tag tag-warn">免费取消截止</span>
+                  </div>
+                  <div class="tl-desc">
+                    查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
+                    <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:800; color:var(--warn); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1223,15 +1458,17 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">全天</span>
-                  <span class="tl-place">瞎逛</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Yokohama+Minato+Mirai" target="_blank">港未来导航 ↗</a>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline">
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">全天</span>
+                    <span class="tl-place">瞎逛</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Yokohama+Minato+Mirai" target="_blank">港未来导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">睡到自然醒，在横滨市区或港未来周边自由闲逛。</div>
                 </div>
-                <div class="tl-desc">睡到自然醒，在横滨市区或港未来周边自由闲逛。</div>
               </div>
             </div>
           </div>
@@ -1249,37 +1486,39 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">14:15-15:30</span>
-                  <span class="tl-place">ANA见学 (Blue Hangar Tour)</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Shin-Seibijo+Station" target="_blank">新整备场站导航 ↗</a>
-                  <span class="tag tag-ok">已预约</span>
-                </div>
-                <div class="tl-desc">实地进入羽田机体工场观摩大型客机定检维护。</div>
-                <div class="tl-notes">
-                  <strong>核心现场备忘：</strong>
-                  <span class="tl-note-line">• 单轨“新整备场”站台写有 blue hangar tour，出站看时刻表乘免费接驳车</span>
-                  <span class="tl-note-line">• 全程日语导览，可戴耳机使用同传翻译，现场配备有中文导览手册备查</span>
-                  <span class="tl-note-line">• 场内禁止录像但允许拍照（切勿拍到工作人员），备有饮水与储物柜</span>
-                  <span class="tl-note-line">• 进入大堂左侧出示预约信息领工牌佩戴，准点排队进入会议室听讲</span>
-                </div>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline">
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">14:15-15:30</span>
+                    <span class="tl-place">ANA见学 (Blue Hangar Tour)</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Shin-Seibijo+Station" target="_blank">新整备场站导航 ↗</a>
+                    <span class="tag tag-ok">已预约</span>
+                  </div>
+                  <div class="tl-desc">实地进入羽田机体工场观摩大型客机定检维护。</div>
+                  <div class="tl-notes">
+                    <strong>核心现场备忘：</strong>
+                    <span class="tl-note-line">• 单轨“新整备场”站台写有 blue hangar tour，出站看时刻表乘免费接驳车</span>
+                    <span class="tl-note-line">• 全程日语导览，可戴耳机使用同传翻译，现场配备有中文导览手册备查</span>
+                    <span class="tl-note-line">• 场内禁止录像但允许拍照（切勿拍到工作人员），备有饮水与储物柜</span>
+                    <span class="tl-note-line">• 进入大堂左侧出示预约信息领工牌佩戴，准点排队进入会议室听讲</span>
+                  </div>
 
-                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
-                  <button class="btn-action-pill" onclick="copyCode('qn995svxtzm3')">📋 复制確認コード (qn995svxtzm3)</button>
-                  <a class="btn-action-pill" href="https://ana-blue-hangar-tour.resv.jp/user/usr_cancel_guest.php?resid=102257&reserve_no=102257&code=qn995svxtzm3" target="_blank">🔗 打开 ANA 预约确认官网 ↗</a>
-                  <button class="btn-action-pill" onclick="openAnaBusModal()">🚏 查看新整备场站接驳车时刻表</button>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                    <button class="btn-action-pill" onclick="copyCode('qn995svxtzm3')">📋 复制確認コード (qn995svxtzm3)</button>
+                    <a class="btn-action-pill" href="https://ana-blue-hangar-tour.resv.jp/user/usr_cancel_guest.php?resid=102257&reserve_no=102257&code=qn995svxtzm3" target="_blank">🔗 打开 ANA 预约确认官网 ↗</a>
+                    <button class="btn-action-pill" onclick="openAnaBusModal()">🚏 查看新整备场站接驳车时刻表</button>
+                  </div>
                 </div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">傍晚</span>
-                  <span class="tl-place">超市买肉和寿喜烧汁，回家吃 🍲</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Supermarket+near+Minamiyamata" target="_blank">附近超市导航 ↗</a>
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">傍晚</span>
+                    <span class="tl-place">超市买肉和寿喜烧汁，回家吃 🍲</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Supermarket+near+Minamiyamata" target="_blank">附近超市导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">汇合后前往超市选购优质牛肉与新鲜蔬菜，回东山田做寿喜烧晚餐。</div>
                 </div>
-                <div class="tl-desc">汇合后前往超市选购优质牛肉与新鲜蔬菜，回东山田做寿喜烧晚餐。</div>
               </div>
             </div>
           </div>
@@ -1297,36 +1536,41 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">07:00</span>
-                  <span class="tl-place">东山田出发</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Maihama+Station" target="_blank">舞滨站导航 ↗</a>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline">
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">07:00</span>
+                    <span class="tl-place">东山田出发</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Maihama+Station" target="_blank">舞滨站导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">乘地铁换乘至 JR 京叶线直达「舞滨站」。</div>
                 </div>
-                <div class="tl-desc">乘地铁换乘至 JR 京叶线直达「舞滨站」。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">08:30</span>
-                  <span class="tl-place">迪士尼刷码入园</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">乐园正门导航 ↗</a>
-                  <span class="tag tag-warn">需购票</span>
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">08:30</span>
+                    <span class="tl-place">迪士尼刷码入园</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">乐园正门导航 ↗</a>
+                    <span class="tag tag-warn">需购票</span>
+                  </div>
+                  <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
+                  <div class="tl-notes">
+                    <strong>开园优先建议：</strong>
+                    <span class="tl-note-line">• 陆地 Disneyland：首抢《美女与野兽》DPA，直冲《太空山》或《巨雷山》</span>
+                    <span class="tl-note-line">• 海洋 DisneySea：首抢 Fantasy Springs 新园区预约，直冲《飞天奇梦》</span>
+                  </div>
+                  <div style="margin-top:8px;">
+                    <a class="btn-action-pill" href="https://www.tokyodisneyresort.jp/tc/tdr/app.html" target="_blank">🏰 打开东京迪士尼官方 App ↗</a>
+                  </div>
                 </div>
-                <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
-                <div class="tl-notes">
-                  <strong>开园优先建议：</strong>
-                  <span class="tl-note-line">• 陆地 Disneyland：首抢《美女与野兽》DPA，直冲《太空山》或《巨雷山》</span>
-                  <span class="tl-note-line">• 海洋 DisneySea：首抢 Fantasy Springs 新园区预约，直冲《飞天奇梦》</span>
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">21:30</span>
+                    <span class="tl-place">烟花结束返程横滨家</span>
+                  </div>
+                  <div class="tl-desc">避开闭园离场人流高峰，乘电车回东山田休息。</div>
                 </div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">21:30</span>
-                  <span class="tl-place">烟花结束返程横滨家</span>
-                </div>
-                <div class="tl-desc">避开闭园离场人流高峰，乘电车回东山田休息。</div>
               </div>
             </div>
           </div>
@@ -1344,8 +1588,10 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline" id="d5-timeline"></div>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline" id="d5-timeline"></div>
+            </div>
           </div>
         </div>
 
@@ -1361,8 +1607,10 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline" id="d6-timeline"></div>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline" id="d6-timeline"></div>
+            </div>
           </div>
         </div>
 
@@ -1378,39 +1626,41 @@
             </div>
             <div class="day-chevron">▼</div>
           </div>
-          <div class="day-body">
-            <div class="timeline">
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">01:00</span>
-                  <span class="tl-place">东京羽田机场 T3 起飞</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Haneda+Airport+Terminal+3" target="_blank">羽田T3导航 ↗</a>
-                  <span class="tag tag-ok">UO623</span>
+          <div class="day-body-grid">
+            <div class="day-body-inner">
+              <div class="timeline">
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">01:00</span>
+                    <span class="tl-place">东京羽田机场 T3 起飞</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Haneda+Airport+Terminal+3" target="_blank">羽田T3导航 ↗</a>
+                    <span class="tag tag-ok">UO623</span>
+                  </div>
+                  <div class="tl-desc">搭乘香港快运 UO623 红眼航班启程回港。</div>
                 </div>
-                <div class="tl-desc">搭乘香港快运 UO623 红眼航班启程回港。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">04:40</span>
-                  <span class="tl-place">香港国际机场 T1 落地</span>
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">04:40</span>
+                    <span class="tl-place">香港国际机场 T1 落地</span>
+                  </div>
+                  <div class="tl-desc">办理入境手续后搭乘机场快线前往香港西九龙高铁站。</div>
                 </div>
-                <div class="tl-desc">办理入境手续后搭乘机场快线前往香港西九龙高铁站。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">07:20</span>
-                  <span class="tl-place">香港西九龙站乘高铁</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Hong+Kong+West+Kowloon+Station" target="_blank">西九龙站导航 ↗</a>
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">07:20</span>
+                    <span class="tl-place">香港西九龙站乘高铁</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Hong+Kong+West+Kowloon+Station" target="_blank">西九龙站导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">办理一地两检通关乘车。</div>
                 </div>
-                <div class="tl-desc">办理一地两检通关乘车。</div>
-              </div>
-              <div class="tl-node">
-                <div class="tl-top">
-                  <span class="tl-time">08:27</span>
-                  <span class="tl-place">广州南站落地出站</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Guangzhounan+Railway+Station" target="_blank">广州南站导航 ↗</a>
+                <div class="tl-node">
+                  <div class="tl-top">
+                    <span class="tl-time">08:27</span>
+                    <span class="tl-place">广州南站落地出站</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Guangzhounan+Railway+Station" target="_blank">广州南站导航 ↗</a>
+                  </div>
+                  <div class="tl-desc">平安抵穗，圆满结束日本关东 7 日旅程！🎉</div>
                 </div>
-                <div class="tl-desc">平安抵穗，圆满结束日本关东 7 日旅程！🎉</div>
               </div>
             </div>
           </div>
@@ -1419,6 +1669,7 @@
         <!-- 待办清单 -->
         <div class="sec-head">
           <span>📌 待办事项状态管理</span>
+          <button class="todo-filter-btn" id="todo-filter-btn" onclick="toggleTodoFilter()">仅看未完成</button>
         </div>
         <div class="glass-card">
           <div class="todo-header-wrap">
@@ -1435,7 +1686,7 @@
           <!-- 1. 护照原件 -->
           <div class="todo-item" id="todo-item-pass">
             <div class="todo-row"><span class="todo-name">准备护照原件 (ANA见学核验与出入境)</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="pass">
               <button class="todo-step-btn" id="pass-0" onclick="setTodo('pass', 0)">⚪ 桌面放置</button>
               <button class="todo-step-btn" id="pass-1" onclick="setTodo('pass', 1)">🟡 证件包中</button>
               <button class="todo-step-btn" id="pass-2" onclick="setTodo('pass', 2)">🟢 已放入随身包</button>
@@ -1445,7 +1696,7 @@
           <!-- 2. 身份证 -->
           <div class="todo-item" id="todo-item-idcard">
             <div class="todo-row"><span class="todo-name">身份证</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="idcard">
               <button class="todo-step-btn" id="idcard-0" onclick="setTodo('idcard', 0)">⚪ 未准备</button>
               <button class="todo-step-btn" id="idcard-1" onclick="setTodo('idcard', 1)">🟢 已放入随身包</button>
             </div>
@@ -1459,7 +1710,7 @@
               <option value="land">选定：Disneyland 陆地乐园</option>
               <option value="sea">选定：DisneySea 海洋乐园</option>
             </select>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="disney">
               <button class="todo-step-btn" id="disney-0" onclick="setTodo('disney', 0)">⚪ 待购票</button>
               <button class="todo-step-btn" id="disney-1" onclick="setTodo('disney', 1)">🟢 成功出票</button>
             </div>
@@ -1468,7 +1719,7 @@
           <!-- 4. Visit Japan Web -->
           <div class="todo-item" id="todo-item-vjw">
             <div class="todo-row"><span class="todo-name">Visit Japan Web 入境与海关申报</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="vjw">
               <button class="todo-step-btn" id="vjw-0" onclick="setTodo('vjw', 0)">⚪ 未填写</button>
               <button class="todo-step-btn" id="vjw-1" onclick="setTodo('vjw', 1)">🟡 填写中</button>
               <button class="todo-step-btn" id="vjw-2" onclick="setTodo('vjw', 2)">🟢 已生成申报码</button>
@@ -1478,7 +1729,7 @@
           <!-- 5. 日本流量卡 -->
           <div class="todo-item" id="todo-item-sim_jp">
             <div class="todo-row"><span class="todo-name">日本 7 日高速流量卡 (1张)</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="sim_jp">
               <button class="todo-step-btn" id="sim_jp-0" onclick="setTodo('sim_jp', 0)">⚪ 未下单</button>
               <button class="todo-step-btn" id="sim_jp-1" onclick="setTodo('sim_jp', 1)">🚚 寄送中</button>
               <button class="todo-step-btn" id="sim_jp-2" onclick="setTodo('sim_jp', 2)">🟢 已收实卡</button>
@@ -1488,7 +1739,7 @@
           <!-- 6. 香港流量卡 -->
           <div class="todo-item" id="todo-item-sim_hk">
             <div class="todo-row"><span class="todo-name">香港 1 日流量卡 (2张)</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="sim_hk">
               <button class="todo-step-btn" id="sim_hk-0" onclick="setTodo('sim_hk', 0)">⚪ 未下单</button>
               <button class="todo-step-btn" id="sim_hk-1" onclick="setTodo('sim_hk', 1)">🚚 寄送中</button>
               <button class="todo-step-btn" id="sim_hk-2" onclick="setTodo('sim_hk', 2)">🟢 已收实卡</button>
@@ -1498,7 +1749,7 @@
           <!-- 7. 充电宝 -->
           <div class="todo-item" id="todo-item-pbank">
             <div class="todo-row"><span class="todo-name">充电宝</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="pbank">
               <button class="todo-step-btn" id="pbank-0" onclick="setTodo('pbank', 0)">⚪ 充电中</button>
               <button class="todo-step-btn" id="pbank-1" onclick="setTodo('pbank', 1)">🟢 已装入随身包</button>
             </div>
@@ -1507,7 +1758,7 @@
           <!-- 8. 充电器 -->
           <div class="todo-item" id="todo-item-charger">
             <div class="todo-row"><span class="todo-name">充电设备与线材</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="charger">
               <button class="todo-step-btn" id="charger-0" onclick="setTodo('charger', 0)">⚪ 在家使用中</button>
               <button class="todo-step-btn" id="charger-1" onclick="setTodo('charger', 1)">🟢 已打包收纳</button>
             </div>
@@ -1516,7 +1767,7 @@
           <!-- 9. 理光GR 3X HDF相机 -->
           <div class="todo-item" id="todo-item-gr3x">
             <div class="todo-row"><span class="todo-name">理光GR 3X HDF相机</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="gr3x">
               <button class="todo-step-btn" id="gr3x-0" onclick="setTodo('gr3x', 0)">⚪ 未准备</button>
               <button class="todo-step-btn" id="gr3x-1" onclick="setTodo('gr3x', 1)">🟡 电池充电中</button>
               <button class="todo-step-btn" id="gr3x-2" onclick="setTodo('gr3x', 2)">🟢 已装包就绪</button>
@@ -1526,7 +1777,7 @@
           <!-- 10. LOVELIVE应援棒 -->
           <div class="todo-item" id="todo-item-llblade">
             <div class="todo-row"><span class="todo-name">LOVELIVE应援棒</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="llblade">
               <button class="todo-step-btn" id="llblade-0" onclick="setTodo('llblade', 0)">⚪ 未装包</button>
               <button class="todo-step-btn" id="llblade-1" onclick="setTodo('llblade', 1)">🟢 已装好电池打包</button>
             </div>
@@ -1535,7 +1786,7 @@
           <!-- 11. 雨伞 -->
           <div class="todo-item" id="todo-item-umbrella">
             <div class="todo-row"><span class="todo-name">雨伞</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="umbrella">
               <button class="todo-step-btn" id="umbrella-0" onclick="setTodo('umbrella', 0)">⚪ 门口放置</button>
               <button class="todo-step-btn" id="umbrella-1" onclick="setTodo('umbrella', 1)">🟢 已放入背包</button>
             </div>
@@ -1544,7 +1795,7 @@
           <!-- 12. 墨镜 -->
           <div class="todo-item" id="todo-item-sunglass">
             <div class="todo-row"><span class="todo-name">墨镜</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="sunglass">
               <button class="todo-step-btn" id="sunglass-0" onclick="setTodo('sunglass', 0)">⚪ 未找齐</button>
               <button class="todo-step-btn" id="sunglass-1" onclick="setTodo('sunglass', 1)">🟢 已放入随身盒</button>
             </div>
@@ -1553,7 +1804,7 @@
           <!-- 13. U型枕 -->
           <div class="todo-item" id="todo-item-upillow">
             <div class="todo-row"><span class="todo-name">U型枕</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="upillow">
               <button class="todo-step-btn" id="upillow-0" onclick="setTodo('upillow', 0)">⚪ 未装配</button>
               <button class="todo-step-btn" id="upillow-1" onclick="setTodo('upillow', 1)">🟢 已挂在随身包</button>
             </div>
@@ -1562,7 +1813,7 @@
           <!-- 14. 香水 -->
           <div class="todo-item" id="todo-item-perfume">
             <div class="todo-row"><span class="todo-name">香水</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="perfume">
               <button class="todo-step-btn" id="perfume-0" onclick="setTodo('perfume', 0)">⚪ 未分装</button>
               <button class="todo-step-btn" id="perfume-1" onclick="setTodo('perfume', 1)">🟢 已装入洗漱包</button>
             </div>
@@ -1571,7 +1822,7 @@
           <!-- 15. 家门钥匙放门口 -->
           <div class="todo-item" id="todo-item-homekey">
             <div class="todo-row"><span class="todo-name">家门钥匙放门口</span></div>
-            <div class="todo-stepper">
+            <div class="todo-stepper" data-key="homekey">
               <button class="todo-step-btn" id="homekey-0" onclick="setTodo('homekey', 0)">⚪ 还在桌上</button>
               <button class="todo-step-btn" id="homekey-1" onclick="setTodo('homekey', 1)">🟢 已准确放在门口</button>
             </div>
@@ -1584,7 +1835,7 @@
           <p>• 日本紧急报警：<a href="tel:110" style="color:var(--accent); font-weight:bold;">110</a> ｜ 火警急救：<a href="tel:119" style="color:var(--accent); font-weight:bold;">119</a></p>
           <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195" style="color:var(--accent); font-weight:bold;">+81-3-6450-2195</a></p>
           <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308" style="color:var(--accent); font-weight:bold;">+86-10-12308</a></p>
-          <div style="margin-top:8px; font-size:0.68rem; color:var(--success); font-weight:700;">● 本地离线就绪 (v2.0)</div>
+          <div style="margin-top:8px; font-size:0.68rem; color:var(--success); font-weight:700; cursor:pointer;" onclick="showToast('已离线缓存，无信号可完全正常使用')">● 本地离线就绪 (v2.0)</div>
         </div>
       </div>
 
@@ -1592,7 +1843,7 @@
   </div>
 
   <!-- 底置胶囊 Dock 导航 -->
-  <div class="dock-wrap">
+  <div class="dock-wrap" id="dock-wrap">
     <div class="dock-island">
       <div class="dock-slider" id="dock-slider"></div>
       <button class="dock-btn" id="dock-btn-transit" onclick="slideToPane(0)">
@@ -1604,18 +1855,19 @@
     </div>
   </div>
 
-  <!-- 座位特大字全屏卡 -->
+  <!-- 座位特大字全屏卡 (左右轻扫切卡) -->
   <div id="seat-zoom-modal" onclick="closeSeatZoom()">
-    <div class="seat-zoom-card">
+    <div class="seat-zoom-card" id="seat-zoom-card-box" onclick="event.stopPropagation()">
       <div class="seat-zoom-title" id="seat-zoom-title">我的座位</div>
       <div class="seat-zoom-val" id="seat-zoom-val">--</div>
-      <div style="font-size:0.72rem; opacity:0.6; margin-top:12px;">轻触任意位置关闭</div>
+      <div style="font-size:0.72rem; opacity:0.6; margin-top:12px;">轻触外部关闭 · 左右轻扫切换班次</div>
     </div>
   </div>
 
-  <!-- 弹窗 1：ANA 见学接驳车时刻表 -->
-  <div class="modal-overlay" id="modal-ana-bus">
-    <div class="glass-card" style="max-height:85vh; overflow-y:auto; margin:40px auto 0; max-width:440px;">
+  <!-- 弹窗 1：ANA 见学接驳车时刻表 (带下拉拖拽关闭) -->
+  <div class="modal-overlay" id="modal-ana-bus" onclick="closeModal('modal-ana-bus')">
+    <div class="modal-sheet" id="sheet-ana-bus" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h4 style="font-size:0.92rem; font-weight:800;">新整備場駅 ⇔ ANAビル 連絡バス</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-ana-bus')">✕</span>
@@ -1641,15 +1893,16 @@
           <tr data-time="14:55"><td>① 14:55<br>② 15:15</td><td><strong>15:30</strong><br><small>15:00-16:45</small></td><td>① 16:55<br>② 17:15</td></tr>
         </tbody>
       </table>
-      <div style="text-align:center; margin-top:14px;">
+      <div style="text-align:center; margin-top:16px;">
         <button class="t-btn active" style="padding:6px 20px;" onclick="closeModal('modal-ana-bus')">关闭</button>
       </div>
     </div>
   </div>
 
   <!-- 弹窗 2：伊豆高原站 -> 仙人掌公园 巴士时刻表 -->
-  <div class="modal-overlay" id="modal-izu-bus1">
-    <div class="glass-card" style="max-height:85vh; overflow-y:auto; margin:40px auto 0; max-width:460px;">
+  <div class="modal-overlay" id="modal-izu-bus1" onclick="closeModal('modal-izu-bus1')">
+    <div class="modal-sheet" id="sheet-izu-bus1" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h4 style="font-size:0.92rem; font-weight:800;">伊豆高原站 → 仙人掌公园 (1号站台 430円)</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus1')">✕</span>
@@ -1678,15 +1931,16 @@
           <tr data-time="17:15"><td>17:15</td><td>17:31</td><td>I70 / I72 行</td><td>桜並木経由</td></tr>
         </tbody>
       </table>
-      <div style="text-align:center; margin-top:14px;">
+      <div style="text-align:center; margin-top:16px;">
         <button class="t-btn active" style="padding:6px 20px;" onclick="closeModal('modal-izu-bus1')">关闭</button>
       </div>
     </div>
   </div>
 
   <!-- 弹窗 3：仙人掌公园 -> 伊豆海洋公园 巴士时刻表 -->
-  <div class="modal-overlay" id="modal-izu-bus2">
-    <div class="glass-card" style="max-height:85vh; overflow-y:auto; margin:40px auto 0; max-width:460px;">
+  <div class="modal-overlay" id="modal-izu-bus2" onclick="closeModal('modal-izu-bus2')">
+    <div class="modal-sheet" id="sheet-izu-bus2" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h4 style="font-size:0.92rem; font-weight:800;">仙人掌公园 → 伊豆海洋公园 (2号站台 570円)</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus2')">✕</span>
@@ -1709,7 +1963,7 @@
           <tr data-time="16:30"><td>16:30</td><td>16:56</td><td>I70 海洋公園行</td><td>3/1～10/31運行</td></tr>
         </tbody>
       </table>
-      <div style="text-align:center; margin-top:14px;">
+      <div style="text-align:center; margin-top:16px;">
         <button class="t-btn active" style="padding:6px 20px;" onclick="closeModal('modal-izu-bus2')">关闭</button>
       </div>
     </div>
@@ -1741,12 +1995,14 @@
       }, 1000);
     }
 
-    // ViewPager 轨道平移动画与 Dock 联动 (开启物理微震动)
+    // ViewPager 轨道平移动画与 Dock 联动 (无级跟随 + 橡皮筋阻尼 + 速度轻弹)
     let currentPaneIndex = 1;
     const track = document.getElementById('viewport-track');
     const dockSlider = document.getElementById('dock-slider');
     const btnTransit = document.getElementById('dock-btn-transit');
     const btnItinerary = document.getElementById('dock-btn-itinerary');
+    const paneTransit = document.getElementById('pane-transit');
+    const paneItinerary = document.getElementById('pane-itinerary');
 
     function slideToPane(index) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
@@ -1754,20 +2010,26 @@
       track.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
       track.style.transform = `translate3d(-${index * 50}%, 0, 0)`;
 
+      dockSlider.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
       if (index === 0) {
         dockSlider.style.transform = 'translate3d(0, 0, 0)';
         btnTransit.classList.add('active');
         btnItinerary.classList.remove('active');
+        paneTransit.classList.remove('pane-dim');
+        paneItinerary.classList.add('pane-dim');
       } else {
         dockSlider.style.transform = 'translate3d(100%, 0, 0)';
         btnItinerary.classList.add('active');
         btnTransit.classList.remove('active');
+        paneItinerary.classList.remove('pane-dim');
+        paneTransit.classList.add('pane-dim');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 严密手势隔离与横向滑动
+    // 严密手势隔离、对数阻尼与速度轻弹判定
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
+    let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
 
     outer.addEventListener('touchstart', e => {
@@ -1778,9 +2040,11 @@
       ignoreSwipe = false;
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
+      touchStartTime = Date.now();
       currentDeltaX = 0;
       isSwiping = false;
       track.style.transition = 'none';
+      dockSlider.style.transition = 'none';
     }, { passive: true });
 
     outer.addEventListener('touchmove', e => {
@@ -1788,23 +2052,42 @@
       const diffX = e.touches[0].clientX - startX;
       const diffY = e.touches[0].clientY - startY;
       
-      if (!isSwiping && Math.abs(diffX) > Math.abs(diffY) * 1.8 && Math.abs(diffX) > 15) {
+      if (!isSwiping && Math.abs(diffX) > Math.abs(diffY) * 1.5 && Math.abs(diffX) > 12) {
         isSwiping = true;
       }
       if (isSwiping) {
-        currentDeltaX = diffX;
+        // 阻止默认纵向滚动
+        if (e.cancelable) e.preventDefault();
+        
+        let delta = diffX;
+        // 边界对数衰减橡皮筋阻尼
+        if ((currentPaneIndex === 0 && diffX > 0) || (currentPaneIndex === 1 && diffX < 0)) {
+          delta = diffX / (1 + Math.abs(diffX) / 180);
+        }
+        currentDeltaX = delta;
+
         const basePercent = -currentPaneIndex * 50;
-        const pxToPercent = (diffX / window.innerWidth) * 50;
+        const pxToPercent = (delta / window.innerWidth) * 50;
         track.style.transform = `translate3d(${basePercent + pxToPercent}%, 0, 0)`;
+
+        // Dock 滑块 1:1 无级跟随
+        const sliderBase = currentPaneIndex * 100;
+        const sliderOffset = (-delta / window.innerWidth) * 100;
+        const clampedSlider = Math.max(0, Math.min(100, sliderBase + sliderOffset));
+        dockSlider.style.transform = `translate3d(${clampedSlider}%, 0, 0)`;
       }
-    }, { passive: true });
+    }, { passive: false });
 
     outer.addEventListener('touchend', e => {
       if (ignoreSwipe) return;
       if (isSwiping) {
-        if (currentDeltaX < -65 && currentPaneIndex === 0) {
+        const touchDuration = Date.now() - touchStartTime;
+        const velocity = Math.abs(currentDeltaX) / touchDuration; // px/ms
+
+        // 轻弹速度高于 0.3 或滑动超过 60px 触发切页
+        if ((currentDeltaX < -50 || (velocity > 0.28 && currentDeltaX < -20)) && currentPaneIndex === 0) {
           slideToPane(1);
-        } else if (currentDeltaX > 65 && currentPaneIndex === 1) {
+        } else if ((currentDeltaX > 50 || (velocity > 0.28 && currentDeltaX > 20)) && currentPaneIndex === 1) {
           slideToPane(0);
         } else {
           slideToPane(currentPaneIndex);
@@ -1812,35 +2095,176 @@
       }
     }, { passive: true });
 
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    // 智能回顶浮动胶囊与灵动岛滚动吸附监听
+    const islandWrap = document.getElementById('top-island-wrap');
+    const scrollTopBtn = document.getElementById('scroll-top-btn');
 
-    // 座位大字全屏牌
-    function zoomSeat(title, val) {
-      if (!val) { alert("请先在框内填写座位号！"); return; }
-      document.getElementById('seat-zoom-title').innerText = title;
-      document.getElementById('seat-zoom-val').innerText = val;
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // 超过两屏浮现回顶
+      if (scrollY > window.innerHeight * 1.5) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+
+      // 滚动出第一屏灵动岛微收窄贴合
+      if (scrollY > 120) {
+        islandWrap.classList.add('docked');
+      } else {
+        islandWrap.classList.remove('docked');
+      }
+
+      // Scroll-Spy 反向联动高亮日期胶囊
+      if (currentPaneIndex === 1) {
+        const days = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'];
+        for (let dId of days) {
+          const el = document.getElementById(dId);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top >= 0 && rect.top <= 260) {
+              document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+              const activeChip = document.getElementById('chip-' + dId);
+              if (activeChip) {
+                activeChip.classList.add('active');
+                // 居中该胶囊
+                activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+              }
+              break;
+            }
+          }
+        }
+      }
+    }, { passive: true });
+
+    // 灵动岛次级 HUD 状态抽屉
+    function toggleIslandHud() {
+      if (navigator.vibrate) navigator.vibrate([6, 12]);
+      const hud = document.getElementById('island-hud');
+      hud.style.display = hud.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // 弹窗控制与向下滑动拖拽关闭 (Sheet Modal Presentation)
+    function openModal(id) { 
+      document.body.classList.add('modal-open');
+      const overlay = document.getElementById(id);
+      overlay.style.display = 'flex';
+      initSheetDrag(id);
+    }
+    function closeModal(id) { 
+      document.body.classList.remove('modal-open');
+      document.getElementById(id).style.display = 'none'; 
+    }
+
+    function initSheetDrag(modalId) {
+      const sheet = document.querySelector(`#${modalId} .modal-sheet`);
+      if (!sheet || sheet._dragInited) return;
+      sheet._dragInited = true;
+
+      let sheetStartY = 0, sheetDeltaY = 0;
+      sheet.addEventListener('touchstart', e => {
+        sheetStartY = e.touches[0].clientY;
+        sheetDeltaY = 0;
+        sheet.style.transition = 'none';
+      }, { passive: true });
+
+      sheet.addEventListener('touchmove', e => {
+        const diffY = e.touches[0].clientY - sheetStartY;
+        if (diffY > 0 && sheet.scrollTop <= 0) {
+          sheetDeltaY = diffY;
+          sheet.style.transform = `translateY(${diffY}px)`;
+        }
+      }, { passive: true });
+
+      sheet.addEventListener('touchend', () => {
+        sheet.style.transition = 'transform 0.25s';
+        if (sheetDeltaY > 100) {
+          closeModal(modalId);
+          sheet.style.transform = 'none';
+        } else {
+          sheet.style.transform = 'none';
+        }
+      }, { passive: true });
+    }
+
+    // 座位全屏大字牌与左右轻扫切换
+    const seatCardsData = [
+      { id: 'train-dep', title: 'G6581 高铁 (广州南 → 西九龙)' },
+      { id: 'uo652', title: 'UO652 航班 (香港T2 → 成田T2)' },
+      { id: 'uo623', title: 'UO623 航班 (羽田T3 → 香港T1)' },
+      { id: 'train-arr', title: 'G6582 高铁 (西九龙 → 广州南)' }
+    ];
+    let currentSeatZoomIdx = 0;
+
+    function zoomSeatModal(idx) {
+      currentSeatZoomIdx = idx;
+      renderZoomSeat();
       document.getElementById('seat-zoom-modal').style.display = 'flex';
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
     }
+    function renderZoomSeat() {
+      const item = seatCardsData[currentSeatZoomIdx];
+      const val = document.getElementById('seat-' + item.id).value || '--';
+      document.getElementById('seat-zoom-title').innerText = item.title;
+      document.getElementById('seat-zoom-val').innerText = val;
+    }
     function closeSeatZoom() { document.getElementById('seat-zoom-modal').style.display = 'none'; }
 
-    function toggleDayCard(id) { document.getElementById(id).classList.toggle('open'); }
-    
-    // 顺滑磁吸滚动跳转 (解耦重排与视口滑动)
+    // 全屏座位牌左右轻扫手势
+    let zoomStartX = 0;
+    const zoomCardBox = document.getElementById('seat-zoom-card-box');
+    zoomCardBox.addEventListener('touchstart', e => { zoomStartX = e.touches[0].clientX; }, { passive: true });
+    zoomCardBox.addEventListener('touchend', e => {
+      const diffX = e.touches[0].clientX - zoomStartX;
+      if (diffX < -50 && currentSeatZoomIdx < seatCardsData.length - 1) {
+        currentSeatZoomIdx++;
+        renderZoomSeat();
+        if (navigator.vibrate) navigator.vibrate(10);
+      } else if (diffX > 50 && currentSeatZoomIdx > 0) {
+        currentSeatZoomIdx--;
+        renderZoomSeat();
+        if (navigator.vibrate) navigator.vibrate(10);
+      }
+    }, { passive: true });
+
+    // 格式化与保存座位号 (自动大写与规范化)
+    function formatAndSaveSeat(key, inputEl) {
+      let val = inputEl.value.trim().toUpperCase();
+      inputEl.value = val;
+      saveSeat(key, val);
+    }
+
+    // 逐日行程卡片折叠/展开与展开状态记忆
+    function toggleDayCard(id) { 
+      const card = document.getElementById(id);
+      const isOpening = !card.classList.contains('open');
+      card.classList.toggle('open');
+      try {
+        sessionStorage.setItem('card_open_' + id, isOpening ? '1' : '0');
+      } catch (e) {}
+    }
+
+    // 顺滑磁吸滚动跳转 + 焦点光晕强调 (Focus Halo)
     function smoothOpenDay(id) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       document.querySelectorAll('.day-wrapper').forEach(c => c.classList.remove('open'));
       const t = document.getElementById(id);
       if (t) {
         t.classList.add('open');
+        try { sessionStorage.setItem('card_open_' + id, '1'); } catch (e) {}
+        
         requestAnimationFrame(() => {
-          const navOffset = 80;
+          const navOffset = 76;
           const cardTop = t.getBoundingClientRect().top + window.pageYOffset - navOffset;
           window.scrollTo({
             top: cardTop,
             behavior: 'smooth'
           });
+
+          // 触发焦点光晕提示
+          t.classList.add('focus-halo');
+          setTimeout(() => t.classList.remove('focus-halo'), 1000);
         });
       }
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -1861,6 +2285,44 @@
       });
     }
 
+    // 手绘地图深度交互 (以中心点缩放、双击复位、节点放大与双向联动)
+    let mapScale = 1, lastTouchDist = 0, lastTapTime = 0;
+    const mapBox = document.getElementById('map-zoom-container');
+
+    mapBox.addEventListener('touchstart', e => {
+      if (e.touches.length === 2) {
+        lastTouchDist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+      }
+    }, { passive: true });
+
+    mapBox.addEventListener('touchmove', e => {
+      if (e.touches.length === 2) {
+        const dist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+        if (lastTouchDist > 0) {
+          mapScale = Math.min(Math.max(1, mapScale * (dist / lastTouchDist)), 2.5);
+          document.querySelectorAll('.apple-sketch-map').forEach(svg => svg.style.transform = `scale(${mapScale})`);
+        }
+        lastTouchDist = dist;
+      }
+    }, { passive: true });
+
+    mapBox.addEventListener('touchend', e => {
+      if (e.touches.length < 2) lastTouchDist = 0;
+      
+      // 双击复位检测
+      const now = Date.now();
+      if (now - lastTapTime < 280) {
+        mapScale = 1;
+        document.querySelectorAll('.apple-sketch-map').forEach(svg => {
+          svg.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1)';
+          svg.style.transform = 'scale(1)';
+          setTimeout(() => svg.style.transition = 'none', 300);
+        });
+        if (navigator.vibrate) navigator.vibrate(10);
+      }
+      lastTapTime = now;
+    }, { passive: true });
+
     // 切换手绘地图视图
     function showSketchMap(type) {
       document.querySelectorAll('.map-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1880,7 +2342,7 @@
       }
     }
 
-    // 智能展开当天行程与胶囊穿梭着色
+    // 智能展开当天行程与恢复展开状态记忆
     function autoExpandCurrentDay() {
       try {
         const now = new Date();
@@ -1898,8 +2360,19 @@
         else targetDayId = "d1";
 
         document.querySelectorAll('.day-wrapper').forEach(c => c.classList.remove('open'));
-        const targetCard = document.getElementById(targetDayId);
-        if (targetCard) targetCard.classList.add('open');
+        
+        // 恢复本地保存的折叠记忆
+        const days = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'];
+        let hasMemory = false;
+        days.forEach(dId => {
+          if (sessionStorage.getItem('card_open_' + dId) === '1') {
+            document.getElementById(dId)?.classList.add('open');
+            hasMemory = true;
+          }
+        });
+        if (!hasMemory) {
+          document.getElementById(targetDayId)?.classList.add('open');
+        }
 
         const dayOrder = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'];
         const curIdx = dayOrder.indexOf(targetDayId);
@@ -2178,6 +2651,16 @@
       try { localStorage.setItem('todo_disney_park', val); } catch (e) {}
     }
 
+    // 仅看未完成过滤开关
+    let isFilterOnlyIncomplete = false;
+    function toggleTodoFilter() {
+      isFilterOnlyIncomplete = !isFilterOnlyIncomplete;
+      const btn = document.getElementById('todo-filter-btn');
+      btn.classList.toggle('active', isFilterOnlyIncomplete);
+      btn.innerText = isFilterOnlyIncomplete ? '显示全部' : '仅看未完成';
+      refreshTodoUI();
+    }
+
     // 待办通关纸屑微动效
     function fireConfetti() {
       const box = document.getElementById('confetti-box');
@@ -2213,14 +2696,24 @@
             el.classList.remove('active', 'done');
           });
           const activeBtn = document.getElementById(`${k}-${val}`);
+          let isDone = false;
           if (activeBtn) {
             activeBtn.classList.add('active');
             if (activeBtn.innerText.includes('🟢')) {
               activeBtn.classList.add('done');
               completedCount++;
+              isDone = true;
               if (container) container.classList.add('status-done');
             } else if (activeBtn.innerText.includes('🟡') || activeBtn.innerText.includes('🚚')) {
               if (container) container.classList.add('status-progress');
+            }
+          }
+
+          if (container) {
+            if (isFilterOnlyIncomplete && isDone) {
+              container.classList.add('filtered-out');
+            } else {
+              container.classList.remove('filtered-out');
             }
           }
         });
@@ -2246,36 +2739,64 @@
       } catch (e) {}
     }
 
-    function highlightNextBus(tbodyId) {
+    // 大巴时刻表动态高亮 + 分钟级实时倒计时 + 自动滚动定位
+    function highlightNextBus(tbodyId, modalSheetId) {
       try {
         const tbody = document.getElementById(tbodyId);
         if (!tbody) return;
         const rows = tbody.querySelectorAll('tr[data-time]');
-        rows.forEach(r => r.classList.remove('bus-next-row'));
+        rows.forEach(r => {
+          r.classList.remove('bus-next-row');
+          const badge = r.querySelector('.bus-countdown-badge');
+          if (badge) badge.remove();
+        });
 
         const now = new Date();
         const jstStr = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', minute: 'numeric', hour12: false }).format(now);
         const [curH, curM] = jstStr.split(':').map(Number);
         const curTotalMin = curH * 60 + curM;
 
+        let targetRow = null;
         for (let r of rows) {
           const tStr = r.getAttribute('data-time');
           const [h, m] = tStr.split(':').map(Number);
-          if (h * 60 + m >= curTotalMin) {
+          const busMin = h * 60 + m;
+          if (busMin >= curTotalMin) {
             r.classList.add('bus-next-row');
+            targetRow = r;
+            const diffMin = busMin - curTotalMin;
+            
+            // 插入动态分钟倒计时徽章
+            const badge = document.createElement('div');
+            badge.className = `bus-countdown-badge ${diffMin <= 10 ? 'bus-urgent-text' : ''}`;
+            badge.style.fontSize = '0.65rem';
+            badge.style.fontWeight = '900';
+            badge.innerText = `⏱️ 还剩 ${diffMin} 分钟发车`;
+            r.querySelector('td')?.appendChild(badge);
             break;
           }
+        }
+
+        // 自动垂直平滑滚动至该班次
+        if (targetRow && modalSheetId) {
+          requestAnimationFrame(() => {
+            const sheet = document.getElementById(modalSheetId);
+            if (sheet) {
+              const offsetTop = targetRow.offsetTop - 120;
+              sheet.scrollTo({ top: Math.max(0, offsetTop), behavior: 'smooth' });
+            }
+          });
         }
       } catch (e) {}
     }
 
     function openAnaBusModal() {
-      highlightNextBus('ana-bus-tbody');
       openModal('modal-ana-bus');
+      highlightNextBus('ana-bus-tbody', 'sheet-ana-bus');
     }
     function openIzuBusModal(idx) {
-      highlightNextBus(`izu-bus${idx}-tbody`);
       openModal(`modal-izu-bus${idx}`);
+      highlightNextBus(`izu-bus${idx}-tbody`, `sheet-izu-bus${idx}`);
     }
 
     const timelineEvents = [
@@ -2301,10 +2822,17 @@
       const japanLandTime = new Date("2026-09-30T20:40:00+09:00").getTime();
       const japanDepartFlightTime = new Date("2026-10-06T01:00:00+09:00").getTime();
       const tzIndicator = document.getElementById('timer-timezone-indicator');
+      
       if (now >= japanLandTime && now < japanDepartFlightTime) {
-        tzIndicator.innerText = "JST 日本标准时 (UTC+9)";
+        if (!tzIndicator.classList.contains('flipped')) {
+          tzIndicator.classList.add('flipped');
+          setTimeout(() => { tzIndicator.innerText = "JST 日本标准时 (UTC+9)"; }, 150);
+        }
       } else {
-        tzIndicator.innerText = "CST 中国标准时 (UTC+8)";
+        if (tzIndicator.classList.contains('flipped')) {
+          tzIndicator.classList.remove('flipped');
+          setTimeout(() => { tzIndicator.innerText = "CST 中国标准时 (UTC+8)"; }, 150);
+        }
       }
 
       // 9.30 23:00 热海取消倒计时 (严格格式：还剩 X天 X小时 X分钟)
@@ -2341,6 +2869,14 @@
         uo623Card.classList.remove('alert-border');
       }
 
+      // 临近 15 分钟灵动岛光效
+      const islandPill = document.getElementById('top-island-pill');
+      if (target && (target.time - now <= 15 * 60 * 1000)) {
+        islandPill.classList.add('island-urgent');
+      } else {
+        islandPill.classList.remove('island-urgent');
+      }
+
       if (!target) {
         document.getElementById('timer-event-name').innerText = "旅途圆满结束！🎉";
         document.getElementById('top-island-title').innerText = "旅途结束";
@@ -2352,17 +2888,28 @@
       document.getElementById('timer-event-name').innerText = target.name;
       document.getElementById('top-island-title').innerText = target.short;
       document.getElementById('top-island-icon').innerText = target.icon;
+      document.getElementById('hud-title').innerText = target.name;
+      document.getElementById('hud-detail').innerText = `预估时间：${new Date(target.time).toLocaleTimeString()} · 点击主卡片直达对应日程`;
 
       const diff = target.time - now;
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const mins = Math.floor((diff % (1000 * 60)) / (1000 * 60));
       const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-      document.getElementById('d').innerText = String(days).padStart(2, '0');
-      document.getElementById('h').innerText = String(hours).padStart(2, '0');
-      document.getElementById('m').innerText = String(mins).padStart(2, '0');
-      document.getElementById('s').innerText = String(secs).padStart(2, '0');
+      const dEl = document.getElementById('d');
+      const hEl = document.getElementById('h');
+      const mEl = document.getElementById('m');
+      const sEl = document.getElementById('s');
+
+      dEl.innerText = String(days).padStart(2, '0');
+      hEl.innerText = String(hours).padStart(2, '0');
+      mEl.innerText = String(mins).padStart(2, '0');
+      
+      // 秒数滚动微位移动画
+      sEl.innerText = String(secs).padStart(2, '0');
+      sEl.classList.add('num-tick');
+      setTimeout(() => sEl.classList.remove('num-tick'), 150);
 
       document.getElementById('top-island-sub').innerText = `${days}天 ${hours}时${mins}分${secs}秒`;
     }
