@@ -343,7 +343,7 @@
 
     .sec-head { font-size: 1rem; font-weight: 900; margin: 18px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片 (已按要求精简网格：无餐食，座位居后) */
+    /* 大交通卡片 */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -487,7 +487,7 @@
     .map-node { cursor: pointer; transition: transform 0.2s; }
     .map-node:active { transform: scale(1.3); }
 
-    /* 晴雨切换条 (晴天黄色，雨天蓝色) */
+    /* 晴雨切换条 (晴天黄，雨天蓝) */
     .toggle-bar-card { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
     .toggle-header { display: flex; flex-direction: column; gap: 3px; }
     .toggle-title { font-size: 0.90rem; font-weight: 800; color: var(--text-main); }
@@ -500,13 +500,26 @@
     .t-btn-pill.sun-btn.active { background: #f59e0b; color: #fff; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); }
     .t-btn-pill.rain-btn.active { background: #0071e3; color: #fff; box-shadow: 0 2px 10px rgba(0, 113, 227, 0.4); }
 
-    /* 逐日行程卡片 (永远完全展开，取消折叠) */
+    /* 逐日行程卡片 (永远完全展开) */
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
       border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
       overflow: hidden; transition: border-color 0.28s, box-shadow 0.3s;
     }
     .day-wrapper.focus-halo { box-shadow: 0 0 0 2.5px var(--accent), 0 12px 30px rgba(0, 113, 227, 0.35) !important; }
+
+    /* 晴天/雨天专属动态主题色映射 */
+    .day-wrapper.theme-sunny { border-color: rgba(245, 158, 11, 0.45); }
+    .day-wrapper.theme-sunny .day-badge-big { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #d97706; }
+    .day-wrapper.theme-sunny .tl-time { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #d97706; }
+    .day-wrapper.theme-sunny .tl-node::before { background: #f59e0b; }
+    .day-wrapper.theme-sunny .btn-nav-pin { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #d97706; }
+
+    .day-wrapper.theme-rainy { border-color: rgba(0, 113, 227, 0.45); }
+    .day-wrapper.theme-rainy .day-badge-big { background: rgba(0, 113, 227, 0.12); border-color: rgba(0, 113, 227, 0.3); color: #0071e3; }
+    .day-wrapper.theme-rainy .tl-time { background: rgba(0, 113, 227, 0.12); border-color: rgba(0, 113, 227, 0.3); color: #0071e3; }
+    .day-wrapper.theme-rainy .tl-node::before { background: #0071e3; }
+    .day-wrapper.theme-rainy .btn-nav-pin { background: rgba(0, 113, 227, 0.12); border-color: rgba(0, 113, 227, 0.3); color: #0071e3; }
 
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--glass-border); background: var(--glass-bg); }
     .day-meta { display: flex; align-items: center; gap: 14px; }
@@ -961,7 +974,7 @@
         </div>
       </div>
 
-      <!-- PANE 1: 📅 逐日行程 (无航班信息，永远完全展开) -->
+      <!-- PANE 1: 📅 逐日行程 (永远完全展开，晴雨色彩映射) -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 顶部日期快捷定位胶囊 -->
@@ -977,7 +990,7 @@
           </div>
         </div>
 
-        <!-- 10.4 - 10.5 晴雨决策切换器 (晴天黄色，雨天蓝色) -->
+        <!-- 10.4 - 10.5 晴雨决策切换器 (晴天黄，雨天蓝) -->
         <div class="glass-card toggle-bar-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
@@ -1313,14 +1326,14 @@
           </div>
         </div>
 
-        <!-- Day 5 (晴雨联动) -->
-        <div class="day-wrapper" id="d5">
+        <!-- Day 5 (晴雨动态映射) -->
+        <div class="day-wrapper theme-sunny" id="d5">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.4</div><div class="day-badge-w">周日</div></div>
               <div class="day-info">
-                <h3 id="d5-title">箱根 · 宿热海</h3>
-                <p id="d5-desc">箱根顺时针大回线 · 海贼船 · 宿热海温泉酒店</p>
+                <h3 id="d5-title">箱根顺时针 · 宿热海</h3>
+                <p id="d5-desc">箱根顺时针玩避人流 · 海贼船 · 宿热海温泉酒店</p>
               </div>
             </div>
           </div>
@@ -1329,13 +1342,13 @@
           </div>
         </div>
 
-        <!-- Day 6 (晴雨联动) -->
-        <div class="day-wrapper" id="d6">
+        <!-- Day 6 (晴雨动态映射) -->
+        <div class="day-wrapper theme-sunny" id="d6">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.5</div><div class="day-badge-w">周一</div></div>
               <div class="day-info">
-                <h3 id="d6-title">大室山缆车·仙人掌公园·城崎海岸·羽田机场</h3>
+                <h3 id="d6-title">伊豆大室山 · 海岸</h3>
                 <p id="d6-desc">大室山缆车 · 仙人掌公园 · 城崎海岸 · 羽田机场</p>
               </div>
             </div>
@@ -2163,28 +2176,34 @@
           { id: "tl-d5-r10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
           { id: "tl-d5-r11", time: "看天气", place: "第二天天气不好：回横滨", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已取消热海酒店，返回横滨家" }
         ],
-        d6_title: "大室山缆车·仙人掌公园·城崎海岸·羽田机场",
+        d6_title: "WALK 城市慢步 · 晚间羽田撤离",
         d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田撤离",
         d6_nodes: [
-          { id: "tl-d6-r1", time: "", place: "Sidewalk Stand (中目黑)", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
-          { id: "tl-d6-r2", time: "", place: "TRASPARENTE - 糕点店Nakameguro", nav: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", desc: "奶茶布丁 推荐试一下" },
-          { id: "tl-d6-r3", time: "", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：香肠卷心菜面包、虾仁土豆塔丁、鸡肉土豆佛卡夏" },
-          { id: "tl-d6-r4", time: "", place: "I'm donut ?", nav: "https://maps.google.com/?q=I'm+donut+Nakameguro", desc: "很多人吃的甜甜圈 只能cash" },
-          { id: "tl-d6-r5", time: "", place: "樱桥", nav: "https://maps.google.com/?q=Sakura-bashi+Nakameguro", desc: "周杰伦机位" },
-          { id: "tl-d6-r6", time: "", place: "dacō", nav: "https://maps.google.com/?q=dacō+Nakameguro", desc: "平价面包店" },
-          { id: "tl-d6-r7", time: "", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡，很多人喝，但是好像一般般" },
-          { id: "tl-d6-r8", time: "", place: "星巴克臻选东京烘焙工坊", nav: "https://maps.google.com/?q=Starbucks+Reserve+Roastery+Tokyo", desc: "亚洲最大星巴克，提前搜一下预约码" },
-          { id: "tl-d6-r9", time: "", place: "茑屋书店 (代官山)", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "一个漂亮的小书店" },
-          { id: "tl-d6-r10", time: "", place: "Miffy café", nav: "https://maps.google.com/?q=Miffy+cafe+Daikanyama", desc: "米菲咖啡" },
-          { id: "tl-d6-11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
-          { id: "tl-d6-12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
-          { id: "tl-d6-13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" }
+          { id: "tl-d6-r1", time: "中目黑", place: "Sidewalk Stand", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
+          { id: "tl-d6-r2", time: "中目黑", place: "TRASPARENTE - 糕点店Nakameguro", nav: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", desc: "奶茶布丁 推荐试一下" },
+          { id: "tl-d6-r3", time: "中目黑", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：香肠卷心菜面包、虾仁土豆塔丁、鸡肉土豆佛卡夏" },
+          { id: "tl-d6-r4", time: "中目黑", place: "I'm donut ?", nav: "https://maps.google.com/?q=I'm+donut+Nakameguro", desc: "很多人吃的甜甜圈 只能cash" },
+          { id: "tl-d6-r5", time: "中目黑", place: "樱桥", nav: "https://maps.google.com/?q=Sakura-bashi+Nakameguro", desc: "周杰伦机位" },
+          { id: "tl-d6-r6", time: "中目黑", place: "dacō", nav: "https://maps.google.com/?q=dacō+Nakameguro", desc: "平价面包店" },
+          { id: "tl-d6-r7", time: "中目黑", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡，很多人喝，但是好像一般般" },
+          { id: "tl-d6-r8", time: "中目黑", place: "星巴克臻选东京烘焙工坊", nav: "https://maps.google.com/?q=Starbucks+Reserve+Roastery+Tokyo", desc: "亚洲最大星巴克，提前搜一下预约码" },
+          { id: "tl-d6-r9", time: "代官山", place: "茑屋书店", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "一个漂亮的小书店" },
+          { id: "tl-d6-r10", time: "代官山", place: "Miffy café", nav: "https://maps.google.com/?q=Miffy+cafe+Daikanyama", desc: "米菲咖啡" },
+          { id: "tl-d6-11", time: "代官山", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
+          { id: "tl-d6-12", time: "涩谷", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
+          { id: "tl-d6-13", time: "公园", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" }
         ]
       }
     };
 
     function renderTour(mode) {
       const p = customDays[mode];
+      
+      const d5Card = document.getElementById('d5');
+      const d6Card = document.getElementById('d6');
+      d5Card.className = `day-wrapper theme-${mode}`;
+      d6Card.className = `day-wrapper theme-${mode}`;
+
       document.getElementById('d5-title').innerHTML = p.d5_title;
       document.getElementById('d5-desc').innerHTML = p.d5_desc;
       document.getElementById('d5-timeline').innerHTML = p.d5_nodes.map(n => `
