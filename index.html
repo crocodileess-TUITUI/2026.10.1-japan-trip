@@ -1160,7 +1160,7 @@
       </div>
     </div>
 
-    <!-- 5. 日本流量卡 -->
+    <!-- 5. 日本流量卡 (三段式统一) -->
     <div class="todo-item">
       <div class="todo-row">
         <span class="todo-name">日本 7 日高速流量卡 (1张)</span>
@@ -1173,7 +1173,7 @@
       </div>
     </div>
 
-    <!-- 6. 香港流量卡 -->
+    <!-- 6. 香港流量卡 (三段式统一) -->
     <div class="todo-item">
       <div class="todo-row">
         <span class="todo-name">香港 1 日流量卡 (2张)</span>
@@ -1181,7 +1181,8 @@
       </div>
       <div class="todo-stepper">
         <button class="todo-step-btn" id="sim_hk-0" onclick="setTodo('sim_hk', 0)">⚪ 未下单</button>
-        <button class="todo-step-btn" id="sim_hk-1" onclick="setTodo('sim_hk', 1)">🟢 已收到实卡</button>
+        <button class="todo-step-btn" id="sim_hk-1" onclick="setTodo('sim_hk', 1)">🚚 寄送中</button>
+        <button class="todo-step-btn" id="sim_hk-2" onclick="setTodo('sim_hk', 2)">🟢 已收实卡</button>
       </div>
     </div>
 
@@ -1258,10 +1259,11 @@
       </div>
     </div>
 
-    <!-- 13. U型枕（严格不加任何备注） -->
+    <!-- 13. U型枕 (已补充备注) -->
     <div class="todo-item">
       <div class="todo-row">
         <span class="todo-name">U型枕</span>
+        <span class="todo-deadline">飞机/高铁休息，挂背包防挤压</span>
       </div>
       <div class="todo-stepper">
         <button class="todo-step-btn" id="upillow-0" onclick="setTodo('upillow', 0)">⚪ 未装配</button>
@@ -1356,7 +1358,7 @@
           <tr><td>15:45</td><td>16:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr><td>16:20</td><td>16:44</td><td>I73 シャボテン公園行</td><td>池・南原経由</td></tr>
           <tr><td>16:45</td><td>17:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
-          <tr><td>17:15</td><td>17:31</td><td>I70 / I72 行</td><td>桜並木経由</td></tr>
+          <tr><td>17:15</td><td>17:31</td><td>I70 / I72 行</td><td>桜 demographics 並木経由</td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:14px;">
@@ -1470,7 +1472,7 @@
       });
     }
 
-    // 10.4 与 10.5 晴雨数据库（全面修正箭头字符错误）
+    // 10.4 与 10.5 晴雨数据库
     const customDays = {
       sunny: {
         d5_title: "箱根顺时针 · 宿热海",
