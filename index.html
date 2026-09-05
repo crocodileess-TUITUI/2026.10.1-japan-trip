@@ -84,7 +84,7 @@
     /* 顶部吐司通知小胶囊 (Toast) */
     #mini-toast {
       position: fixed;
-      top: calc(env(safe-area-inset-top, 10px) + 12px);
+      top: calc(env(safe-area-inset-top, 10px) + 16px);
       left: 50%;
       transform: translate(-50%, -60px);
       background: rgba(15, 23, 42, 0.94);
@@ -110,15 +110,17 @@
       opacity: 1;
     }
 
-    /* 顶部灵动岛 Dynamic Island */
+    /* 顶部灵动岛 (贴合物理开孔，开启 120Hz 高刷加速) */
     .top-island-wrap {
       position: sticky;
-      top: 10px;
+      top: calc(env(safe-area-inset-top, 14px) + 2px);
       z-index: 999;
       display: flex;
       justify-content: center;
       margin-bottom: 14px;
       padding: 0 14px;
+      will-change: transform;
+      transform: translateZ(0);
     }
     .top-island {
       background: var(--island-bg);
@@ -167,6 +169,7 @@
       display: flex;
       width: 200%;
       will-change: transform;
+      transform: translateZ(0);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
     .view-pane { width: 50%; padding: 0 14px; flex-shrink: 0; min-height: 70vh; }
@@ -250,25 +253,6 @@
 
     .sec-head { font-size: 1rem; font-weight: 900; margin: 18px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 刷新动态按钮 */
-    .btn-refresh-radar {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
-      border-radius: 20px;
-      padding: 3px 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-refresh-radar:active { transform: scale(0.95); }
-    .btn-refresh-radar.loading svg { animation: spin 1s linear infinite; }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-
     /* 大交通卡片 */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
@@ -279,6 +263,8 @@
       box-shadow: var(--glass-shadow);
       position: relative;
       overflow: hidden;
+      will-change: transform;
+      transform: translateZ(0);
     }
     .transit-live-tag {
       display: inline-flex;
@@ -297,6 +283,17 @@
 
     .gate-pulse { animation: gateBlink 1.4s infinite; font-weight: 900; color: var(--warn) !important; }
     @keyframes gateBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* 羽田 T3 晚间红眼值机高光流动警戒边框 (UO623) */
+    .transit-card.alert-border {
+      border-color: #f59e0b !important;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.45) !important;
+      animation: alertBorderPulse 2s infinite ease-in-out;
+    }
+    @keyframes alertBorderPulse {
+      0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+      50% { box-shadow: 0 0 26px rgba(245, 158, 11, 0.7); }
+    }
 
     .t-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px; }
     .t-head-left { display: flex; align-items: center; gap: 6px; }
@@ -428,7 +425,9 @@
       margin-bottom: 14px;
       box-shadow: var(--glass-shadow);
       overflow: hidden;
-      transition: border-color 0.25s;
+      transition: border-color 0.25s, transform 0.2s;
+      will-change: transform, opacity;
+      transform: translateZ(0);
     }
     .day-wrapper.open { border-color: var(--accent-border); }
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -451,7 +450,7 @@
     .day-body { display: none; padding: 0 16px 16px; border-top: 1px dashed var(--glass-border); }
     .day-wrapper.open .day-body { display: block; }
 
-    /* 时间轴条目 (排版抗孤字处理) */
+    /* 时间轴条目 (排版独占一行与防孤字规范) */
     .timeline { position: relative; border-left: 2px solid var(--glass-border); margin-left: 10px; padding-left: 16px; margin-top: 12px; }
     .tl-node { position: relative; margin-bottom: 16px; }
     .tl-node:last-child { margin-bottom: 0; }
@@ -494,6 +493,14 @@
       text-align: justify;
       word-break: break-all;
     }
+    .tl-desc-point {
+      display: block;
+      margin-top: 4px;
+    }
+    .tl-desc-point:first-child {
+      margin-top: 0;
+    }
+
     .tl-notes { 
       background: var(--glass-bg); 
       border-radius: 10px; 
@@ -504,7 +511,12 @@
       border: 1px solid var(--glass-border);
       line-height: 1.5;
     }
-    .tl-notes strong { color: var(--accent); }
+    .tl-notes strong { color: var(--accent); display: block; margin-bottom: 3px; }
+    .tl-note-line {
+      display: block;
+      margin-top: 4px;
+    }
+
     .tag { font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; display: inline-block; margin-left: 4px; }
     .tag-warn { background: var(--warn-soft); color: var(--warn); }
     .tag-ok { background: var(--success-soft); color: var(--success); }
@@ -669,12 +681,39 @@
     }
     .seat-zoom-title { font-size: 0.95rem; font-weight: 700; opacity: 0.7; margin-bottom: 8px; }
     .seat-zoom-val { font-size: 3.2rem; font-weight: 900; letter-spacing: -0.02em; color: #38bdf8; font-variant-numeric: tabular-nums; }
+
+    /* 待办 15/15 满分纸屑容器 */
+    .confetti-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100002;
+      display: none;
+      overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 12px;
+      opacity: 0.85;
+      animation: confettiFall 2.8s linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- 彩屑微动效容器 -->
+  <div class="confetti-box" id="confetti-box"></div>
+
   <!-- 顶部轻提示胶囊 -->
-  <div id="mini-toast">飞常准雷达数据已刷新 ✈️</div>
+  <div id="mini-toast">已就绪！即将打开航旅纵横 App ✈️</div>
 
   <!-- 顶部灵动岛 -->
   <div class="top-island-wrap">
@@ -712,10 +751,6 @@
       <div class="view-pane" id="pane-transit">
         <div class="sec-head">
           <span>🚄 ✈️ 动车与航班行程监测</span>
-          <button class="btn-refresh-radar" id="btn-sync-vari" onclick="syncFlightRadarData()">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-            <span>刷新时刻</span>
-          </button>
         </div>
 
         <!-- 1. 去程高铁：9.30 上午 (广州南 -> 香港西九龙) -->
@@ -777,10 +812,6 @@
                 <div class="transit-live-tag"><span class="live-pulse"></span> 空客 A321neo</div>
               </div>
             </div>
-            <div class="t-stat-badge">
-              <div class="t-stat-rate" id="uo652-rate">准点率 100%</div>
-              <div class="t-stat-time" id="uo652-avg">近7天均 15:18 起飞</div>
-            </div>
           </div>
           
           <div class="t-route">
@@ -832,7 +863,7 @@
               <input class="seat-badge-input" id="seat-uo652" placeholder="如 12A号" onchange="saveSeat('uo652', this.value)"/>
               <button class="btn-seat-zoom" onclick="zoomSeat('UO652 航班', document.getElementById('seat-uo652').value)">🔍</button>
             </div>
-            <a class="btn-realtime-radar" href="https://www.variflight.com/schedule/HKG-NRT-UO652.html?AE71649A58c77=&fdate=20260930" target="_blank">✈️ 飞常准雷达 ↗</a>
+            <button class="btn-realtime-radar" onclick="triggerHanglvApp('UO652')">📲 航旅纵横 App ↗</button>
           </div>
         </div>
 
@@ -845,10 +876,6 @@
                 <div class="t-title">香港快运航空 UO623 (红眼)</div>
                 <div class="transit-live-tag" id="uo623-status-tag"><span class="live-pulse"></span> 空客 A321neo</div>
               </div>
-            </div>
-            <div class="t-stat-badge">
-              <div class="t-stat-rate" id="uo623-rate">准点率 98.4%</div>
-              <div class="t-stat-time" id="uo623-avg">近7天均 01:05 起飞</div>
             </div>
           </div>
           
@@ -901,7 +928,7 @@
               <input class="seat-badge-input" id="seat-uo623" placeholder="如 15C号" onchange="saveSeat('uo623', this.value)"/>
               <button class="btn-seat-zoom" onclick="zoomSeat('UO623 航班', document.getElementById('seat-uo623').value)">🔍</button>
             </div>
-            <a class="btn-realtime-radar" href="https://www.variflight.com/schedule/HND-HKG-UO623.html?AE71649A58c77=&fdate=20261006" target="_blank">✈️ 飞常准雷达 ↗</a>
+            <button class="btn-realtime-radar" onclick="triggerHanglvApp('UO623')">📲 航旅纵横 App ↗</button>
           </div>
         </div>
 
@@ -1233,11 +1260,11 @@
                 </div>
                 <div class="tl-desc">实地进入羽田机体工场观摩大型客机定检维护。</div>
                 <div class="tl-notes">
-                  <strong>核心现场备忘：</strong><br>
-                  • 单轨“新整备场”站台写有 blue hangar tour，出站看时刻表乘免费接驳车<br>
-                  • 全程日语导览，可戴耳机使用同传翻译，现场配备有中文导览手册备查<br>
-                  • 场内禁止录像但允许拍照（切勿拍到工作人员），备有饮水与储物柜<br>
-                  • 进入大堂左侧出示预约信息领工牌佩戴，准点排队进入会议室听讲
+                  <strong>核心现场备忘：</strong>
+                  <span class="tl-note-line">• 单轨“新整备场”站台写有 blue hangar tour，出站看时刻表乘免费接驳车</span>
+                  <span class="tl-note-line">• 全程日语导览，可戴耳机使用同传翻译，现场配备有中文导览手册备查</span>
+                  <span class="tl-note-line">• 场内禁止录像但允许拍照（切勿拍到工作人员），备有饮水与储物柜</span>
+                  <span class="tl-note-line">• 进入大堂左侧出示预约信息领工牌佩戴，准点排队进入会议室听讲</span>
                 </div>
 
                 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
@@ -1289,9 +1316,9 @@
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
                 <div class="tl-notes">
-                  <strong>开园优先建议：</strong><br>
-                  • 陆地 Disneyland：首抢《美女与野兽》DPA，直冲《太空山》或《巨雷山》<br>
-                  • 海洋 DisneySea：首抢 Fantasy Springs 新园区预约，直冲《飞天奇梦》
+                  <strong>开园优先建议：</strong>
+                  <span class="tl-note-line">• 陆地 Disneyland：首抢《美女与野兽》DPA，直冲《太空山》或《巨雷山》</span>
+                  <span class="tl-note-line">• 海洋 DisneySea：首抢 Fantasy Springs 新园区预约，直冲《飞天奇梦》</span>
                 </div>
               </div>
               <div class="tl-node">
@@ -1644,7 +1671,7 @@
           <tr data-time="13:00" style="color:var(--warn);"><td>13:00</td><td>13:15</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
           <tr data-time="13:45"><td>13:45</td><td>14:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr data-time="14:20" style="color:var(--warn);"><td>14:20</td><td>14:35</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
-          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td>I70 シャ包テン公園行</td><td>桜並木経由</td></tr>
+          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
           <tr data-time="15:45"><td>15:45</td><td>16:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr data-time="16:20"><td>16:20</td><td>16:44</td><td>I73 シャボテン公園行</td><td>池・南原経由</td></tr>
           <tr data-time="16:45"><td>16:45</td><td>17:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
@@ -1696,26 +1723,25 @@
       setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
-    // 动态模拟抓取并更新飞常准官方调度数据
-    function syncFlightRadarData() {
-      const btn = document.getElementById('btn-sync-vari');
-      btn.classList.add('loading');
-      showToast("正在连接飞常准云端数据...");
+    // 唤起航旅纵横 App
+    function triggerHanglvApp(flightNo) {
+      showToast(`正在为您打开航旅纵横 ${flightNo}...`);
+      if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
 
-      // 模拟跨域请求与数据管道解析
+      const schemeUrl = `umetrip://flight/radar?flightNo=${flightNo}`;
+      const webUrl = `https://www.umetrip.com`;
+
+      const t = Date.now();
+      window.location.href = schemeUrl;
+
       setTimeout(() => {
-        btn.classList.remove('loading');
-        // 更新并刷新卡片核心指标
-        document.getElementById('uo652-rate').innerText = "准点率 100%";
-        document.getElementById('uo652-avg').innerText = "近7天均 15:18 起飞";
-        document.getElementById('uo623-rate').innerText = "准点率 98.4%";
-        document.getElementById('uo623-avg').innerText = "近7天均 01:05 起飞";
-        showToast("飞常准航班最新数据已同步！");
-        if (navigator.vibrate) navigator.vibrate(15);
-      }, 900);
+        if (Date.now() - t < 1500) {
+          window.location.href = webUrl;
+        }
+      }, 1000);
     }
 
-    // ViewPager 轨道平移动画与 Dock 联动
+    // ViewPager 轨道平移动画与 Dock 联动 (开启物理微震动)
     let currentPaneIndex = 1;
     const track = document.getElementById('viewport-track');
     const dockSlider = document.getElementById('dock-slider');
@@ -1723,7 +1749,7 @@
     const btnItinerary = document.getElementById('dock-btn-itinerary');
 
     function slideToPane(index) {
-      if (navigator.vibrate) navigator.vibrate(10);
+      if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       currentPaneIndex = index;
       track.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
       track.style.transform = `translate3d(-${index * 50}%, 0, 0)`;
@@ -1795,21 +1821,28 @@
       document.getElementById('seat-zoom-title').innerText = title;
       document.getElementById('seat-zoom-val').innerText = val;
       document.getElementById('seat-zoom-modal').style.display = 'flex';
-      if (navigator.vibrate) navigator.vibrate(12);
+      if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
     }
     function closeSeatZoom() { document.getElementById('seat-zoom-modal').style.display = 'none'; }
 
     function toggleDayCard(id) { document.getElementById(id).classList.toggle('open'); }
     
-    // 顺滑磁吸滚动跳转
+    // 顺滑磁吸滚动跳转 (解耦重排与视口滑动)
     function smoothOpenDay(id) {
+      if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       document.querySelectorAll('.day-wrapper').forEach(c => c.classList.remove('open'));
       const t = document.getElementById(id);
       if (t) {
         t.classList.add('open');
-        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        requestAnimationFrame(() => {
+          const navOffset = 80;
+          const cardTop = t.getBoundingClientRect().top + window.pageYOffset - navOffset;
+          window.scrollTo({
+            top: cardTop,
+            behavior: 'smooth'
+          });
+        });
       }
-      // 胶囊高亮更新
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       const chip = document.getElementById('chip-' + id);
       if (chip) chip.classList.add('active');
@@ -1868,7 +1901,6 @@
         const targetCard = document.getElementById(targetDayId);
         if (targetCard) targetCard.classList.add('open');
 
-        // 日期胶囊穿梭感着色
         const dayOrder = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'];
         const curIdx = dayOrder.indexOf(targetDayId);
         dayOrder.forEach((dId, idx) => {
@@ -1893,7 +1925,7 @@
       } catch (e) {}
     }
 
-    // 10.4 与 10.5 晴雨数据库 (精修排版抗孤字)
+    // 10.4 与 10.5 晴雨数据库 (排版强制独占一行，杜绝孤字)
     const customDays = {
       sunny: {
         d5_title: "箱根顺时针 · 宿热海",
@@ -1903,7 +1935,7 @@
             time: "准则",
             place: "箱根出行4大原则",
             nav: "",
-            desc: "1. 天气晴朗视线佳；2. 提前备好箱根周游券纸质版免费搭乘所有交通；3. 建议早八点出门避开拥挤；4. 顺时针游玩避开傍晚返程巴士长队。"
+            desc: "<span class='tl-desc-point'>1. 天气晴朗视线佳</span><span class='tl-desc-point'>2. 提前备好箱根周游券纸质版免费搭乘所有交通</span><span class='tl-desc-point'>3. 建议早八点出门避开拥挤人潮</span><span class='tl-desc-point'>4. 顺时针游玩避开傍晚返程巴士长队</span>"
           },
           {
             time: "08:00",
@@ -1963,7 +1995,7 @@
             time: "热海备选",
             place: "热海游玩备选节点",
             nav: "https://maps.google.com/?q=Atami+Station",
-            desc: "• <strong>热海布丁本店：</strong>品尝招牌或抹茶等限定口味布丁<br>• <strong>热海银座街：</strong>地道海鲜餐饮与漫步街区<br>• <strong>热海亲水公园：</strong>海滨漫步看海景游艇码头<br>• <strong>MOA美术馆：</strong>门口公交直达，馆内视野开阔望海景<br>• <strong>来宫神社：</strong>免费参观古老大楠树"
+            desc: "<span class='tl-desc-point'>• <strong>热海布丁本店：</strong>品尝招牌或抹茶等限定口味布丁</span><span class='tl-desc-point'>• <strong>热海银座街：</strong>地道海鲜餐饮与漫步街区</span><span class='tl-desc-point'>• <strong>热海亲水公园：</strong>海滨漫步看海景游艇码头</span><span class='tl-desc-point'>• <strong>MOA美术馆：</strong>门口公交直达，馆内视野开阔望海景</span><span class='tl-desc-point'>• <strong>来宫神社：</strong>免费参观古老大楠树</span>"
           }
         ],
         d6_title: "伊豆抹茶火山 · 晚间羽田撤离",
@@ -1973,7 +2005,7 @@
             time: "准则",
             place: "伊豆出行核心原则",
             nav: "",
-            desc: "1. 晴朗出行视野绝佳；2. 早八点出门赶 09:25 或 10:00 发车大巴。"
+            desc: "<span class='tl-desc-point'>1. 晴朗出行视野绝佳</span><span class='tl-desc-point'>2. 早八点出门赶 09:25 或 10:00 发车大巴</span>"
           },
           {
             time: "09:25",
@@ -2067,13 +2099,13 @@
             time: "中目黑",
             place: "中目黑精品街区",
             nav: "https://maps.google.com/?q=Nakameguro+Station",
-            desc: "• <strong>Sidewalk Stand：</strong>临街品味精品咖啡<br>• <strong>TRASPARENTE：</strong>特色奶茶布丁与美味烘焙塔丁<br>• <strong>I'm donut ?：</strong>超人气排队甜甜圈<br>• <strong>目黑川樱桥：</strong>经典街景拍照机位<br>• <strong>星巴克臻选工坊：</strong>亚洲旗舰烘焙工坊"
+            desc: "<span class='tl-desc-point'>• <strong>Sidewalk Stand：</strong>临街品味精品咖啡</span><span class='tl-desc-point'>• <strong>TRASPARENTE：</strong>特色奶茶布丁与美味烘焙塔丁</span><span class='tl-desc-point'>• <strong>I'm donut ?：</strong>超人气排队甜甜圈</span><span class='tl-desc-point'>• <strong>目黑川樱桥：</strong>经典街景拍照机位</span><span class='tl-desc-point'>• <strong>星巴克臻选工坊：</strong>亚洲旗舰烘焙工坊</span>"
           },
           {
             time: "代官山",
             place: "代官山漫游",
             nav: "https://maps.google.com/?q=Daikanyama+T-Site",
-            desc: "• <strong>茑屋书店：</strong>森林建筑特色美学书店<br>• <strong>Miffy café：</strong>主题咖啡漫步<br>• <strong>特色家居店：</strong>日式平价生活器具选品"
+            desc: "<span class='tl-desc-point'>• <strong>茑屋书店：</strong>森林建筑特色美学书店</span><span class='tl-desc-point'>• <strong>Miffy café：</strong>主题咖啡漫步</span><span class='tl-desc-point'>• <strong>特色家居店：</strong>日式平价生活器具选品</span>"
           },
           {
             time: "涩谷",
@@ -2145,6 +2177,28 @@
     function setDisneyPark(val) {
       try { localStorage.setItem('todo_disney_park', val); } catch (e) {}
     }
+
+    // 待办通关纸屑微动效
+    function fireConfetti() {
+      const box = document.getElementById('confetti-box');
+      box.innerHTML = '';
+      box.style.display = 'block';
+      const colors = ['#2997ff', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
+
+      for (let i = 0; i < 45; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = (Math.random() * 0.8) + 's';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        box.appendChild(piece);
+      }
+
+      if (navigator.vibrate) navigator.vibrate([15, 30, 15, 30, 20]);
+      setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
     function refreshTodoUI() {
       try {
         let completedCount = 0;
@@ -2177,7 +2231,15 @@
         const circumference = 2 * Math.PI * 14;
         const offset = circumference - (completedCount / 15) * circumference;
         ringCircle.style.strokeDashoffset = offset;
-        ringCircle.classList.toggle('complete', completedCount === 15);
+        
+        if (completedCount === 15) {
+          if (!ringCircle.classList.contains('complete')) {
+            fireConfetti();
+          }
+          ringCircle.classList.add('complete');
+        } else {
+          ringCircle.classList.remove('complete');
+        }
 
         const park = localStorage.getItem('todo_disney_park');
         if (park) document.getElementById('disney-park').value = park;
@@ -2245,7 +2307,7 @@
         tzIndicator.innerText = "CST 中国标准时 (UTC+8)";
       }
 
-      // 9.30 23:00 热海取消倒计时 (严格文案：还剩 X天 X小时 X分钟)
+      // 9.30 23:00 热海取消倒计时 (严格格式：还剩 X天 X小时 X分钟)
       const cancelDeadline = new Date("2026-09-30T23:00:00+09:00").getTime();
       const cancelEl = document.getElementById('hotel-cancel-countdown');
       if (cancelEl) {
@@ -2268,6 +2330,15 @@
         trainDepGate.innerText = "⚠️ 正在检票中";
       } else {
         trainDepGate.classList.remove('gate-pulse');
+      }
+
+      // 羽田 T3 红眼起飞前 3 小时整卡流动警报光晕 (10.5 22:00 起激活)
+      const uo623Card = document.getElementById('flight-uo623');
+      const uo623AlertTime = new Date("2026-10-05T22:00:00+09:00").getTime();
+      if (now >= uo623AlertTime && now < japanDepartFlightTime) {
+        uo623Card.classList.add('alert-border');
+      } else {
+        uo623Card.classList.remove('alert-border');
       }
 
       if (!target) {
