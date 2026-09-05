@@ -13,9 +13,9 @@
   <style>
     :root {
       --bg: #f5f7fb;
-      --glass-bg: rgba(255, 255, 255, 0.78);
-      --glass-card: rgba(255, 255, 255, 0.90);
-      --glass-border: rgba(255, 255, 255, 0.95);
+      --glass-bg: rgba(255, 255, 255, 0.82);
+      --glass-card: rgba(255, 255, 255, 0.92);
+      --glass-border: rgba(255, 255, 255, 0.98);
       --glass-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
       --text-main: #0f172a;
       --text-sub: #475569;
@@ -35,10 +35,10 @@
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #000000;
-        --glass-bg: rgba(26, 28, 35, 0.78);
-        --glass-card: rgba(32, 35, 45, 0.90);
-        --glass-border: rgba(255, 255, 255, 0.12);
-        --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
+        --glass-bg: rgba(26, 28, 35, 0.82);
+        --glass-card: rgba(32, 35, 45, 0.92);
+        --glass-border: rgba(255, 255, 255, 0.15);
+        --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.80);
         --text-main: #f5f5f7;
         --text-sub: #a1a1a6;
         --text-muted: #6e6e73;
@@ -92,6 +92,7 @@
       background: rgba(0, 0, 0, 0.85);
       z-index: 200000;
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 30px;
       color: #fff;
       text-align: center;
@@ -467,7 +468,7 @@
     }
     .btn-realtime-radar:active { transform: scale(0.95); opacity: 0.85; }
 
-    /* 地图 (锁定不缩放) */
+    /* 地图 */
     .map-tabs-bar {
       display: flex;
       background: var(--glass-bg);
@@ -622,23 +623,27 @@
     .todo-step-btn.active.done { background: var(--success); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25); }
     .todo-select { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text-main); font-size: 0.72rem; padding: 6px 10px; outline: none; font-weight: 700; margin-bottom: 4px; }
 
-    /* 弹窗抽屉 (针对手机浏览器进行高清锐利优化) */
+    /* 视网膜极清弹窗抽屉 (消除毛玻璃模糊) */
     .modal-overlay {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65);
-      z-index: 99999; backdrop-filter: blur(10px); padding: 16px; align-items: flex-end; justify-content: center;
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.70);
+      z-index: 99999; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 16px; align-items: flex-end; justify-content: center;
+      will-change: transform;
+      transform: translateZ(0);
     }
     .modal-sheet {
       width: 100%; max-width: 480px; background: var(--glass-card); border-radius: 28px 28px 16px 16px;
-      padding: 14px 16px 26px; box-shadow: 0 -10px 40px rgba(0,0,0,0.35); max-height: 85vh; overflow-y: auto;
+      padding: 16px 18px 28px; box-shadow: 0 -12px 48px rgba(0,0,0,0.4); max-height: 85vh; overflow-y: auto;
       border: 1px solid var(--glass-border); position: relative; touch-action: pan-y; transition: transform 0.2s;
       -webkit-overflow-scrolling: touch;
+      will-change: transform;
+      transform: translateZ(0);
     }
     .modal-handle { width: 38px; height: 4.5px; background: rgba(150,150,150,0.5); border-radius: 4px; margin: 4px auto 14px; }
 
-    .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.75rem; }
-    .bus-table th, .bus-table td { border: 1px solid var(--glass-border); padding: 10px 8px; text-align: center; }
-    .bus-table th { background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 0.78rem; }
-    .bus-table td { font-weight: 600; color: var(--text-main); }
+    .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.78rem; }
+    .bus-table th, .bus-table td { border: 1px solid var(--glass-border); padding: 11px 8px; text-align: center; }
+    .bus-table th { background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 0.8rem; }
+    .bus-table td { font-weight: 700; color: var(--text-main); }
     .bus-next-row { background: #fef08a !important; color: #854d0e !important; font-weight: 900; }
     @media (prefers-color-scheme: dark) { .bus-next-row { background: #854d0e !important; color: #fef08a !important; } }
     .bus-urgent-text { animation: urgentPulse 1.2s infinite; color: #dc2626 !important; font-weight: 900; }
@@ -652,7 +657,7 @@
     /* 座位特大字全屏牌 */
     #seat-zoom-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92);
-      z-index: 100000; backdrop-filter: blur(16px); align-items: center; justify-content: center; flex-direction: column; cursor: pointer;
+      z-index: 100000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); align-items: center; justify-content: center; flex-direction: column; cursor: pointer;
     }
     .seat-zoom-card {
       background: #000000; border: 1.5px solid rgba(255,255,255,0.18); border-radius: 28px; padding: 32px 36px;
@@ -664,7 +669,7 @@
       font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; white-space: nowrap;
     }
 
-    /* 更醒目的左下角回顶小胶囊 */
+    /* 左下角回顶小胶囊 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -993,7 +998,7 @@
           </div>
         </div>
 
-        <!-- 10.4 - 10.5 晴雨决策切换器 -->
+        <!-- 10.4 - 10.5 晴雨决策切换器 (修正为雨天WALK) -->
         <div class="glass-card toggle-bar-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
@@ -1001,7 +1006,7 @@
           </div>
           <div class="toggle-switch-box">
             <button class="t-btn-pill active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天(热海+伊豆)</button>
-            <button class="t-btn-pill" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(热海+WALK)</button>
+            <button class="t-btn-pill" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(WALK)</button>
           </div>
         </div>
 
@@ -1050,7 +1055,7 @@
                 <text x="140" y="165" text-anchor="end" font-size="10" font-weight="bold" fill="var(--text-main)">箱根</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-10', 'd5')">
+              <g class="map-node" onclick="jumpToNode('tl-d5-11', 'd5')">
                 <circle cx="165" cy="215" r="8" fill="#ec4899" stroke="#ffffff" stroke-width="2"/>
                 <text x="178" y="218" text-anchor="start" font-size="11" font-weight="bold" fill="#ec4899">热海酒店</text>
               </g>
@@ -1081,12 +1086,12 @@
                 <text x="272" y="84" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">桃源台 (海贼船)</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-9', 'd5')">
+              <g class="map-node" onclick="jumpToNode('tl-d5-10', 'd5')">
                 <circle cx="140" cy="120" r="6" fill="#10b981"/>
                 <text x="140" y="140" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">雕刻之森</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-10', 'd5')">
+              <g class="map-node" onclick="jumpToNode('tl-d5-11', 'd5')">
                 <circle cx="320" cy="150" r="8" fill="#ec4899" stroke="#ffffff" stroke-width="2"/>
                 <text x="332" y="154" text-anchor="start" font-size="12" font-weight="900" fill="#ec4899">热海 Resorpia</text>
               </g>
@@ -1141,7 +1146,7 @@
           <span>📅 逐日行程与独立地点导航</span>
         </div>
 
-        <!-- Day 1 (精简纯地点) -->
+        <!-- Day 1 -->
         <div class="day-wrapper" id="d1">
           <div class="day-head" onclick="toggleDayCard('d1')">
             <div class="day-meta">
@@ -1205,7 +1210,7 @@
           </div>
         </div>
 
-        <!-- Day 2 (烤肉正确归位10.1) -->
+        <!-- Day 2 -->
         <div class="day-wrapper" id="d2">
           <div class="day-head" onclick="toggleDayCard('d2')">
             <div class="day-meta">
@@ -1350,7 +1355,7 @@
               <div class="day-badge-big"><div class="day-badge-d">10.4</div><div class="day-badge-w">周日</div></div>
               <div class="day-info">
                 <h3 id="d5-title">箱根 · 宿热海</h3>
-                <p id="d5-desc">箱根顺时针大回线 · 雕刻之森 · 傍晚前往热海入住</p>
+                <p id="d5-desc">箱根顺时针大回线 · 海贼船 · 傍晚前往热海入住</p>
               </div>
             </div>
             <div class="day-chevron">▼</div>
@@ -1666,7 +1671,7 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:8px 24px; display:inline-block;" onclick="closeModal('modal-ana-bus')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block;" onclick="closeModal('modal-ana-bus')">关闭</button>
       </div>
     </div>
   </div>
@@ -1704,7 +1709,7 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:8px 24px; display:inline-block;" onclick="closeModal('modal-izu-bus1')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block;" onclick="closeModal('modal-izu-bus1')">关闭</button>
       </div>
     </div>
   </div>
@@ -1736,12 +1741,12 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:8px 24px; display:inline-block;" onclick="closeModal('modal-izu-bus2')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block;" onclick="closeModal('modal-izu-bus2')">关闭</button>
       </div>
     </div>
   </div>
 
-  <!-- 弹窗 4：快捷填入行程数据弹窗 (四个板块独立分栏编辑) -->
+  <!-- 弹窗 4：快捷填入行程数据弹窗 (独立分栏极清呈现) -->
   <div class="modal-overlay" id="modal-quick-fill" onclick="closeModal('modal-quick-fill')">
     <div class="modal-sheet" id="sheet-quick-fill" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2071,7 +2076,7 @@
       } catch (e) {}
     }
 
-    // 地图节点点击精准定位：绝对死死定格在屏幕最顶端（不偏不倚）
+    // 地图节点点击精准绝对对齐：死死定格在屏幕最顶端
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
       
@@ -2087,8 +2092,7 @@
         if (nodeEl) {
           const islandEl = document.getElementById('top-island-wrap');
           const islandHeight = islandEl ? islandEl.offsetHeight : 60;
-          // 留出 12px 呼吸留白，精确将目标节点顶到视口最上方
-          const navOffset = islandHeight + 12;
+          const navOffset = islandHeight + 8;
           const nodeTop = nodeEl.getBoundingClientRect().top + window.pageYOffset - navOffset;
 
           window.scrollTo({
@@ -2119,7 +2123,7 @@
         requestAnimationFrame(() => {
           const islandEl = document.getElementById('top-island-wrap');
           const islandHeight = islandEl ? islandEl.offsetHeight : 60;
-          const navOffset = islandHeight + 12;
+          const navOffset = islandHeight + 8;
           const cardTop = t.getBoundingClientRect().top + window.pageYOffset - navOffset;
           window.scrollTo({
             top: cardTop,
@@ -2254,14 +2258,20 @@
         ]
       },
       rainy: {
-        d5_title: "箱根室内游览 · 宿横滨",
-        d5_desc: "箱根室内观览 · 9.30已退热海酒店 · 晚间返回横滨家",
+        d5_title: "箱根全景顺时针 · 宿横滨",
+        d5_desc: "箱根全套顺时针大回线 · 海贼船 · 9.30已退热海酒店 · 晚间返回横滨家",
         d5_nodes: [
-          { id: "tl-d5-r1", time: "08:00", place: "小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "搭乘周游券电车或浪漫特快直接进山。" },
-          { id: "tl-d5-r2", time: "09:30", place: "箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "到达箱根汤本，转乘登山列车避雨游览。" },
-          { id: "tl-d5-r3", time: "10:00", place: "雕刻之森美术馆 (室内毕加索馆)", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "参观毕加索画作与室内名作展区，凭券享门票立减优惠。" },
-          { id: "tl-d5-r4", time: "14:30", place: "箱根汤本温泉街", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "避雨品尝热荞麦面与传统温泉和菓子茶点。" },
-          { id: "tl-d5-r5", time: "傍晚", place: "横滨东山田之家", nav: "https://maps.google.com/?q=Higashi-Yamata+Station", desc: "天气欠佳已提前取消热海酒店，返回东山田准备次日市区慢游。" }
+          { id: "tl-d5-r1", time: "准则", place: "箱根出行4大原则", nav: "", desc: "<span class='tl-desc-point'>1. 备好箱根周游券免费搭乘交通</span><span class='tl-desc-point'>2. 顺时针游玩避开人潮</span>" },
+          { id: "tl-d5-r2", time: "08:00", place: "小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "搭乘周游券包含列车或浪漫特快直接进山。" },
+          { id: "tl-d5-r3", time: "09:00", place: "箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "箱根汤本站下车，换乘登山列车向山顶进发。" },
+          { id: "tl-d5-r4", time: "09:40", place: "元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "山路弯多后半段能远眺富士山景。" },
+          { id: "tl-d5-r5", time: "10:30", place: "箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "观光打卡热门地标，水上鸟居步行往返约四十分钟。" },
+          { id: "tl-d5-r6", time: "11:30", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "观景台拍摄芦之湖水上鸟居。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -200円</div>" },
+          { id: "tl-d5-r7", time: "12:30", place: "海贼船 (芦之湖横断) ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券免费搭乘普通席横渡芦之湖。" },
+          { id: "tl-d5-r8", time: "13:30", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷。" },
+          { id: "tl-d5-r9", time: "14:00", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山地貌硫磺气息浓厚，可品尝招牌黑鸡蛋。" },
+          { id: "tl-d5-r10", time: "15:30", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "户外雕塑与毕加索展馆。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -100~200円</div>" },
+          { id: "tl-d5-r11", time: "傍晚", place: "横滨东山田之家 🏠", nav: "https://maps.google.com/?q=Higashi-Yamata+Station", desc: "已取消热海酒店，傍晚乘车直接返回横滨东山田家中安睡，准备次日东京市区 WALK。" }
         ],
         d6_title: "WALK 城市慢步 · 晚间羽田撤离",
         d6_desc: "中目黑探店 · 代官山 · 涩谷 · 新宿御苑 · 直奔羽田T3",
