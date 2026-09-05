@@ -14,7 +14,7 @@
     :root {
       --bg: #f5f7fb;
       --glass-bg: rgba(255, 255, 255, 0.75);
-      --glass-card: rgba(255, 255, 255, 0.85);
+      --glass-card: rgba(255, 255, 255, 0.88);
       --glass-border: rgba(255, 255, 255, 0.95);
       --glass-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
       --text-main: #0f172a;
@@ -36,8 +36,8 @@
       :root {
         --bg: #000000;
         --glass-bg: rgba(26, 28, 35, 0.75);
-        --glass-card: rgba(32, 35, 45, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.10);
+        --glass-card: rgba(32, 35, 45, 0.88);
+        --glass-border: rgba(255, 255, 255, 0.12);
         --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
         --text-main: #f5f5f7;
         --text-sub: #a1a1a6;
@@ -59,8 +59,6 @@
       -webkit-touch-callout: none;
       user-select: none;
       -webkit-user-select: none;
-      text-wrap: pretty;
-      word-break: break-word;
     }
 
     body {
@@ -112,7 +110,7 @@
       opacity: 1;
     }
 
-    /* 顶部灵动岛 (严格贴合 iPhone 15 Pro 物理开孔) */
+    /* 顶部灵动岛 */
     .top-island-wrap {
       position: sticky;
       top: calc(env(safe-area-inset-top, 14px) - 2px);
@@ -186,7 +184,7 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* 倒计时大卡片 (等宽数字 + 393px 列宽硬锁定) */
+    /* 倒计时大卡片 */
     .top-card-container { padding: 0 14px; margin-bottom: 12px; }
     .glass-card {
       background: var(--glass-card);
@@ -204,7 +202,7 @@
       transform: scale(0.98);
     }
 
-    .timer-badge { font-size: 0.72rem; font-weight: 800; color: var(--accent); letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .timer-badge { font-size: 0.72rem; font-weight: 800; color: var(--accent); letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     
     .tz-flip {
       display: inline-block;
@@ -221,10 +219,10 @@
       background: var(--glass-bg); 
       border: 1px solid var(--glass-border); 
       border-radius: 14px; 
-      padding: 10px 4px; 
+      padding: 12px 4px; 
       text-align: center; 
       overflow: hidden;
-      min-width: 72px;
+      min-width: 70px;
     }
     
     .timer-val {
@@ -239,7 +237,7 @@
     .timer-val.num-tick {
       transform: translateY(-2px);
     }
-    .timer-lbl { font-size: 0.64rem; font-weight: 700; color: var(--text-muted); margin-top: 3px; }
+    .timer-lbl { font-size: 0.64rem; font-weight: 700; color: var(--text-muted); margin-top: 5px; }
 
     /* 横向滑动视口 (ViewPager) */
     .viewport-outer { width: 100%; overflow: hidden; position: relative; }
@@ -324,24 +322,22 @@
     .dock-btn.active { color: #fff; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 快捷日期胶囊栏 (双侧羽化渐变) */
+    /* 快捷日期胶囊栏 */
     .chips-outer {
       position: relative;
       margin-bottom: 16px;
-      mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
     }
-    .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 8px; touch-action: pan-x; }
+    .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px; touch-action: pan-x; }
     .chips-bar::-webkit-scrollbar { display: none; }
     .chips-bar::after {
       content: '';
       display: block;
-      width: 24px;
+      width: 16px;
       flex-shrink: 0;
     }
     .chip {
       white-space: nowrap;
-      padding: 7px 14px;
+      padding: 8px 15px;
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: -0.01em;
@@ -361,7 +357,7 @@
 
     .sec-head { font-size: 1rem; font-weight: 900; margin: 18px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片与自适应栅格 */
+    /* 大交通卡片 */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -413,7 +409,7 @@
     .t-city h2 { font-size: 1.85rem; font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
     .t-city p { font-size: 0.74rem; font-weight: 700; color: var(--text-main); margin-top: 4px; }
     .t-time-tag { font-size: 0.65rem; color: var(--text-muted); }
-    .t-mid { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .t-mid { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 0 10px; }
     .t-line { width: clamp(55px, 16vw, 75px); height: 2px; background: var(--accent-border); position: relative; }
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
@@ -421,7 +417,7 @@
     .t-grid-6 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 8px 4px;
       background: var(--glass-bg);
       border-radius: 14px;
       padding: 10px 4px;
@@ -433,13 +429,13 @@
       gap: 8px;
       background: var(--glass-bg);
       border-radius: 14px;
-      padding: 10px 14px;
+      padding: 12px 14px;
       border: 1px solid var(--glass-border);
-      min-height: 52px;
+      min-height: 58px;
     }
     .t-cell { text-align: center; padding: 4px 2px; }
-    .t-cell-t { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
-    .t-cell-v { font-size: 0.82rem; font-weight: 800; color: var(--text-main); margin-top: 2px; }
+    .t-cell-t { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; margin-bottom: 3px; }
+    .t-cell-v { font-size: 0.82rem; font-weight: 800; color: var(--text-main); }
 
     .seat-input-wrap { display: inline-flex; align-items: center; gap: 4px; justify-content: center; }
     .seat-badge-input {
@@ -481,7 +477,7 @@
       color: var(--accent);
       font-weight: 700;
       font-size: 0.68rem;
-      padding: 5px 12px;
+      padding: 6px 12px;
       border-radius: 8px;
       cursor: pointer;
       text-decoration: none;
@@ -489,7 +485,7 @@
     }
     .btn-realtime-radar:active { transform: scale(0.95); opacity: 0.85; }
 
-    /* 手绘动线地图容器 (高度锁死在黄金阅读视口 250px) */
+    /* 手绘动线地图容器 */
     .map-tabs-bar {
       display: flex;
       background: var(--glass-bg);
@@ -513,7 +509,7 @@
       text-align: center;
       transition: all 0.2s;
     }
-    .map-tab-btn.active { background: var(--accent); color: #fff; }
+    .map-tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     .offline-map-container {
       width: 100%;
       background: var(--glass-bg);
@@ -526,6 +522,7 @@
       overflow: hidden;
       touch-action: none;
       position: relative;
+      border: 1px solid var(--glass-border);
     }
     svg.apple-sketch-map { 
       width: 100%; 
@@ -538,7 +535,7 @@
     .apple-sketch-map text {
       paint-order: stroke fill;
       stroke: var(--bg);
-      stroke-width: 2px;
+      stroke-width: 2.5px;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
@@ -556,31 +553,51 @@
       justify-content: center;
       font-size: 0.65rem;
       font-weight: 900;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       pointer-events: none;
     }
     .map-node { cursor: pointer; transition: transform 0.2s; }
     .map-node:active { transform: scale(1.3); }
 
-    /* 晴雨切换条 (等宽自适应，单行不换行) */
-    .toggle-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .toggle-title { font-size: 0.88rem; font-weight: 800; }
-    .toggle-sub { font-size: 0.7rem; color: var(--text-muted); }
-    .toggle-switch { display: flex; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 3px; gap: 3px; }
-    .t-btn { 
+    /* 晴雨切换条 (上下堆叠布局，字距舒展) */
+    .toggle-bar-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px;
+    }
+    .toggle-header {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .toggle-title { font-size: 0.90rem; font-weight: 800; color: var(--text-main); }
+    .toggle-sub { font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; }
+    .toggle-switch-box { 
+      display: flex; 
+      background: var(--glass-bg); 
+      border: 1px solid var(--glass-border); 
+      border-radius: 14px; 
+      padding: 4px; 
+      gap: 6px; 
+    }
+    .t-btn-pill { 
       flex: 1; 
       border: none; 
       background: transparent; 
-      padding: 6px 10px; 
-      font-size: 0.72rem; 
-      font-weight: 700; 
-      border-radius: 9px; 
+      padding: 8px 12px; 
+      font-size: 0.74rem; 
+      font-weight: 800; 
+      border-radius: 10px; 
       cursor: pointer; 
       color: var(--text-sub); 
+      text-align: center;
       white-space: nowrap;
+      transition: all 0.2s;
     }
-    .t-btn.active { background: var(--accent); color: #fff; }
+    .t-btn-pill.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25); }
 
-    /* 逐日行程卡片 (纯 CSS Grid 平滑折叠展开 + 焦点光晕) */
+    /* 逐日行程卡片 */
     .day-wrapper {
       background: var(--glass-card);
       backdrop-filter: blur(28px);
@@ -590,7 +607,7 @@
       margin-bottom: 14px;
       box-shadow: var(--glass-shadow);
       overflow: hidden;
-      transition: border-color 0.25s, box-shadow 0.3s;
+      transition: border-color 0.28s, box-shadow 0.3s;
       will-change: transform, opacity;
       transform: translateZ(0);
     }
@@ -600,7 +617,7 @@
     }
 
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .day-meta { display: flex; align-items: center; gap: 12px; }
+    .day-meta { display: flex; align-items: center; gap: 14px; }
     .day-badge-big {
       background: var(--accent-soft);
       border: 1px solid var(--accent-border);
@@ -608,19 +625,23 @@
       border-radius: 14px;
       padding: 6px 10px;
       text-align: center;
-      min-width: 58px;
+      min-width: 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .day-badge-d { font-size: 1.05rem; font-weight: 900; line-height: 1; }
-    .day-badge-w { font-size: 0.65rem; font-weight: 700; margin-top: 2px; }
+    .day-badge-w { font-size: 0.65rem; font-weight: 700; margin-top: 4px; }
     .day-info h3 { font-size: 1.05rem; font-weight: 900; line-height: 1.2; }
-    .day-info p { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
+    .day-info p { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
     .day-chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1); }
     .day-wrapper.open .day-chevron { transform: rotate(180deg); color: var(--accent); }
 
     .day-body-grid {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      transition: grid-template-rows 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
     .day-wrapper.open .day-body-grid {
       grid-template-rows: 1fr;
@@ -634,7 +655,7 @@
       border-top: 1px dashed var(--glass-border);
     }
 
-    /* 时间轴条目 (排点独占一行，解决孤字) */
+    /* 时间轴条目 */
     .timeline { position: relative; border-left: 2px solid var(--glass-border); margin-left: 10px; padding-left: 16px; margin-top: 12px; }
     .tl-node { position: relative; margin-bottom: 16px; transition: opacity 0.25s; }
     .tl-node:last-child { margin-bottom: 0; }
@@ -650,8 +671,19 @@
       background: var(--accent);
       border: 2px solid var(--glass-card);
     }
-    .tl-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
-    .tl-time { width: 48px; font-size: 0.78rem; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .tl-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 6px; margin-bottom: 4px; }
+    .tl-time { 
+      width: fit-content; 
+      min-width: 48px; 
+      font-size: 0.78rem; 
+      font-weight: 800; 
+      color: var(--accent); 
+      font-variant-numeric: tabular-nums; 
+      font-feature-settings: "tnum";
+      white-space: nowrap; 
+      margin-right: 8px; 
+      flex-shrink: 0; 
+    }
     .tl-place { font-size: 0.92rem; font-weight: 800; color: var(--text-main); }
 
     .btn-nav-pin {
@@ -687,24 +719,24 @@
 
     .tl-notes { 
       background: var(--glass-bg); 
-      border-radius: 10px; 
-      padding: 8px 12px; 
-      margin-top: 6px; 
+      border-radius: 12px; 
+      padding: 10px 14px; 
+      margin-top: 8px; 
       font-size: 0.74rem; 
       color: var(--text-sub); 
       border: 1px solid var(--glass-border);
-      line-height: 1.55;
+      line-height: 1.55; 
     }
-    .tl-notes strong { color: var(--accent); display: block; margin-bottom: 3px; }
+    .tl-notes strong { color: var(--accent); display: block; margin-bottom: 4px; }
     .tl-note-line {
       display: block;
-      margin-top: 4px;
+      margin-top: 5px;
     }
 
-    .tag { font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; display: inline-block; margin-left: 4px; }
+    .tag { font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; display: inline-block; margin-left: 6px; }
     .tag-warn { background: var(--warn-soft); color: var(--warn); }
     .tag-ok { background: var(--success-soft); color: var(--success); }
-    .badge-pass { background: var(--success-soft); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success); font-size: 0.65rem; font-weight: 800; padding: 1px 5px; border-radius: 6px; }
+    .badge-pass { background: var(--success-soft); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success); font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 6px; margin-left: 6px; }
 
     .btn-action-pill {
       display: inline-flex;
@@ -715,7 +747,7 @@
       color: var(--accent);
       font-size: 0.70rem;
       font-weight: 700;
-      padding: 5px 10px;
+      padding: 5px 11px;
       border-radius: 10px;
       cursor: pointer;
       margin-top: 6px;
@@ -723,9 +755,9 @@
     }
     .btn-action-pill:active { transform: scale(0.95); }
 
-    /* 待办清单 & 状态呼吸竖条 & 仅看未完成过滤 */
+    /* 待办清单 */
     .todo-header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--glass-border); }
-    .ring-wrap { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 800; }
+    .ring-wrap { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; font-weight: 800; }
     svg.progress-ring { width: 34px; height: 34px; transform: rotate(-90deg); }
     circle.ring-bg { stroke: rgba(0,0,0,0.08); stroke-width: 3.5; fill: transparent; }
     circle.ring-val { stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; fill: transparent; stroke-dasharray: 88; stroke-dashoffset: 88; transition: stroke-dashoffset 0.35s ease, stroke 0.35s; }
@@ -734,12 +766,13 @@
     .todo-filter-btn {
       border: 1px solid var(--glass-border);
       background: var(--glass-bg);
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 14px;
       font-size: 0.72rem;
       font-weight: 800;
       cursor: pointer;
       color: var(--text-sub);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.04);
       transition: all 0.2s;
     }
     .todo-filter-btn.active {
@@ -749,11 +782,11 @@
     }
 
     .todo-item {
-      padding: 12px 10px 12px 14px;
+      padding: 14px 12px;
       border-bottom: 1px solid var(--glass-border);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       position: relative;
       border-left: 3.5px solid #cbd5e1;
       border-radius: 4px;
@@ -794,7 +827,7 @@
       border: 1px solid var(--glass-border);
       border-radius: 14px;
       padding: 3px;
-      gap: 3px;
+      gap: 4px;
       touch-action: pan-x;
     }
     @media (prefers-color-scheme: dark) {
@@ -804,8 +837,8 @@
       flex: 1;
       border: none;
       background: transparent;
-      padding: 6px 2px;
-      font-size: 0.70rem;
+      padding: 6px 6px;
+      font-size: 0.72rem;
       font-weight: 700;
       border-radius: 10px;
       cursor: pointer;
@@ -834,7 +867,7 @@
       margin-bottom: 4px;
     }
 
-    /* 弹窗抽屉 (82vh 黄金最大高度 + 物理阻尼) */
+    /* 弹窗抽屉 */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -854,7 +887,7 @@
       max-width: 480px;
       background: var(--glass-card);
       border-radius: 28px 28px 16px 16px;
-      padding: 12px 18px 24px;
+      padding: 14px 18px 24px;
       box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
       max-height: 82vh;
       overflow-y: auto;
@@ -872,7 +905,7 @@
     }
 
     .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.72rem; }
-    .bus-table th, .bus-table td { border: 1px solid var(--glass-border); padding: 6px 6px; text-align: center; }
+    .bus-table th, .bus-table td { border: 1px solid var(--glass-border); padding: 8px 6px; text-align: center; }
     .bus-table th { background: var(--accent-soft); color: var(--accent); font-weight: 800; }
     .bus-next-row { background: #fef08a !important; color: #854d0e !important; font-weight: 900; }
     @media (prefers-color-scheme: dark) {
@@ -888,19 +921,25 @@
     /* 底部应急 */
     .footer-tools {
       margin-top: 24px;
-      padding: 14px;
+      padding: 16px;
       border-radius: 18px;
       background: var(--glass-bg);
       border: 1px dashed var(--glass-border);
       font-size: 0.74rem;
     }
+    .footer-tools p {
+      margin-bottom: 6px;
+    }
     .footer-tools a {
       color: var(--accent);
       text-decoration: none;
       font-weight: 800;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.03);
     }
 
-    /* 座位特大字全屏牌 (自适应 clamp 缩放，左右轻扫) */
+    /* 座位特大字全屏牌 */
     #seat-zoom-modal {
       display: none;
       position: fixed;
@@ -930,7 +969,7 @@
     }
     .seat-zoom-title { font-size: 0.95rem; font-weight: 700; opacity: 0.7; margin-bottom: 8px; }
     .seat-zoom-val { 
-      font-size: clamp(2.6rem, 11vw, 3.4rem); 
+      font-size: clamp(2.5rem, 10vw, 3.2rem); 
       font-weight: 900; 
       letter-spacing: -0.02em; 
       color: #38bdf8; 
@@ -1272,7 +1311,7 @@
       <!-- PANE 2: 📅 逐日行程 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 顶部日期快捷定位胶囊 (双侧羽化渐变) -->
+        <!-- 顶部日期快捷定位胶囊 -->
         <div class="chips-outer">
           <div class="chips-bar" id="chips-bar-scroll">
             <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
@@ -1286,14 +1325,14 @@
         </div>
 
         <!-- 10.4 - 10.5 晴雨决策切换器 -->
-        <div class="glass-card toggle-bar">
-          <div>
+        <div class="glass-card toggle-bar-card">
+          <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
-            <div class="toggle-sub">9.30 23:00 前根据预报决定是否退订热海酒店</div>
+            <div class="toggle-sub">9.30 23:00 前根据实际天气预报决定是否保留热海酒店</div>
           </div>
-          <div class="toggle-switch">
-            <button class="t-btn active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天(热海+伊豆)</button>
-            <button class="t-btn" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(退热海+WALK)</button>
+          <div class="toggle-switch-box">
+            <button class="t-btn-pill active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天(热海+伊豆)</button>
+            <button class="t-btn-pill" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(热海+WALK)</button>
           </div>
         </div>
 
@@ -1311,11 +1350,11 @@
             <div class="map-compass">N</div>
             <!-- 视图 1：全程大闭环 -->
             <svg class="apple-sketch-map" id="map-svg-all" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg">
-              <path d="M 480,45 Q 360,95 270,110 T 150,170 T 165,215 T 155,255" fill="none" stroke="var(--accent-border)" stroke-width="4" stroke-dasharray="6"/>
-              <path d="M 480,45 L 270,110" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4"/>
-              <path d="M 270,110 L 360,115" fill="none" stroke="#38bdf8" stroke-width="3"/>
-              <path d="M 270,110 L 150,170 L 165,215" fill="none" stroke="#10b981" stroke-width="3"/>
-              <path d="M 165,215 L 155,255" fill="none" stroke="#ec4899" stroke-width="3"/>
+              <path d="M 480,45 Q 360,95 270,110 T 150,170 T 165,215 T 155,255" fill="none" stroke="var(--accent-border)" stroke-width="4.5" stroke-dasharray="6"/>
+              <path d="M 480,45 L 270,110" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="5"/>
+              <path d="M 270,110 L 360,115" fill="none" stroke="#38bdf8" stroke-width="3.5"/>
+              <path d="M 270,110 L 150,170 L 165,215" fill="none" stroke="#10b981" stroke-width="3.5"/>
+              <path d="M 165,215 L 155,255" fill="none" stroke="#ec4899" stroke-width="3.5"/>
 
               <g class="map-node" onclick="jumpToDayCard('d1')">
                 <circle cx="480" cy="45" r="8" fill="#f59e0b"/>
@@ -1355,8 +1394,8 @@
 
             <!-- 视图 2：箱根·热海·伊豆 -->
             <svg class="apple-sketch-map" id="map-svg-resort" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path d="M 120,40 L 220,40 L 260,80 L 220,120 L 140,120 Z" fill="none" stroke="#10b981" stroke-width="3.5"/>
-              <path d="M 220,120 L 320,150 L 340,220 L 420,240" fill="none" stroke="#ec4899" stroke-width="3.5" stroke-dasharray="4"/>
+              <path d="M 120,40 L 220,40 L 260,80 L 220,120 L 140,120 Z" fill="none" stroke="#10b981" stroke-width="4"/>
+              <path d="M 220,120 L 320,150 L 340,220 L 420,240" fill="none" stroke="#ec4899" stroke-width="4" stroke-dasharray="5"/>
 
               <g class="map-node" onclick="jumpToDayCard('d5')">
                 <circle cx="120" cy="40" r="6" fill="#10b981"/>
@@ -1396,9 +1435,9 @@
 
             <!-- 视图 3：都会圈·大本营 -->
             <svg class="apple-sketch-map" id="map-svg-metro" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path d="M 270,140 L 460,50" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4"/>
-              <path d="M 270,140 L 370,170" fill="none" stroke="#ef4444" stroke-width="3"/>
-              <path d="M 270,140 L 250,70 L 390,70" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+              <path d="M 270,140 L 460,50" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="5"/>
+              <path d="M 270,140 L 370,170" fill="none" stroke="#ef4444" stroke-width="3.5"/>
+              <path d="M 270,140 L 250,70 L 390,70" fill="none" stroke="#8b5cf6" stroke-width="3.5"/>
 
               <g class="map-node" onclick="jumpToDayCard('d1')">
                 <circle cx="270" cy="140" r="10" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
@@ -1564,7 +1603,7 @@
                   </div>
 
                   <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
-                    <button class="btn-action-pill" onclick="copyCode('qn995svxtzm3')">📋 复制確認コード (qn995svxtzm3)</button>
+                    <button class="btn-action-pill" onclick="copyCode('qn995svxtzm3')">📋 复制コード (qn995svxtzm3)</button>
                     <a class="btn-action-pill" href="https://ana-blue-hangar-tour.resv.jp/user/usr_cancel_guest.php?resid=102257&reserve_no=102257&code=qn995svxtzm3" target="_blank">🔗 打开 ANA 预约确认官网 ↗</a>
                     <button class="btn-action-pill" onclick="openAnaBusModal()">🚏 查看新整备场站接驳车时刻表</button>
                   </div>
@@ -1889,11 +1928,11 @@
 
         <!-- 底部：应急通讯录 -->
         <div class="footer-tools">
-          <div style="font-weight:800; margin-bottom:6px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
+          <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
           <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
           <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
-          <div style="margin-top:8px; font-size:0.68rem; color:var(--success); font-weight:700; cursor:pointer;" onclick="showToast('已离线缓存，无信号可完全正常使用')"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); box-shadow:0 0 6px rgba(16, 185, 129, 0.8); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
+          <div style="margin-top:10px; font-size:0.68rem; color:var(--success); font-weight:700; cursor:pointer;" onclick="showToast('已离线缓存，无信号可完全正常使用')"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); box-shadow:0 0 6px rgba(16, 185, 129, 0.8); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
         </div>
       </div>
 
@@ -1952,7 +1991,7 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn active" style="padding:6px 20px;" onclick="closeModal('modal-ana-bus')">关闭</button>
+        <button class="t-btn-pill active" style="padding:8px 24px; display:inline-block;" onclick="closeModal('modal-ana-bus')">关闭</button>
       </div>
     </div>
   </div>
@@ -1982,7 +2021,7 @@
           <tr data-time="13:00" style="color:var(--warn);"><td>13:00</td><td>13:15</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
           <tr data-time="13:45"><td>13:45</td><td>14:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr data-time="14:20" style="color:var(--warn);"><td>14:20</td><td>14:35</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
-          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
+          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td>I70 シャボテン公園行</td><td>桜 demographics 並木経由</td></tr>
           <tr data-time="15:45"><td>15:45</td><td>16:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr data-time="16:20"><td>16:20</td><td>16:44</td><td>I73 シャボテン公園行</td><td>池・南原経由</td></tr>
           <tr data-time="16:45"><td>16:45</td><td>17:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
@@ -1990,7 +2029,7 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn active" style="padding:6px 20px;" onclick="closeModal('modal-izu-bus1')">关闭</button>
+        <button class="t-btn-pill active" style="padding:8px 24px; display:inline-block;" onclick="closeModal('modal-izu-bus1')">关闭</button>
       </div>
     </div>
   </div>
@@ -2022,7 +2061,7 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn active" style="padding:6px 20px;" onclick="closeModal('modal-izu-bus2')">关闭</button>
+        <button class="t-btn-pill active" style="padding:8px 24px; display:inline-block;" onclick="closeModal('modal-izu-bus2')">关闭</button>
       </div>
     </div>
   </div>
@@ -2067,7 +2106,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 严密手势隔离、对数阻尼与速度轻弹判定
+    // 手势隔离、对数阻尼与速度轻弹判定
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2296,7 +2335,9 @@
         try { sessionStorage.setItem('card_open_' + id, '1'); } catch (e) {}
         
         requestAnimationFrame(() => {
-          const navOffset = 76;
+          const islandEl = document.getElementById('top-island-wrap');
+          const islandHeight = islandEl ? islandEl.offsetHeight : 60;
+          const navOffset = islandHeight + 16;
           const cardTop = t.getBoundingClientRect().top + window.pageYOffset - navOffset;
           window.scrollTo({
             top: cardTop,
@@ -2801,6 +2842,7 @@
             badge.className = `bus-countdown-badge ${diffMin <= 10 ? 'bus-urgent-text' : ''}`;
             badge.style.fontSize = '0.65rem';
             badge.style.fontWeight = '900';
+            badge.style.marginTop = '4px';
             badge.innerText = `⏱️ 还剩 ${diffMin} 分钟发车`;
             r.querySelector('td')?.appendChild(badge);
             break;
