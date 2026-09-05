@@ -343,7 +343,7 @@
 
     .sec-head { font-size: 1rem; font-weight: 900; margin: 18px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片 */
+    /* 大交通卡片 (已按要求精简网格：无餐食，座位居后) */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -398,10 +398,10 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    .t-grid-6 {
+    .t-grid-5 {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px 4px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
       background: var(--glass-bg);
       border-radius: 14px;
       padding: 10px 4px;
@@ -418,8 +418,8 @@
       min-height: 58px;
     }
     .t-cell { text-align: center; padding: 4px 2px; }
-    .t-cell-t { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; margin-bottom: 3px; }
-    .t-cell-v { font-size: 0.82rem; font-weight: 800; color: var(--text-main); }
+    .t-cell-t { font-size: 0.64rem; color: var(--text-muted); font-weight: 600; margin-bottom: 3px; }
+    .t-cell-v { font-size: 0.78rem; font-weight: 800; color: var(--text-main); }
 
     .seat-input-wrap { display: inline-flex; align-items: center; gap: 4px; justify-content: center; }
     .seat-badge-input {
@@ -487,7 +487,7 @@
     .map-node { cursor: pointer; transition: transform 0.2s; }
     .map-node:active { transform: scale(1.3); }
 
-    /* 晴雨切换条 */
+    /* 晴雨切换条 (晴天黄色，雨天蓝色) */
     .toggle-bar-card { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
     .toggle-header { display: flex; flex-direction: column; gap: 3px; }
     .toggle-title { font-size: 0.90rem; font-weight: 800; color: var(--text-main); }
@@ -497,7 +497,8 @@
       flex: 1; border: none; background: transparent; padding: 8px 12px; font-size: 0.74rem; font-weight: 800; 
       border-radius: 10px; cursor: pointer; color: var(--text-sub); text-align: center; white-space: nowrap; transition: all 0.2s;
     }
-    .t-btn-pill.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25); }
+    .t-btn-pill.sun-btn.active { background: #f59e0b; color: #fff; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); }
+    .t-btn-pill.rain-btn.active { background: #0071e3; color: #fff; box-shadow: 0 2px 10px rgba(0, 113, 227, 0.4); }
 
     /* 逐日行程卡片 (永远完全展开，取消折叠) */
     .day-wrapper {
@@ -606,7 +607,7 @@
     .todo-step-btn.active.done { background: var(--success); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25); }
     .todo-select { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text-main); font-size: 0.72rem; padding: 6px 10px; outline: none; font-weight: 700; margin-bottom: 4px; }
 
-    /* 绝对清晰弹窗抽屉 (完全无模糊) */
+    /* 绝对清晰弹窗抽屉 (无模糊) */
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.78);
       z-index: 99999; padding: 16px; align-items: flex-end; justify-content: center;
@@ -782,7 +783,7 @@
           </div>
         </div>
 
-        <!-- 2. 去程航班：9.30 下午 -->
+        <!-- 2. 去程航班：9.30 下午 (无餐食，座位居后) -->
         <div class="transit-card" id="flight-uo652">
           <div class="t-head">
             <div class="t-head-left">
@@ -811,42 +812,38 @@
             </div>
           </div>
 
-          <div class="t-grid-6">
+          <div class="t-grid-5">
             <div class="t-cell">
               <div class="t-cell-t">值机柜台</div>
               <div class="t-cell-v" id="uo652-checkin">H1-H28</div>
             </div>
             <div class="t-cell">
               <div class="t-cell-t">登机口</div>
-              <div class="t-cell-v" id="uo652-gate">待定 (13:10前)</div>
+              <div class="t-cell-v" id="uo652-gate">待定</div>
             </div>
             <div class="t-cell">
               <div class="t-cell-t">登机方式</div>
-              <div class="t-cell-v" id="uo652-board">廊桥 / 待定</div>
-            </div>
-            <div class="t-cell">
-              <div class="t-cell-t">餐食</div>
-              <div class="t-cell-v">无餐食</div>
-            </div>
-            <div class="t-cell">
-              <div class="t-cell-t">下机方式</div>
-              <div class="t-cell-v">廊桥下机</div>
+              <div class="t-cell-v" id="uo652-board">廊桥</div>
             </div>
             <div class="t-cell">
               <div class="t-cell-t">行李转盘</div>
-              <div class="t-cell-v" id="uo652-baggage">T2-B6 待定</div>
+              <div class="t-cell-v" id="uo652-baggage">T2-B6</div>
+            </div>
+            <div class="t-cell">
+              <div class="t-cell-t">我的座位</div>
+              <div class="seat-input-wrap">
+                <input class="seat-badge-input" id="seat-uo652" placeholder="如 12A号" onchange="formatAndSaveSeat('uo652', this)" style="width:75px; height:32px; font-size:0.72rem;"/>
+              </div>
             </div>
           </div>
 
           <div class="t-meta-bar">
-            <div class="seat-input-wrap">
-              <input class="seat-badge-input" id="seat-uo652" placeholder="如 12A号" onchange="formatAndSaveSeat('uo652', this)"/>
-            </div>
+            <div></div>
             <a class="btn-realtime-radar" href="umetrippro://flight/radar?flightNo=UO652">📲 航旅纵横Pro ↗</a>
           </div>
         </div>
 
-        <!-- 3. 回程航班：10.6 凌晨 -->
+        <!-- 3. 回程航班：10.6 凌晨 (无餐食，座位居后) -->
         <div class="transit-card" id="flight-uo623">
           <div class="t-head">
             <div class="t-head-left">
@@ -875,37 +872,33 @@
             </div>
           </div>
 
-          <div class="t-grid-6">
+          <div class="t-grid-5">
             <div class="t-cell">
               <div class="t-cell-t">值机柜台</div>
-              <div class="t-cell-v" id="uo623-checkin">T3-D区 (待定)</div>
+              <div class="t-cell-v" id="uo623-checkin">T3-D区</div>
             </div>
             <div class="t-cell">
               <div class="t-cell-t">登机口</div>
-              <div class="t-cell-v" id="uo623-gate">待定 (23:45前)</div>
+              <div class="t-cell-v" id="uo623-gate">待定</div>
             </div>
             <div class="t-cell">
               <div class="t-cell-t">登机方式</div>
-              <div class="t-cell-v" id="uo623-board">廊桥 / 待定</div>
-            </div>
-            <div class="t-cell">
-              <div class="t-cell-t">餐食</div>
-              <div class="t-cell-v">无餐食</div>
-            </div>
-            <div class="t-cell">
-              <div class="t-cell-t">下机方式</div>
-              <div class="t-cell-v">廊桥下机</div>
+              <div class="t-cell-v" id="uo623-board">廊桥</div>
             </div>
             <div class="t-cell">
               <div class="t-cell-t">行李转盘</div>
-              <div class="t-cell-v" id="uo623-baggage">T1-08 待定</div>
+              <div class="t-cell-v" id="uo623-baggage">T1-08</div>
+            </div>
+            <div class="t-cell">
+              <div class="t-cell-t">我的座位</div>
+              <div class="seat-input-wrap">
+                <input class="seat-badge-input" id="seat-uo623" placeholder="如 15C号" onchange="formatAndSaveSeat('uo623', this)" style="width:75px; height:32px; font-size:0.72rem;"/>
+              </div>
             </div>
           </div>
 
           <div class="t-meta-bar">
-            <div class="seat-input-wrap">
-              <input class="seat-badge-input" id="seat-uo623" placeholder="如 15C号" onchange="formatAndSaveSeat('uo623', this)"/>
-            </div>
+            <div></div>
             <a class="btn-realtime-radar" href="umetrippro://flight/radar?flightNo=UO623">📲 航旅纵横Pro ↗</a>
           </div>
         </div>
@@ -957,9 +950,18 @@
             <a class="btn-realtime-radar" href="https://www.12306.cn" target="_blank">🌐 12306 ↗</a>
           </div>
         </div>
+
+        <!-- 应急备忘录 1 -->
+        <div class="footer-tools">
+          <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
+          <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
+          <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
+          <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
+          <div style="margin-top:10px; font-size:0.68rem; color:var(--success); font-weight:700;"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
+        </div>
       </div>
 
-      <!-- PANE 1: 📅 逐日行程 (永远展开，取消折叠，时间精简) -->
+      <!-- PANE 1: 📅 逐日行程 (无航班信息，永远完全展开) -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 顶部日期快捷定位胶囊 -->
@@ -975,15 +977,15 @@
           </div>
         </div>
 
-        <!-- 10.4 - 10.5 晴雨决策切换器 -->
+        <!-- 10.4 - 10.5 晴雨决策切换器 (晴天黄色，雨天蓝色) -->
         <div class="glass-card toggle-bar-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
             <div class="toggle-sub">9.30 23:00 前根据实际天气预报决定是否保留热海酒店</div>
           </div>
           <div class="toggle-switch-box">
-            <button class="t-btn-pill active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天(热海+伊豆)</button>
-            <button class="t-btn-pill" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(WALK)</button>
+            <button class="t-btn-pill sun-btn active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天(热海+伊豆)</button>
+            <button class="t-btn-pill rain-btn" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(WALK)</button>
           </div>
         </div>
 
@@ -1149,7 +1151,6 @@
                   <span class="tl-time">15:10</span>
                   <span class="tl-place">香港国际机场 T2</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Hong+Kong+International+Airport+Terminal+2" target="_blank">🗺️</a>
-                  <span class="tag tag-ok">UO652</span>
                 </div>
                 <div class="tl-desc">香港快运航空 UO652 启程。</div>
               </div>
@@ -1319,7 +1320,7 @@
               <div class="day-badge-big"><div class="day-badge-d">10.4</div><div class="day-badge-w">周日</div></div>
               <div class="day-info">
                 <h3 id="d5-title">箱根 · 宿热海</h3>
-                <p id="d5-desc">箱根顺时针大回线 · 海贼船 · 傍晚前往热海入住</p>
+                <p id="d5-desc">箱根顺时针大回线 · 海贼船 · 宿热海温泉酒店</p>
               </div>
             </div>
           </div>
@@ -1334,8 +1335,8 @@
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.5</div><div class="day-badge-w">周一</div></div>
               <div class="day-info">
-                <h3 id="d6-title">伊豆大室山 · 海岸</h3>
-                <p id="d6-desc">大室山缆车 · 门胁吊桥 · 晚间羽田T3值机撤离</p>
+                <h3 id="d6-title">大室山缆车·仙人掌公园·城崎海岸·羽田机场</h3>
+                <p id="d6-desc">大室山缆车 · 仙人掌公园 · 城崎海岸 · 羽田机场</p>
               </div>
             </div>
           </div>
@@ -1362,7 +1363,6 @@
                   <span class="tl-time">01:00</span>
                   <span class="tl-place">羽田机场 T3</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Haneda+Airport+Terminal+3" target="_blank">🗺️</a>
-                  <span class="tag tag-ok">UO623</span>
                 </div>
                 <div class="tl-desc">搭乘香港快运 UO623 红眼航班启程回港。</div>
               </div>
@@ -1393,13 +1393,13 @@
           </div>
         </div>
 
-        <!-- 底部：应急通讯录 -->
+        <!-- 应急备忘录 2 -->
         <div class="footer-tools">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
           <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
           <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
-          <div style="margin-top:10px; font-size:0.68rem; color:var(--success); font-weight:700; cursor:pointer;" onclick="showToast('已离线缓存，无信号可完全正常使用')"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); box-shadow:0 0 6px rgba(16, 185, 129, 0.8); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
+          <div style="margin-top:10px; font-size:0.68rem; color:var(--success); font-weight:700;"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
         </div>
       </div>
 
@@ -1565,6 +1565,14 @@
               <button class="todo-step-btn" id="homekey-1" onclick="setTodo('homekey', 1)">🟢 已完成</button>
             </div>
           </div>
+
+          <!-- 应急备忘录 3 -->
+          <div class="footer-tools" style="margin-top:16px;">
+            <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
+            <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
+            <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
+            <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
+          </div>
         </div>
       </div>
 
@@ -1701,7 +1709,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 4：快捷填入行程数据弹窗 (无任何背景模糊) -->
+  <!-- 弹窗 4：快捷填入行程数据弹窗 (无模糊) -->
   <div class="modal-overlay" id="modal-quick-fill" onclick="closeModal('modal-quick-fill')">
     <div class="modal-sheet" id="sheet-quick-fill" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2124,8 +2132,8 @@
           { id: "tl-d5-14", time: "热海", place: "MOA美术馆", nav: "https://maps.google.com/?q=MOA+Museum+of+Art", desc: "门口公交直达，去程坐左边，返程坐右边；馆里有海景位，天气不好就不用去了" },
           { id: "tl-d5-15", time: "热海", place: "来宫神社", nav: "https://maps.google.com/?q=Kinomiya+Shrine", desc: "免费 有棵2000多岁的大楠" }
         ],
-        d6_title: "伊豆大室山 · 海岸 · 晚间羽田撤离",
-        d6_desc: "大室山缆车 · 仙人掌公园 · 城崎海岸 · 晚间羽田回程",
+        d6_title: "大室山缆车·仙人掌公园·城崎海岸·羽田机场",
+        d6_desc: "大室山缆车 · 仙人掌公园 · 城崎海岸 · 羽田机场",
         d6_nodes: [
           { id: "tl-d6-1", time: "准则", place: "伊豆出行核心原则", nav: "", desc: "<span class='tl-desc-point'>1. 晴朗出行视野绝佳</span><span class='tl-desc-point'>2. 早八点出门赶早班大巴</span>" },
           { id: "tl-d6-2", time: "", place: "伊豆高原站→巴士→仙人掌公园站", nav: "https://maps.google.com/?q=Izu-Kogen+Station", desc: "大巴间隔时间很长" },
@@ -2155,7 +2163,7 @@
           { id: "tl-d5-r10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
           { id: "tl-d5-r11", time: "看天气", place: "第二天天气不好：回横滨", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已取消热海酒店，返回横滨家" }
         ],
-        d6_title: "WALK 城市慢步 · 晚间羽田撤离",
+        d6_title: "大室山缆车·仙人掌公园·城崎海岸·羽田机场",
         d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田撤离",
         d6_nodes: [
           { id: "tl-d6-r1", time: "", place: "Sidewalk Stand (中目黑)", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
