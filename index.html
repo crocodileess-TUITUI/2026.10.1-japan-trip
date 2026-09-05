@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>2026 日本关东·伊豆 7日旅行手册</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --tag-warn: #fef3c7;
+      --tag-warn-text: #92400e;
+      --tag-blue: #e0e7ff;
+      --tag-blue-text: #3730a3;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --border: #334155;
+        --accent: #38bdf8;
+        --accent-soft: #082f49;
+        --tag-warn: #78350f;
+        --tag-warn-text: #fef3c7;
+        --tag-blue: #1e1b4b;
+        --tag-blue-text: #c7d2fe;
+        --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text-main); line-height: 1.5; padding: 16px; max-width: 680px; margin: 0 auto; padding-bottom: 80px; }
+    
+    /* 顶部倒计时 */
+    .hero-card {
+      background: linear-gradient(135deg, var(--accent-soft), var(--card-bg));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .hero-label { font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+    .hero-event { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+    .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+    .timer-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 8px 4px; }
+    .timer-num { font-size: 1.4rem; font-weight: 800; color: var(--text-main); font-variant-numeric: tabular-nums; }
+    .timer-unit { font-size: 0.7rem; color: var(--text-muted); }
+
+    /* 天气决策切换器 */
+    .mode-switch {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+    .switch-info { font-size: 0.85rem; }
+    .switch-title { font-weight: 700; }
+    .switch-desc { color: var(--text-muted); font-size: 0.75rem; }
+    .switch-buttons { display: flex; background: var(--bg); border-radius: 8px; padding: 2px; border: 1px solid var(--border); }
+    .switch-btn { border: none; background: transparent; padding: 6px 12px; font-size: 0.75rem; font-weight: 600; border-radius: 6px; cursor: pointer; color: var(--text-muted); }
+    .switch-btn.active { background: var(--accent); color: #fff; }
+
+    /* 区域卡片 */
+    .section-title { font-size: 1.05rem; font-weight: 700; margin: 24px 0 12px; display: flex; align-items: center; gap: 6px; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    /* 手绘感 SVG 地图 */
+    .map-container { overflow-x: auto; text-align: center; padding: 8px 0; }
+    svg.route-map { width: 100%; max-width: 580px; height: auto; }
+
+    /* 预订清单 */
+    .booking-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .booking-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .booking-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .booking-name { font-weight: 600; font-size: 0.95rem; }
+    .booking-time { font-size: 0.8rem; color: var(--accent); font-weight: 500; }
+    .booking-addr { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+
+    /* 逐日行程 */
+    .day-card { margin-bottom: 16px; }
+    .day-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .day-title { font-size: 1rem; font-weight: 700; }
+    .day-subtitle { font-size: 0.8rem; color: var(--text-muted); }
+    .day-actions { display: flex; gap: 8px; margin-top: 10px; margin-bottom: 12px; }
+    .action-link { font-size: 0.75rem; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 3px 8px; border-radius: 6px; font-weight: 500; }
+    .timeline { position: relative; border-left: 2px solid var(--border); margin-left: 8px; padding-left: 16px; margin-top: 8px; }
+    .tl-item { position: relative; margin-bottom: 14px; font-size: 0.85rem; }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-item::before { content: ''; position: absolute; left: -21px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); border: 2px solid var(--card-bg); }
+    .tl-time { font-weight: 700; color: var(--accent); margin-right: 6px; font-size: 0.8rem; }
+    .tl-place { font-weight: 600; text-decoration: none; color: var(--text-main); }
+    .tl-place:hover { text-decoration: underline; }
+    .tl-detail { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    
+    /* 待办清单 & 贴士 */
+    .todo-list { list-style: none; }
+    .todo-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+    .todo-item:last-child { border-bottom: none; }
+    .todo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .tag { display: inline-block; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-weight: 500; }
+    .tag-warn { background: var(--tag-warn); color: var(--tag-warn-text); }
+    .tag-blue { background: var(--tag-blue); color: var(--tag-blue-text); }
+
+    .nav-btn { display: inline-block; font-size: 0.75rem; background: var(--accent-soft); color: var(--accent); border-radius: 4px; padding: 2px 6px; text-decoration: none; font-weight: 600; margin-left: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部：时刻关注 -->
+  <div class="hero-card">
+    <div class="hero-label">
+      <span>NEXT MILESTONE (JST 时区)</span>
+      <span id="tz-tip">UTC+9 日本时间</span>
+    </div>
+    <div class="hero-event" id="next-event">香港起飞 (UO652) 🛫</div>
+    <div class="timer-grid">
+      <div class="timer-item"><div class="timer-num" id="d">00</div><div class="timer-unit">DAYS</div></div>
+      <div class="timer-item"><div class="timer-num" id="h">00</div><div class="timer-unit">HOURS</div></div>
+      <div class="timer-item"><div class="timer-num" id="m">00</div><div class="timer-unit">MINS</div></div>
+      <div class="timer-item"><div class="timer-num" id="s">00</div><div class="timer-unit">SECS</div></div>
+    </div>
+  </div>
+
+  <!-- 决策切换器（针对 10.4-10.5 晴天伊豆 vs 雨天中目黑） -->
+  <div class="mode-switch">
+    <div class="switch-info">
+      <div class="switch-title">10.4 - 10.5 行程决策方案</div>
+      <div class="switch-desc">根据 9.30 前天气预报决定是否保留热海酒店</div>
+    </div>
+    <div class="switch-buttons">
+      <button class="switch-btn active" id="btn-sunny" onclick="setMode('sunny')">☀️ 晴天(伊豆)</button>
+      <button class="switch-btn" id="btn-rainy" onclick="setMode('rainy')">🌧️ 雨天(中目黑)</button>
+    </div>
+  </div>
+
+  <!-- 行程总览路线地图（SVG手绘风格，标示各晚据点） -->
+  <div class="section-title">🗺️ 行程动线总览与住宿据点</div>
+  <div class="card map-container">
+    <svg class="route-map" viewBox="0 0 540 280" xmlns="http://www.w3.org/2000/svg">
+      <!-- 轮廓参考线 -->
+      <path d="M 460,50 Q 300,100 240,110 T 130,190 T 120,240" fill="none" stroke="var(--border)" stroke-width="3" stroke-dasharray="4"/>
+      
+      <!-- 节点: 成田机场 -->
+      <circle cx="480" cy="50" r="7" fill="#f59e0b" />
+      <text x="480" y="38" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">9.30 成田T2</text>
+
+      <!-- 节点: 东京/中目黑 -->
+      <circle cx="330" cy="85" r="6" fill="#8b5cf6" />
+      <text x="330" y="75" text-anchor="middle" font-size="10" fill="var(--text-main)">中目黑 / 迪士尼</text>
+
+      <!-- 节点: 羽田机场 -->
+      <circle cx="365" cy="115" r="7" fill="#ef4444" />
+      <text x="365" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-main)">10.2 ANA / 10.6 羽田T3</text>
+
+      <!-- 节点: 横滨南山田 (大本营) -->
+      <circle cx="270" cy="110" r="9" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+      <text x="270" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#2563eb">🏠 横滨南山田</text>
+      <text x="270" y="145" text-anchor="middle" font-size="9" fill="var(--text-muted)">住: 9.30, 10.1, 10.2, (10.4*)</text>
+
+      <!-- 节点: 箱根 -->
+      <circle cx="150" cy="165" r="6" fill="#10b981" />
+      <text x="145" y="155" text-anchor="middle" font-size="10" fill="var(--text-main)">10.3-10.4 箱根</text>
+
+      <!-- 节点: 热海酒店 -->
+      <circle cx="170" cy="205" r="7" fill="#ec4899" />
+      <text x="175" y="222" text-anchor="middle" font-size="10" font-weight="bold" fill="#ec4899">🏨 热海 Resorpia</text>
+      <text x="175" y="234" text-anchor="middle" font-size="8" fill="var(--text-muted)">[晴天版] 10.4晚住这</text>
+
+      <!-- 节点: 伊豆大室山 -->
+      <circle cx="155" cy="260" r="6" fill="#06b6d4" />
+      <text x="155" y="275" text-anchor="middle" font-size="10" fill="var(--text-main)">10.5 伊豆高原</text>
+
+      <!-- 线路连接 -->
+      <path d="M 480,50 L 270,110" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M 270,110 L 365,115" fill="none" stroke="#2563eb" stroke-width="2"/>
+      <path d="M 270,110 L 150,165" fill="none" stroke="#10b981" stroke-width="2"/>
+      <path d="M 150,165 L 170,205" fill="none" stroke="#ec4899" stroke-width="2"/>
+      <path d="M 170,205 L 155,260" fill="none" stroke="#06b6d4" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <!-- 已确认的关键预订与凭证信息（已过滤所有隐私敏感单号） -->
+  <div class="section-title">📑 核心预订与关键点位</div>
+  <div class="card">
+    <div class="booking-item">
+      <div class="booking-header">
+        <span class="booking-name">✈️ 香港快运 UO652 (去程)</span>
+        <span class="booking-time">09-30 15:10 - 20:40</span>
+      </div>
+      <div class="booking-addr">香港机场 T2 🛫 东京成田机场 T2 🛬</div>
+    </div>
+    
+    <div class="booking-item">
+      <div class="booking-header">
+        <span class="booking-name">✈️ 香港快运 UO623 (回程红眼)</span>
+        <span class="booking-time">10-06 01:00 - 04:40</span>
+      </div>
+      <div class="booking-addr">东京羽田机场 T3 🛫 香港国际机场 T1 🛬</div>
+      <div class="booking-addr" style="color:var(--accent); font-weight:600;">⚠️ 务必于 10月5日 22:30 前到达羽田T3值机！</div>
+    </div>
+
+    <div class="booking-item">
+      <div class="booking-header">
+        <span class="booking-name">🏭 ANA Blue Hangar Tour (机体工场见学)</span>
+        <span class="booking-time">10-02 14:15 - 15:30</span>
+      </div>
+      <div class="booking-addr">羽田机体工场 (新整备场站出站乘摆渡车，13:45开始入场)</div>
+      <a class="nav-btn" href="https://maps.google.com/?q=ANA+Blue+Hangar+Tour" target="_blank">导航去新整备场</a>
+    </div>
+
+    <div class="booking-item" id="hotel-booking-box">
+      <div class="booking-header">
+        <span class="booking-name">🏨 热海 Resorpia 酒店 (Hotel Resorpia Atami)</span>
+        <span class="booking-time">10-04 入住 (1晚)</span>
+      </div>
+      <div class="booking-addr">静冈县热海市东海岸町13-93 | 标准海景和洋式房</div>
+      <div class="booking-addr" style="color:#d97706;">⚠️ 免费取消截止：北京时间 9月30日 23:00 前</div>
+      <a class="nav-btn" href="https://maps.google.com/?q=Hotel+Resorpia+Atami" target="_blank">导航到酒店</a>
+    </div>
+
+    <div class="booking-item">
+      <div class="booking-header">
+        <span class="booking-name">🏠 横滨大本营住处</span>
+        <span class="booking-time">全期据点</span>
+      </div>
+      <div class="booking-addr">神奈川県横浜市都筑区南山田3丁目6-23 (近南山田站/北山田站)</div>
+      <a class="nav-btn" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama" target="_blank">导航回家</a>
+    </div>
+  </div>
+
+  <!-- 逐日行程 -->
+  <div class="section-title">📅 逐日行程执行方案</div>
+
+  <!-- Day 1 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">Day 1 · 9月30日 (周三)</div>
+      <div class="day-subtitle">香港 ✈️ 成田 🚆 横滨南山田</div>
+    </div>
+    <div class="day-actions">
+      <a class="action-link" href="https://www.google.com/maps/dir/Narita+Airport+Terminal+2-3+Station/Minamiyamata,+Tsuzuki+Ward,+Yokohama" target="_blank">🧭 一键全天换乘导航</a>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-time">15:10</span>
+        <span class="tl-place">香港机场 T2</span>
+        <div class="tl-detail">搭乘 UO652 航班起飞（提前 2.5 小时到柜台托运）。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">20:40</span>
+        <a class="tl-place" href="https://maps.google.com/?q=Narita+Airport+Terminal+2" target="_blank">成田机场 T2 落地 📍</a>
+        <div class="tl-detail">入境、取行李、出示 Visit Japan Web 申报码（预计 21:40 办结）。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">21:50</span>
+        <span class="tl-place">深夜回横滨路线指引</span>
+        <div class="tl-detail">首选：京成成田 Access 直通都营浅草线/京急线，泉岳寺或横滨方向转横滨市营地下铁绿线；若超过 22:00，乘京成本线至日暮里转山手线到涩谷/横滨再换乘。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">23:00 前</span>
+        <span class="tl-place">🔴 天气与酒店最终决策线</span>
+        <div class="tl-detail">查看 10.5 伊豆天气。若下雨，立刻打开去哪儿取消热海酒店；若晴天，保留预订。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">Day 2 · 10月1日 (周四)</div>
+      <div class="day-subtitle">东京迪士尼乐园全天畅玩</div>
+    </div>
+    <div class="day-actions">
+      <a class="action-link" href="https://www.google.com/maps/dir/Minamiyamata,+Tsuzuki+Ward,+Yokohama/Tokyo+Disneyland" target="_blank">🧭 一键全天导航</a>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-time">07:00</span>
+        <span class="tl-place">横滨家中出发</span>
+        <div class="tl-detail">横滨市营地下铁 $\rightarrow$ 经东急/日比谷线或新木场转 JR 京叶线至「舞滨站」。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">08:30</span>
+        <a class="tl-place" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">迪士尼乐园入园 📍</a>
+        <div class="tl-detail"><span class="tag tag-warn">需提前购票</span> 进园立刻在 App 抢预约等候卡 (Standby Pass) 与 DPA。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">21:30</span>
+        <span class="tl-place">闭园返程</span>
+        <div class="tl-detail">避开舞滨站第一波极端客流，搭乘电车回横滨南山田。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">Day 3 · 10月2日 (周五)</div>
+      <div class="day-subtitle">上午休整 · 下午 ANA 羽田机体工场见学</div>
+    </div>
+    <div class="day-actions">
+      <a class="action-link" href="https://www.google.com/maps/dir/Minamiyamata,+Tsuzuki+Ward,+Yokohama/Shin-Seibijo+Station" target="_blank">🧭 一键见学交通导航</a>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-time">上午</span>
+        <span class="tl-place">横滨大本营休整</span>
+        <div class="tl-detail">缓解迪士尼疲劳，在家休息、午饭或前往日吉/横滨站简单逛街。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">12:30</span>
+        <span class="tl-place">出发前往羽田机场新整备场</span>
+        <div class="tl-detail">横滨站搭乘京急本线至「天空桥站」，换乘东京单轨电车至「新整備場駅」。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">13:45</span>
+        <a class="tl-place" href="https://maps.google.com/?q=ANA+Blue+Hangar+Tour" target="_blank">到达受付大厅报到 📍</a>
+        <div class="tl-detail"><span class="tag tag-blue">已预约</span> 需带身份证件（护照）及邮件凭证。严禁拖鞋、高跟鞋、厚底鞋！出站搭乘专用接驳车。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">14:15-15:30</span>
+        <span class="tl-place">机库见学参观</span>
+        <div class="tl-detail">实地观摩 ANA 宽体机日常定检维护，听取航空工程讲解。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">傍晚</span>
+        <span class="tl-place">羽田观景台 / 横滨港未来</span>
+        <div class="tl-detail">见学结束后可顺路前往羽田 T3 展望台看飞机起降，随后返回横滨。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">Day 4 · 10月3日 (周六)</div>
+      <div class="day-subtitle">箱根经典大回线 · 温泉与火山巡礼</div>
+    </div>
+    <div class="day-actions">
+      <a class="action-link" href="https://www.google.com/maps/dir/Hakone-Yumoto+Station/Owakudani/Lake+Ashi" target="_blank">🧭 一键箱根经典路线导航</a>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-time">08:00</span>
+        <span class="tl-place">横滨出发行程</span>
+        <div class="tl-detail">JR 海道本线至小田原站，换乘小田急箱根登山铁道到「箱根汤本」。买箱根周游券。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">10:30</span>
+        <a class="tl-place" href="https://maps.google.com/?q=Owakudani" target="_blank">大涌谷黑玉子 📍</a>
+        <div class="tl-detail">乘坐登山缆车横跨地热火山口，尝黑鸡蛋（延寿7年），远眺富士山。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">13:30</span>
+        <a class="tl-place" href="https://maps.google.com/?q=Hakone+Sightseeing+Cruise" target="_blank">芦之湖海贼观光船 📍</a>
+        <div class="tl-detail">桃源台搭乘海贼船游览芦之湖，直达元箱根港打卡湖中平和鸟居。</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">晚上</span>
+        <span class="tl-place">箱根汤本散步返横滨</span>
+        <div class="tl-detail">温泉街品尝荞麦面与温泉馒头，晚间返回横滨家住宿。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">Day 5 · 10月4日 (周日)</div>
+      <div class="day-subtitle" id="d5-subtitle">箱根美术馆深度游 $\rightarrow$ 傍晚前往热海</div>
+    </div>
+    <div class="day-actions">
+      <a class="action-link" id="d5-maplink" href="https://www.google.com/maps/dir/The+Hakone+Open-Air+Museum/Hotel+Resorpia+Atami" target="_blank">🧭 一键当日路线导航</a>
+    </div>
+    <div class="timeline" id="d5-timeline">
+      <!-- 动态插入内容 -->
+    </div>
+  </div>
+
+  <!-- Day 6 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">Day 6 · 10月5日 (周一)</div>
+      <div class="day-subtitle" id="d6-subtitle">方案 A：伊豆绝景探访 $\rightarrow$ 晚间羽田撤离</div>
+    </div>
+    <div class="day-actions">
+      <a class="action-link" id="d6-maplink" href="https://www.google.com/maps/dir/Omuroyama/Izu+Shaboten+Zoo/Jogasaki+Coast" target="_blank">🧭 一键当日多点导航</a>
+    </div>
+    <div class="timeline" id="d6-timeline">
+      <!-- 动态插入内容 -->
+    </div>
+  </div>
+
+  <!-- 待办清单 -->
+  <div class="section-title">📌 出发前待办清单 (办结请直接反馈更新)</div>
+  <div class="card">
+    <ul class="todo-list">
+      <li class="todo-item"><span class="todo-dot"></span> <span>Visit Japan Web 填报（入境审查与海关申报二维码）</span></li>
+      <li class="todo-item"><span class="todo-dot"></span> <span>购买 1 张日本 7 日高速流量卡</span></li>
+      <li class="todo-item"><span class="todo-dot"></span> <span>购买 2 张香港 1 日流量卡（往返过境备用）</span></li>
+      <li class="todo-item"><span class="todo-dot"></span> <span>东京迪士尼门票购买（已确认选定陆地 Disneyland or 海洋 DisneySea）</span></li>
+      <li class="todo-item"><span class="todo-dot"></span> <span>准备 ANA 见学代表者有效证件（护照原件）</span></li>
+      <li class="todo-item"><span class="todo-dot"></span> <span>Suica / PASMO 交通卡 Apple Pay 绑定并充值</span></li>
+    </ul>
+  </div>
+
+  <!-- 实用贴士 -->
+  <div class="section-title">💡 关键出行避坑贴士</div>
+  <div class="card">
+    <div class="booking-item">
+      <div class="booking-name">🚏 伊豆巴士时刻注意</div>
+      <div class="booking-addr">伊豆高原站 $\leftrightarrow$ 仙人掌公园/大室山为「1号站台」（票价约 430 日元）；往伊豆海洋公园/城崎海岸为「2号站台」（约 570 日元）。周一平日班次间隔长，下车先看好回程发车时间！</div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-name">👟 ANA 见学鞋履着装要求</div>
+      <div class="booking-addr">工场为重型机库维护区，地面有轨道缝隙与机油防滑槽，**严禁穿凉鞋、拖鞋、细高跟及厚底鞋**，否则现场会被拒绝入场。</div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-name"> luggage 10.5 行李处置硬建议</div>
+      <div class="booking-addr">若走雨天中目黑线，一早在横滨站或涩谷站大储物柜寄存行李箱，逛完中目黑直接取包走东急/京急赶往羽田 T3，免去折返横滨的 1.5 小时车程。</div>
+    </div>
+  </div>
+
+  <script>
+    // 动态行程数据配置
+    const timelineData = {
+      sunny: {
+        d5_sub: "箱根艺术散策 🚆 傍晚入住热海海景酒店",
+        d5_map: "https://www.google.com/maps/dir/The+Hakone+Open-Air+Museum/MOA+Museum+of+Art/Hotel+Resorpia+Atami",
+        d5_items: [
+          { time: "09:30", place: "箱根雕刻之森美术馆", link: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", detail: "在自然森林中漫步观赏罗丹与毕加索巨型雕塑，打卡彩色玻璃螺旋塔。" },
+          { time: "14:00", place: "热海 MOA 美术馆", link: "https://maps.google.com/?q=MOA+Museum+of+Art", detail: "乘电车经小田原抵热海。参观超长扶梯光影隧道与俯瞰相模湾的海景咖啡厅。" },
+          { time: "16:30", place: "热海布丁 (Atami Pudding)", link: "https://maps.google.com/?q=Atami+Pudding", detail: "排队打卡热海人气第一甜品，顺路漫步热海阳光海滩。" },
+          { time: "18:00", place: "入住热海 Resorpia 酒店", link: "https://maps.google.com/?q=Hotel+Resorpia+Atami", detail: "办理入住，享用和洋式海景客房，晚间泡热海天然温泉。" }
+        ],
+        d6_sub: "伊豆大室山抹茶火山 ✈️ 晚间羽田返程",
+        d6_map: "https://www.google.com/maps/dir/Hotel+Resorpia+Atami/Omuroyama/Izu+Shaboten+Zoo/Jogasaki+Coast/Haneda+Airport+Terminal+3",
+        d6_items: [
+          { time: "08:30", place: "热海站出发 (伊豆急行)", link: "https://maps.google.com/?q=Atami+Station", detail: "乘车沿伊豆海岸线南下到达「伊豆高原站」，在1号站台转乘东海巴士。" },
+          { time: "10:00", place: "伊豆大室山缆车", link: "https://maps.google.com/?q=Omuroyama", detail: "《你的名字》原型抹茶布丁火山！乘双人开放式缆车登顶火山口环游一圈。" },
+          { time: "11:45", place: "伊豆仙人掌动物公园", link: "https://maps.google.com/?q=Izu+Shaboten+Zoo", detail: "大室山山脚。近距离抚摸散养的水豚君（水豚温泉发源地）与小浣熊。" },
+          { time: "14:30", place: "城崎海岸 & 门胁吊桥", link: "https://maps.google.com/?q=Jogasaki+Coast", detail: "火山熔岩入海形成的海蚀断崖，站在吊桥上感受太平洋汹涌巨浪。" },
+          { time: "16:30", place: "乘伊豆急行回横滨南山田", link: "", detail: "傍晚返回横滨家中收拾全部行李箱，吃晚饭冲凉。" },
+          { time: "21:30", place: "横滨出发往羽田 T3", link: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", detail: "横滨站乘京急空港线直达羽田空港第3航站楼（车程约 25 分钟）。" },
+          { time: "22:30", place: "羽田机场 T3 柜台值机", link: "", detail: "办理 UO623 托运手续（01:00起飞），安检后进入候机区。" }
+        ]
+      },
+      rainy: {
+        d5_sub: "箱根雕刻之森 🚆 傍晚返回横滨家中住",
+        d5_map: "https://www.google.com/maps/dir/The+Hakone+Open-Air+Museum/Minamiyamata,+Tsuzuki+Ward,+Yokohama",
+        d5_items: [
+          { time: "10:00", place: "箱根室内与半室内观览", link: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", detail: "雕刻之森毕加索室内展馆、箱根玻璃之森或小王子博物馆旧址周边打卡。" },
+          { time: "14:30", place: "箱根汤本温泉街吃茶", link: "https://maps.google.com/?q=Hakone-Yumoto+Station", detail: "避雨享用箱根当地特色豆腐料理及温泉甜点。" },
+          { time: "17:30", place: "乘小田急特快返回横滨家", link: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama", detail: "取消了热海酒店，晚间回到横滨家中好好睡觉。" }
+        ],
+        d6_sub: "雨天东京漫游：中目黑精品咖啡与烘焙探店 ✈️ 羽田返程",
+        d6_map: "https://www.google.com/maps/dir/Nakameguro+Station/Sidewalk+Stand/TRASPARENTE+Nakameguro/Haneda+Airport+Terminal+3",
+        d6_items: [
+          { time: "09:30", place: "携带全部行李出门", link: "", detail: "退房锁门。乘地下铁/东急线在涩谷或中目黑站大寄存柜锁存行李箱。" },
+          { time: "11:00", place: "中目黑目黑川漫步", link: "https://maps.google.com/?q=Nakameguro+Station", detail: "两岸绿荫小巷，雨天极具日式电影静谧感。" },
+          { time: "12:00", place: "TRASPARENTE 烘焙面包店", link: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", detail: "当地评分超高的人气手工烘焙坊，品尝可颂与法式咸派早午餐。" },
+          { time: "14:00", place: "Sidewalk Stand 咖啡精酿", link: "https://maps.google.com/?q=SIDEWALK+STAND+Nakameguro", detail: "目黑川畔标志性工业风转角咖啡，享用拿铁与招牌三明治。" },
+          { time: "16:00", place: "茑屋书店 / 杂货选物店巡礼", link: "https://maps.google.com/?q=Nakameguro+Tsutaya+Books", detail: "Allegory HomeTools 日式器皿店、各类手作选物店避雨慢逛。" },
+          { time: "20:30", place: "取行李前往羽田机场 T3", link: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", detail: "从中目黑/涩谷直接换乘前往羽田 T3，22:00前轻松到达机场值机休息。" }
+        ]
+      }
+    };
+
+    function renderTimeline(mode) {
+      const data = timelineData[mode];
+      document.getElementById('d5-subtitle').innerText = data.d5_sub;
+      document.getElementById('d5-maplink').href = data.d5_map;
+      document.getElementById('d5-timeline').innerHTML = data.d5_items.map(i => `
+        <div class="tl-item">
+          <span class="tl-time">${i.time}</span>
+          ${i.link ? `<a class="tl-place" href="${i.link}" target="_blank">${i.place} 📍</a>` : `<span class="tl-place">${i.place}</span>`}
+          <div class="tl-detail">${i.detail}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('d6-subtitle').innerText = data.d6_sub;
+      document.getElementById('d6-maplink').href = data.d6_map;
+      document.getElementById('d6-timeline').innerHTML = data.d6_items.map(i => `
+        <div class="tl-item">
+          <span class="tl-time">${i.time}</span>
+          ${i.link ? `<a class="tl-place" href="${i.link}" target="_blank">${i.place} 📍</a>` : `<span class="tl-place">${i.place}</span>`}
+          <div class="tl-detail">${i.detail}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('hotel-booking-box').style.opacity = mode === 'sunny' ? '1' : '0.4';
+    }
+
+    function setMode(mode) {
+      document.getElementById('btn-sunny').classList.toggle('active', mode === 'sunny');
+      document.getElementById('btn-rainy').classList.toggle('active', mode === 'rainy');
+      renderTimeline(mode);
+    }
+
+    // 严谨的时区倒计时 (JST 日本时间 UTC+9)
+    const milestones = [
+      { name: "香港起飞 (UO652) 🛫", time: new Date("2026-09-30T15:10:00+08:00").getTime() },
+      { name: "成田落地入境 🛬", time: new Date("2026-09-30T20:40:00+09:00").getTime() },
+      { name: "迪士尼乐园入园 🏰", time: new Date("2026-10-01T08:30:00+09:00").getTime() },
+      { name: "ANA 见学报到入场 ✈️", time: new Date("2026-10-02T13:45:00+09:00").getTime() },
+      { name: "箱根大涌谷缆车 🚠", time: new Date("2026-10-03T10:30:00+09:00").getTime() },
+      { name: "羽田回程值机起飞 (UO623) 🛫", time: new Date("2026-10-06T01:00:00+09:00").getTime() }
+    ];
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      let target = milestones.find(m => m.time > now);
+      if (!target) {
+        document.getElementById('next-event').innerText = "旅途圆满结束！🎉";
+        document.getElementById('d').innerText = "00";
+        document.getElementById('h').innerText = "00";
+        document.getElementById('m').innerText = "00";
+        document.getElementById('s').innerText = "00";
+        return;
+      }
+      document.getElementById('next-event').innerText = target.name;
+      const diff = target.time - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('d').innerText = String(days).padStart(2, '0');
+      document.getElementById('h').innerText = String(hours).padStart(2, '0');
+      document.getElementById('m').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('s').innerText = String(seconds).padStart(2, '0');
+    }
+
+    // 初始化运行
+    renderTimeline('sunny');
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
