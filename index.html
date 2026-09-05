@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>2026 日本 7日旅行手册</title>
+  <title>2026.10.1 日本行程</title>
   <style>
     :root {
       --bg: #f5f7fb;
@@ -457,7 +457,7 @@
     <a href="#d7" class="chip" onclick="openDay('d7')">10.6 回国</a>
   </div>
 
-  <!-- 倒计时大卡片（标题与时区根据行程自动变换） -->
+  <!-- 倒计时大卡片 -->
   <div class="glass-card">
     <div class="timer-badge">
       <span id="timer-badge-title">下一站即将启程</span>
@@ -485,7 +485,7 @@
         <div class="t-logo train">G</div>
         <div>
           <div class="t-title">广深港高铁 G6581</div>
-          <div class="transit-live-tag"><span class="live-pulse"></span> 调度系统：正点运行</div>
+          <div class="transit-live-tag"><span class="live-pulse"></span> 🚄 动车车型：复兴号 CR400AF-A</div>
         </div>
       </div>
       <div class="t-stat-badge">
@@ -536,7 +536,7 @@
         <div class="t-logo flight">e</div>
         <div>
           <div class="t-title">香港快运航空 UO652</div>
-          <div class="transit-live-tag"><span class="live-pulse"></span> 真实雷达：A321neo 执飞</div>
+          <div class="transit-live-tag"><span class="live-pulse"></span> ✈️ 执飞机型：空客 A321neo</div>
         </div>
       </div>
       <div class="t-stat-badge">
@@ -605,7 +605,7 @@
         <div class="t-logo flight">e</div>
         <div>
           <div class="t-title">香港快运航空 UO623 (红眼)</div>
-          <div class="transit-live-tag"><span class="live-pulse"></span> 柜台 10.5 22:30 开放</div>
+          <div class="transit-live-tag"><span class="live-pulse"></span> ✈️ 执飞机型：空客 A321neo</div>
         </div>
       </div>
       <div class="t-stat-badge">
@@ -674,7 +674,7 @@
         <div class="t-logo train">G</div>
         <div>
           <div class="t-title">广深港高铁 G6582</div>
-          <div class="transit-live-tag"><span class="live-pulse"></span> 调度系统：正点运行</div>
+          <div class="transit-live-tag"><span class="live-pulse"></span> 🚄 动车车型：港铁「动感号」CRH380A / 复兴号</div>
         </div>
       </div>
       <div class="t-stat-badge">
@@ -732,7 +732,6 @@
   <!-- 纯离线手绘动线地图（3种纯净视图切换） -->
   <div class="sec-head">
     <span>🗺️ 区域动线与据点总览</span>
-    <small>100% 离线手绘 · 纯净无批注</small>
   </div>
   <div class="glass-card" style="padding: 12px;">
     <div class="map-tabs-bar">
@@ -825,7 +824,6 @@
   <!-- 逐日行程（当天行程智能自动展开） -->
   <div class="sec-head">
     <span>📅 逐日行程与独立地点导航</span>
-    <small id="day-auto-tip">已根据日期智能展开</small>
   </div>
 
   <!-- Day 1 -->
@@ -1259,7 +1257,7 @@
       </div>
     </div>
 
-    <!-- 13. U型枕 (已补充备注) -->
+    <!-- 13. U型枕 -->
     <div class="todo-item">
       <div class="todo-row">
         <span class="todo-name">U型枕</span>
@@ -1352,13 +1350,13 @@
           <tr><td>11:45</td><td>12:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr><td>12:45</td><td>13:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
           <tr style="color:var(--warn);"><td>13:00</td><td>13:15</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
-          <tr><td>13:45</td><td>14:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
+          <tr><td>13:45</td><td>14:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる经由</td></tr>
           <tr style="color:var(--warn);"><td>14:20</td><td>14:35</td><td>I78 シャボテン公園行</td><td>⚠️ 仅土日祝日(周末节假日)</td></tr>
           <tr><td>14:45</td><td>15:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
           <tr><td>15:45</td><td>16:05</td><td>I80 シャボテン公園行</td><td>ぐらんぱる経由</td></tr>
           <tr><td>16:20</td><td>16:44</td><td>I73 シャボテン公園行</td><td>池・南原経由</td></tr>
           <tr><td>16:45</td><td>17:01</td><td>I70 シャボテン公園行</td><td>桜並木経由</td></tr>
-          <tr><td>17:15</td><td>17:31</td><td>I70 / I72 行</td><td>桜 demographics 並木経由</td></tr>
+          <tr><td>17:15</td><td>17:31</td><td>I70 / I72 行</td><td>桜並木経由</td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:14px;">
@@ -1456,8 +1454,6 @@
       document.querySelectorAll('.day-wrapper').forEach(c => c.classList.remove('open'));
       const targetCard = document.getElementById(targetDayId);
       if (targetCard) targetCard.classList.add('open');
-      const tip = document.getElementById('day-auto-tip');
-      if (tip) tip.innerText = `已自动定位展开第 ${targetDayId.replace('d','')} 天`;
     }
 
     // 座位号本地持久化
