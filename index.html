@@ -505,7 +505,6 @@
       border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
       overflow: hidden; transition: border-color 0.28s, box-shadow 0.3s;
     }
-    .day-wrapper.open { border-color: var(--accent-border); }
     .day-wrapper.focus-halo { box-shadow: 0 0 0 2.5px var(--accent), 0 12px 30px rgba(0, 113, 227, 0.35) !important; }
 
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--glass-border); background: var(--glass-bg); }
@@ -607,7 +606,7 @@
     .todo-step-btn.active.done { background: var(--success); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25); }
     .todo-select { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text-main); font-size: 0.72rem; padding: 6px 10px; outline: none; font-weight: 700; margin-bottom: 4px; }
 
-    /* 绝对清晰弹窗抽屉 (完全移除背景模糊滤镜，杜绝模糊) */
+    /* 绝对清晰弹窗抽屉 (完全移除模糊，杜绝手机端图层模糊) */
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.78);
       z-index: 99999; padding: 16px; align-items: flex-end; justify-content: center;
@@ -960,7 +959,7 @@
         </div>
       </div>
 
-      <!-- PANE 1: 📅 逐日行程 (永远展开，永不折叠) -->
+      <!-- PANE 1: 📅 逐日行程 (永远展开，取消折叠，时间精简) -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 顶部日期快捷定位胶囊 -->
@@ -1119,13 +1118,13 @@
           </div>
         </div>
 
-        <!-- 逐日行程卡片 (默认展开) -->
+        <!-- 逐日行程卡片 -->
         <div class="sec-head">
           <span>📅 逐日行程与独立地点导航</span>
         </div>
 
         <!-- Day 1 -->
-        <div class="day-wrapper open" id="d1">
+        <div class="day-wrapper" id="d1">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">9.30</div><div class="day-badge-w">周三</div></div>
@@ -1164,9 +1163,9 @@
               </div>
               <div class="tl-node" id="tl-d1-4">
                 <div class="tl-top">
-                  <span class="tl-time">21:50</span>
+                  <span class="tl-time">回家</span>
                   <span class="tl-place">东山田站</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Higashi-Yamata+Station" target="_blank">🗺️</a>
+                  <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达「东山田站」回家安顿。</div>
               </div>
@@ -1186,7 +1185,7 @@
         </div>
 
         <!-- Day 2 -->
-        <div class="day-wrapper open" id="d2">
+        <div class="day-wrapper" id="d2">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.1</div><div class="day-badge-w">周四</div></div>
@@ -1200,7 +1199,7 @@
             <div class="timeline">
               <div class="tl-node" id="tl-d2-1">
                 <div class="tl-top">
-                  <span class="tl-time">全天</span>
+                  <span class="tl-time">漫游</span>
                   <span class="tl-place">横滨港未来</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Yokohama+Minato+Mirai" target="_blank">🗺️</a>
                 </div>
@@ -1208,9 +1207,9 @@
               </div>
               <div class="tl-node" id="tl-d2-2">
                 <div class="tl-top">
-                  <span class="tl-time">晚上</span>
+                  <span class="tl-time">回家</span>
                   <span class="tl-place">东山田周边烤肉店 🥩</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Higashi-Yamata+Yakiniku" target="_blank">🗺️</a>
+                  <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">在横滨东山田周边享用炭火烧肉晚餐，畅快庆祝假期开始。</div>
               </div>
@@ -1219,7 +1218,7 @@
         </div>
 
         <!-- Day 3 -->
-        <div class="day-wrapper open" id="d3">
+        <div class="day-wrapper" id="d3">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.2</div><div class="day-badge-w">周五</div></div>
@@ -1255,9 +1254,9 @@
               </div>
               <div class="tl-node" id="tl-d3-2">
                 <div class="tl-top">
-                  <span class="tl-time">傍晚</span>
+                  <span class="tl-time">回家</span>
                   <span class="tl-place">东山田周边超市 / 家 🍲</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Supermarket+near+Minamiyamata" target="_blank">🗺️</a>
+                  <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">汇合后前往超市选购优质牛肉与新鲜蔬菜，回东山田做寿喜烧晚餐。</div>
               </div>
@@ -1266,7 +1265,7 @@
         </div>
 
         <!-- Day 4 -->
-        <div class="day-wrapper open" id="d4">
+        <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.3</div><div class="day-badge-w">周六</div></div>
@@ -1280,7 +1279,7 @@
             <div class="timeline">
               <div class="tl-node" id="tl-d4-1">
                 <div class="tl-top">
-                  <span class="tl-time">07:00</span>
+                  <span class="tl-time">出发</span>
                   <span class="tl-place">舞滨站</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Maihama+Station" target="_blank">🗺️</a>
                 </div>
@@ -1305,8 +1304,9 @@
               </div>
               <div class="tl-node" id="tl-d4-3">
                 <div class="tl-top">
-                  <span class="tl-time">21:30</span>
+                  <span class="tl-time">回家</span>
                   <span class="tl-place">东山田之家</span>
+                  <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">避开闭园离场人流高峰，乘电车回东山田休息。</div>
               </div>
@@ -1315,7 +1315,7 @@
         </div>
 
         <!-- Day 5 (晴雨联动) -->
-        <div class="day-wrapper open" id="d5">
+        <div class="day-wrapper" id="d5">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.4</div><div class="day-badge-w">周日</div></div>
@@ -1331,7 +1331,7 @@
         </div>
 
         <!-- Day 6 (晴雨联动) -->
-        <div class="day-wrapper open" id="d6">
+        <div class="day-wrapper" id="d6">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.5</div><div class="day-badge-w">周一</div></div>
@@ -1347,7 +1347,7 @@
         </div>
 
         <!-- Day 7 -->
-        <div class="day-wrapper open" id="d7">
+        <div class="day-wrapper" id="d7">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.6</div><div class="day-badge-w">周二</div></div>
@@ -1703,7 +1703,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 4：快捷填入行程数据弹窗 (完全无模糊，高对比度锐利) -->
+  <!-- 弹窗 4：快捷填入行程数据弹窗 (无任何背景模糊) -->
   <div class="modal-overlay" id="modal-quick-fill" onclick="closeModal('modal-quick-fill')">
     <div class="modal-sheet" id="sheet-quick-fill" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -1952,10 +1952,9 @@
       if (!sheet || sheet._dragInited) return;
       sheet._dragInited = true;
 
-      let sheetStartY = 0, sheetDeltaY = 0;
+      let sheetStartY = 0;
       sheet.addEventListener('touchstart', e => {
         sheetStartY = e.touches[0].clientY;
-        sheetDeltaY = 0;
       }, { passive: true });
 
       sheet.addEventListener('touchmove', e => {
@@ -1983,7 +1982,7 @@
       saveSeat(key, val);
     }
 
-    // 地图节点点击精准绝对对齐：永不折叠下实现 100% 精准置顶
+    // 永不折叠下实现 100% 精准置顶
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
@@ -2112,31 +2111,31 @@
         d5_desc: "箱根顺时针玩避人流 · 雕刻之森 · 傍晚热海温泉酒店",
         d5_nodes: [
           { id: "tl-d5-1", time: "准则", place: "箱根出行4大原则", nav: "", desc: "<span class='tl-desc-point'>1. 天气晴朗视线佳</span><span class='tl-desc-point'>2. 提前备好箱根周游券纸质版免费搭乘所有交通</span><span class='tl-desc-point'>3. 建议早八点出门避开拥挤人潮</span><span class='tl-desc-point'>4. 顺时针游玩避开傍晚返程巴士长队</span>" },
-          { id: "tl-d5-2", time: "08:00", place: "小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "搭乘周游券包含列车或浪漫特快直接进山。" },
-          { id: "tl-d5-3", time: "09:00", place: "箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "箱根汤本站下车，换乘登山列车向山顶进发。" },
-          { id: "tl-d5-4", time: "09:40", place: "元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "建议排队等座，山路弯多后半段能远眺富士山景。" },
-          { id: "tl-d5-5", time: "10:30", place: "箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "观光打卡热门地标，水上鸟居步行往返约四十分钟。" },
-          { id: "tl-d5-6", time: "11:30", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "观景台可拍摄芦之湖水上鸟居与富士山同框。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -200円</div>" },
-          { id: "tl-d5-7", time: "12:30", place: "海贼船 (芦之湖横断) ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券免费搭乘普通席横渡芦之湖，远眺富士山美景。" },
-          { id: "tl-d5-8", time: "13:30", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷。" },
-          { id: "tl-d5-9", time: "14:00", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山地貌硫磺气息浓厚，可品尝招牌黑鸡蛋。" },
-          { id: "tl-d5-10", time: "15:30", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "户外雕塑与毕加索展馆，漫步艺术花园。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -100~200円</div>" },
-          { id: "tl-d5-11", time: "傍晚", place: "热海 Resorpia 温泉酒店", nav: "https://maps.google.com/?q=Hotel+Resorpia+Atami", desc: "次日天气良好，乘车前往静冈热海 Resorpia 温泉酒店入住。" },
-          { id: "tl-d5-12", time: "热海备选", place: "热海游玩备选节点", nav: "https://maps.google.com/?q=Atami+Station", desc: "<span class='tl-desc-point'>• <strong>热海布丁本店：</strong>品尝招牌或抹茶等限定口味布丁</span><span class='tl-desc-point'>• <strong>热海银座街：</strong>地道海鲜餐饮与漫步街区</span><span class='tl-desc-point'>• <strong>热海亲水公园：</strong>海滨漫步看海景游艇码头</span><span class='tl-desc-point'>• <strong>MOA美术馆：</strong>门口公交直达，馆内视野开阔望海景</span><span class='tl-desc-point'>• <strong>来宫神社：</strong>免费参观古老大楠树</span>" }
+          { id: "tl-d5-2", time: "", place: "小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "搭乘周游券包含列车或浪漫特快直接进山。" },
+          { id: "tl-d5-3", time: "", place: "箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "箱根汤本站下车，换乘登山列车向山顶进发。" },
+          { id: "tl-d5-4", time: "", place: "元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "建议排队等座，山路弯多后半段能远眺富士山景。" },
+          { id: "tl-d5-5", time: "", place: "箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "观光打卡热门地标，水上鸟居步行往返约四十分钟。" },
+          { id: "tl-d5-6", time: "", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "观景台可拍摄芦之湖水上鸟居与富士山同框。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -200円</div>" },
+          { id: "tl-d5-7", time: "", place: "海贼船 (芦之湖横断) ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券免费搭乘普通席横渡芦之湖，远眺富士山美景。" },
+          { id: "tl-d5-8", time: "", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷。" },
+          { id: "tl-d5-9", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山地貌硫磺气息浓厚，可品尝招牌黑鸡蛋。" },
+          { id: "tl-d5-10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "户外雕塑与毕加索展馆，漫步艺术花园。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -100~200円</div>" },
+          { id: "tl-d5-11", time: "", place: "热海 Resorpia 温泉酒店", nav: "https://maps.google.com/?q=Hotel+Resorpia+Atami", desc: "次日天气良好，乘车前往静冈热海 Resorpia 温泉酒店入住。" },
+          { id: "tl-d5-12", time: "备选", place: "热海游玩备选节点", nav: "https://maps.google.com/?q=Atami+Station", desc: "<span class='tl-desc-point'>• <strong>热海布丁本店：</strong>品尝招牌或抹茶等限定口味布丁</span><span class='tl-desc-point'>• <strong>热海银座街：</strong>地道海鲜餐饮与漫步街区</span><span class='tl-desc-point'>• <strong>热海亲水公园：</strong>海滨漫步看海景游艇码头</span><span class='tl-desc-point'>• <strong>MOA美术馆：</strong>门口公交直达，馆内视野开阔望海景</span><span class='tl-desc-point'>• <strong>来宫神社：</strong>免费参观古老大楠树</span>" }
         ],
         d6_title: "伊豆抹茶火山 · 晚间羽田撤离",
         d6_desc: "大室山缆车 · 仙人掌公园 · 门胁吊桥 · 晚间羽田回程",
         d6_nodes: [
           { id: "tl-d6-1", time: "准则", place: "伊豆出行核心原则", nav: "", desc: "<span class='tl-desc-point'>1. 晴朗出行视野绝佳</span><span class='tl-desc-point'>2. 早八点出门赶 09:25 或 10:00 发车大巴</span>" },
-          { id: "tl-d6-2", time: "09:25", place: "伊豆高原站", nav: "https://maps.google.com/?q=Izu-Kogen+Station", desc: "班次间隔长，认准 1 号站台 (430円)。<br><button class='btn-action-pill' onclick='openIzuBusModal(1)'>🚏 查看此段完整时刻表</button>" },
-          { id: "tl-d6-3", time: "10:00", place: "大室山缆车 🚠", nav: "https://maps.google.com/?q=Omuroyama", desc: "末端立柱左侧配有抓拍机，支持选购纪念照。<br><a class='btn-action-pill' href='https://omuroyama.com' target='_blank'>🌐 官网实时运行/风况 ↗</a>" },
-          { id: "tl-d6-4", time: "10:30", place: "大室山火山口", nav: "https://maps.google.com/?q=Mount+Omuro", desc: "动漫《你的名字》经典火山口取景地巡礼。" },
-          { id: "tl-d6-5", time: "11:45", place: "仙人掌公园", nav: "https://maps.google.com/?q=Izu+Shaboten+Zoo", desc: "若缆车遇风停运可作为备选室内动物互动乐园。" },
-          { id: "tl-d6-6", time: "13:30", place: "伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "海洋公园站临近城崎海岸，认准 2 号站台 (570円)。<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
-          { id: "tl-d6-7", time: "14:30", place: "城崎海岸 & 门胁吊桥", nav: "https://maps.google.com/?q=Kadowaki+Suspension+Bridge", desc: "漫步悬崖吊桥，登临灯塔俯瞰太平洋壮阔海景。" },
-          { id: "tl-d6-8", time: "16:00", place: "伊豆高原站", nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station", desc: "若时间充裕可接驳市区漫游行程。" },
-          { id: "tl-d6-9", time: "17:30", place: "横滨东山田之家", nav: "https://maps.google.com/?q=Higashi-Yamata+Station", desc: "傍晚乘车返回东山田家中打包行李洗漱整理。" },
-          { id: "tl-d6-10", time: "22:30", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "前往羽田办理 UO623 托运值机，准备启程返航。" }
+          { id: "tl-d6-2", time: "", place: "伊豆高原站", nav: "https://maps.google.com/?q=Izu-Kogen+Station", desc: "班次间隔长，认准 1 号站台 (430円)。<br><button class='btn-action-pill' onclick='openIzuBusModal(1)'>🚏 查看此段完整时刻表</button>" },
+          { id: "tl-d6-3", time: "", place: "大室山缆车 🚠", nav: "https://maps.google.com/?q=Omuroyama", desc: "末端立柱左侧配有抓拍机，支持选购纪念照。<br><a class='btn-action-pill' href='https://omuroyama.com' target='_blank'>🌐 官网实时运行/风况 ↗</a>" },
+          { id: "tl-d6-4", time: "", place: "大室山火山口", nav: "https://maps.google.com/?q=Mount+Omuro", desc: "动漫《你的名字》经典火山口取景地巡礼。" },
+          { id: "tl-d6-5", time: "", place: "仙人掌公园", nav: "https://maps.google.com/?q=Izu+Shaboten+Zoo", desc: "若缆车遇风停运可作为备选室内动物互动乐园。" },
+          { id: "tl-d6-6", time: "", place: "伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "海洋公园站临近城崎海岸，认准 2 号站台 (570円)。<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
+          { id: "tl-d6-7", time: "", place: "城崎海岸 & 门胁吊桥", nav: "https://maps.google.com/?q=Kadowaki+Suspension+Bridge", desc: "漫步悬崖吊桥，登临灯塔俯瞰太平洋壮阔海景。" },
+          { id: "tl-d6-8", time: "", place: "伊豆高原站", nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station", desc: "若时间充裕可接驳市区漫游行程。" },
+          { id: "tl-d6-9", time: "回家", place: "横滨东山田之家", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "傍晚乘车返回东山田家中打包行李洗漱整理。" },
+          { id: "tl-d6-10", time: "", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "前往羽田办理 UO623 托运值机，准备启程返航。" }
         ]
       },
       rainy: {
@@ -2144,25 +2143,25 @@
         d5_desc: "箱根全套顺时针大回线 · 海贼船 · 9.30已退热海酒店 · 晚间返回横滨家",
         d5_nodes: [
           { id: "tl-d5-r1", time: "准则", place: "箱根出行4大原则", nav: "", desc: "<span class='tl-desc-point'>1. 备好箱根周游券免费搭乘交通</span><span class='tl-desc-point'>2. 顺时针游玩避开人潮</span>" },
-          { id: "tl-d5-r2", time: "08:00", place: "小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "搭乘周游券包含列车或浪漫特快直接进山。" },
-          { id: "tl-d5-r3", time: "09:00", place: "箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "箱根汤本站下车，换乘登山列车向山顶进发。" },
-          { id: "tl-d5-r4", time: "09:40", place: "元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "山路弯多后半段能远眺富士山景。" },
-          { id: "tl-d5-r5", time: "10:30", place: "箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "观光打卡热门地标，水上鸟居步行往返约四十分钟。" },
-          { id: "tl-d5-r6", time: "11:30", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "观景台拍摄芦之湖水上鸟居。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -200円</div>" },
-          { id: "tl-d5-r7", time: "12:30", place: "海贼船 (芦之湖横断) ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券免费搭乘普通席横渡芦之湖。" },
-          { id: "tl-d5-r8", time: "13:30", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷。" },
-          { id: "tl-d5-r9", time: "14:00", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山地貌硫磺气息浓厚，可品尝招牌黑鸡蛋。" },
-          { id: "tl-d5-r10", time: "15:30", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "户外雕塑与毕加索展馆。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -100~200円</div>" },
-          { id: "tl-d5-r11", time: "傍晚", place: "横滨东山田之家 🏠", nav: "https://maps.google.com/?q=Higashi-Yamata+Station", desc: "已取消热海酒店，傍晚乘车直接返回横滨东山田家中安睡，准备次日东京市区 WALK。" }
+          { id: "tl-d5-r2", time: "", place: "小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "搭乘周游券包含列车或浪漫特快直接进山。" },
+          { id: "tl-d5-r3", time: "", place: "箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "箱根汤本站下车，换乘登山列车向山顶进发。" },
+          { id: "tl-d5-r4", time: "", place: "元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "山路弯多后半段能远眺富士山景。" },
+          { id: "tl-d5-r5", time: "", place: "箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "观光打卡热门地标，水上鸟居步行往返约四十分钟。" },
+          { id: "tl-d5-r6", time: "", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "观景台拍摄芦之湖水上鸟居。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -200円</div>" },
+          { id: "tl-d5-r7", time: "", place: "海贼船 (芦之湖横断) ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券免费搭乘普通席横渡芦之湖。" },
+          { id: "tl-d5-r8", time: "", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷。" },
+          { id: "tl-d5-r9", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山地貌硫磺气息浓厚，可品尝招牌黑鸡蛋。" },
+          { id: "tl-d5-r10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "户外雕塑与毕加索展馆。<br><div class='tl-notes'><strong>周游券优惠：</strong>持周游券享门票立减 -100~200円</div>" },
+          { id: "tl-d5-r11", time: "回家", place: "横滨东山田之家 🏠", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已取消热海酒店，傍晚乘车直接返回横滨东山田家中安睡，准备次日东京市区 WALK。" }
         ],
         d6_title: "WALK 城市慢步 · 晚间羽田撤离",
         d6_desc: "中目黑探店 · 代官山 · 涩谷 · 新宿御苑 · 直奔羽田T3",
         d6_nodes: [
-          { id: "tl-d6-r1", time: "中目黑", place: "中目黑精品街区", nav: "https://maps.google.com/?q=Nakameguro+Station", desc: "<span class='tl-desc-point'>• <strong>Sidewalk Stand：</strong>临街品味精品咖啡</span><span class='tl-desc-point'>• <strong>TRASPARENTE：</strong>特色奶茶布丁与美味烘焙塔丁</span><span class='tl-desc-point'>• <strong>I'm donut ?：</strong>超人气排队甜甜圈</span><span class='tl-desc-point'>• <strong>目黑川樱桥：</strong>经典街景拍照机位</span><span class='tl-desc-point'>• <strong>星巴克臻选工坊：</strong>亚洲旗舰烘焙工坊</span>" },
-          { id: "tl-d6-r2", time: "代官山", place: "代官山漫游", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "<span class='tl-desc-point'>• <strong>茑屋书店：</strong>森林建筑特色美学书店</span><span class='tl-desc-point'>• <strong>Miffy café：</strong>主题咖啡漫步</span><span class='tl-desc-point'>• <strong>特色家居店：</strong>日式平价生活器具选品</span>" },
-          { id: "tl-d6-r3", time: "涩谷", place: "涩谷潮流街区", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "漫步十字路口感受都市节拍，午间品尝精致美食。" },
-          { id: "tl-d6-r4", time: "公园", place: "新宿御苑 / 代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "城市绿洲漫步观景，阴天游览体感尤为舒适。" },
-          { id: "tl-d6-r5", time: "20:30", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续。" }
+          { id: "tl-d6-r1", time: "", place: "中目黑精品街区", nav: "https://maps.google.com/?q=Nakameguro+Station", desc: "<span class='tl-desc-point'>• <strong>Sidewalk Stand：</strong>临街品味精品咖啡</span><span class='tl-desc-point'>• <strong>TRASPARENTE：</strong>特色奶茶布丁与美味烘焙塔丁</span><span class='tl-desc-point'>• <strong>I'm donut ?：</strong>超人气排队甜甜圈</span><span class='tl-desc-point'>• <strong>目黑川樱桥：</strong>经典街景拍照机位</span><span class='tl-desc-point'>• <strong>星巴克臻选工坊：</strong>亚洲旗舰烘焙工坊</span>" },
+          { id: "tl-d6-r2", time: "", place: "代官山漫游", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "<span class='tl-desc-point'>• <strong>茑屋书店：</strong>森林建筑特色美学书店</span><span class='tl-desc-point'>• <strong>Miffy café：</strong>主题咖啡漫步</span><span class='tl-desc-point'>• <strong>特色家居店：</strong>日式平价生活器具选品</span>" },
+          { id: "tl-d6-r3", time: "", place: "涩谷潮流街区", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "漫步十字路口感受都市节拍，午间品尝精致美食。" },
+          { id: "tl-d6-r4", time: "", place: "新宿御苑 / 代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "城市绿洲漫步观景，阴天游览体感尤为舒适。" },
+          { id: "tl-d6-r5", time: "", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续。" }
         ]
       }
     };
@@ -2174,7 +2173,7 @@
       document.getElementById('d5-timeline').innerHTML = p.d5_nodes.map(n => `
         <div class="tl-node" id="${n.id}">
           <div class="tl-top">
-            <span class="tl-time">${n.time}</span>
+            ${n.time ? `<span class="tl-time">${n.time}</span>` : ''}
             <span class="tl-place">${n.place}</span>
             ${n.nav ? `<a class="btn-nav-pin" href="${n.nav}" target="_blank">🗺️</a>` : ''}
           </div>
@@ -2187,7 +2186,7 @@
       document.getElementById('d6-timeline').innerHTML = p.d6_nodes.map(n => `
         <div class="tl-node" id="${n.id}">
           <div class="tl-top">
-            <span class="tl-time">${n.time}</span>
+            ${n.time ? `<span class="tl-time">${n.time}</span>` : ''}
             <span class="tl-place">${n.place}</span>
             ${n.nav ? `<a class="btn-nav-pin" href="${n.nav}" target="_blank">🗺️</a>` : ''}
           </div>
