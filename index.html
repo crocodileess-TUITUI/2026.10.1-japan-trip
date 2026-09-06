@@ -1,4 +1,4 @@
-html_code = r"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -76,6 +76,7 @@ html_code = r"""<!DOCTYPE html>
       --milestone-val-text: #f8fafc !important;
       --milestone-sub-text: #94a3b8 !important;
       --milestone-item-bg: rgba(25, 33, 50, 0.90) !important;
+      --island-bg: #1e293b !important;
     }
 
     body.is-night {
@@ -87,24 +88,6 @@ html_code = r"""<!DOCTYPE html>
       --modal-table-th-text: #38bdf8;
       --modal-table-td-border: rgba(255, 255, 255, 0.15);
       --modal-table-td-text: #ffffff;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #000000;
-        --glass-bg: rgba(26, 28, 35, 0.90);
-        --glass-card: rgba(32, 35, 45, 0.96);
-        --glass-border: rgba(255, 255, 255, 0.15);
-        --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.80);
-        --text-main: #f5f5f7;
-        --text-sub: #cbd5e1;
-        --text-muted: #94a3b8;
-        --accent: #2997ff;
-        --accent-soft: rgba(41, 151, 255, 0.18);
-        --accent-border: rgba(41, 151, 255, 0.35);
-        --island-bg: #121214;
-        --island-text: #ffffff;
-      }
     }
 
     * { 
@@ -157,7 +140,7 @@ html_code = r"""<!DOCTYPE html>
       opacity: 1;
     }
 
-    /* 左侧半隐式边缘悬浮球导航 */
+    /* 左侧半隐式边缘悬浮球导航 (仅在行程板块显示) */
     #left-floating-ball {
       position: fixed;
       left: -22px;
@@ -170,7 +153,7 @@ html_code = r"""<!DOCTYPE html>
       border-radius: 0 22px 22px 0;
       box-shadow: 4px 6px 20px var(--itin-shadow);
       z-index: 9997;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: flex-end;
       padding-right: 6px;
@@ -179,6 +162,9 @@ html_code = r"""<!DOCTYPE html>
       opacity: 0.45;
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
       pointer-events: auto;
+    }
+    #left-floating-ball.visible {
+      display: flex;
     }
     #left-floating-ball:hover, #left-floating-ball.expanded {
       left: 0;
@@ -189,20 +175,20 @@ html_code = r"""<!DOCTYPE html>
 
     .quick-jump-drawer {
       position: fixed;
-      left: 10px;
+      left: 6px;
       top: 50%;
       transform: translateY(-50%) scale(0.9);
       background: var(--glass-card);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border: 1.5px solid var(--itin-border);
-      border-radius: 16px;
-      padding: 8px 6px;
+      border-radius: 14px;
+      padding: 6px 4px;
       box-shadow: 0 16px 40px rgba(0,0,0,0.2);
       z-index: 9998;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
       opacity: 0;
       pointer-events: none;
       transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
@@ -216,18 +202,72 @@ html_code = r"""<!DOCTYPE html>
       background: transparent;
       border: none;
       color: var(--text-main);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 800;
-      padding: 5px 8px;
-      border-radius: 8px;
+      padding: 4px 6px;
+      border-radius: 6px;
       cursor: pointer;
       text-align: center;
       transition: background 0.2s, color 0.2s;
       white-space: nowrap;
     }
-    .quick-jump-btn:active, .quick-jump-btn:hover {
-      background: var(--itin-soft);
-      color: var(--itin-main);
+    .quick-jump-btn.active-step {
+      background: var(--itin-main);
+      color: #fff;
+    }
+
+    /* 交通和代办底部的“牛来！”样式 */
+    .niulai-trigger {
+      text-align: center;
+      padding: 12px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: var(--text-muted);
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .niulai-trigger:active {
+      color: var(--accent);
+    }
+
+    /* 方案一：全屏浮动大牛头弹窗 */
+    #niulai-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 100005;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInModal 0.2s ease;
+    }
+    .niulai-box {
+      background: var(--glass-card);
+      border: 2px solid var(--itin-border);
+      border-radius: 28px;
+      padding: 24px 36px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      animation: popEmoji 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .niulai-emoji {
+      font-size: 4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .niulai-text {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+    @keyframes popEmoji {
+      0% { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeInModal {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
 
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
@@ -419,10 +459,10 @@ html_code = r"""<!DOCTYPE html>
       left: 4px;
       width: calc(33.3333% - 3px);
       height: calc(100% - 8px);
-      background: var(--accent);
+      background: var(--itin-main);
       border-radius: 30px;
-      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.35);
-      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+      box-shadow: 0 4px 14px var(--itin-shadow);
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), background 0.3s;
       z-index: 1;
       pointer-events: none;
     }
@@ -1107,16 +1147,24 @@ html_code = r"""<!DOCTYPE html>
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- 左侧半隐式边缘悬浮球 & 快捷跳转抽屉 -->
+  <!-- 左侧半隐式边缘悬浮球 & 方案二滚动高亮垂直刻度抽屉 (仅在行程板块显示) -->
   <div id="left-floating-ball" onclick="toggleQuickJumpDrawer()">📅</div>
   <div class="quick-jump-drawer" id="quick-jump-drawer">
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d1')">9.30 落地</button>
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d2')">10.1 瞎逛</button>
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d3')">10.2 ANA</button>
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d4')">10.3 迪士尼</button>
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d5')">10.4 箱根</button>
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d6')">10.5 伊豆</button>
-    <button class="quick-jump-btn" onclick="jumpToDayCard('d7')">10.6 回国</button>
+    <button class="quick-jump-btn" id="step-d1" onclick="jumpToDayCard('d1')">9.30</button>
+    <button class="quick-jump-btn" id="step-d2" onclick="jumpToDayCard('d2')">10.1</button>
+    <button class="quick-jump-btn" id="step-d3" onclick="jumpToDayCard('d3')">10.2</button>
+    <button class="quick-jump-btn" id="step-d4" onclick="jumpToDayCard('d4')">10.3</button>
+    <button class="quick-jump-btn" id="step-d5" onclick="jumpToDayCard('d5')">10.4</button>
+    <button class="quick-jump-btn" id="step-d6" onclick="jumpToDayCard('d6')">10.5</button>
+    <button class="quick-jump-btn" id="step-d7" onclick="jumpToDayCard('d7')">10.6</button>
+  </div>
+
+  <!-- “牛来！”弹窗 (方案一：浮动大牛头) -->
+  <div id="niulai-modal" onclick="closeNiulaiModal()">
+    <div class="niulai-box" onclick="event.stopPropagation()">
+      <span class="niulai-emoji">🐮</span>
+      <div class="niulai-text">牛气冲天 · 好运全开！</div>
+    </div>
   </div>
 
   <!-- Next Milestone 卡片 -->
@@ -1286,7 +1334,10 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v30.0</div>
+        <!-- 交通板块底部的牛来！彩蛋 -->
+        <div class="niulai-trigger" onclick="triggerNiulai()">牛来！</div>
+
+        <div class="pane-version-badge">v32.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1323,75 +1374,73 @@ html_code = r"""<!DOCTYPE html>
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 晴天 1：全程概览 -->
-            <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
-              <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
-              
-              <path class="metro-line" d="M 240,100 L 330,100" stroke="#f59e0b" stroke-width="4"/>
-              <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#f59e0b" stroke-width="4"/>
-              <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
-              
-              <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="5,4"/>
+            <!-- 晴天 1：全程地理全景概览 -->
+            <svg class="metro-map" id="map-svg-sun-all" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+              <path class="metro-line" d="M 430,70 L 320,130 L 250,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
+              <path class="metro-line" d="M 250,150 L 320,130 L 370,110" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 250,150 L 320,130 L 320,180" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 250,150 L 170,190 L 140,230 L 180,270" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 180,270 L 260,270 L 320,180" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-sun-all-nrt">
-                <circle cx="430" cy="35" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="430" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2</text>
+                <circle cx="430" cy="70" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="430" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2(东)</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-home">
-                <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
-                <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
+                <rect x="238" y="138" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="250" y="180" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">横滨家</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-ana">
-                <circle cx="330" cy="100" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
-                <text x="344" y="104" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
+                <circle cx="320" cy="180" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="335" y="184" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田ANA见学</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-disney">
-                <circle cx="400" cy="65" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
-                <text x="400" y="52" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">迪士尼</text>
+                <circle cx="370" cy="110" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="385" y="114" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">迪士尼(东)</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-hakone">
-                <circle cx="120" cy="145" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
-                <text x="106" y="149" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根</text>
+                <circle cx="170" cy="190" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="155" y="194" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根(西)</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-atami">
-                <circle cx="120" cy="185" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
-                <text x="106" y="189" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
+                <circle cx="140" cy="230" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="125" y="234" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">热海(南)</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-izu">
-                <circle cx="170" cy="235" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
-                <text x="170" y="252" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">伊豆</text>
+                <circle cx="180" cy="270" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="180" y="290" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">伊豆半岛</text>
               </g>
 
               <g class="metro-node" id="node-sun-all-hnd">
-                <circle cx="330" cy="140" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="344" y="144" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
+                <circle cx="320" cy="130" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="320" y="115" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
               </g>
             </svg>
 
             <!-- 晴天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-sun-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="metro-line" d="M 170,125 L 340,125" stroke="#f59e0b" stroke-width="4.5"/>
-              <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#f59e0b" stroke-width="4.5"/>
+              <path class="metro-line" d="M 170,125 L 270,125 L 340,125" stroke="#f59e0b" stroke-width="4.5"/>
+              <path class="metro-line" d="M 270,125 L 340,75" stroke="#f59e0b" stroke-width="4.5"/>
 
               <g class="metro-node" id="node-sun-m-home">
                 <rect x="156" y="111" width="28" height="28" rx="7" fill="#2563eb" stroke="#fff" stroke-width="2"/>
-                <text x="170" y="129" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">家</text>
+                <text x="170" y="155" text-anchor="middle" font-size="12" font-weight="900" fill="var(--text-main)">横滨家</text>
               </g>
 
               <g class="metro-node" id="node-sun-m-ana">
                 <circle cx="340" cy="125" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
-                <text x="355" y="129" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
+                <text x="355" y="129" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田ANA见学</text>
               </g>
 
               <g class="metro-node" id="node-sun-m-disney">
-                <circle cx="340" cy="65" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
-                <text x="355" y="69" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
+                <circle cx="340" cy="75" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
+                <text x="355" y="79" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
               </g>
             </svg>
 
@@ -1461,70 +1510,68 @@ html_code = r"""<!DOCTYPE html>
               </g>
             </svg>
 
-            <!-- 雨天 1：全程概览 -->
-            <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
-              
-              <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
-              <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#047857" stroke-width="4"/>
-              <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
-              <path class="metro-line" d="M 130,175 L 240,175 L 240,225" stroke="#047857" stroke-width="4"/>
-              <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
+            <!-- 雨天 1：全程地理全景概览 -->
+            <svg class="metro-map" id="map-svg-rain-all" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 430,70 L 320,130 L 250,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
+              <path class="metro-line" d="M 250,150 L 320,130 L 370,110" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 250,150 L 170,190 L 170,240" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 170,240 L 250,240 L 320,130" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 320,130 L 320,180" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-rain-all-nrt">
-                <circle cx="430" cy="35" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="430" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2</text>
+                <circle cx="430" cy="70" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="430" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2(东)</text>
               </g>
 
               <g class="metro-node" id="node-rain-all-home">
-                <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
-                <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
+                <rect x="238" y="138" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="250" y="180" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">横滨家</text>
               </g>
 
               <g class="metro-node" id="node-rain-all-ana">
-                <circle cx="330" cy="100" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
-                <text x="344" y="104" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
+                <circle cx="320" cy="180" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="335" y="184" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田ANA见学</text>
               </g>
 
               <g class="metro-node" id="node-rain-all-disney">
-                <circle cx="400" cy="65" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
-                <text x="400" y="52" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">迪士尼</text>
+                <circle cx="370" cy="110" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="385" y="114" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">迪士尼(东)</text>
               </g>
 
               <g class="metro-node" id="node-rain-all-hakone">
-                <circle cx="130" cy="175" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
-                <text x="116" y="179" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根</text>
+                <circle cx="170" cy="190" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="155" y="194" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根(西)</text>
               </g>
 
               <g class="metro-node" id="node-rain-all-walk">
-                <circle cx="240" cy="225" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
-                <text x="240" y="244" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">WALK</text>
+                <circle cx="250" cy="240" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="250" y="262" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">都心WALK</text>
               </g>
 
               <g class="metro-node" id="node-rain-all-hnd">
-                <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田T3</text>
+                <circle cx="320" cy="130" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="320" y="115" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
               </g>
             </svg>
 
             <!-- 雨天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-rain-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="metro-line" d="M 170,125 L 340,125" stroke="#047857" stroke-width="4.5"/>
-              <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#047857" stroke-width="4.5"/>
+              <path class="metro-line" d="M 170,125 L 270,125 L 340,125" stroke="#047857" stroke-width="4.5"/>
+              <path class="metro-line" d="M 270,125 L 340,75" stroke="#047857" stroke-width="4.5"/>
 
               <g class="metro-node" id="node-rain-m-home">
                 <rect x="156" y="111" width="28" height="28" rx="7" fill="#2563eb" stroke="#fff" stroke-width="2"/>
-                <text x="170" y="129" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">家</text>
+                <text x="170" y="155" text-anchor="middle" font-size="12" font-weight="900" fill="var(--text-main)">横滨家</text>
               </g>
 
               <g class="metro-node" id="node-rain-m-ana">
                 <circle cx="340" cy="125" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
-                <text x="355" y="129" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
+                <text x="355" y="129" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田ANA见学</text>
               </g>
 
               <g class="metro-node" id="node-rain-m-disney">
-                <circle cx="340" cy="65" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
-                <text x="355" y="69" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
+                <circle cx="340" cy="75" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
+                <text x="355" y="79" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
               </g>
             </svg>
 
@@ -1614,7 +1661,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 1 -->
-        <div class="day-wrapper" id="d1">
+        <div class="day-wrapper" id="d1" data-day="d1">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">9.30</div><div class="day-badge-w">周三</div></div>
@@ -1675,7 +1722,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 2 -->
-        <div class="day-wrapper" id="d2">
+        <div class="day-wrapper" id="d2" data-day="d2">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.1</div><div class="day-badge-w">周四</div></div>
@@ -1713,7 +1760,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 3 -->
-        <div class="day-wrapper" id="d3">
+        <div class="day-wrapper" id="d3" data-day="d3">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.2</div><div class="day-badge-w">周五</div></div>
@@ -1758,7 +1805,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 4 (迪士尼项目概览) -->
-        <div class="day-wrapper" id="d4">
+        <div class="day-wrapper" id="d4" data-day="d4">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.3</div><div class="day-badge-w">周六</div></div>
@@ -1806,7 +1853,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 5 -->
-        <div class="day-wrapper" id="d5">
+        <div class="day-wrapper" id="d5" data-day="d5">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.4</div><div class="day-badge-w">周日</div></div>
@@ -1831,7 +1878,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 6 -->
-        <div class="day-wrapper" id="d6">
+        <div class="day-wrapper" id="d6" data-day="d6">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.5</div><div class="day-badge-w">周一</div></div>
@@ -1855,7 +1902,7 @@ html_code = r"""<!DOCTYPE html>
         </div>
 
         <!-- Day 7 -->
-        <div class="day-wrapper" id="d7">
+        <div class="day-wrapper" id="d7" data-day="d7">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.6</div><div class="day-badge-w">周二</div></div>
@@ -1915,7 +1962,7 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v30.0</div>
+        <div class="pane-version-badge">v32.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1951,7 +1998,10 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v30.0</div>
+        <!-- 代办板块底部的牛来！彩蛋 -->
+        <div class="niulai-trigger" onclick="triggerNiulai()">牛来！</div>
+
+        <div class="pane-version-badge">v32.0</div>
       </div>
 
     </div>
@@ -2182,6 +2232,15 @@ html_code = r"""<!DOCTYPE html>
       ball.classList.toggle('expanded');
     }
 
+    function triggerNiulai() {
+      const modal = document.getElementById('niulai-modal');
+      modal.style.display = 'flex';
+      if (navigator.vibrate) navigator.vibrate([20, 50, 20]);
+    }
+    function closeNiulaiModal() {
+      document.getElementById('niulai-modal').style.display = 'none';
+    }
+
     function slideToPane(index) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       paneScrollPositions[currentPaneIndex] = window.pageYOffset || document.documentElement.scrollTop;
@@ -2200,6 +2259,17 @@ html_code = r"""<!DOCTYPE html>
       paneTransit.classList.toggle('pane-dim', index !== 0);
       paneItinerary.classList.toggle('pane-dim', index !== 1);
       paneTodo.classList.toggle('pane-dim', index !== 2);
+
+      // 控制左侧悬浮球仅在行程板块显示
+      const ball = document.getElementById('left-floating-ball');
+      const drawer = document.getElementById('quick-jump-drawer');
+      if (index === 1) {
+        ball.classList.add('visible');
+      } else {
+        ball.classList.remove('visible');
+        drawer.classList.remove('open');
+        ball.classList.remove('expanded');
+      }
 
       updateScrollTopColor();
 
@@ -2275,12 +2345,27 @@ html_code = r"""<!DOCTYPE html>
       }
     }, { passive: true });
 
+    // 滚动监听：实时高亮左侧悬浮刻度尺当前所在日期
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollY > 20) {
         scrollTopBtn.classList.add('visible');
       } else {
         scrollTopBtn.classList.remove('visible');
+      }
+
+      if (currentPaneIndex === 1) {
+        const dayCards = document.querySelectorAll('.day-wrapper');
+        let activeDayId = 'd1';
+        dayCards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.4) {
+            activeDayId = card.getAttribute('data-day');
+          }
+        });
+        document.querySelectorAll('.quick-jump-btn').forEach(btn => btn.classList.remove('active-step'));
+        const activeBtn = document.getElementById('step-' + activeDayId);
+        if (activeBtn) activeBtn.classList.add('active-step');
       }
     }, { passive: true });
 
@@ -3109,9 +3194,3 @@ html_code = r"""<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-
-with open("japan_itinerary_v30.html", "w", encoding="utf-8") as f:
-    f.write(html_code)
-
-print("成功生成 japan_itinerary_v30.html 文件！")
