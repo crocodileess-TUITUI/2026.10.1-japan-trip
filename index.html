@@ -1,4 +1,4 @@
-html_v28 = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -13,7 +13,7 @@ html_v28 = """<!DOCTYPE html>
   <style>
     :root {
       --bg: #f8fafc;
-      --glass-bg: rgba(255, 255, 255, 0.92);
+      --glass-bg: rgba(255, 255, 255, 0.95);
       --glass-card: rgba(255, 255, 255, 0.98);
       --glass-border: rgba(226, 232, 240, 0.9);
       --glass-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
@@ -24,23 +24,24 @@ html_v28 = """<!DOCTYPE html>
       --accent-soft: rgba(0, 113, 227, 0.12);
       --accent-border: rgba(0, 113, 227, 0.25);
       --warn: #d97706;
+      --warn-soft: rgba(217, 119, 6, 0.12);
       --danger: #dc2626;
       --danger-soft: rgba(220, 38, 38, 0.10);
       --success: #10b981;
       --success-soft: rgba(16, 185, 129, 0.12);
-      --island-bg: #090e17;
+      --island-bg: rgba(15, 23, 42, 0.92);
       --island-text: #ffffff;
       --radius: 22px;
       
-      --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
-      --milestone-border: rgba(14, 165, 233, 0.4);
+      --milestone-bg: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      --milestone-border: rgba(203, 213, 225, 0.8);
       --milestone-text: #0f172a;
       --milestone-badge: #0284c7;
-      --milestone-box-bg: rgba(255, 255, 255, 0.75);
-      --milestone-box-border: rgba(255, 255, 255, 0.9);
+      --milestone-box-bg: rgba(255, 255, 255, 0.9);
+      --milestone-box-border: rgba(226, 232, 240, 0.9);
       --milestone-val-text: #0f172a;
       --milestone-sub-text: #475569;
-      --milestone-item-bg: rgba(255, 255, 255, 0.92);
+      --milestone-item-bg: rgba(255, 255, 255, 0.95);
 
       --modal-bg: #ffffff;
       --modal-text: #0f172a;
@@ -51,33 +52,34 @@ html_v28 = """<!DOCTYPE html>
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
 
-      /* 晴天默认主色 */
-      --theme-main: #d97706;
-      --theme-border: rgba(245, 158, 11, 0.45);
-      --theme-soft: rgba(245, 158, 11, 0.12);
-      --theme-shadow: rgba(245, 158, 11, 0.22);
+      /* 方案 A 白天/晴天默认：暖橙金 */
+      --itin-main: #d97706;
+      --itin-border: rgba(245, 158, 11, 0.45);
+      --itin-soft: rgba(245, 158, 11, 0.12);
+      --itin-shadow: rgba(245, 158, 11, 0.22);
     }
 
-    /* 雨天主题色变量 */
-    body.is-rainy-mode {
-      --theme-main: #047857;
-      --theme-border: rgba(4, 120, 87, 0.45);
-      --theme-soft: rgba(4, 120, 87, 0.12);
-      --theme-shadow: rgba(4, 120, 87, 0.22);
+    #pane-itinerary.itin-rainy {
+      --itin-main: #047857;
+      --itin-border: rgba(4, 120, 87, 0.45);
+      --itin-soft: rgba(4, 120, 87, 0.12);
+      --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
-    /* 黑夜模式变量 (针对 下一行程面板 & 交通/行程/代办栏) */
+    /* 夜间方案 A：极夜黑磨砂 + 冰川白亮青文字 */
     body.is-night,
     body.is-night .top-timer-card {
-      --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%) !important;
-      --milestone-border: rgba(56, 189, 248, 0.38) !important;
-      --milestone-text: #ffffff !important;
+      --milestone-bg: linear-gradient(140deg, #121826 0%, #0b1120 100%) !important;
+      --milestone-border: rgba(56, 189, 248, 0.35) !important;
+      --milestone-text: #f8fafc !important;
       --milestone-badge: #38bdf8 !important;
       --milestone-box-bg: rgba(255, 255, 255, 0.08) !important;
       --milestone-box-border: rgba(255, 255, 255, 0.15) !important;
-      --milestone-val-text: #f8fafc !important;
+      --milestone-val-text: #ffffff !important;
       --milestone-sub-text: #94a3b8 !important;
       --milestone-item-bg: rgba(25, 33, 50, 0.90) !important;
+      --island-bg: rgba(18, 24, 38, 0.95) !important;
+      --island-text: #f8fafc !important;
     }
 
     body.is-night {
@@ -104,8 +106,6 @@ html_v28 = """<!DOCTYPE html>
         --accent: #2997ff;
         --accent-soft: rgba(41, 151, 255, 0.18);
         --accent-border: rgba(41, 151, 255, 0.35);
-        --island-bg: #121214;
-        --island-text: #ffffff;
       }
     }
 
@@ -124,7 +124,7 @@ html_v28 = """<!DOCTYPE html>
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.5;
-      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 68px);
+      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 78px);
       max-width: 680px;
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
@@ -159,6 +159,7 @@ html_v28 = """<!DOCTYPE html>
       opacity: 1;
     }
 
+    /* 下一行程卡片 */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -166,7 +167,7 @@ html_v28 = """<!DOCTYPE html>
       border: 1.5px solid var(--milestone-border);
       border-radius: var(--radius);
       padding: 18px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15), 0 0 24px rgba(14, 165, 233, 0.12);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 0 24px rgba(14, 165, 233, 0.08);
       position: relative;
       transition: background 0.35s, color 0.35s, border-color 0.35s;
     }
@@ -316,7 +317,7 @@ html_v28 = """<!DOCTYPE html>
       user-select: none;
     }
 
-    /* 底置 Dock 导航 (确保高对比度易读性：未选中文字亮白，选中纯白) */
+    /* 底置 Dock 导航 (方案 A：浅色/深色动态自适应，文字清晰无敌) */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -332,15 +333,17 @@ html_v28 = """<!DOCTYPE html>
     .dock-island {
       pointer-events: auto;
       background: var(--island-bg);
+      color: var(--island-text);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border-radius: 40px;
       padding: 4px;
       display: flex;
       align-items: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.12);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.15);
       width: fit-content;
       position: relative;
+      transition: background 0.35s, color 0.35s;
     }
     .dock-slider {
       position: absolute;
@@ -360,29 +363,30 @@ html_v28 = """<!DOCTYPE html>
       z-index: 2;
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.85); /* 极高对比度未选中字色，绝对清晰可见 */
-      padding: 8px 16px;
+      color: inherit;
+      opacity: 0.7;
+      padding: 9px 16px;
       border-radius: 30px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: color 0.25s;
+      transition: opacity 0.25s, color 0.25s;
     }
-    .dock-btn.active { color: #ffffff !important; }
+    .dock-btn.active { opacity: 1; color: #ffffff !important; }
     .dock-btn:active { transform: scale(0.92); }
 
     /* 晴雨天方案选择卡片 */
     .control-deck-card {
       background: #ffffff;
-      border: 2px solid var(--theme-border);
+      border: 2px solid var(--itin-border);
       border-radius: var(--radius);
       padding: 14px;
       margin-bottom: 14px;
-      box-shadow: 0 10px 28px var(--theme-shadow);
+      box-shadow: 0 10px 28px var(--itin-shadow);
       display: flex;
       flex-direction: column;
       gap: 9px;
@@ -436,11 +440,12 @@ html_v28 = """<!DOCTYPE html>
       .toggle-sub-note { color: #94a3b8; }
     }
 
+    /* 行程日期快捷栏：跟随晴雨天方案颜色（晴天暖橙金 / 雨天森林绿），且与回顶按钮无冲突、迪士尼不换行 */
     .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; touch-action: pan-x; width: 100%; }
     .chips-bar::-webkit-scrollbar { display: none; }
     .chips-bar::after { content: ''; display: block; width: 12px; flex-shrink: 0; }
     .chip {
-      white-space: nowrap; /* 强制不换行，解决迪士尼字样折行问题 */
+      white-space: nowrap;
       padding: 7px 13px;
       font-size: 0.74rem;
       font-weight: 800;
@@ -453,16 +458,20 @@ html_v28 = """<!DOCTYPE html>
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
       transition: all 0.25s;
       flex-shrink: 0;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.25;
     }
     @media (prefers-color-scheme: dark) {
       .chip { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15); color: #e2e8f0; }
     }
-    /* 日期胶囊联动晴雨方案主色变色 */
+    .chip span { white-space: nowrap; }
     .chip.active, .chip:active { 
-      background: var(--theme-main) !important; 
+      background: var(--itin-main) !important; 
       color: #fff !important; 
-      border-color: var(--theme-main) !important; 
-      box-shadow: 0 3px 10px var(--theme-shadow) !important; 
+      border-color: var(--itin-main) !important; 
+      box-shadow: 0 3px 10px var(--itin-shadow); 
     }
 
     .sec-head { font-size: 0.96rem; font-weight: 900; margin: 16px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
@@ -543,9 +552,9 @@ html_v28 = """<!DOCTYPE html>
     }
     @media (prefers-color-scheme: dark) { .map-tab-btn { color: #cbd5e1; } }
     .map-tab-btn.active { 
-      background: var(--theme-main); 
+      background: var(--itin-main); 
       color: #fff; 
-      box-shadow: 0 2px 8px var(--theme-shadow); 
+      box-shadow: 0 2px 8px var(--itin-shadow); 
     }
     
     .offline-map-container {
@@ -559,7 +568,7 @@ html_v28 = """<!DOCTYPE html>
       height: 275px; 
       overflow: hidden; 
       position: relative; 
-      border: 1.5px solid var(--theme-border);
+      border: 1.5px solid var(--itin-border);
       box-shadow: 0 4px 18px rgba(0,0,0,0.04);
       transition: border-color 0.3s;
       touch-action: pan-y;
@@ -601,15 +610,15 @@ html_v28 = """<!DOCTYPE html>
 
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-      border: 1.5px solid var(--theme-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
+      border: 1.5px solid var(--itin-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
       overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .day-wrapper.focus-halo { box-shadow: 0 0 0 3px var(--theme-main), 0 12px 30px var(--theme-shadow) !important; }
+    .day-wrapper.focus-halo { box-shadow: 0 0 0 3px var(--itin-main), 0 12px 30px var(--itin-shadow) !important; }
 
-    .day-wrapper .day-badge-big { background: var(--theme-soft); border: 1px solid var(--theme-border); color: var(--theme-main); }
-    .day-wrapper .tl-time { background: var(--theme-soft); border: 1px solid var(--theme-border); color: var(--theme-main); }
-    .day-wrapper .tl-node::before { background: var(--theme-main); }
-    .day-wrapper .btn-nav-pin { background: var(--theme-soft); border: 1px solid var(--theme-border); color: var(--theme-main); }
+    .day-wrapper .day-badge-big { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
+    .day-wrapper .tl-time { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
+    .day-wrapper .tl-node::before { background: var(--itin-main); }
+    .day-wrapper .btn-nav-pin { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
 
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--glass-border); background: var(--glass-bg); }
     .day-meta { display: flex; align-items: center; gap: 14px; }
@@ -628,8 +637,8 @@ html_v28 = """<!DOCTYPE html>
       border-radius: 16px;
       padding: 12px 14px;
       margin-bottom: 16px;
-      border: 1.5px solid var(--theme-border);
-      background: var(--theme-soft);
+      border: 1.5px solid var(--itin-border);
+      background: var(--itin-soft);
       transition: all 0.3s;
     }
     .guideline-header {
@@ -639,7 +648,7 @@ html_v28 = """<!DOCTYPE html>
       align-items: center;
       gap: 6px;
       margin-bottom: 6px;
-      color: var(--theme-main);
+      color: var(--itin-main);
     }
     .guideline-body {
       font-size: 0.74rem;
@@ -678,7 +687,7 @@ html_v28 = """<!DOCTYPE html>
       transition: background 0.3s;
       z-index: 2;
     }
-    .tl-node.node-flash { background: var(--theme-soft); box-shadow: 0 0 18px var(--theme-shadow); }
+    .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
     .tl-node.hotel-cancel-node {
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%);
@@ -730,7 +739,7 @@ html_v28 = """<!DOCTYPE html>
       background: var(--glass-bg); border-radius: 12px; padding: 10px 14px; margin-top: 8px; 
       font-size: 0.74rem; color: var(--text-sub); border: 1px solid var(--glass-border); line-height: 1.55; 
     }
-    .tl-notes strong { color: var(--theme-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
+    .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
     .disney-wish-header-pill {
@@ -841,8 +850,8 @@ html_v28 = """<!DOCTYPE html>
     }
 
     .btn-action-pill {
-      display: inline-flex; align-items: center; gap: 4px; background: var(--theme-soft);
-      border: 1px solid var(--theme-border); color: var(--theme-main); font-size: 0.70rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 4px; background: var(--itin-soft);
+      border: 1px solid var(--itin-border); color: var(--itin-main); font-size: 0.70rem; font-weight: 700;
       padding: 5px 11px; border-radius: 10px; cursor: pointer; margin-top: 6px; text-decoration: none; transition: all 0.3s;
     }
     .btn-action-pill:active { transform: scale(0.95); }
@@ -867,7 +876,7 @@ html_v28 = """<!DOCTYPE html>
       letter-spacing: 0.08em;
       border-radius: 20px;
       background: var(--glass-bg);
-      border: 1px solid var(--theme-border);
+      border: 1px solid var(--itin-border);
       color: var(--text-main);
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       margin: 0 10px;
@@ -995,22 +1004,22 @@ html_v28 = """<!DOCTYPE html>
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 左下角极简回顶悬浮窗：无图钉、无多余文字，仅纯箭头圆球，且随晴雨天方案变色 */
+    /* 回顶快捷按钮：随晴雨天方案颜色（晴天暖橙金 / 雨天森林绿），且位置在快捷栏上方不打架 */
     #scroll-top-btn {
       position: fixed;
       left: 16px;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 68px);
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 72px);
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: var(--theme-main);
+      background: var(--itin-main);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       font-weight: 900;
-      box-shadow: 0 8px 20px var(--theme-shadow);
+      box-shadow: 0 8px 20px var(--itin-shadow);
       cursor: pointer;
       opacity: 0;
       pointer-events: none;
@@ -1031,7 +1040,7 @@ html_v28 = """<!DOCTYPE html>
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- 下一行程卡片 (Next Milestone) -->
+  <!-- 下一行程卡片 (名字变更为 下一行程) -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
       <div class="timer-badge">
@@ -1215,15 +1224,15 @@ html_v28 = """<!DOCTYPE html>
           </div>
           <div class="toggle-sub-note">晴天:箱根+热海+伊豆 ｜ 雨天:箱根+WALK</div>
 
-          <!-- 联动日期快捷胶囊 (设置 white-space: nowrap 保证不分行) -->
+          <!-- 联动日期快捷胶囊 (无图钉，迪士尼名字不换行) -->
           <div class="chips-bar" id="chips-bar-scroll">
-            <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
-            <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')">10.1 瞎逛</a>
-            <a href="#d3" class="chip" id="chip-d3" onclick="smoothOpenDay('d3')">10.2 ANA见学</a>
-            <a href="#d4" class="chip" id="chip-d4" onclick="smoothOpenDay('d4')">10.3 迪士尼</a>
-            <a href="#d5" class="chip" id="chip-d5" onclick="smoothOpenDay('d5')">10.4 箱根/热海</a>
-            <a href="#d6" class="chip" id="chip-d6" onclick="smoothOpenDay('d6')">10.5 伊豆</a>
-            <a href="#d7" class="chip" id="chip-d7" onclick="smoothOpenDay('d7')">10.6 回国</a>
+            <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')"><span>9.30</span><span>落地</span></a>
+            <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')"><span>10.1</span><span>瞎逛</span></a>
+            <a href="#d3" class="chip" id="chip-d3" onclick="smoothOpenDay('d3')"><span>10.2</span><span>ANA</span></a>
+            <a href="#d4" class="chip" id="chip-d4" onclick="smoothOpenDay('d4')"><span>10.3</span><span>迪士尼</span></a>
+            <a href="#d5" class="chip" id="chip-d5" onclick="smoothOpenDay('d5')"><span>10.4</span><span>箱根/热海</span></a>
+            <a href="#d6" class="chip" id="chip-d6" onclick="smoothOpenDay('d6')"><span>10.5</span><span>伊豆</span></a>
+            <a href="#d7" class="chip" id="chip-d7" onclick="smoothOpenDay('d7')"><span>10.6</span><span>回国</span></a>
           </div>
         </div>
 
@@ -2045,7 +2054,7 @@ html_v28 = """<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 -->
+      <!-- 2. 中间独立平滑滚动区 (绝对不触发外层滚动冲突) -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
         <div class="disney-section-title">
           <span>⭐ 我的想玩心愿清单</span>
@@ -2097,8 +2106,9 @@ html_v28 = """<!DOCTYPE html>
     const scrollTopBtn = document.getElementById('scroll-top-btn');
 
     function updateScrollTopColor() {
-      // 左下角回顶按钮与晴雨天方案颜色联动
+      // 回顶悬浮窗与行程日期快捷栏颜色一致，由晴天/雨天方案决定
       scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
+      scrollTopBtn.style.boxShadow = (currentWeatherMode === 'sunny') ? '0 8px 20px rgba(217, 119, 6, 0.35)' : '0 8px 20px rgba(4, 120, 87, 0.35)';
     }
 
     function slideToPane(index) {
@@ -2512,9 +2522,6 @@ html_v28 = """<!DOCTYPE html>
       const itinPane = document.getElementById('pane-itinerary');
       itinPane.classList.toggle('itin-rainy', mode === 'rainy');
 
-      // 晴雨天方案联动：切换 body 的雨天类名，使左下角悬浮窗、胶囊快捷栏主色同步变色
-      document.body.classList.toggle('is-rainy-mode', mode === 'rainy');
-
       document.getElementById('d5-title').innerHTML = p.d5_title;
       document.getElementById('d5-desc').innerHTML = p.d5_desc;
       document.getElementById('d5-timeline').innerHTML = p.d5_nodes.map(n => {
@@ -2569,14 +2576,13 @@ html_v28 = """<!DOCTYPE html>
       const chipD6 = document.getElementById('chip-d6');
 
       if (mode === 'sunny') {
-        chipD5.innerText = "10.4 箱根/热海";
-        chipD6.innerText = "10.5 伊豆";
+        chipD5.innerHTML = "<span>10.4</span><span>箱根/热海</span>";
+        chipD6.innerHTML = "<span>10.5</span><span>伊豆</span>";
       } else {
-        chipD5.innerText = "10.4 箱根";
-        chipD6.innerText = "10.5 WALK";
+        chipD5.innerHTML = "<span>10.4</span><span>箱根</span>";
+        chipD6.innerHTML = "<span>10.5</span><span>WALK</span>";
       }
 
-      updateMapTabsForWeather(mode);
       updateScrollTopColor();
       initAllMetroNodes();
     }
@@ -3079,10 +3085,3 @@ html_v28 = """<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-
-output_path = "japan_itinerary_v28.html"
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(html_v28)
-
-print("v28.0 clean HTML successfully generated.")
