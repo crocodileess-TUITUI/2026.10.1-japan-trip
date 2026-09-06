@@ -322,7 +322,7 @@
       user-select: none;
     }
 
-    /* 底部灵动胶囊栏：两侧固定箭头占位，中间三框绝对坐标对齐防偏移 */
+    /* 底部灵动胶囊栏：两侧固定箭头空位，中间三框锁定坐标防跳动 */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
@@ -348,7 +348,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 260px; /* 严格固定总宽度，杜绝布局跳动 */
+      width: 270px; /* 严格固定整体宽度，永不缩水 */
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
@@ -364,7 +364,7 @@
       transition: opacity 0.2s;
       flex-shrink: 0;
     }
-    .chip-arrow.disabled { opacity: 0.2; pointer-events: none; }
+    .chip-arrow.disabled { opacity: 0.15; pointer-events: none; }
 
     .chips-center-group {
       display: flex;
@@ -389,7 +389,7 @@
       line-height: 1.15;
       font-size: 0.58rem;
       opacity: 0.65;
-      width: 60px; /* 严格固定每项宽度，杜绝左右拖动时小幅度偏移 */
+      width: 62px; /* 严格固定每个小框宽度 */
       text-align: center;
       flex-shrink: 0;
     }
@@ -1323,7 +1323,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v74.0</div>
+        <div class="pane-version-badge">v76.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1941,7 +1941,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v75.0</div>
+        <div class="pane-version-badge">v76.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1976,13 +1976,13 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v75.0</div>
+        <div class="pane-version-badge">v76.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 底部灵动胶囊栏：两侧固定箭头占位，中间三框严格锁定宽度居中 -->
+  <!-- 底部灵动胶囊栏：两侧固定箭头占位，中间三框锁定坐标防跳动 -->
   <div class="floating-chips-container" id="floating-chips-container">
     <div class="floating-chips-inner" id="floating-chips-bar">
       <span class="chip-arrow" id="chip-arrow-left">‹</span>
@@ -2301,7 +2301,7 @@
       }
     }, { passive: true });
 
-    /* 悬浮折叠胶囊核心逻辑：两侧固定箭头占位，中间三框锁定坐标，联动视图跳转 */
+    /* 悬浮折叠胶囊核心逻辑：两侧固定箭头空位，中间三框严格锁定坐标不偏移 */
     const allDaysMeta = [
       { id: 'd1', d: '9.30', t: '落地' },
       { id: 'd2', d: '10.1', t: '瞎逛' },
@@ -2344,11 +2344,9 @@
         return idx === 5 ? { ...item, t: d6Title } : item;
       });
 
-      // 计算前后项索引 (严格限制在边界内)
       let prevIdx = currentVisibleDayIndex > 0 ? currentVisibleDayIndex - 1 : 0;
       let nextIdx = currentVisibleDayIndex < displayMeta.length - 1 ? currentVisibleDayIndex + 1 : displayMeta.length - 1;
 
-      // 如果当前在第一天，左侧展示自己或维持占位；在最后一天同理
       if (currentVisibleDayIndex === 0) {
         prevIdx = 0;
         nextIdx = 1;
@@ -2376,7 +2374,7 @@
         </div>
       `;
 
-      // 永远保留箭头占位，仅在绝对边界时将对应箭头弱化
+      // 边缘箭头变暗，但左右两侧空位保持不变，完美对称
       if (arrowLeft) arrowLeft.classList.toggle('disabled', currentVisibleDayIndex === 0);
       if (arrowRight) arrowRight.classList.toggle('disabled', currentVisibleDayIndex === displayMeta.length - 1);
     }
@@ -2396,25 +2394,23 @@
     }, { passive: true });
 
     chipsBarContainer.addEventListener('touchend', e => {
-      const threshold = 20; // 触发拨动阈值
+      const threshold = 20;
       if (Math.abs(chipMovedX) > threshold) {
         const d6Title = (currentWeatherMode === 'sunny') ? '伊豆' : 'WALK';
         const displayMeta = allDaysMeta.map((item, idx) => idx === 5 ? { ...item, t: d6Title } : item);
 
         if (chipMovedX < 0) {
-          // 向左拨：后一天
           if (currentVisibleDayIndex < displayMeta.length - 1) {
             currentVisibleDayIndex++;
-            if (navigator.vibrate) navigator.vibrate(12); // 触觉震动反馈
+            if (navigator.vibrate) navigator.vibrate(12);
             isManualScrollingChips = true;
             smoothOpenDay(displayMeta[currentVisibleDayIndex].id);
             setTimeout(() => { isManualScrollingChips = false; }, 400);
           }
         } else {
-          // 向右拨：前一天
           if (currentVisibleDayIndex > 0) {
             currentVisibleDayIndex--;
-            if (navigator.vibrate) navigator.vibrate(12); // 触觉震动反馈
+            if (navigator.vibrate) navigator.vibrate(12);
             isManualScrollingChips = true;
             smoothOpenDay(displayMeta[currentVisibleDayIndex].id);
             setTimeout(() => { isManualScrollingChips = false; }, 400);
@@ -2422,7 +2418,6 @@
         }
         renderFloatingChips();
       } else {
-        // 轻触点击中间或两侧小框切换
         const targetChip = e.target.closest('.f-chip');
         if (targetChip) {
           const dayId = targetChip.getAttribute('data-day');
@@ -2878,7 +2873,7 @@
           zone: "🏴‍☠️ 探险乐园 & 卡通城 (Adventureland & Toontown)",
           items: [
             { name: "加勒比海盗", tag: "室内暗骑", dpa: false, desc: "乘小船探访杰克船长与黑珍珠号，逼真机械人偶与海盗炮火特效。" },
-            { name: "丛林巡航：野生动物探险", tag: "船长互动", dpa: false, desc: "乘船穿越充满机械大象、鳄鱼的神秘雨林，船长风趣解说。" },
+            { name: "丛林巡航：野生动物探险", tag: "船长互动", dpa: false, desc: "乘船穿越充满机械大象,鳄鱼的神秘雨林，船长风趣解说。" },
             { name: "米奇公馆会米奇 / 艾瑟尔旋转车", tag: "合影互动", dpa: false, desc: "深入卡通城米奇的私人影棚与米奇合影留念。" }
           ]
         }
