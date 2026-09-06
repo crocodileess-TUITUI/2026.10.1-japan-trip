@@ -322,7 +322,7 @@
       user-select: none;
     }
 
-    /* 底部灵动胶囊栏：两侧固定箭头空位，中间三框锁定坐标防跳动 */
+    /* 底部灵动胶囊栏：两侧固定箭头空位，中间三框锁定几何坐标绝对不偏移 */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
@@ -392,6 +392,13 @@
       width: 62px; /* 严格固定每个小框宽度 */
       text-align: center;
       flex-shrink: 0;
+    }
+    .f-chip.placeholder-chip {
+      visibility: hidden;
+      pointer-events: none;
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
     }
     .f-chip .fc-d { font-size: 0.52rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
     .f-chip .fc-t { font-size: 0.58rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
@@ -1323,7 +1330,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v76.0</div>
+        <div class="pane-version-badge">v77.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1941,7 +1948,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v76.0</div>
+        <div class="pane-version-badge">v77.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1976,13 +1983,13 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v76.0</div>
+        <div class="pane-version-badge">v77.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 底部灵动胶囊栏：两侧固定箭头占位，中间三框锁定坐标防跳动 -->
+  <!-- 底部灵动胶囊栏：两侧固定箭头空位，中间严格 3 框固定坐标 -->
   <div class="floating-chips-container" id="floating-chips-container">
     <div class="floating-chips-inner" id="floating-chips-bar">
       <span class="chip-arrow" id="chip-arrow-left">‹</span>
@@ -2301,7 +2308,7 @@
       }
     }, { passive: true });
 
-    /* 悬浮折叠胶囊核心逻辑：两侧固定箭头空位，中间三框严格锁定坐标不偏移 */
+    /* 悬浮折叠胶囊核心逻辑：两侧固定箭头空位，中间严格 3 框坐标锁定防偏移 */
     const allDaysMeta = [
       { id: 'd1', d: '9.30', t: '落地' },
       { id: 'd2', d: '10.1', t: '瞎逛' },
@@ -2344,37 +2351,34 @@
         return idx === 5 ? { ...item, t: d6Title } : item;
       });
 
-      let prevIdx = currentVisibleDayIndex > 0 ? currentVisibleDayIndex - 1 : 0;
-      let nextIdx = currentVisibleDayIndex < displayMeta.length - 1 ? currentVisibleDayIndex + 1 : displayMeta.length - 1;
+      // 严格保证永远渲染 3 个格子槽位（左、中、右）
+      let leftHtml = '';
+      let rightHtml = '';
 
       if (currentVisibleDayIndex === 0) {
-        prevIdx = 0;
-        nextIdx = 1;
+        // 边界：在第一天时，左侧渲染隐形占位框，右侧渲染第 2 天
+        leftHtml = `<div class="f-chip placeholder-chip"><span class="fc-d">&nbsp;</span><span class="fc-t">&nbsp;</span></div>`;
+        const nextItem = displayMeta[1];
+        rightHtml = `<div class="f-chip" data-day="${nextItem.id}" data-index="1"><span class="fc-d">${nextItem.d}</span><span class="fc-t">${nextItem.t}</span></div>`;
       } else if (currentVisibleDayIndex === displayMeta.length - 1) {
-        prevIdx = displayMeta.length - 2;
-        nextIdx = displayMeta.length - 1;
+        // 边界：在最后一天时，左侧渲染倒数第 2 天，右侧渲染隐形占位框
+        const prevItem = displayMeta[displayMeta.length - 2];
+        leftHtml = `<div class="f-chip" data-day="${prevItem.id}" data-index="${displayMeta.length - 2}"><span class="fc-d">${prevItem.d}</span><span class="fc-t">${prevItem.t}</span></div>`;
+        rightHtml = `<div class="f-chip placeholder-chip"><span class="fc-d">&nbsp;</span><span class="fc-t">&nbsp;</span></div>`;
+      } else {
+        // 常规：中间项左右各有相邻项
+        const prevItem = displayMeta[currentVisibleDayIndex - 1];
+        const nextItem = displayMeta[currentVisibleDayIndex + 1];
+        leftHtml = `<div class="f-chip" data-day="${prevItem.id}" data-index="${currentVisibleDayIndex - 1}"><span class="fc-d">${prevItem.d}</span><span class="fc-t">${prevItem.t}</span></div>`;
+        rightHtml = `<div class="f-chip" data-day="${nextItem.id}" data-index="${currentVisibleDayIndex + 1}"><span class="fc-d">${nextItem.d}</span><span class="fc-t">${nextItem.t}</span></div>`;
       }
 
-      const prevItem = displayMeta[prevIdx];
       const currItem = displayMeta[currentVisibleDayIndex];
-      const nextItem = displayMeta[nextIdx];
+      const middleHtml = `<div class="f-chip active-current" data-day="${currItem.id}" data-index="${currentVisibleDayIndex}"><span class="fc-d">${currItem.d}</span><span class="fc-t">${currItem.t}</span></div>`;
 
-      centerGroup.innerHTML = `
-        <div class="f-chip ${prevIdx === currentVisibleDayIndex ? 'active-current' : ''}" data-day="${prevItem.id}" data-index="${prevIdx}">
-          <span class="fc-d">${prevItem.d}</span>
-          <span class="fc-t">${prevItem.t}</span>
-        </div>
-        <div class="f-chip active-current" data-day="${currItem.id}" data-index="${currentVisibleDayIndex}">
-          <span class="fc-d">${currItem.d}</span>
-          <span class="fc-t">${currItem.t}</span>
-        </div>
-        <div class="f-chip ${nextIdx === currentVisibleDayIndex ? 'active-current' : ''}" data-day="${nextItem.id}" data-index="${nextIdx}">
-          <span class="fc-d">${nextItem.d}</span>
-          <span class="fc-t">${nextItem.t}</span>
-        </div>
-      `;
+      centerGroup.innerHTML = leftHtml + middleHtml + rightHtml;
 
-      // 边缘箭头变暗，但左右两侧空位保持不变，完美对称
+      // 边缘箭头变暗，但两侧占位空位雷打不动
       if (arrowLeft) arrowLeft.classList.toggle('disabled', currentVisibleDayIndex === 0);
       if (arrowRight) arrowRight.classList.toggle('disabled', currentVisibleDayIndex === displayMeta.length - 1);
     }
@@ -2419,7 +2423,7 @@
         renderFloatingChips();
       } else {
         const targetChip = e.target.closest('.f-chip');
-        if (targetChip) {
+        if (targetChip && !targetChip.classList.contains('placeholder-chip')) {
           const dayId = targetChip.getAttribute('data-day');
           const idx = Number(targetChip.getAttribute('data-index'));
           currentVisibleDayIndex = idx;
@@ -2873,7 +2877,7 @@
           zone: "🏴‍☠️ 探险乐园 & 卡通城 (Adventureland & Toontown)",
           items: [
             { name: "加勒比海盗", tag: "室内暗骑", dpa: false, desc: "乘小船探访杰克船长与黑珍珠号，逼真机械人偶与海盗炮火特效。" },
-            { name: "丛林巡航：野生动物探险", tag: "船长互动", dpa: false, desc: "乘船穿越充满机械大象,鳄鱼的神秘雨林，船长风趣解说。" },
+            { name: "丛林巡航：野生动物探险", tag: "船长互动", dpa: false, desc: "乘船穿越充满机械大象、鳄鱼的神秘雨林，船长风趣解说。" },
             { name: "米奇公馆会米奇 / 艾瑟尔旋转车", tag: "合影互动", dpa: false, desc: "深入卡通城米奇的私人影棚与米奇合影留念。" }
           ]
         }
