@@ -33,6 +33,7 @@
       --island-text: #ffffff;
       --radius: 22px;
       
+      /* 昼夜联动变量（“下一行程”与底部导航栏同步） */
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
       --milestone-border: rgba(14, 165, 233, 0.4);
       --milestone-text: #0f172a;
@@ -52,6 +53,7 @@
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
 
+      /* 晴雨联动变量（左下角悬浮窗与行程日期胶囊同步） */
       --itin-main: #d97706;
       --itin-border: rgba(245, 158, 11, 0.45);
       --itin-soft: rgba(245, 158, 11, 0.12);
@@ -65,6 +67,7 @@
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
+    /* 夜间模式联动：顶部卡片保持清晰易读 */
     body.is-night,
     body.is-night .top-timer-card {
       --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%) !important;
@@ -157,6 +160,7 @@
       opacity: 1;
     }
 
+    /* 下一行程卡片 */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -314,6 +318,7 @@
       user-select: none;
     }
 
+    /* 底置 Dock 导航：高对比度文字保证绝不与背景融为一体 */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -336,7 +341,7 @@
       padding: 4px;
       display: flex;
       align-items: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.12);
       width: fit-content;
       position: relative;
     }
@@ -358,8 +363,8 @@
       z-index: 2;
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.85);
-      padding: 8px 18px;
+      color: rgba(255, 255, 255, 0.85); /* 保证未选中状态高对比度易读 */
+      padding: 8px 16px;
       border-radius: 30px;
       font-size: 0.76rem;
       font-weight: 800;
@@ -370,7 +375,7 @@
       gap: 4px;
       transition: color 0.25s;
     }
-    .dock-btn.active { color: #ffffff !important; }
+    .dock-btn.active { color: #ffffff !important; font-weight: 900; }
     .dock-btn:active { transform: scale(0.92); }
 
     .control-deck-card {
@@ -433,11 +438,13 @@
       .toggle-sub-note { color: #94a3b8; }
     }
 
+    /* 日期胶囊快捷栏：强制不换行，确保“10.3 迪士尼”不被挤成两行 */
     .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; touch-action: pan-x; width: 100%; }
     .chips-bar::-webkit-scrollbar { display: none; }
     .chips-bar::after { content: ''; display: block; width: 12px; flex-shrink: 0; }
     .chip {
       white-space: nowrap !important;
+      word-break: keep-all !important;
       padding: 7px 13px;
       font-size: 0.74rem;
       font-weight: 800;
@@ -991,7 +998,7 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 左下角极简回顶悬浮窗：无图钉无文字，纯箭头圆球，颜色与晴雨天气方案挂钩联动 */
+    /* 左下角极简回顶悬浮窗：仅保留圆形纯箭头，颜色随晴雨方案方案动态联动 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -1062,6 +1069,7 @@
           <span>🚄 ✈️ 交通</span>
         </div>
 
+        <!-- 1. 去程高铁 -->
         <div class="transit-card" id="train-dep">
           <div class="t-head">
             <div class="t-head-left">
@@ -1091,6 +1099,7 @@
           </div>
         </div>
 
+        <!-- 2. 去程航班 -->
         <div class="transit-card" id="flight-uo652">
           <div class="t-head">
             <div class="t-head-left">
@@ -1120,6 +1129,7 @@
           </div>
         </div>
 
+        <!-- 3. 回程航班 -->
         <div class="transit-card" id="flight-uo623">
           <div class="t-head">
             <div class="t-head-left">
@@ -1149,6 +1159,7 @@
           </div>
         </div>
 
+        <!-- 4. 回程高铁 -->
         <div class="transit-card" id="train-arr" style="margin-bottom:0;">
           <div class="t-head">
             <div class="t-head-left">
@@ -1178,6 +1189,7 @@
           </div>
         </div>
 
+        <!-- 独立应急备忘录卡片 1 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -1206,7 +1218,7 @@
           </div>
           <div class="toggle-sub-note">晴天:箱根+热海+伊豆 ｜ 雨天:箱根+WALK</div>
 
-          <!-- 联动日期快捷胶囊 -->
+          <!-- 联动日期快捷胶囊：强制不换行 -->
           <div class="chips-bar" id="chips-bar-scroll">
             <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
             <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')">10.1 瞎逛</a>
@@ -1226,6 +1238,7 @@
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
+            <!-- 晴天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
@@ -1276,6 +1289,7 @@
               </g>
             </svg>
 
+            <!-- 晴天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-sun-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,125 L 340,125" stroke="#f59e0b" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#f59e0b" stroke-width="4.5"/>
@@ -1296,6 +1310,7 @@
               </g>
             </svg>
 
+            <!-- 晴天 3：箱根·热海·伊豆 -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
@@ -1361,6 +1376,7 @@
               </g>
             </svg>
 
+            <!-- 雨天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
@@ -1402,10 +1418,11 @@
 
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-danger)">羽田T3</text>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
               </g>
             </svg>
 
+            <!-- 雨天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-rain-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,125 L 340,125" stroke="#047857" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#047857" stroke-width="4.5"/>
@@ -1426,6 +1443,7 @@
               </g>
             </svg>
 
+            <!-- 雨天 3：箱根·WALK -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 15 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
               <path class="metro-line" d="M 240,145 L 240,195 L 295,195 L 350,195 L 400,195 L 445,195" stroke="#047857" stroke-width="3.5"/>
@@ -1555,6 +1573,7 @@
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
+              <!-- 酒店退订 ⚠️ -->
               <div class="tl-node hotel-cancel-node" id="tl-d1-5">
                 <div class="tl-top">
                   <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
@@ -1799,6 +1818,7 @@
           </div>
         </div>
 
+        <!-- 独立应急备忘录卡片 2 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -1834,6 +1854,7 @@
           <div id="todo-list-container"></div>
         </div>
 
+        <!-- 独立应急备忘录卡片 3 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -2013,6 +2034,7 @@
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       
+      <!-- 1. 顶部固定吸附栏 -->
       <div class="disney-fixed-top">
         <div class="modal-handle" style="margin-bottom:8px;"></div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -2026,6 +2048,7 @@
         </div>
       </div>
 
+      <!-- 2. 中间独立平滑滚动区 (绝对不触发外层滚动冲突) -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
         <div class="disney-section-title">
           <span>⭐ 我的想玩心愿清单</span>
@@ -2047,6 +2070,7 @@
         </div>
       </div>
 
+      <!-- 3. 底部固定吸附按钮 -->
       <div class="disney-fixed-bottom">
         <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成设置</button>
       </div>
@@ -2076,13 +2100,9 @@
     const scrollTopBtn = document.getElementById('scroll-top-btn');
 
     function updateScrollTopColor() {
-      if (currentPaneIndex === 1) {
-        scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
-        scrollTopBtn.style.boxShadow = (currentWeatherMode === 'sunny') ? '0 10px 24px rgba(217, 119, 6, 0.4)' : '0 10px 24px rgba(4, 120, 87, 0.4)';
-      } else {
-        scrollTopBtn.style.background = 'var(--accent)';
-        scrollTopBtn.style.boxShadow = '0 10px 24px rgba(0, 113, 227, 0.4)';
-      }
+      // 左下角悬浮窗颜色与晴雨天方案联动（晴天金色/雨天绿色）
+      scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
+      scrollTopBtn.style.boxShadow = (currentWeatherMode === 'sunny') ? '0 10px 24px rgba(217, 119, 6, 0.4)' : '0 10px 24px rgba(4, 120, 87, 0.4)';
     }
 
     function slideToPane(index) {
@@ -2114,6 +2134,7 @@
       });
     }
 
+    // 触摸滑动判定 (将地图及其站点纳入绝对黑名单)
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2288,6 +2309,7 @@
       });
     }
 
+    /* 地图点位绝对不可拖拽、防误触拦截 */
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -3039,6 +3061,7 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
+    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
@@ -3048,6 +3071,7 @@
     initOfflineDetector();
     setInterval(updateTimers, 1000);
 
+    // 首屏静态就绪处于 Pane 1 (行程)
     track.style.transform = 'translate3d(-33.3333%, 0, 0)';
     dockSlider.style.transform = 'translate3d(100%, 0, 0)';
     paneTransit.classList.add('pane-dim');
