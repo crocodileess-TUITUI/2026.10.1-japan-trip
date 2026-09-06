@@ -66,7 +66,7 @@
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
-    /* 全局昼夜联动：深色高级模式 */
+    /* 全局昼夜联动：深色模式深度覆盖 */
     body.is-night,
     body.is-night .top-timer-card,
     body.is-night .control-deck-card,
@@ -316,7 +316,7 @@
       user-select: none;
     }
 
-    /* 底部悬浮日期快捷栏（针对 iPhone 15 Pro 进行字号与尺寸优化） */
+    /* 方案 1：底部灵动折叠胶囊容器 */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 52px);
@@ -333,31 +333,36 @@
     .floating-chips-inner {
       pointer-events: auto;
       background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border: 1px solid var(--glass-border);
-      border-radius: 24px;
+      border-radius: 28px;
       padding: 5px 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      max-width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+      max-width: 95%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: max-width 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.3s;
       overflow-x: auto;
       scrollbar-width: none;
     }
     .floating-chips-inner::-webkit-scrollbar { display: none; }
 
-    /* 浮动栏专属微型胶囊 (iPhone 15 Pro 精确适配) */
+    /* 灵动折叠胶囊单元项 */
     .f-chip {
       white-space: nowrap;
-      padding: 4px 8px;
+      padding: 5px 10px;
       font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: -0.01em;
-      border-radius: 14px;
+      border-radius: 16px;
       background: rgba(0,0,0,0.04);
       border: 1px solid var(--glass-border);
       color: var(--text-main);
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
       flex-shrink: 0;
       display: inline-flex;
       flex-direction: column;
@@ -365,13 +370,28 @@
       line-height: 1.15;
     }
     body.is-night .f-chip { background: rgba(255, 255, 255, 0.08); }
-    .f-chip .fc-d { font-size: 0.62rem; opacity: 0.8; font-variant-numeric: tabular-nums; }
+    .f-chip .fc-d { font-size: 0.60rem; opacity: 0.8; font-variant-numeric: tabular-nums; }
     .f-chip .fc-t { font-size: 0.68rem; font-weight: 900; white-space: nowrap; }
-    .f-chip.active, .f-chip:active {
+
+    /* 方案 1：当前浏览天高亮（晴橙/雨绿） */
+    .f-chip.active-current {
       background: var(--itin-main) !important;
       color: #fff !important;
       border-color: var(--itin-main) !important;
-      box-shadow: 0 2px 8px var(--itin-shadow);
+      box-shadow: 0 2px 10px var(--itin-shadow);
+      transform: scale(1.05);
+    }
+    .f-chip.active-current .fc-d, .f-chip.active-current .fc-t { color: #fff !important; }
+
+    /* 折叠指示器小点 */
+    .fold-dots {
+      font-size: 0.70rem;
+      font-weight: 900;
+      color: var(--itin-main);
+      padding: 0 4px;
+      opacity: 0.8;
+      display: inline-flex;
+      align-items: center;
     }
 
     /* 底置 Dock 导航栏 */
@@ -490,7 +510,7 @@
     }
     body.is-night .toggle-sub-note { color: #94a3b8; }
 
-    /* 方案卡片内部：核心节点快捷胶囊 (晴雨联动恢复) */
+    /* 方案卡片内部：带日期的7个快捷胶囊 */
     .card-nodes-bar {
       display: flex;
       gap: 6px;
@@ -502,8 +522,8 @@
     .card-nodes-bar::-webkit-scrollbar { display: none; }
     .card-node-chip {
       white-space: nowrap;
-      padding: 6px 12px;
-      font-size: 0.72rem;
+      padding: 5px 10px;
+      font-size: 0.70rem;
       font-weight: 800;
       border-radius: 16px;
       background: #f1f5f9;
@@ -512,6 +532,9 @@
       cursor: pointer;
       flex-shrink: 0;
       transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
     }
     body.is-night .card-node-chip {
       background: rgba(255, 255, 255, 0.08);
@@ -788,43 +811,24 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 全新升级重构：迪士尼项目计划入口卡片（晴雨联动变色） */
+    /* 方案 3：精简版迪士尼项目计划横栏（晴雨动态变色） */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: var(--itin-soft);
       border: 1.5px solid var(--itin-border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-top: 10px;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-top: 8px;
       cursor: pointer;
       box-shadow: 0 4px 14px var(--itin-shadow);
       transition: all 0.3s;
     }
     .disney-wish-header-pill:active { transform: scale(0.98); }
-    .disney-wish-pill-title { font-size: 0.86rem; font-weight: 900; color: var(--itin-main); }
+    .disney-wish-pill-title { font-size: 0.84rem; font-weight: 900; color: var(--itin-main); }
 
-    /* 全新升级重构：类似 iOS App Clip 风格的官方 App 跳转按钮 */
-    .disney-app-clip-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(56, 189, 248, 0.08) 100%);
-      border: 1.5px solid rgba(0, 113, 227, 0.3);
-      border-radius: 14px;
-      padding: 10px 14px;
-      margin-top: 8px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    .disney-app-clip-btn:active { transform: scale(0.98); background: rgba(0, 113, 227, 0.18); }
-    .app-clip-left { display: flex; align-items: center; gap: 8px; }
-    .app-clip-icon { font-size: 1.1rem; }
-    .app-clip-text { font-size: 0.74rem; font-weight: 800; color: var(--accent); }
-    .app-clip-badge { font-size: 0.65rem; font-weight: 800; background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 8px; }
-
+    /* 方案 3：园区主题区域/港口全量项目弹窗样式 */
     .disney-modal-sheet {
       display: flex;
       flex-direction: column;
@@ -870,52 +874,42 @@
       background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.35);
     }
 
-    .disney-section-title {
-      font-size: 0.78rem;
+    .disney-zone-title {
+      font-size: 0.80rem;
       font-weight: 900;
-      color: var(--text-main);
-      margin: 8px 0 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      color: var(--itin-main);
+      margin: 12px 0 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed var(--glass-border);
     }
-    .disney-item-card {
+    .disney-card {
       background: var(--glass-card);
       border: 1px solid var(--glass-border);
       border-radius: 12px;
       padding: 9px 12px;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .disney-card-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      margin-bottom: 4px;
     }
-    .disney-item-meta h5 { font-size: 0.82rem; font-weight: 900; color: var(--text-main); }
-    .disney-item-tags {
-      display: flex;
-      gap: 4px;
-      margin-top: 3px;
-      font-size: 0.64rem;
-      font-weight: 700;
-    }
-    .tag-wait { color: #d97706; background: rgba(217, 119, 6, 0.12); padding: 1px 5px; border-radius: 4px; }
-    .tag-star { color: #eab308; }
-    .tag-dpa { color: #ef4444; background: rgba(239, 68, 68, 0.12); padding: 1px 5px; border-radius: 4px; font-weight: 900; }
-    
-    .btn-wish-toggle {
-      border: none;
+    .disney-card-title { font-size: 0.82rem; font-weight: 900; color: var(--text-main); }
+    .disney-card-tag {
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 6px;
       background: var(--accent-soft);
       color: var(--accent);
-      font-weight: 900;
-      font-size: 0.70rem;
-      padding: 5px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      flex-shrink: 0;
     }
-    .btn-wish-toggle.active {
-      background: #10b981;
-      color: #fff;
+    .disney-card-tag.dpa { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+    .disney-card-desc {
+      font-size: 0.70rem;
+      color: var(--text-sub);
+      line-height: 1.45;
     }
 
     .btn-action-pill {
@@ -1013,12 +1007,8 @@
       color: #b45309 !important;
       font-weight: 900 !important;
     }
-    body.is-night .bus-row-my-slot {
-      background: rgba(245, 158, 11, 0.25) !important;
-    }
-    body.is-night .bus-row-my-slot td {
-      color: #fef08a !important;
-    }
+    body.is-night .bus-row-my-slot { background: rgba(245, 158, 11, 0.25) !important; }
+    body.is-night .bus-row-my-slot td { color: #fef08a !important; }
     .my-slot-badge {
       display: inline-block;
       background: #f59e0b;
@@ -1074,11 +1064,11 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 回顶悬浮按钮：根据晴雨天方案决定颜色，定位在悬浮日期栏上方，绝对不打架 */
+    /* 回顶悬浮按钮：完全上移错开，绝对不与折叠胶囊栏重叠 */
     #scroll-top-btn {
       position: fixed;
       left: 16px;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 105px);
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 110px);
       width: 38px;
       height: 38px;
       border-radius: 50%;
@@ -1125,7 +1115,6 @@
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 票根风展开日程 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -1272,13 +1261,13 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v30.0</div>
+        <div class="pane-version-badge">v31.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨天方案选择卡片 (底部带有7个核心跳转胶囊) -->
+        <!-- 晴雨天方案选择卡片 (含恢复的带日期7个核心跳转胶囊) -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨天方案选择</div>
@@ -1289,7 +1278,7 @@
           </div>
           <div class="toggle-sub-note">晴天:箱根+热海+伊豆 ｜ 雨天:箱根+WALK</div>
           
-          <!-- 恢复的卡片内晴雨跳转胶囊栏 -->
+          <!-- 带日期的7个跳转胶囊栏 -->
           <div class="card-nodes-bar" id="card-nodes-bar"></div>
         </div>
 
@@ -1304,11 +1293,9 @@
             <!-- 晴天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
-              
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
-              
               <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-sun-all-nrt">
@@ -1423,6 +1410,7 @@
                 <text x="175" y="164" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
               </g>
 
+              <!-- 彻底校正：大室山精准映射至 tl-d6-4 -->
               <g class="metro-node" id="node-sun-r-omuro">
                 <circle cx="255" cy="190" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="255" y="176" text-anchor="middle" font-size="12" font-weight="900" fill="#b45309">大室山 🌋</text>
@@ -1442,7 +1430,6 @@
             <!-- 雨天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
-              
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
@@ -1579,7 +1566,7 @@
 
               <g class="metro-node" id="node-rain-hw-hnd">
                 <circle cx="445" cy="195" r="7" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="445" y="213" text-anchor="middle" font-size="11" font-weight="900" fill="#ef4444">羽田T3</text>
+                <text x="445" y="213" text-anchor="middle" font-weight="900" fill="#ef4444">羽田T3</text>
               </g>
             </svg>
 
@@ -1636,7 +1623,6 @@
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
-              <!-- 酒店退订 ⚠️ -->
               <div class="tl-node hotel-cancel-node" id="tl-d1-5">
                 <div class="tl-top">
                   <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
@@ -1735,7 +1721,7 @@
           </div>
         </div>
 
-        <!-- Day 4 (全新设计的迪士尼模块与 App 跳转按钮) -->
+        <!-- Day 4 (方案3：标题行右上角常驻跳转标签 + 晴雨变色项目计划卡) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1756,26 +1742,21 @@
                 <div class="tl-desc">乘地铁换乘至 JR 京叶线直达「舞滨站」。</div>
               </div>
               <div class="tl-node" id="tl-d4-2">
-                <div class="tl-top">
-                  <span class="tl-place">东京迪士尼乐园</span>
-                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">🗺️</a>
+                <div class="tl-top" style="justify-content:space-between; align-items:center;">
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span class="tl-place">东京迪士尼乐园</span>
+                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">🗺️</a>
+                  </div>
+                  <!-- 方案 3：标题行右上角常驻轻量跳转标签 -->
+                  <a class="btn-top-right-app" href="tokyodisneyresort://" onclick="setTimeout(function(){ window.location='https://www.tokyodisneyresort.jp/tc/tdr/app.html'; }, 1500)">🏰 官方 App ↗</a>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 随晴雨天变色的项目计划卡片 -->
+                <!-- 方案 3：精简版项目计划横栏（晴雨动态变色） -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
-                  <span class="disney-wish-pill-title">🎢 迪士尼项目计划</span>
-                  <span style="font-size:1.1rem; color:var(--itin-main);">✦</span>
+                  <span class="disney-wish-pill-title">🎢 迪士尼项目计划（双园各区域热门项目速查）</span>
+                  <span style="font-size:1.05rem; color:var(--itin-main);">✦</span>
                 </div>
-
-                <!-- iOS App Clip 风格的全新设计跳转 App 按钮 -->
-                <a class="disney-app-clip-btn" href="tokyodisneyresort://" onclick="setTimeout(function(){ window.location='https://www.tokyodisneyresort.jp/tc/tdr/app.html'; }, 1500)">
-                  <div class="app-clip-left">
-                    <span class="app-clip-icon">🏰</span>
-                    <span class="app-clip-text">打开东京迪士尼官方 App</span>
-                  </div>
-                  <span class="app-clip-badge">快速打开 ↗</span>
-                </a>
               </div>
               <div class="tl-node" id="tl-d4-3">
                 <div class="tl-top">
@@ -1897,7 +1878,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v30.0</div>
+        <div class="pane-version-badge">v31.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1932,24 +1913,16 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v30.0</div>
+        <div class="pane-version-badge">v31.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 底部常驻悬浮日期胶囊栏（iPhone 15 Pro 专属微调，10.4箱根精简，迪士尼单行） -->
+  <!-- 方案 1：底部灵动折叠胶囊栏（当前天 + 前后天，点击展开全量，晴雨联动色） -->
   <div class="floating-chips-container" id="floating-chips-container">
-    <div class="floating-chips-inner">
-      <div class="chips-bar" id="chips-bar-scroll">
-        <a href="#d1" class="f-chip" id="fchip-d1" onclick="smoothOpenDay('d1')"><span class="fc-d">9.30</span><span class="fc-t">落地</span></a>
-        <a href="#d2" class="f-chip" id="fchip-d2" onclick="smoothOpenDay('d2')"><span class="fc-d">10.1</span><span class="fc-t">瞎逛</span></a>
-        <a href="#d3" class="f-chip" id="fchip-d3" onclick="smoothOpenDay('d3')"><span class="fc-d">10.2</span><span class="fc-t">ANA</span></a>
-        <a href="#d4" class="f-chip" id="fchip-d4" onclick="smoothOpenDay('d4')"><span class="fc-d">10.3</span><span class="fc-t">迪士尼</span></a>
-        <a href="#d5" class="f-chip" id="fchip-d5" onclick="smoothOpenDay('d5')"><span class="fc-d">10.4</span><span class="fc-t">箱根</span></a>
-        <a href="#d6" class="f-chip" id="fchip-d6" onclick="smoothOpenDay('d6')"><span class="fc-d">10.5</span><span class="fc-t" id="fchip-d6-title">伊豆</span></a>
-        <a href="#d7" class="f-chip" id="fchip-d7" onclick="smoothOpenDay('d7')"><span class="fc-d">10.6</span><span class="fc-t">回国</span></a>
-      </div>
+    <div class="floating-chips-inner" id="floating-chips-bar" onclick="handleFloatingChipsClick(event)">
+      <!-- 动态生成胶囊 -->
     </div>
   </div>
 
@@ -2102,7 +2075,7 @@
       </div>
       <div style="font-size:0.75rem; color:var(--text-sub); line-height:1.6;">
         <p style="margin-bottom:8px;">• <strong>当前状态</strong>：<span id="modal-offline-status-tag" style="color:var(--success); font-weight:900;">已就绪</span></p>
-        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼项目计划、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
+        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼双园百科、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
         <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
       </div>
       <div style="text-align:center; margin-top:16px;">
@@ -2111,51 +2084,29 @@
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼项目计划 -->
+  <!-- 弹窗 5：方案 3 迪士尼项目计划（按园区主题区域/港口全量分类） -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
-      
-      <!-- 1. 顶部固定吸附栏 -->
       <div class="disney-fixed-top">
         <div class="modal-handle" style="margin-bottom:8px;"></div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼项目计划</h4>
+          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼双园项目指南</h4>
           <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
         </div>
 
         <div class="disney-modal-tabs">
-          <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 Disneyland</button>
-          <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 DisneySea</button>
+          <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 (7大主题区)</button>
+          <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 (8大主题港口)</button>
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
-        <div class="disney-section-title">
-          <span>⭐ 我的想玩心愿清单</span>
-          <span style="font-size:0.68rem; color:var(--text-muted);" id="modal-wish-count">已选 0 项</span>
-        </div>
-        <div id="modal-wishlist-container"></div>
-
-        <div style="margin:12px 0 6px; text-align:center;">
-          <button class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 0; font-size:0.75rem;" onclick="toggleDisneyAllDrawer()">
-            <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开全量项目库)</span>
-          </button>
-        </div>
-
-        <div id="disney-all-drawer" style="display:none; margin-top:8px;">
-          <div class="disney-section-title">
-            <span>📚 园区全量项目 (按热门程度排序)</span>
-          </div>
-          <div id="modal-all-container"></div>
-        </div>
+        <div id="modal-zone-container"></div>
       </div>
 
-      <!-- 3. 底部固定吸附按钮 -->
       <div class="disney-fixed-bottom">
-        <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成设置</button>
+        <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成阅读</button>
       </div>
-
     </div>
   </div>
 
@@ -2226,7 +2177,7 @@
     const outer = document.getElementById('viewport-outer');
 
     outer.addEventListener('touchstart', e => {
-      if (e.target.closest('.chips-bar, .card-nodes-bar, .floating-chips-inner, .map-tabs-bar, .offline-map-container, .metro-map, .metro-node, .todo-stepper-two, button, a')) {
+      if (e.target.closest('.card-nodes-bar, .floating-chips-inner, .map-tabs-bar, .offline-map-container, .metro-map, .metro-node, .todo-stepper-two, button, a')) {
         ignoreSwipe = true;
         return;
       }
@@ -2285,6 +2236,107 @@
       }
     }, { passive: true });
 
+    /* 方案 1：悬浮日期胶囊系统核心数据与交互逻辑 */
+    const allDaysMeta = [
+      { id: 'd1', d: '9.30', t: '落地' },
+      { id: 'd2', d: '10.1', t: '瞎逛' },
+      { id: 'd3', d: '10.2', t: 'ANA' },
+      { id: 'd4', d: '10.3', t: '迪士尼' },
+      { id: 'd5', d: '10.4', t: '箱根' },
+      { id: 'd6', d: '10.5', t: '伊豆' },
+      { id: 'd7', d: '10.6', t: '回国' }
+    ];
+
+    let currentVisibleDayIndex = 0;
+    let isChipsFullyExpanded = false;
+    let collapseTimer = null;
+
+    function detectCurrentViewingDay() {
+      if (currentPaneIndex !== 1) return;
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const triggerPoint = scrollY + 220;
+
+      let matchedIndex = 0;
+      for (let i = 0; i < allDaysMeta.length; i++) {
+        const el = document.getElementById(allDaysMeta[i].id);
+        if (el && el.offsetTop <= triggerPoint) {
+          matchedIndex = i;
+        }
+      }
+      if (matchedIndex !== currentVisibleDayIndex) {
+        currentVisibleDayIndex = matchedIndex;
+        renderFloatingChips();
+      }
+    }
+
+    function renderFloatingChips() {
+      const container = document.getElementById('floating-chips-bar');
+      if (!container) return;
+
+      const d6Title = (currentWeatherMode === 'sunny') ? '伊豆' : 'WALK';
+      const displayMeta = allDaysMeta.map((item, idx) => {
+        return idx === 5 ? { ...item, t: d6Title } : item;
+      });
+
+      if (isChipsFullyExpanded) {
+        container.innerHTML = displayMeta.map((item, idx) => `
+          <div class="f-chip ${idx === currentVisibleDayIndex ? 'active-current' : ''}" data-day="${item.id}">
+            <span class="fc-d">${item.d}</span>
+            <span class="fc-t">${item.t}</span>
+          </div>
+        `).join('');
+      } else {
+        let indices = [];
+        if (currentVisibleDayIndex === 0) indices = [0, 1, 2];
+        else if (currentVisibleDayIndex === displayMeta.length - 1) indices = [displayMeta.length - 3, displayMeta.length - 2, displayMeta.length - 1];
+        else indices = [currentVisibleDayIndex - 1, currentVisibleDayIndex, currentVisibleDayIndex + 1];
+
+        const chipsHtml = indices.map(idx => {
+          const item = displayMeta[idx];
+          return `
+            <div class="f-chip ${idx === currentVisibleDayIndex ? 'active-current' : ''}" data-day="${item.id}">
+              <span class="fc-d">${item.d}</span>
+              <span class="fc-t">${item.t}</span>
+            </div>
+          `;
+        }).join('');
+
+        const showLeftDots = indices[0] > 0;
+        const showRightDots = indices[indices.length - 1] < displayMeta.length - 1;
+
+        container.innerHTML = `
+          ${showLeftDots ? `<span class="fold-dots">‹</span>` : ''}
+          ${chipsHtml}
+          ${showRightDots ? `<span class="fold-dots">›</span>` : ''}
+        `;
+      }
+    }
+
+    function handleFloatingChipsClick(e) {
+      const targetChip = e.target.closest('.f-chip');
+      if (targetChip) {
+        const dayId = targetChip.getAttribute('data-day');
+        smoothOpenDay(dayId);
+        if (isChipsFullyExpanded) {
+          isChipsFullyExpanded = false;
+          renderFloatingChips();
+        }
+        return;
+      }
+
+      // 点击展开全量 7 天
+      isChipsFullyExpanded = !isChipsFullyExpanded;
+      renderFloatingChips();
+      
+      if (isChipsFullyExpanded) {
+        clearTimeout(collapseTimer);
+        collapseTimer = setTimeout(() => {
+          isChipsFullyExpanded = false;
+          renderFloatingChips();
+        }, 4000);
+      }
+    }
+
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollY > 20) {
@@ -2292,6 +2344,7 @@
       } else {
         scrollTopBtn.classList.remove('visible');
       }
+      detectCurrentViewingDay();
     }, { passive: true });
 
     function openModal(id) { 
@@ -2355,10 +2408,6 @@
           smoothOpenDay(dayId);
         }
       });
-
-      document.querySelectorAll('.f-chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('fchip-' + dayId);
-      if (chip) chip.classList.add('active');
     }
 
     function smoothOpenDay(id) {
@@ -2366,8 +2415,8 @@
       const t = document.getElementById(id);
       if (t) {
         requestAnimationFrame(() => {
-          const iphoneDynamicIslandOffset = 70;
-          const cardTop = t.getBoundingClientRect().top + window.pageYOffset - iphoneDynamicIslandOffset;
+          const iphoneOffset = 70;
+          const cardTop = t.getBoundingClientRect().top + window.pageYOffset - iphoneOffset;
           window.scrollTo({
             top: Math.max(0, cardTop),
             behavior: 'smooth'
@@ -2377,9 +2426,6 @@
           setTimeout(() => t.classList.remove('focus-halo'), 1000);
         });
       }
-      document.querySelectorAll('.f-chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('fchip-' + id);
-      if (chip) chip.classList.add('active');
     }
 
     function jumpToDayCard(id) {
@@ -2426,6 +2472,7 @@
       });
     }
 
+    /* 地图全部节点地毯式校对绑定 */
     function initAllMetroNodes() {
       attachFastMetroClick('node-sun-all-nrt', () => jumpToDayCard('d1'));
       attachFastMetroClick('node-sun-all-home', () => jumpToDayCard('d1'));
@@ -2449,7 +2496,9 @@
       attachFastMetroClick('node-sun-r-owakudani', () => jumpToNode('tl-d5-8', 'd5'));
       attachFastMetroClick('node-sun-r-sculpture', () => jumpToNode('tl-d5-9', 'd5'));
       attachFastMetroClick('node-sun-r-atami', () => jumpToNode('tl-d5-10', 'd5'));
-      attachFastMetroClick('node-sun-r-omuro', () => jumpToNode('tl-d6-3', 'd6'));
+      
+      // 彻底校正：大室山精准对应 tl-d6-4 (你的名字取景地)
+      attachFastMetroClick('node-sun-r-omuro', () => jumpToNode('tl-d6-4', 'd6'));
       attachFastMetroClick('node-sun-r-cactus', () => jumpToNode('tl-d6-5', 'd6'));
       attachFastMetroClick('node-sun-r-jogasaki', () => jumpToNode('tl-d6-7', 'd6'));
 
@@ -2476,9 +2525,9 @@
       attachFastMetroClick('node-rain-hw-home', () => jumpToNode('tl-d1-4', 'd1'));
       attachFastMetroClick('node-rain-hw-nakameguro', () => jumpToNode('tl-d6-r1', 'd6'));
       attachFastMetroClick('node-rain-hw-daikanyama', () => jumpToNode('tl-d6-r9', 'd6'));
-      attachFastMetroClick('node-rain-hw-shibuya', () => jumpToNode('tl-d6-12', 'd6'));
-      attachFastMetroClick('node-rain-hw-park', () => jumpToNode('tl-d6-13', 'd6'));
-      attachFastMetroClick('node-rain-hw-hnd', () => jumpToNode('tl-d6-14', 'd6'));
+      attachFastMetroClick('node-rain-hw-shibuya', () => jumpToNode('tl-d6-r12', 'd6'));
+      attachFastMetroClick('node-rain-hw-park', () => jumpToNode('tl-d6-r13', 'd6'));
+      attachFastMetroClick('node-rain-hw-hnd', () => jumpToNode('tl-d6-r14', 'd6'));
     }
 
     let currentWeatherMode = 'sunny';
@@ -2514,29 +2563,29 @@
       }
     }
 
-    /* 恢复的卡片内7个快捷跳转胶囊渲染函数 */
+    /* 方案卡片内带日期的7个快捷胶囊 */
     function renderCardNodesBar(mode) {
       const bar = document.getElementById('card-nodes-bar');
       if (!bar) return;
       if (mode === 'sunny') {
         bar.innerHTML = `
-          <button class="card-node-chip" onclick="smoothOpenDay('d1')">落地</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d2')">瞎逛</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d3')">ANA</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d4')">迪士尼</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d5')">箱根</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d6')">伊豆</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d7')">回国</button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d1')"><span>9.30</span><span>落地</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d2')"><span>10.1</span><span>瞎逛</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d3')"><span>10.2</span><span>ANA</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d4')"><span>10.3</span><span>迪士尼</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d5')"><span>10.4</span><span>箱根</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d6')"><span>10.5</span><span>伊豆</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d7')"><span>10.6</span><span>回国</span></button>
         `;
       } else {
         bar.innerHTML = `
-          <button class="card-node-chip" onclick="smoothOpenDay('d1')">落地</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d2')">瞎逛</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d3')">ANA</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d4')">迪士尼</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d5')">箱根</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d6')">WALK</button>
-          <button class="card-node-chip" onclick="smoothOpenDay('d7')">回国</button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d1')"><span>9.30</span><span>落地</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d2')"><span>10.1</span><span>瞎逛</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d3')"><span>10.2</span><span>ANA</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d4')"><span>10.3</span><span>迪士尼</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d5')"><span>10.4</span><span>箱根</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d6')"><span>10.5</span><span>WALK</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d7')"><span>10.6</span><span>回国</span></button>
         `;
       }
     }
@@ -2609,14 +2658,14 @@
           { isDivider: true, title: "代官山" },
           { id: "tl-d6-r9", time: "", place: "茑屋书店", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "一个漂亮的小书店" },
           { id: "tl-d6-r10", time: "", place: "Miffy café", nav: "https://maps.google.com/?q=Miffy+cafe+Daikanyama", desc: "米菲咖啡" },
-          { id: "tl-d6-11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
+          { id: "tl-d6-r11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
 
           { isDivider: true, title: "涩谷" },
-          { id: "tl-d6-12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
+          { id: "tl-d6-r12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
 
           { isDivider: true, title: "公园" },
-          { id: "tl-d6-13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" },
-          { id: "tl-d6-14", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续启程回国。" }
+          { id: "tl-d6-r13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" },
+          { id: "tl-d6-r14", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续启程回国。" }
         ]
       }
     };
@@ -2678,13 +2727,9 @@
         `;
       }).join('');
 
-      const fchipD6Title = document.getElementById('fchip-d6-title');
-      if (fchipD6Title) {
-        fchipD6Title.innerText = (mode === 'sunny') ? '伊豆' : 'WALK';
-      }
-
       renderCardNodesBar(mode);
       updateMapTabsForWeather(mode);
+      renderFloatingChips();
       updateScrollTopColor();
       initAllMetroNodes();
     }
@@ -2695,146 +2740,116 @@
       renderTour(mode);
     }
 
-    const allDisneyData = {
+    /* 方案 3：全量双园主题区/港口百科数据库 */
+    const fullDisneyZones = {
       land: [
-        { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l2', name: '杯面欢乐之旅', wait: '60-90分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l3', name: '太空山', wait: '50-80分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l4', name: '巨雷山', wait: '45-75分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l5', name: '飞溅山', wait: '50-85分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 'l6', name: '幽灵公馆 (万圣特别版)', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l7', name: '小熊维尼猎蜜记', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 'l8', name: '巴斯光年星际历险', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l9', name: '怪兽电力公司：迷藏巡游车', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l10', name: '加勒比海盗', wait: '15-25分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l11', name: '小飞侠天空之旅', wait: '30-45分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l12', name: '星际旅行：冒险续航', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false }
+        {
+          zone: "🌲 梦幻乐园 (Fantasyland)",
+          items: [
+            { name: "美女与野兽：城堡奇缘", tag: "DPA必抢", dpa: true, desc: "搭乘转转魔法咖啡杯，沉浸式穿梭于野兽城堡，视觉舞美原声巅峰。" },
+            { name: "幽灵公馆 (万圣特别版)", tag: "万圣限定", dpa: false, desc: "999只幽灵聚集，万圣节档期《圣诞夜惊魂》杰克特别装饰，氛围感拉满。" },
+            { name: "小熊维尼猎蜜记", tag: "全家推荐", dpa: false, desc: "无轨旋转蜜罐车，逼真还原百亩森林吹大风与跳跳虎弹跳场景。" },
+            { name: "小飞侠天空之旅", tag: "经典复古", dpa: false, desc: "搭乘飞船在夜空中俯瞰伦敦大本钟，直飞梦幻岛。" },
+            { name: "小飞象 / 旋转木马", tag: "经典游乐", dpa: false, desc: "梦幻乐园标志性户外轻量设施，适合拍照打卡。" }
+          ]
+        },
+        {
+          zone: "🚀 明日乐园 (Tomorrowland)",
+          items: [
+            { name: "杯面欢乐之旅", tag: "DPA热门", dpa: true, desc: "超能陆战队大白甩尾车，动感迪斯科洗脑神曲，解压狂欢必刷。" },
+            { name: "太空山", tag: "室内过山车", dpa: false, desc: "在漆黑无光的银河星际高速穿梭，全黑暗视效过山车。" },
+            { name: "怪兽电力公司：迷藏巡游车", tag: "互动手电", dpa: false, desc: "手持手电筒寻找安全帽上的小怪兽M标志，互动感极佳。" },
+            { name: "星际旅行：冒险续航", tag: "3D飞行", dpa: false, desc: "多种随机剧情体验星球大战超光速跳跃与宇宙空战。" }
+          ]
+        },
+        {
+          zone: "🤠 西部乐园 & 动物天地 (Westernland & Critter Country)",
+          items: [
+            { name: "巨雷山", tag: "人气矿山车", dpa: false, desc: "无回旋急转弯矿山过山车，在荒废金矿间高速飞驰，视野极好。" },
+            { name: "飞溅山", tag: "水上俯冲", dpa: true, desc: "搭乘圆木舟缓缓漂流，最后从16米高断崖以45度角冲入瀑布溅起巨浪。" },
+            { name: "豪华马克吐温号 / 顽童汤姆泰山岛", tag: "悠闲观光", dpa: false, desc: "环绕美国河流巡游，感受开拓时代的壮丽河畔景致。" }
+          ]
+        },
+        {
+          zone: "🏴‍☠️ 探险乐园 & 卡通城 (Adventureland & Toontown)",
+          items: [
+            { name: "加勒比海盗", tag: "室内暗骑", dpa: false, desc: "乘小船探访杰克船长与黑珍珠号，逼真机械人偶与海盗炮火特效。" },
+            { name: "丛林巡航：野生动物探险", tag: "船长互动", dpa: false, desc: "乘船穿越充满机械大象、鳄鱼的神秘雨林，船长风趣解说。" },
+            { name: "米奇公馆会米奇 / 艾瑟尔旋转车", tag: "合影互动", dpa: false, desc: "深入卡通城米奇的私人影棚与米奇合影留念。" }
+          ]
+        }
       ],
       sea: [
-        { id: 's1', name: '安娜与艾莎的冰雪之旅', wait: '120-160分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's2', name: '长发公主微菌奇缘', wait: '90-130分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's3', name: '小飞侠梦幻岛历险记', wait: '80-120分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's4', name: '翱翔：梦幻奇航', wait: '100-140分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's5', name: '玩具总动员疯狂游戏屋', wait: '70-100分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 's6', name: '惊魂古塔', wait: '60-90分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's7', name: '地心探险之旅', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's8', name: '印第安纳琼斯：水晶骷髅头魔宫', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's9', name: '忿怒双神 (360度过山车)', wait: '45-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's10', name: '海底两万哩', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 's11', name: '海底巡游艇：尼莫和好友的海洋世界', wait: '25-45分', star: '★★★☆☆', dpa: false, defaultWish: false }
+        {
+          zone: "❄️ 梦幻泉乡 (Fantasy Springs 新园区头牌)",
+          items: [
+            { name: "安娜与艾莎的冰雪之旅", tag: "DPA神作", dpa: true, desc: "顶级水上暗骑，全景立体呈现Elsa《Let It Go》冰雪城堡蜕变魔法。" },
+            { name: "长发公主微菌奇缘", tag: "浪漫天灯", dpa: true, desc: "乘木舟进入水上万盏天灯盛典，浪漫氛围与歌曲完美融合。" },
+            { name: "小飞侠梦幻岛历险记", tag: "3D视听", dpa: true, desc: "戴上3D眼镜与彼得潘飞越梦幻岛营救约翰，身临其境。" },
+            { name: "奇妙仙子妙妙车", tag: "童话穿梭", dpa: false, desc: "帮助小仙子递送精灵山谷四季包裹，轻松惬意。" }
+          ]
+        },
+        {
+          zone: "🌋 神秘岛 (Mysterious Island)",
+          items: [
+            { name: "地心探险之旅", tag: "火山冲刺", dpa: true, desc: "穿行于普罗米修斯活火山地心，最后从火山口疾速喷发俯冲！" },
+            { name: "海底两万哩", tag: "深海探秘", dpa: false, desc: "操控个人探照灯寻找沉没亚特兰蒂斯与发光深海生物。" }
+          ]
+        },
+        {
+          zone: "🗽 美国海滨 (American Waterfront)",
+          items: [
+            { name: "惊魂古塔", tag: "跳楼机神作", dpa: true, desc: "废弃饭店诅咒电梯垂直多次失重坠落，万圣氛围绝配。" },
+            { name: "玩具总动员疯狂游戏屋", tag: "3D射击对战", dpa: true, desc: "钻进胡迪大嘴乘车射击各种3D气球飞靶，老少咸宜争分王。" }
+          ]
+        },
+        {
+          zone: "🌊 地中海海湾 & 失落河三角洲",
+          items: [
+            { name: "翱翔：梦幻奇航", tag: "DPA顶级", dpa: true, desc: "巨幕球形悬空滑翔翼，飞越五大洲名胜，伴随微风与花香气味。" },
+            { name: "印第安纳琼斯：水晶骷髅头魔宫", tag: "越野飞车", dpa: false, desc: "乘坐吉普车在摇晃崩塌的古代神殿内逃避大滚石袭击。" },
+            { name: "忿怒双神", tag: "360度翻转", dpa: false, desc: "在古代石造遗迹中穿梭的360度垂直大回转疾速过山车。" }
+          ]
+        },
+        {
+          zone: "🧞 阿拉伯海岸 & 美人鱼礁湖",
+          items: [
+            { name: "辛巴达传奇之旅", tag: "室内治愈", dpa: false, desc: "伴随Alan Menken动人音乐《Compass of Your Heart》航行。" },
+            { name: "神灯剧场 3D / 礁湖剧场", tag: "室内剧场", dpa: false, desc: "真人和3D精灵互动的魔术剧场，避暑吹空调极佳。" }
+          ]
+        }
       ]
     };
 
     let currentDisneyParkView = 'land';
-    let userDisneyWishes = {};
-
-    function initDisneyWishes() {
-      try {
-        const stored = localStorage.getItem('disney_wishes_v2');
-        if (stored) {
-          userDisneyWishes = JSON.parse(stored);
-        } else {
-          ['land', 'sea'].forEach(park => {
-            allDisneyData[park].forEach(item => {
-              if (item.defaultWish) userDisneyWishes[item.id] = true;
-            });
-          });
-        }
-      } catch (e) {
-        userDisneyWishes = { l1: true, l2: true, l3: true, l4: true, l5: true, l6: true, s1: true, s2: true, s3: true, s4: true, s6: true, s7: true };
-      }
-    }
-
-    function toggleWishItem(id) {
-      if (userDisneyWishes[id]) {
-        delete userDisneyWishes[id];
-      } else {
-        userDisneyWishes[id] = true;
-      }
-      try { localStorage.setItem('disney_wishes_v2', JSON.stringify(userDisneyWishes)); } catch (e) {}
-
-      const scrollArea = document.getElementById('disney-scroll-area');
-      const curScroll = scrollArea ? scrollArea.scrollTop : 0;
-
-      renderDisneyModalView();
-
-      if (scrollArea) {
-        requestAnimationFrame(() => {
-          scrollArea.scrollTop = curScroll;
-        });
-      }
-    }
 
     function setDisneyParkView(park) {
       currentDisneyParkView = park;
       document.getElementById('modal-tab-land').classList.toggle('active', park === 'land');
       document.getElementById('modal-tab-sea').classList.toggle('active', park === 'sea');
-      renderDisneyModalView();
+      renderDisneyEncyclopedia();
     }
 
-    let isDisneyDrawerOpen = false;
-    function toggleDisneyAllDrawer() {
-      isDisneyDrawerOpen = !isDisneyDrawerOpen;
-      const drawer = document.getElementById('disney-all-drawer');
-      const txt = document.getElementById('disney-drawer-btn-txt');
-      if (isDisneyDrawerOpen) {
-        drawer.style.display = 'block';
-        txt.innerText = '收起全量项目库';
-      } else {
-        drawer.style.display = 'none';
-        txt.innerText = '+ 添加更多游玩项目 (展开全量项目库)';
-      }
-    }
+    function renderDisneyEncyclopedia() {
+      const container = document.getElementById('modal-zone-container');
+      const zones = fullDisneyZones[currentDisneyParkView];
 
-    function renderDisneyModalView() {
-      const wishContainer = document.getElementById('modal-wishlist-container');
-      const allContainer = document.getElementById('modal-all-container');
-      const countLabel = document.getElementById('modal-wish-count');
-      const parkData = allDisneyData[currentDisneyParkView];
-
-      const wishes = parkData.filter(i => userDisneyWishes[i.id]);
-      countLabel.innerText = `本园已选 ${wishes.length} 项`;
-
-      if (wishes.length === 0) {
-        wishContainer.innerHTML = `<div style="text-align:center; padding:16px 0; font-size:0.75rem; color:var(--text-muted);">本园区暂无勾选项，请点击下方展开项目库添加！</div>`;
-      } else {
-        wishContainer.innerHTML = wishes.map(item => `
-          <div class="disney-item-card" data-id="${item.id}">
-            <div class="disney-item-meta">
-              <h5>${item.name}</h5>
-              <div class="disney-item-tags">
-                <span class="tag-star">${item.star}</span>
-                <span class="tag-wait">预估排队: ${item.wait}</span>
-                ${item.dpa ? `<span class="tag-dpa">DPA</span>` : ''}
-              </div>
+      container.innerHTML = zones.map(z => `
+        <div class="disney-zone-title">${z.zone}</div>
+        ${z.items.map(item => `
+          <div class="disney-card">
+            <div class="disney-card-top">
+              <span class="disney-card-title">${item.name}</span>
+              <span class="disney-card-tag ${item.dpa ? 'dpa' : ''}">${item.tag}</span>
             </div>
-            <button class="btn-wish-toggle active" onclick="toggleWishItem('${item.id}')">✓ 已在心愿</button>
+            <div class="disney-card-desc">${item.desc}</div>
           </div>
-        `).join('');
-      }
-
-      allContainer.innerHTML = parkData.map(item => {
-        const isSelected = !!userDisneyWishes[item.id];
-        return `
-          <div class="disney-item-card" data-id="${item.id}">
-            <div class="disney-item-meta">
-              <h5>${item.name}</h5>
-              <div class="disney-item-tags">
-                <span class="tag-star">${item.star}</span>
-                <span class="tag-wait">排队: ${item.wait}</span>
-                ${item.dpa ? `<span class="tag-dpa">支持DPA</span>` : ''}
-              </div>
-            </div>
-            <button class="btn-wish-toggle ${isSelected ? 'active' : ''}" onclick="toggleWishItem('${item.id}')">
-              ${isSelected ? '✓ 移除' : '+ 想玩'}
-            </button>
-          </div>
-        `;
-      }).join('');
+        `).join('')}
+      `).join('');
     }
 
     function openDisneyModal() {
-      renderDisneyModalView();
+      renderDisneyEncyclopedia();
       openModal('modal-disney');
     }
 
@@ -3168,12 +3183,11 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行
+    // 初始化执行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
     refreshTodoUI();
-    initDisneyWishes();
     updateTimers();
     initOfflineDetector();
     setInterval(updateTimers, 1000);
