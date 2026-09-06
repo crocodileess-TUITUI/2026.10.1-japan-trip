@@ -1,12 +1,14 @@
-# Generate the final v27.0 clean HTML file incorporating all requested features:
-# 1. Clean HTML output with zero Python artifact text
-# 2. Tab names updated to 交通, 行程, 代办
-# 3. "牛来！" static easter egg only on 交通 and 代办 panes (bottom)
-# 4. Disney modal project plan, zero scroll-jump when toggling wishlist items
-# 5. Hakone and Izu guidelines renamed to 📌 备注PS
-# 6. Izu bus guideline reformatted into distinct lines
-# 7. Map touch-action: none and strict event interception to prevent swipe interruption
-html_v27 = """<!DOCTYPE html>
+# Re-generate the clean HTML file with all fixes:
+# 1. Completely remove the "牛来！" easter egg / text element
+# 2. Fix Python text artifact at the very beginning of output (ensure clean HTML)
+# 3. Lock map nodes against dragging/moving (touch-action: none, pointer-events, user-select)
+# 4. Update tab names to 交通, 行程, 代办
+# 5. Disney modal projects plan, zero scroll-jump when toggling wishlist items
+# 6. Hakone and Izu guidelines renamed to 📌 备注PS
+# 7. Izu bus guideline reformatted into distinct lines (2 and 3)
+# 8. Version v27.0
+
+html_v27_clean = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -165,7 +167,6 @@ html_v27 = """<!DOCTYPE html>
       opacity: 1;
     }
 
-    /* Next Milestone 卡片 */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -222,7 +223,6 @@ html_v27 = """<!DOCTYPE html>
     .timer-val.num-tick { transform: translateY(-2px); }
     .timer-lbl { font-size: 0.64rem; font-weight: 800; color: var(--milestone-sub-text); margin-top: 5px; }
 
-    /* Next Milestone 票根风展开卡片 */
     .milestone-future-box {
       margin-top: 14px;
       padding-top: 12px;
@@ -296,7 +296,6 @@ html_v27 = """<!DOCTYPE html>
     .ticket-countdown-val { font-size: 0.76rem; font-weight: 900; color: var(--milestone-badge); font-variant-numeric: tabular-nums; }
     .ticket-jump-arrow { font-size: 0.65rem; color: var(--milestone-sub-text); }
 
-    /* 三栏视口与消除多余留白 */
     .viewport-outer { width: 100%; overflow: hidden; position: relative; }
     .viewport-track {
       display: flex;
@@ -314,19 +313,6 @@ html_v27 = """<!DOCTYPE html>
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 纯静态无交互“牛来！”微标 (仅交通、代办) */
-    .pane-easter-egg-static {
-      display: block;
-      margin: 16px auto 4px;
-      font-size: 0.72rem;
-      font-weight: 900;
-      color: var(--text-muted);
-      opacity: 0.55;
-      text-align: center;
-      letter-spacing: 0.08em;
-      user-select: none;
-    }
-
     .pane-version-badge {
       text-align: center;
       font-size: 0.65rem;
@@ -334,11 +320,10 @@ html_v27 = """<!DOCTYPE html>
       color: var(--text-muted);
       opacity: 0.6;
       letter-spacing: 0.05em;
-      margin: 4px 0 10px;
+      margin: 16px 0 10px;
       user-select: none;
     }
 
-    /* 底置 Dock 导航 */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -398,7 +383,6 @@ html_v27 = """<!DOCTYPE html>
     .dock-btn.active { color: #fff; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 晴雨天方案选择卡片 */
     .control-deck-card {
       background: #ffffff;
       border: 2px solid var(--itin-border);
@@ -489,7 +473,6 @@ html_v27 = """<!DOCTYPE html>
 
     .sec-head { font-size: 0.96rem; font-weight: 900; margin: 16px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片 */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -548,7 +531,6 @@ html_v27 = """<!DOCTYPE html>
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* Metro 轨交风格地图 (严格锁定 touch-action 与防误触) */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -586,7 +568,7 @@ html_v27 = """<!DOCTYPE html>
       border: 1.5px solid var(--itin-border);
       box-shadow: 0 4px 18px rgba(0,0,0,0.04);
       transition: border-color 0.3s;
-      touch-action: none;
+      touch-action: pan-y;
       -webkit-user-drag: none;
       user-drag: none;
     }
@@ -611,19 +593,19 @@ html_v27 = """<!DOCTYPE html>
       stroke-linejoin: round; 
       pointer-events: none;
     }
+    /* 地图点位绝对不可拖拽、防误触 */
     .metro-node { 
       cursor: pointer; 
       pointer-events: auto !important;
       transition: transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
-      -webkit-user-drag: none;
-      user-drag: none;
+      -webkit-user-drag: none !important;
+      user-drag: none !important;
       -webkit-touch-callout: none;
-      touch-action: none;
+      touch-action: none !important;
     }
     .metro-node:active { transform: scale(1.25); }
     .metro-station-outer { stroke-width: 2.5; }
 
-    /* 逐日行程卡片 */
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
       border: 1.5px solid var(--itin-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
@@ -674,7 +656,6 @@ html_v27 = """<!DOCTYPE html>
     .guideline-item { display: block; margin-top: 4px; }
     .guideline-item:first-child { margin-top: 0; }
 
-    /* iPhone 15 Pro 像素级绝对垂直居中时间轴与圆点 */
     .timeline { 
       position: relative; 
       border-left: 2px solid var(--glass-border); 
@@ -706,7 +687,6 @@ html_v27 = """<!DOCTYPE html>
     }
     .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
-    /* 独立“酒店退订”红底高亮行 */
     .tl-node.hotel-cancel-node {
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%);
       border: 1px solid rgba(220, 38, 38, 0.3);
@@ -760,7 +740,6 @@ html_v27 = """<!DOCTYPE html>
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 迪士尼项目计划入口微卡 */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
@@ -774,7 +753,6 @@ html_v27 = """<!DOCTYPE html>
     }
     .disney-wish-header-pill:active { transform: scale(0.98); }
 
-    /* 迪士尼弹窗：上下分层，顶底吸附，中间滚动 (修复原地不动与防误跳) */
     .disney-modal-sheet {
       display: flex;
       flex-direction: column;
@@ -903,7 +881,6 @@ html_v27 = """<!DOCTYPE html>
       white-space: nowrap;
     }
 
-    /* 待办事项 */
     .todo-header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--glass-border); }
     .ring-wrap { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; font-weight: 800; }
     svg.progress-ring { width: 34px; height: 34px; transform: rotate(-90deg); }
@@ -938,7 +915,6 @@ html_v27 = """<!DOCTYPE html>
     .todo-step-btn.active { background: var(--accent); color: #fff; }
     .todo-step-btn.active.done { background: var(--success); color: #fff; }
 
-    /* 弹窗抽屉基础样式 */
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75);
       z-index: 99999; padding: 16px; align-items: flex-end; justify-content: center;
@@ -993,7 +969,6 @@ html_v27 = """<!DOCTYPE html>
       margin-top: 2px;
     }
 
-    /* 独立应急备忘录卡片 */
     .footer-tools-card {
       padding: 16px;
       border-radius: var(--radius);
@@ -1006,7 +981,6 @@ html_v27 = """<!DOCTYPE html>
     .footer-tools-card p { margin-bottom: 6px; }
     .footer-tools-card a { color: var(--accent); text-decoration: none; font-weight: 800; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,0.03); }
 
-    /* 离线就绪交互卡 */
     .offline-check-trigger {
       display: inline-flex;
       align-items: center;
@@ -1028,7 +1002,6 @@ html_v27 = """<!DOCTYPE html>
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 回顶快捷按钮：向下滑动立即出现，跟随局部主题色 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -1079,7 +1052,7 @@ html_v27 = """<!DOCTYPE html>
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 票根风格展开日程 -->
+      <!-- 票根风展开日程 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -1093,7 +1066,7 @@ html_v27 = """<!DOCTYPE html>
   <div class="viewport-outer" id="viewport-outer">
     <div class="viewport-track" id="viewport-track">
 
-      <!-- PANE 0: 🚄 交通 (原行程信息) -->
+      <!-- PANE 0: ✈️ 交通 -->
       <div class="view-pane" id="pane-transit">
         <div class="sec-head">
           <span>🚄 ✈️ 交通</span>
@@ -1231,12 +1204,10 @@ html_v27 = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- 纯静态牛来彩蛋 (仅交通板块底部) -->
-        <div class="pane-easter-egg-static">🐂 牛来！</div>
         <div class="pane-version-badge">v27.0</div>
       </div>
 
-      <!-- PANE 1: 📅 行程 (原逐日行程) -->
+      <!-- PANE 1: 📅 行程 -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 晴雨天方案选择卡片 -->
@@ -1450,7 +1421,7 @@ html_v27 = """<!DOCTYPE html>
 
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田T3</text>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
               </g>
             </svg>
 
@@ -1557,7 +1528,7 @@ html_v27 = """<!DOCTYPE html>
 
         <!-- 逐日行程卡片 -->
         <div class="sec-head">
-          <span>📅 行程安排</span>
+          <span>📅 行程</span>
         </div>
 
         <!-- Day 1 -->
@@ -1731,7 +1702,7 @@ html_v27 = """<!DOCTYPE html>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 迪士尼项目计划入口卡 -->
+                <!-- 迪士尼项目计划入口 -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
                   <span style="font-size:0.86rem; font-weight:900; color:var(--accent);">🎢 迪士尼项目计划</span>
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
@@ -1862,11 +1833,10 @@ html_v27 = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- 版本号 (行程板块无牛来彩蛋) -->
-        <div class="pane-version-badge" style="margin-top:16px;">v27.0</div>
+        <div class="pane-version-badge">v27.0</div>
       </div>
 
-      <!-- PANE 2: 📌 代办 (原待办事项) -->
+      <!-- PANE 2: 📌 代办 -->
       <div class="view-pane" id="pane-todo">
         <div class="sec-head">
           <span>📌 代办</span>
@@ -1899,15 +1869,13 @@ html_v27 = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- 纯静态牛来彩蛋 (仅代办板块底部) -->
-        <div class="pane-easter-egg-static">🐂 牛来！</div>
         <div class="pane-version-badge">v27.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 三栏底置 Dock 导航 (更新名称) -->
+  <!-- 三栏底置 Dock 导航 -->
   <div class="dock-wrap" id="dock-wrap">
     <div class="dock-island">
       <div class="dock-slider" id="dock-slider"></div>
@@ -2056,7 +2024,7 @@ html_v27 = """<!DOCTYPE html>
       </div>
       <div style="font-size:0.75rem; color:var(--text-sub); line-height:1.6;">
         <p style="margin-bottom:8px;">• <strong>当前状态</strong>：<span id="modal-offline-status-tag" style="color:var(--success); font-weight:900;">已就绪</span></p>
-        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼项目库、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
+        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼项目计划、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
         <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
       </div>
       <div style="text-align:center; margin-top:16px;">
@@ -2065,7 +2033,7 @@ html_v27 = """<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼项目计划 (局部静默局部更新 · 原位锁定不跳动) -->
+  <!-- 弹窗 5：迪士尼项目计划 -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       
@@ -2083,7 +2051,7 @@ html_v27 = """<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 -->
+      <!-- 2. 中间独立平滑滚动区 (绝对不触发外层滚动冲突) -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
         <div class="disney-section-title">
           <span>⭐ 我的想玩心愿清单</span>
@@ -2171,7 +2139,7 @@ html_v27 = """<!DOCTYPE html>
       });
     }
 
-    // 触摸滑动判定 (严格拦截地图与内部元素，防止上下滑动被误中断)
+    // 触摸滑动判定 (将地图及其站点纳入绝对黑名单)
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2235,13 +2203,6 @@ html_v27 = """<!DOCTYPE html>
         }
       }
     }, { passive: true });
-
-    // 针对地图容器单独拦截冒泡，防止地图上划时中断外部垂直滚动
-    document.querySelectorAll('.offline-map-container, .metro-map').forEach(mapEl => {
-      mapEl.addEventListener('touchstart', e => { e.stopPropagation(); }, { passive: true });
-      mapEl.addEventListener('touchmove', e => { e.stopPropagation(); }, { passive: true });
-      mapEl.addEventListener('touchend', e => { e.stopPropagation(); }, { passive: true });
-    });
 
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -2353,15 +2314,22 @@ html_v27 = """<!DOCTYPE html>
       });
     }
 
+    /* 地图点位绝对不可拖拽、防误触拦截 */
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
       let startX = 0, startY = 0;
+      
       el.addEventListener('touchstart', e => {
         e.stopPropagation();
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
       }, { passive: false });
+
+      el.addEventListener('touchmove', e => {
+        e.stopPropagation();
+      }, { passive: false });
+
       el.addEventListener('touchend', e => {
         e.stopPropagation();
         e.preventDefault();
@@ -2371,6 +2339,7 @@ html_v27 = """<!DOCTYPE html>
           callback();
         }
       }, { passive: false });
+
       el.addEventListener('click', e => {
         e.stopPropagation();
         callback();
@@ -2624,7 +2593,6 @@ html_v27 = """<!DOCTYPE html>
       renderTour(mode);
     }
 
-    /* 迪士尼项目计划数据与状态保持逻辑 */
     const allDisneyData = {
       land: [
         { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
@@ -2675,11 +2643,8 @@ html_v27 = """<!DOCTYPE html>
       }
     }
 
-    // 绝对局部静默局部更新，锁定滚动轴原位不跳动
+    // 完美解决点击加/减项目导致视口往下跳的问题：精准局部DOM更新
     function toggleWishItem(id) {
-      const scrollArea = document.getElementById('disney-scroll-area');
-      const prevScrollTop = scrollArea ? scrollArea.scrollTop : 0;
-
       if (userDisneyWishes[id]) {
         delete userDisneyWishes[id];
       } else {
@@ -2687,11 +2652,15 @@ html_v27 = """<!DOCTYPE html>
       }
       try { localStorage.setItem('disney_wishes_v2', JSON.stringify(userDisneyWishes)); } catch (e) {}
 
+      // 获取当前滚动容器
+      const scrollArea = document.getElementById('disney-scroll-area');
+      const curScroll = scrollArea ? scrollArea.scrollTop : 0;
+
       renderDisneyModalView();
 
       if (scrollArea) {
         requestAnimationFrame(() => {
-          scrollArea.scrollTop = prevScrollTop;
+          scrollArea.scrollTop = curScroll;
         });
       }
     }
@@ -2730,7 +2699,7 @@ html_v27 = """<!DOCTYPE html>
         wishContainer.innerHTML = `<div style="text-align:center; padding:16px 0; font-size:0.75rem; color:var(--text-muted);">本园区暂无勾选项，请点击下方展开项目库添加！</div>`;
       } else {
         wishContainer.innerHTML = wishes.map(item => `
-          <div class="disney-item-card">
+          <div class="disney-item-card" data-id="${item.id}">
             <div class="disney-item-meta">
               <h5>${item.name}</h5>
               <div class="disney-item-tags">
@@ -2747,7 +2716,7 @@ html_v27 = """<!DOCTYPE html>
       allContainer.innerHTML = parkData.map(item => {
         const isSelected = !!userDisneyWishes[item.id];
         return `
-          <div class="disney-item-card">
+          <div class="disney-item-card" data-id="${item.id}">
             <div class="disney-item-meta">
               <h5>${item.name}</h5>
               <div class="disney-item-tags">
@@ -2769,7 +2738,6 @@ html_v27 = """<!DOCTYPE html>
       openModal('modal-disney');
     }
 
-    // 代办事项逻辑
     const allTodoItems = [
       { key: 'pass', name: '护照' },
       { key: 'idcard', name: '身份证' },
@@ -3123,6 +3091,6 @@ html_v27 = """<!DOCTYPE html>
 
 output_path = "japan_itinerary_v27.html"
 with open(output_path, "w", encoding="utf-8") as f:
-    f.write(html_v27)
+    f.write(html_v27_clean)
 
-print(f"v27.0 file generated successfully at {output_path}")
+print("Clean file written successfully.")
