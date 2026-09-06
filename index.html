@@ -132,7 +132,7 @@
     body {
       background-color: var(--bg);
       color: var(--text-main);
-      line-height: 1.65; /* 可读性优化：拉开行高 */
+      line-height: 1.65;
       padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 105px);
       max-width: 680px;
       margin: 0 auto;
@@ -140,7 +140,7 @@
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
-      overscroll-behavior-x: none; /* 交互性优化：增加侧滑边缘阻尼防误触 */
+      overscroll-behavior-x: none;
     }
 
     #mini-toast {
@@ -173,7 +173,6 @@
       border: 1.5px solid var(--milestone-border);
       border-radius: var(--radius);
       padding: 18px;
-      /* 美观性优化：多重叠加空气感阴影 */
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08), 0 0 28px rgba(14, 165, 233, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.6);
       position: relative;
       transition: background 0.35s, color 0.35s, border-color 0.35s;
@@ -324,7 +323,7 @@
       user-select: none;
     }
 
-    /* 底部灵动胶囊栏：两侧固定箭头空位，中间严格 3 框固定坐标绝对不偏移 */
+    /* 底部灵动胶囊栏：去掉了两侧箭头，只保留严格固定的左中右三个小框 */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
@@ -345,34 +344,24 @@
       -webkit-backdrop-filter: blur(25px);
       border: 1px solid var(--glass-border);
       border-radius: 28px;
-      padding: 4px 10px;
+      padding: 4px 6px;
       box-shadow: 0 14px 34px rgba(0,0,0,0.16), inset 0 1px 1px rgba(255, 255, 255, 0.5);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 270px;
+      justify-content: center;
+      gap: 6px;
+      width: 226px; /* 严格固定 3 个小框的整体宽度 */
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
     }
     .floating-chips-inner:active { cursor: grabbing; }
 
-    .chip-arrow {
-      width: 22px;
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 900;
-      color: var(--itin-main);
-      transition: opacity 0.2s;
-      flex-shrink: 0;
-    }
-    .chip-arrow.disabled { opacity: 0.15; pointer-events: none; }
-
     .chips-center-group {
       display: flex;
       align-items: center;
       gap: 6px;
-      flex: 1;
+      width: 100%;
       justify-content: center;
     }
 
@@ -391,7 +380,7 @@
       line-height: 1.15;
       font-size: 0.58rem;
       opacity: 0.65;
-      width: 62px;
+      width: 68px; /* 严格固定每个小框宽度 */
       text-align: center;
       flex-shrink: 0;
     }
@@ -1332,7 +1321,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v7.3</div>
+        <div class="pane-version-badge">v7.4</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1950,7 +1939,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v7.3</div>
+        <div class="pane-version-badge">v7.4</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1985,18 +1974,16 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v7.3</div>
+        <div class="pane-version-badge">v7.4</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 底部灵动胶囊栏 -->
+  <!-- 底部灵动胶囊栏：彻底去除左右箭头，仅保留纯净的左中右三个方块 -->
   <div class="floating-chips-container" id="floating-chips-container">
     <div class="floating-chips-inner" id="floating-chips-bar">
-      <span class="chip-arrow" id="chip-arrow-left">‹</span>
       <div class="chips-center-group" id="chips-center-group"></div>
-      <span class="chip-arrow" id="chip-arrow-right">›</span>
     </div>
   </div>
 
@@ -2310,7 +2297,7 @@
       }
     }, { passive: true });
 
-    /* 悬浮折叠胶囊核心逻辑：两侧固定箭头空位，中间严格 3 框坐标锁定防偏移 */
+    /* 悬浮折叠胶囊核心逻辑：仅保留纯净左中右三个方块，无箭头，支持手势滑动切换 */
     const allDaysMeta = [
       { id: 'd1', d: '9.30', t: '落地' },
       { id: 'd2', d: '10.1', t: '瞎逛' },
@@ -2344,8 +2331,6 @@
 
     function renderFloatingChips() {
       const centerGroup = document.getElementById('chips-center-group');
-      const arrowLeft = document.getElementById('chip-arrow-left');
-      const arrowRight = document.getElementById('chip-arrow-right');
       if (!centerGroup) return;
 
       const d6Title = (currentWeatherMode === 'sunny') ? '伊豆' : 'WALK';
@@ -2375,9 +2360,6 @@
       const middleHtml = `<div class="f-chip active-current" data-day="${currItem.id}" data-index="${currentVisibleDayIndex}"><span class="fc-d">${currItem.d}</span><span class="fc-t">${currItem.t}</span></div>`;
 
       centerGroup.innerHTML = leftHtml + middleHtml + rightHtml;
-
-      if (arrowLeft) arrowLeft.classList.toggle('disabled', currentVisibleDayIndex === 0);
-      if (arrowRight) arrowRight.classList.toggle('disabled', currentVisibleDayIndex === displayMeta.length - 1);
     }
 
     // 胶囊栏磁吸左右拨动手势及触觉反馈逻辑
@@ -2752,7 +2734,7 @@
           { id: "tl-d6-r4", time: "", place: "I'm donut ?", nav: "https://maps.google.com/?q=I'm+donut+Nakameguro", desc: "很多人吃的甜甜圈 只能cash" },
           { id: "tl-d6-r5", time: "", place: "樱桥", nav: "https://maps.google.com/?q=Sakura-bashi+Nakameguro", desc: "周杰伦机位" },
           { id: "tl-d6-r6", time: "", place: "dacō", nav: "https://maps.google.com/?q=dacō+Nakameguro", desc: "平价面包店" },
-          { id: "tl-d6-r7", time: "", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡,很多人喝，但是好像一般般" },
+          { id: "tl-d6-r7", time: "", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡，很多人喝，但是好像一般般" },
           { id: "tl-d6-r8", time: "", place: "星巴克", nav: "https://maps.google.com/?q=Starbucks+Reserve+Roastery+Tokyo", desc: "亚洲最大星巴克，提前搜一下预约码" },
 
           { isDivider: true, title: "代官山" },
