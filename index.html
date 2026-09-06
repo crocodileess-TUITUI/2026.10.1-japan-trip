@@ -33,32 +33,6 @@
       --island-text: #ffffff;
       --radius: 22px;
       
-      --modal-bg: #ffffff;
-      --modal-text: #0f172a;
-      --modal-border: rgba(0, 0, 0, 0.12);
-      --modal-sub: #475569;
-      --modal-table-th-bg: #f1f5f9;
-      --modal-table-th-text: #0284c7;
-      --modal-table-td-border: #e2e8f0;
-      --modal-table-td-text: #0f172a;
-
-      /* 方案联动变量默认晴天/白天 */
-      --scheme-main: #d97706;
-      --scheme-border: rgba(245, 158, 11, 0.45);
-      --scheme-soft: rgba(245, 158, 11, 0.12);
-      --scheme-shadow: rgba(245, 158, 11, 0.22);
-    }
-
-    /* 晴雨方案联动：雨天时段类 */
-    body.weather-rainy {
-      --scheme-main: #047857;
-      --scheme-border: rgba(4, 120, 87, 0.45);
-      --scheme-soft: rgba(4, 120, 87, 0.12);
-      --scheme-shadow: rgba(4, 120, 87, 0.22);
-    }
-
-    /* 昼夜时间联动：“下一行程”与底部导航栏统一风格 */
-    body.is-day {
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
       --milestone-border: rgba(14, 165, 233, 0.4);
       --milestone-text: #0f172a;
@@ -68,18 +42,31 @@
       --milestone-val-text: #0f172a;
       --milestone-sub-text: #475569;
       --milestone-item-bg: rgba(255, 255, 255, 0.92);
+
+      --modal-bg: #ffffff;
+      --modal-text: #0f172a;
+      --modal-border: rgba(0, 0, 0, 0.12);
+      --modal-sub: #475569;
+      --modal-table-th-bg: #f1f5f9;
+      --modal-table-th-text: #0284c7;
+      --modal-table-td-border: #e2e8f0;
+      --modal-table-td-text: #0f172a;
+
+      --itin-main: #d97706;
+      --itin-border: rgba(245, 158, 11, 0.45);
+      --itin-soft: rgba(245, 158, 11, 0.12);
+      --itin-shadow: rgba(245, 158, 11, 0.22);
     }
 
-    body.is-night {
-      --bg: #000000;
-      --glass-bg: rgba(26, 28, 35, 0.90);
-      --glass-card: rgba(32, 35, 45, 0.96);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.80);
-      --text-main: #f5f5f7;
-      --text-sub: #cbd5e1;
-      --text-muted: #94a3b8;
-      
+    #pane-itinerary.itin-rainy {
+      --itin-main: #047857;
+      --itin-border: rgba(4, 120, 87, 0.45);
+      --itin-soft: rgba(4, 120, 87, 0.12);
+      --itin-shadow: rgba(4, 120, 87, 0.22);
+    }
+
+    body.is-night,
+    body.is-night .top-timer-card {
       --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%) !important;
       --milestone-border: rgba(56, 189, 248, 0.38) !important;
       --milestone-text: #ffffff !important;
@@ -89,7 +76,9 @@
       --milestone-val-text: #f8fafc !important;
       --milestone-sub-text: #94a3b8 !important;
       --milestone-item-bg: rgba(25, 33, 50, 0.90) !important;
+    }
 
+    body.is-night {
       --modal-bg: #121826;
       --modal-text: #ffffff;
       --modal-border: rgba(255, 255, 255, 0.18);
@@ -98,6 +87,24 @@
       --modal-table-th-text: #38bdf8;
       --modal-table-td-border: rgba(255, 255, 255, 0.15);
       --modal-table-td-text: #ffffff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --glass-bg: rgba(26, 28, 35, 0.90);
+        --glass-card: rgba(32, 35, 45, 0.96);
+        --glass-border: rgba(255, 255, 255, 0.15);
+        --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.80);
+        --text-main: #f5f5f7;
+        --text-sub: #cbd5e1;
+        --text-muted: #94a3b8;
+        --accent: #2997ff;
+        --accent-soft: rgba(41, 151, 255, 0.18);
+        --accent-border: rgba(41, 151, 255, 0.35);
+        --island-bg: #121214;
+        --island-text: #ffffff;
+      }
     }
 
     * { 
@@ -122,7 +129,6 @@
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
-      transition: background 0.35s, color 0.35s;
     }
 
     #mini-toast {
@@ -151,7 +157,6 @@
       opacity: 1;
     }
 
-    /* 下一行程卡片 (跟随昼夜时间自动联动) */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -309,7 +314,6 @@
       user-select: none;
     }
 
-    /* 底部导航栏（跟随昼夜时间自动联动，保证字体极高易读性） */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -332,7 +336,7 @@
       padding: 4px;
       display: flex;
       align-items: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.12);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.15);
       width: fit-content;
       position: relative;
     }
@@ -354,29 +358,28 @@
       z-index: 2;
       border: none;
       background: transparent;
-      color: #cbd5e1; /* 保证未选中文字高对比度易读 */
+      color: rgba(255, 255, 255, 0.85);
       padding: 8px 18px;
       border-radius: 30px;
       font-size: 0.76rem;
       font-weight: 800;
-      letter-spacing: 0.02em;
+      letter-spacing: -0.01em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       transition: color 0.25s;
     }
-    .dock-btn.active { color: #ffffff !important; font-weight: 900; }
+    .dock-btn.active { color: #ffffff !important; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 晴雨天方案选择卡片 */
     .control-deck-card {
       background: #ffffff;
-      border: 2px solid var(--scheme-border);
+      border: 2px solid var(--itin-border);
       border-radius: var(--radius);
       padding: 14px;
       margin-bottom: 14px;
-      box-shadow: 0 10px 28px var(--scheme-shadow);
+      box-shadow: 0 10px 28px var(--itin-shadow);
       display: flex;
       flex-direction: column;
       gap: 9px;
@@ -430,12 +433,11 @@
       .toggle-sub-note { color: #94a3b8; }
     }
 
-    /* 行程日期胶囊快捷栏 (与左下角回顶悬浮窗统一跟随晴雨天方案变色，且“10.3 迪士尼”绝不分行) */
     .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; touch-action: pan-x; width: 100%; }
     .chips-bar::-webkit-scrollbar { display: none; }
     .chips-bar::after { content: ''; display: block; width: 12px; flex-shrink: 0; }
     .chip {
-      white-space: nowrap !important; /* 核心防折行，确保迪士尼等字样永不分行 */
+      white-space: nowrap !important;
       padding: 7px 13px;
       font-size: 0.74rem;
       font-weight: 800;
@@ -453,10 +455,10 @@
       .chip { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.15); color: #e2e8f0; }
     }
     .chip.active, .chip:active { 
-      background: var(--scheme-main) !important; 
+      background: var(--itin-main) !important; 
       color: #fff !important; 
-      border-color: var(--scheme-main) !important; 
-      box-shadow: 0 3px 10px var(--scheme-shadow); 
+      border-color: var(--itin-main) !important; 
+      box-shadow: 0 3px 10px var(--itin-shadow); 
     }
 
     .sec-head { font-size: 0.96rem; font-weight: 900; margin: 16px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
@@ -537,9 +539,9 @@
     }
     @media (prefers-color-scheme: dark) { .map-tab-btn { color: #cbd5e1; } }
     .map-tab-btn.active { 
-      background: var(--scheme-main); 
+      background: var(--itin-main); 
       color: #fff; 
-      box-shadow: 0 2px 8px var(--scheme-shadow); 
+      box-shadow: 0 2px 8px var(--itin-shadow); 
     }
     
     .offline-map-container {
@@ -553,7 +555,7 @@
       height: 275px; 
       overflow: hidden; 
       position: relative; 
-      border: 1.5px solid var(--scheme-border);
+      border: 1.5px solid var(--itin-border);
       box-shadow: 0 4px 18px rgba(0,0,0,0.04);
       transition: border-color 0.3s;
       touch-action: pan-y;
@@ -595,15 +597,15 @@
 
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-      border: 1.5px solid var(--scheme-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
+      border: 1.5px solid var(--itin-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
       overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .day-wrapper.focus-halo { box-shadow: 0 0 0 3px var(--scheme-main), 0 12px 30px var(--scheme-shadow) !important; }
+    .day-wrapper.focus-halo { box-shadow: 0 0 0 3px var(--itin-main), 0 12px 30px var(--itin-shadow) !important; }
 
-    .day-wrapper .day-badge-big { background: var(--scheme-soft); border: 1px solid var(--scheme-border); color: var(--scheme-main); }
-    .day-wrapper .tl-time { background: var(--scheme-soft); border: 1px solid var(--scheme-border); color: var(--scheme-main); }
-    .day-wrapper .tl-node::before { background: var(--scheme-main); }
-    .day-wrapper .btn-nav-pin { background: var(--scheme-soft); border: 1px solid var(--scheme-border); color: var(--scheme-main); }
+    .day-wrapper .day-badge-big { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
+    .day-wrapper .tl-time { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
+    .day-wrapper .tl-node::before { background: var(--itin-main); }
+    .day-wrapper .btn-nav-pin { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
 
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--glass-border); background: var(--glass-bg); }
     .day-meta { display: flex; align-items: center; gap: 14px; }
@@ -622,8 +624,8 @@
       border-radius: 16px;
       padding: 12px 14px;
       margin-bottom: 16px;
-      border: 1.5px solid var(--scheme-border);
-      background: var(--scheme-soft);
+      border: 1.5px solid var(--itin-border);
+      background: var(--itin-soft);
       transition: all 0.3s;
     }
     .guideline-header {
@@ -633,7 +635,7 @@
       align-items: center;
       gap: 6px;
       margin-bottom: 6px;
-      color: var(--scheme-main);
+      color: var(--itin-main);
     }
     .guideline-body {
       font-size: 0.74rem;
@@ -672,7 +674,7 @@
       transition: background 0.3s;
       z-index: 2;
     }
-    .tl-node.node-flash { background: var(--scheme-soft); box-shadow: 0 0 18px var(--scheme-shadow); }
+    .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
     .tl-node.hotel-cancel-node {
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%);
@@ -724,7 +726,7 @@
       background: var(--glass-bg); border-radius: 12px; padding: 10px 14px; margin-top: 8px; 
       font-size: 0.74rem; color: var(--text-sub); border: 1px solid var(--glass-border); line-height: 1.55; 
     }
-    .tl-notes strong { color: var(--scheme-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
+    .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
     .disney-wish-header-pill {
@@ -835,8 +837,8 @@
     }
 
     .btn-action-pill {
-      display: inline-flex; align-items: center; gap: 4px; background: var(--scheme-soft);
-      border: 1px solid var(--scheme-border); color: var(--scheme-main); font-size: 0.70rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 4px; background: var(--itin-soft);
+      border: 1px solid var(--itin-border); color: var(--itin-main); font-size: 0.70rem; font-weight: 700;
       padding: 5px 11px; border-radius: 10px; cursor: pointer; margin-top: 6px; text-decoration: none; transition: all 0.3s;
     }
     .btn-action-pill:active { transform: scale(0.95); }
@@ -861,7 +863,7 @@
       letter-spacing: 0.08em;
       border-radius: 20px;
       background: var(--glass-bg);
-      border: 1px solid var(--scheme-border);
+      border: 1px solid var(--itin-border);
       color: var(--text-main);
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       margin: 0 10px;
@@ -989,7 +991,7 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 左下角回顶悬浮窗：仅保留纯箭头/圆润浮动球，联动晴雨天方案变色，无图钉与多余文字 */
+    /* 左下角极简回顶悬浮窗：无图钉无文字，纯箭头圆球，颜色与晴雨天气方案挂钩联动 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -997,14 +999,14 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--scheme-main);
+      background: var(--itin-main);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 15px;
       font-weight: 900;
-      box-shadow: 0 10px 24px var(--scheme-shadow);
+      box-shadow: 0 10px 24px var(--itin-shadow);
       cursor: pointer;
       opacity: 0;
       pointer-events: none;
@@ -1019,13 +1021,13 @@
     @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
   </style>
 </head>
-<body class="is-day">
+<body>
 
   <div class="confetti-box" id="confetti-box"></div>
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- 下一行程卡片 (改名自 Next Milestone，与底部导航栏一同根据昼夜时间自动联动) -->
+  <!-- 下一行程卡片 -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
       <div class="timer-badge">
@@ -1060,7 +1062,6 @@
           <span>🚄 ✈️ 交通</span>
         </div>
 
-        <!-- 1. 去程高铁 -->
         <div class="transit-card" id="train-dep">
           <div class="t-head">
             <div class="t-head-left">
@@ -1090,7 +1091,6 @@
           </div>
         </div>
 
-        <!-- 2. 去程航班 -->
         <div class="transit-card" id="flight-uo652">
           <div class="t-head">
             <div class="t-head-left">
@@ -1120,7 +1120,6 @@
           </div>
         </div>
 
-        <!-- 3. 回程航班 -->
         <div class="transit-card" id="flight-uo623">
           <div class="t-head">
             <div class="t-head-left">
@@ -1150,7 +1149,6 @@
           </div>
         </div>
 
-        <!-- 4. 回程高铁 -->
         <div class="transit-card" id="train-arr" style="margin-bottom:0;">
           <div class="t-head">
             <div class="t-head-left">
@@ -1180,7 +1178,6 @@
           </div>
         </div>
 
-        <!-- 独立应急备忘录卡片 1 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -1198,7 +1195,7 @@
       <!-- PANE 1: 📅 行程 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨天方案选择卡片 (联动日期胶囊与左下角悬浮窗变色) -->
+        <!-- 晴雨天方案选择卡片 -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨天方案选择</div>
@@ -1209,7 +1206,7 @@
           </div>
           <div class="toggle-sub-note">晴天:箱根+热海+伊豆 ｜ 雨天:箱根+WALK</div>
 
-          <!-- 联动日期快捷胶囊 (white-space: nowrap 确保 10.3 迪士尼绝不分行) -->
+          <!-- 联动日期快捷胶囊 -->
           <div class="chips-bar" id="chips-bar-scroll">
             <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
             <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')">10.1 瞎逛</a>
@@ -1229,7 +1226,6 @@
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 晴天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
@@ -1280,7 +1276,6 @@
               </g>
             </svg>
 
-            <!-- 晴天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-sun-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,125 L 340,125" stroke="#f59e0b" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#f59e0b" stroke-width="4.5"/>
@@ -1301,7 +1296,6 @@
               </g>
             </svg>
 
-            <!-- 晴天 3：箱根·热海·伊豆 -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
@@ -1367,7 +1361,6 @@
               </g>
             </svg>
 
-            <!-- 雨天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
@@ -1409,11 +1402,10 @@
 
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田T3</text>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-danger)">羽田T3</text>
               </g>
             </svg>
 
-            <!-- 雨天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-rain-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,125 L 340,125" stroke="#047857" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#047857" stroke-width="4.5"/>
@@ -1434,7 +1426,6 @@
               </g>
             </svg>
 
-            <!-- 雨天 3：箱根·WALK -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 15 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
               <path class="metro-line" d="M 240,145 L 240,195 L 295,195 L 350,195 L 400,195 L 445,195" stroke="#047857" stroke-width="3.5"/>
@@ -1564,7 +1555,6 @@
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
-              <!-- 酒店退订 ⚠️ -->
               <div class="tl-node hotel-cancel-node" id="tl-d1-5">
                 <div class="tl-top">
                   <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
@@ -1809,7 +1799,6 @@
           </div>
         </div>
 
-        <!-- 独立应急备忘录卡片 2 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -1845,7 +1834,6 @@
           <div id="todo-list-container"></div>
         </div>
 
-        <!-- 独立应急备忘录卡片 3 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -2025,7 +2013,6 @@
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       
-      <!-- 1. 顶部固定吸附栏 -->
       <div class="disney-fixed-top">
         <div class="modal-handle" style="margin-bottom:8px;"></div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -2039,7 +2026,6 @@
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
         <div class="disney-section-title">
           <span>⭐ 我的想玩心愿清单</span>
@@ -2061,7 +2047,6 @@
         </div>
       </div>
 
-      <!-- 3. 底部固定吸附按钮 -->
       <div class="disney-fixed-bottom">
         <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成设置</button>
       </div>
@@ -2091,8 +2076,13 @@
     const scrollTopBtn = document.getElementById('scroll-top-btn');
 
     function updateScrollTopColor() {
-      // 左下角回顶悬浮窗与晴雨天方案联动变色 (晴天金橙色 / 雨天森绿色)
-      scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
+      if (currentPaneIndex === 1) {
+        scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
+        scrollTopBtn.style.boxShadow = (currentWeatherMode === 'sunny') ? '0 10px 24px rgba(217, 119, 6, 0.4)' : '0 10px 24px rgba(4, 120, 87, 0.4)';
+      } else {
+        scrollTopBtn.style.background = 'var(--accent)';
+        scrollTopBtn.style.boxShadow = '0 10px 24px rgba(0, 113, 227, 0.4)';
+      }
     }
 
     function slideToPane(index) {
@@ -2114,6 +2104,8 @@
       paneItinerary.classList.toggle('pane-dim', index !== 1);
       paneTodo.classList.toggle('pane-dim', index !== 2);
 
+      updateScrollTopColor();
+
       requestAnimationFrame(() => {
         window.scrollTo({
           top: paneScrollPositions[index] || 0,
@@ -2122,7 +2114,6 @@
       });
     }
 
-    // 触摸滑动判定 (将地图及其站点纳入绝对黑名单)
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2297,7 +2288,6 @@
       });
     }
 
-    /* 地图点位绝对不可拖拽、防误触拦截 */
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -2501,10 +2491,6 @@
       currentWeatherMode = mode;
       const p = customDays[mode];
 
-      // 联动控制：晴雨天方案切换时，同时联动左下角回顶悬浮窗及日期胶囊的变色主题
-      document.body.classList.toggle('weather-rainy', mode === 'rainy');
-      updateScrollTopColor();
-
       const itinPane = document.getElementById('pane-itinerary');
       itinPane.classList.toggle('itin-rainy', mode === 'rainy');
 
@@ -2570,6 +2556,7 @@
       }
 
       updateMapTabsForWeather(mode);
+      updateScrollTopColor();
       initAllMetroNodes();
     }
 
@@ -2954,13 +2941,11 @@
 
     let currentDayTarget = "d1";
 
-    /* 昼夜联动核心逻辑：自动根据当地时间切换“下一行程”与底部导航栏的昼夜易读配色方案 */
     function updateDayNightMode() {
       const now = new Date();
       const jstH = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', hour12: false }).format(now));
       const isNight = (jstH < 6 || jstH >= 18);
       document.body.classList.toggle('is-night', isNight);
-      document.body.classList.toggle('is-day', !isNight);
     }
 
     function updateTimers() {
@@ -3054,7 +3039,6 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
@@ -3064,7 +3048,6 @@
     initOfflineDetector();
     setInterval(updateTimers, 1000);
 
-    // 首屏静态就绪处于 Pane 1 (行程)
     track.style.transform = 'translate3d(-33.3333%, 0, 0)';
     dockSlider.style.transform = 'translate3d(100%, 0, 0)';
     paneTransit.classList.add('pane-dim');
