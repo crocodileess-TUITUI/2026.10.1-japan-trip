@@ -12,11 +12,11 @@
 
   <style>
     :root {
-      --bg: #f5f7fb;
-      --glass-bg: rgba(255, 255, 255, 0.90);
-      --glass-card: rgba(255, 255, 255, 0.96);
-      --glass-border: rgba(255, 255, 255, 0.98);
-      --glass-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+      --bg: #f8fafc;
+      --glass-bg: rgba(255, 255, 255, 0.96);
+      --glass-card: rgba(255, 255, 255, 0.98);
+      --glass-border: rgba(226, 232, 240, 0.9);
+      --glass-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
       --text-main: #0f172a;
       --text-sub: #334155;
       --text-muted: #64748b;
@@ -25,24 +25,24 @@
       --accent-border: rgba(0, 113, 227, 0.25);
       --warn: #d97706;
       --warn-soft: rgba(217, 119, 6, 0.12);
+      --danger: #dc2626;
+      --danger-soft: rgba(220, 38, 38, 0.10);
       --success: #10b981;
       --success-soft: rgba(16, 185, 129, 0.12);
-      --island-bg: #000000;
+      --island-bg: rgba(15, 23, 42, 0.94);
       --island-text: #ffffff;
       --radius: 22px;
       
-      /* 昼夜动态基础色 */
-      --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
-      --milestone-border: rgba(14, 165, 233, 0.4);
+      --milestone-bg: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      --milestone-border: rgba(203, 213, 225, 0.8);
       --milestone-text: #0f172a;
       --milestone-badge: #0284c7;
-      --milestone-box-bg: rgba(255, 255, 255, 0.7);
-      --milestone-box-border: rgba(255, 255, 255, 0.9);
+      --milestone-box-bg: rgba(255, 255, 255, 0.9);
+      --milestone-box-border: rgba(226, 232, 240, 0.9);
       --milestone-val-text: #0f172a;
       --milestone-sub-text: #475569;
-      --milestone-item-bg: rgba(255, 255, 255, 0.85);
+      --milestone-item-bg: rgba(255, 255, 255, 0.95);
 
-      /* 弹窗昼夜基础色 */
       --modal-bg: #ffffff;
       --modal-text: #0f172a;
       --modal-border: rgba(0, 0, 0, 0.12);
@@ -51,21 +51,57 @@
       --modal-table-th-text: #0284c7;
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
+
+      /* 晴雨方案变量由全局 body 控制 */
+      --itin-main: #d97706;
+      --itin-border: rgba(245, 158, 11, 0.45);
+      --itin-soft: rgba(245, 158, 11, 0.12);
+      --itin-shadow: rgba(245, 158, 11, 0.22);
     }
 
-    /* 黑夜模式变量 */
-    body.is-night {
-      --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%);
-      --milestone-border: rgba(56, 189, 248, 0.38);
-      --milestone-text: #ffffff;
-      --milestone-badge: #38bdf8;
-      --milestone-box-bg: rgba(255, 255, 255, 0.07);
-      --milestone-box-border: rgba(255, 255, 255, 0.14);
-      --milestone-val-text: #f8fafc;
-      --milestone-sub-text: #94a3b8;
-      --milestone-item-bg: rgba(0, 0, 0, 0.35);
+    body.mode-rainy {
+      --itin-main: #047857;
+      --itin-border: rgba(4, 120, 87, 0.45);
+      --itin-soft: rgba(4, 120, 87, 0.12);
+      --itin-shadow: rgba(4, 120, 87, 0.22);
+    }
 
-      --modal-bg: #121826;
+    /* 全局昼夜联动 (OLED纯黑优化) */
+    body.is-night,
+    body.is-night .top-timer-card,
+    body.is-night .control-deck-card,
+    body.is-night .glass-card,
+    body.is-night .offline-map-container {
+      --bg: #05070b !important;
+      --glass-bg: rgba(22, 30, 46, 0.98) !important;
+      --glass-card: rgba(22, 30, 46, 0.98) !important;
+      --glass-border: rgba(255, 255, 255, 0.18) !important;
+      --text-main: #f8fafc !important;
+      --text-sub: #cbd5e1 !important;
+      --text-muted: #94a3b8 !important;
+
+      --milestone-bg: linear-gradient(140deg, #121826 0%, #05070b 100%) !important;
+      --milestone-border: rgba(56, 189, 248, 0.35) !important;
+      --milestone-text: #f8fafc !important;
+      --milestone-badge: #38bdf8 !important;
+      --milestone-box-bg: rgba(255, 255, 255, 0.08) !important;
+      --milestone-box-border: rgba(255, 255, 255, 0.15) !important;
+      --milestone-val-text: #ffffff !important;
+      --milestone-sub-text: #94a3b8 !important;
+      --milestone-item-bg: rgba(25, 33, 50, 0.90) !important;
+      --island-bg: rgba(14, 20, 32, 0.98) !important;
+      --island-text: #f8fafc !important;
+    }
+
+    body.is-night .control-deck-card,
+    body.is-night .glass-card,
+    body.is-night .offline-map-container {
+      background: #0d121c !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+    }
+
+    body.is-night {
+      --modal-bg: #0d121c;
       --modal-text: #ffffff;
       --modal-border: rgba(255, 255, 255, 0.18);
       --modal-sub: rgba(255, 255, 255, 0.7);
@@ -75,22 +111,10 @@
       --modal-table-td-text: #ffffff;
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #000000;
-        --glass-bg: rgba(26, 28, 35, 0.90);
-        --glass-card: rgba(32, 35, 45, 0.96);
-        --glass-border: rgba(255, 255, 255, 0.15);
-        --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.80);
-        --text-main: #f5f5f7;
-        --text-sub: #cbd5e1;
-        --text-muted: #94a3b8;
-        --accent: #2997ff;
-        --accent-soft: rgba(41, 151, 255, 0.18);
-        --accent-border: rgba(41, 151, 255, 0.35);
-        --island-bg: #121214;
-        --island-text: #ffffff;
-      }
+    body.modal-locked {
+      overflow: hidden !important;
+      touch-action: none !important;
+      pointer-events: none !important;
     }
 
     * { 
@@ -107,14 +131,15 @@
     body {
       background-color: var(--bg);
       color: var(--text-main);
-      line-height: 1.5;
-      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 75px);
+      line-height: 1.65;
+      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 105px);
       max-width: 680px;
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
+      overscroll-behavior-x: none;
     }
 
     #mini-toast {
@@ -138,12 +163,8 @@
       pointer-events: none;
       white-space: nowrap;
     }
-    #mini-toast.show {
-      transform: translate(-50%, 0);
-      opacity: 1;
-    }
+    #mini-toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-    /* Next Milestone 卡片 (昼夜自适应 + 高对比易读) */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -151,7 +172,7 @@
       border: 1.5px solid var(--milestone-border);
       border-radius: var(--radius);
       padding: 18px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15), 0 0 24px rgba(14, 165, 233, 0.12);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08), 0 0 28px rgba(14, 165, 233, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.6);
       position: relative;
       transition: background 0.35s, color 0.35s, border-color 0.35s;
     }
@@ -200,7 +221,6 @@
     .timer-val.num-tick { transform: translateY(-2px); }
     .timer-lbl { font-size: 0.64rem; font-weight: 800; color: var(--milestone-sub-text); margin-top: 5px; }
 
-    /* 后续倒计时行程折叠面板 */
     .milestone-future-box {
       margin-top: 14px;
       padding-top: 12px;
@@ -224,35 +244,61 @@
     .milestone-future-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), margin-top 0.2s;
+      transition: max-height 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), margin-top 0.2s;
     }
     .milestone-future-list.open {
-      max-height: 480px;
-      margin-top: 10px;
+      max-height: 540px;
+      margin-top: 12px;
     }
-    .milestone-future-item {
+    .milestone-ticket-card {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 0.74rem;
-      padding: 7px 12px;
-      border-radius: 9px;
       background: var(--milestone-item-bg);
       border: 1px solid var(--milestone-border);
+      border-radius: 12px;
+      padding: 8px 12px;
       cursor: pointer;
-      color: var(--milestone-text);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.15s, background 0.2s;
     }
-    .milestone-future-item:active { background: rgba(56, 189, 248, 0.25); }
-    .milestone-future-time { color: var(--milestone-badge); font-weight: 800; font-variant-numeric: tabular-nums; }
+    .milestone-ticket-card:active { transform: scale(0.98); background: rgba(56, 189, 248, 0.2); }
+    .ticket-left {
+      width: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px dashed var(--milestone-border);
+      padding-right: 8px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .ticket-date-badge { font-size: 0.85rem; font-weight: 900; line-height: 1; color: var(--milestone-badge); }
+    .ticket-time-badge { font-size: 0.62rem; font-weight: 700; color: var(--milestone-sub-text); margin-top: 2px; }
+    .ticket-main { flex: 1; min-width: 0; }
+    .ticket-event-name { font-size: 0.80rem; font-weight: 900; color: var(--milestone-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ticket-tag-desc { font-size: 0.65rem; color: var(--milestone-sub-text); margin-top: 1px; }
+    .ticket-right-countdown {
+      text-align: right;
+      flex-shrink: 0;
+      padding-left: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .ticket-countdown-val { font-size: 0.76rem; font-weight: 900; color: var(--milestone-badge); font-variant-numeric: tabular-nums; }
+    .ticket-jump-arrow { font-size: 0.65rem; color: var(--milestone-sub-text); }
 
-    /* 三栏视口 */
     .viewport-outer { width: 100%; overflow: hidden; position: relative; }
     .viewport-track {
       display: flex;
       width: 300%;
+      align-items: flex-start;
       will-change: transform;
       transform: translateZ(0);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
@@ -265,10 +311,102 @@
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 三栏底置 Dock 导航 */
+    .pane-version-badge {
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      opacity: 0.6;
+      letter-spacing: 0.05em;
+      margin: 16px 0 10px;
+      user-select: none;
+    }
+
+    /* 底部独立悬浮的三个小方块：彻底去掉外层大胶囊背景，左右非选中态具备高对比度实体防透底 */
+    .floating-chips-container {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
+      left: 0;
+      right: 0;
+      z-index: 9997;
+      padding: 0 14px;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .floating-chips-container.hide-dock { transform: translateY(140%); }
+    .floating-chips-inner {
+      pointer-events: auto;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: none;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 230px;
+      cursor: grab;
+      touch-action: pan-y;
+      user-select: none;
+    }
+    .floating-chips-inner:active { cursor: grabbing; }
+
+    .chips-center-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .f-chip {
+      white-space: nowrap;
+      padding: 6px 10px;
+      border-radius: 16px;
+      background: var(--glass-bg);
+      border: 1.5px solid var(--glass-border);
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.15;
+      font-size: 0.58rem;
+      opacity: 1; /* 可读性优化：完全不透明，高对比度防透底 */
+      width: 70px;
+      text-align: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    .f-chip.placeholder-chip {
+      visibility: hidden;
+      pointer-events: none;
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+    }
+    .f-chip .fc-d { font-size: 0.54rem; font-weight: 800; color: var(--text-muted); opacity: 0.9; font-variant-numeric: tabular-nums; }
+    .f-chip .fc-t { font-size: 0.62rem; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-top: 1px; }
+
+    .f-chip.active-current {
+      background: var(--itin-main) !important;
+      color: #fff !important;
+      border-color: var(--itin-main) !important;
+      box-shadow: 0 6px 18px var(--itin-shadow);
+      transform: scale(1.06);
+      padding: 7px 8px;
+    }
+    .f-chip.active-current .fc-d { font-size: 0.62rem; color: #fff !important; opacity: 0.95; }
+    .f-chip.active-current .fc-t { font-size: 0.72rem; font-weight: 900; color: #fff !important; }
+
+    /* 底置 Dock 导航栏 */
     .dock-wrap {
       position: fixed;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 2px);
       left: 0;
       right: 0;
       z-index: 9999;
@@ -285,19 +423,20 @@
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border-radius: 40px;
-      padding: 4px;
+      padding: 3px 4px;
       display: flex;
       align-items: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.12);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.15);
       width: fit-content;
       position: relative;
+      transition: background 0.35s, color 0.35s;
     }
     .dock-slider {
       position: absolute;
-      top: 4px;
+      top: 3px;
       left: 4px;
       width: calc(33.3333% - 3px);
-      height: calc(100% - 8px);
+      height: calc(100% - 6px);
       background: var(--accent);
       border-radius: 30px;
       box-shadow: 0 4px 14px rgba(0, 113, 227, 0.35);
@@ -310,80 +449,114 @@
       z-index: 2;
       border: none;
       background: transparent;
-      color: rgba(255,255,255,0.65);
-      padding: 8px 14px;
+      color: inherit;
+      opacity: 0.75;
+      padding: 8px 18px;
       border-radius: 30px;
-      font-size: 0.74rem;
+      font-size: 0.75rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: color 0.25s;
+      transition: opacity 0.25s, color 0.25s;
     }
-    .dock-btn.active { color: #fff; }
+    .dock-btn.active { opacity: 1; color: #ffffff !important; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 晴雨决策与快捷日期胶囊控制舱 */
+    /* 晴雨天方案选择卡片 */
     .control-deck-card {
-      background: var(--glass-card);
-      border: 1.5px solid var(--glass-border);
+      background: #ffffff;
+      border: 2px solid var(--itin-border);
       border-radius: var(--radius);
       padding: 14px;
       margin-bottom: 14px;
-      box-shadow: var(--glass-shadow);
+      box-shadow: 0 10px 28px var(--itin-shadow);
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    .control-deck-card.sunny-deck {
-      border-color: rgba(245, 158, 11, 0.45);
-      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.12);
-    }
-    .control-deck-card.rainy-deck {
-      border-color: rgba(4, 120, 87, 0.45);
-      box-shadow: 0 10px 28px rgba(4, 120, 87, 0.12);
+      gap: 9px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
 
     .toggle-header { display: flex; flex-direction: column; gap: 2px; }
-    .toggle-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); }
-    .toggle-sub { font-size: 0.70rem; color: var(--text-muted); line-height: 1.4; }
-    .toggle-switch-box { display: flex; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 4px; gap: 6px; }
+    .toggle-title { font-size: 0.90rem; font-weight: 900; color: var(--text-main); }
+
+    .toggle-switch-box { 
+      display: flex; 
+      background: #f1f5f9; 
+      border: 1px solid #cbd5e1; 
+      border-radius: 14px; 
+      padding: 3px; 
+      gap: 6px; 
+      width: 100%;
+      box-sizing: border-box;
+    }
+    body.is-night .toggle-switch-box { background: rgba(0, 0, 0, 0.3); border-color: rgba(255,255,255,0.12); }
+
     .t-btn-pill { 
-      flex: 1; border: none; background: transparent; padding: 8px 12px; font-size: 0.74rem; font-weight: 800; 
-      border-radius: 10px; cursor: pointer; color: var(--text-sub); text-align: center; white-space: nowrap; transition: all 0.2s;
+      flex: 1; border: none; background: transparent; padding: 8px 6px; font-size: 0.76rem; font-weight: 900; 
+      border-radius: 10px; cursor: pointer; color: #334155; text-align: center; white-space: nowrap; transition: all 0.25s;
     }
-    .t-btn-pill.sun-btn.active { background: #f59e0b; color: #fff; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); }
-    .t-btn-pill.rain-btn.active { background: #047857; color: #fff; box-shadow: 0 2px 10px rgba(4, 120, 87, 0.4); }
+    body.is-night .t-btn-pill { color: #cbd5e1; }
+    .t-btn-pill.sun-btn.active { 
+      background: #f59e0b; color: #ffffff !important; box-shadow: 0 3px 12px rgba(245, 158, 11, 0.45); 
+    }
+    .t-btn-pill.rain-btn.active { 
+      background: #047857; color: #ffffff !important; box-shadow: 0 3px 12px rgba(4, 120, 87, 0.45); 
+    }
 
-    .chips-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; touch-action: pan-x; }
-    .chips-bar::-webkit-scrollbar { display: none; }
-    .chips-bar::after { content: ''; display: block; width: 12px; flex-shrink: 0; }
-    .chip {
-      white-space: nowrap;
-      padding: 7px 13px;
-      font-size: 0.74rem;
+    .toggle-sub-note {
+      font-size: 0.69rem;
+      color: #64748b;
       font-weight: 700;
+      text-align: center;
+      line-height: 1.35;
       letter-spacing: -0.01em;
-      border-radius: 20px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: var(--text-sub);
-      text-decoration: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      transition: all 0.25s;
-      flex-shrink: 0;
     }
-    .chip.active, .chip:active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    body.is-night .toggle-sub-note { color: #94a3b8; }
 
-    .sunny-deck .chip.active { background: #f59e0b !important; border-color: #f59e0b !important; color: #fff !important; }
-    .rainy-deck .chip.active { background: #047857 !important; border-color: #047857 !important; color: #fff !important; }
+    .card-nodes-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-top: 2px;
+      touch-action: pan-x;
+    }
+    .card-nodes-bar::-webkit-scrollbar { display: none; }
+    .card-node-chip {
+      white-space: nowrap;
+      padding: 5px 10px;
+      font-size: 0.70rem;
+      font-weight: 800;
+      border-radius: 16px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: var(--text-main);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    body.is-night .card-node-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+    }
+    .card-node-chip:active {
+      background: var(--itin-main);
+      color: #fff;
+      border-color: var(--itin-main);
+    }
 
     .sec-head { font-size: 0.96rem; font-weight: 900; margin: 16px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片 */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -442,77 +615,101 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 全新手绘质感 SVG 地图容器 */
     .map-tabs-bar {
       display: flex;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
       border-radius: 12px;
       padding: 3px;
       gap: 4px;
       margin-bottom: 10px;
     }
-    .map-tab-btn {
-      flex: 1; border: none; background: transparent; padding: 6px 4px; font-size: 0.72rem; font-weight: 700;
-      border-radius: 9px; cursor: pointer; color: var(--text-sub); text-align: center; transition: all 0.2s;
-    }
-    .map-tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    .offline-map-container {
-      width: 100%; background: var(--glass-bg); border-radius: 16px; padding: 8px 6px; display: flex;
-      align-items: center; justify-content: center; height: 260px; overflow: hidden; position: relative; border: 1px solid var(--glass-border);
-    }
-    svg.apple-sketch-map { width: 100%; height: auto; display: block; max-height: 250px; transform-origin: center center; }
-    .map-sketch-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .map-node { cursor: pointer; transition: transform 0.2s; }
-    .map-node:active { transform: scale(1.25); }
+    body.is-night .map-tabs-bar { background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.12); }
 
-    /* 逐日行程卡片 */
+    .map-tab-btn {
+      flex: 1; border: none; background: transparent; padding: 7px 4px; font-size: 0.72rem; font-weight: 800;
+      border-radius: 9px; cursor: pointer; color: #475569; text-align: center; transition: all 0.2s;
+    }
+    body.is-night .map-tab-btn { color: #cbd5e1; }
+    .map-tab-btn.active { 
+      background: var(--itin-main); 
+      color: #fff; 
+      box-shadow: 0 2px 8px var(--itin-shadow); 
+    }
+    
+    .offline-map-container {
+      width: 100%; 
+      background: #ffffff; 
+      border-radius: 16px; 
+      padding: 6px; 
+      display: flex;
+      align-items: center; 
+      justify-content: center; 
+      height: 310px; 
+      overflow: hidden; 
+      position: relative; 
+      border: 1.5px solid var(--itin-border);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+      transition: border-color 0.3s;
+      touch-action: pan-y;
+    }
+    svg.metro-map { 
+      width: 100%; 
+      height: 100%; 
+      display: block; 
+      max-height: 300px; 
+      transform-origin: center center; 
+      pointer-events: none;
+      touch-action: none;
+    }
+    
+    .metro-line { 
+      fill: none; 
+      stroke-linecap: round; 
+      stroke-linejoin: round; 
+      pointer-events: none;
+    }
+    .metro-node { 
+      cursor: pointer; 
+      pointer-events: auto !important;
+      transition: transform 0.15s cubic-bezier(0.2, 0.9, 0.3, 1);
+      touch-action: none !important;
+    }
+    .metro-node:active { transform: scale(1.22); }
+    .metro-station-outer { stroke-width: 2.5; }
+
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-      border: 1px solid var(--glass-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
-      overflow: hidden; transition: border-color 0.28s, box-shadow 0.3s;
+      border: 1.5px solid var(--itin-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
+      overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .day-wrapper.focus-halo { box-shadow: 0 0 0 2.5px var(--accent), 0 12px 30px rgba(0, 113, 227, 0.35) !important; }
+    .day-wrapper.focus-halo { box-shadow: 0 0 0 3px var(--itin-main), 0 12px 30px var(--itin-shadow) !important; }
 
-    .day-wrapper.theme-sunny { border-color: rgba(245, 158, 11, 0.45); }
-    .day-wrapper.theme-sunny .day-badge-big { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #d97706; }
-    .day-wrapper.theme-sunny .tl-time { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #d97706; }
-    .day-wrapper.theme-sunny .tl-node::before { background: #f59e0b; }
-    .day-wrapper.theme-sunny .btn-nav-pin { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3); color: #d97706; }
-
-    .day-wrapper.theme-rainy { border-color: rgba(4, 120, 87, 0.45); }
-    .day-wrapper.theme-rainy .day-badge-big { background: rgba(4, 120, 87, 0.12); border-color: rgba(4, 120, 87, 0.3); color: #047857; }
-    .day-wrapper.theme-rainy .tl-time { background: rgba(4, 120, 87, 0.12); border-color: rgba(4, 120, 87, 0.3); color: #047857; }
-    .day-wrapper.theme-rainy .tl-node::before { background: #047857; }
-    .day-wrapper.theme-rainy .btn-nav-pin { background: rgba(4, 120, 87, 0.12); border-color: rgba(4, 120, 87, 0.3); color: #047857; }
+    .day-wrapper .day-badge-big { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
+    .day-wrapper .tl-time { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
+    .day-wrapper .tl-node::before { background: var(--itin-main); }
+    .day-wrapper .btn-nav-pin { background: var(--itin-soft); border: 1px solid var(--itin-border); color: var(--itin-main); }
 
     .day-head { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--glass-border); background: var(--glass-bg); }
     .day-meta { display: flex; align-items: center; gap: 14px; }
     .day-badge-big {
-      background: var(--accent-soft); border: 1px solid var(--accent-border); color: var(--accent);
       border-radius: 14px; padding: 6px 10px; text-align: center; min-width: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: all 0.3s;
     }
     .day-badge-d { font-size: 1.05rem; font-weight: 900; line-height: 1; }
     .day-badge-w { font-size: 0.65rem; font-weight: 700; margin-top: 4px; }
     .day-info h3 { font-size: 1.15rem; font-weight: 900; line-height: 1.2; }
-    .day-info p { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+    .day-info p { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; font-weight: 700; }
 
     .day-body-inner { padding: 16px; }
 
-    /* 独立醒目“准则”控制卡 */
     .guideline-panel {
       border-radius: 16px;
       padding: 12px 14px;
       margin-bottom: 16px;
-      border: 1.5px solid;
-    }
-    .guideline-panel.sunny {
-      background: rgba(245, 158, 11, 0.08);
-      border-color: rgba(245, 158, 11, 0.35);
-    }
-    .guideline-panel.rainy {
-      background: rgba(4, 120, 87, 0.08);
-      border-color: rgba(4, 120, 87, 0.35);
+      border: 1.5px solid var(--itin-border);
+      background: var(--itin-soft);
+      transition: all 0.3s;
     }
     .guideline-header {
       font-size: 0.8rem;
@@ -521,68 +718,305 @@
       align-items: center;
       gap: 6px;
       margin-bottom: 6px;
+      color: var(--itin-main);
     }
-    .guideline-panel.sunny .guideline-header { color: #d97706; }
-    .guideline-panel.rainy .guideline-header { color: #047857; }
     .guideline-body {
       font-size: 0.74rem;
       color: var(--text-sub);
       line-height: 1.6;
     }
-    .guideline-item {
-      display: block;
-      margin-top: 4px;
-    }
+    .guideline-item { display: block; margin-top: 4px; }
     .guideline-item:first-child { margin-top: 0; }
 
-    /* 时间轴条目 */
-    .timeline { position: relative; border-left: 2px solid var(--glass-border); margin-left: 10px; padding-left: 16px; margin-top: 4px; }
-    .tl-node { position: relative; margin-bottom: 16px; transition: opacity 0.25s, background 0.4s; border-radius: 8px; padding: 2px 4px; }
-    .tl-node:last-child { margin-bottom: 0; }
-    .tl-node::before {
-      content: ''; position: absolute; left: -21px; top: 10px; width: 8px; height: 8px;
-      border-radius: 50%; background: var(--accent); border: 2px solid var(--glass-card);
+    .timeline { 
+      position: relative; 
+      border-left: 2px solid var(--glass-border); 
+      margin-left: 10px; 
+      padding-left: 16px; 
+      margin-top: 4px; 
     }
-    .tl-node.node-flash { background: rgba(245, 158, 11, 0.3); box-shadow: 0 0 18px rgba(245, 158, 11, 0.85); }
+    .tl-node { 
+      position: relative; 
+      margin-bottom: 16px; 
+      transition: opacity 0.25s, background 0.4s; 
+      border-radius: 8px; 
+      padding: 2px 4px; 
+    }
+    .tl-node:last-child { margin-bottom: 0; }
+    
+    .tl-node::before {
+      content: ''; 
+      position: absolute; 
+      left: -21px; 
+      top: 13px;
+      transform: translateY(-50%);
+      width: 8px; 
+      height: 8px;
+      border-radius: 50%; 
+      border: 2px solid var(--glass-card); 
+      transition: background 0.3s;
+      z-index: 2;
+    }
+    .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
-    .tl-top { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+    .tl-node.hotel-cancel-node {
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 10px;
+      padding: 6px 8px 8px;
+    }
+    .tl-node.hotel-cancel-node::before {
+      background: #dc2626 !important;
+      border-color: #fee2e2 !important;
+    }
+
+    .tl-top { 
+      display: flex; 
+      align-items: center; 
+      flex-wrap: wrap; 
+      gap: 6px; 
+      margin-bottom: 4px; 
+      min-height: 24px;
+    }
     .tl-time { 
-      background: var(--accent-soft); border: 1px solid var(--accent-border); border-radius: 8px; padding: 2px 8px;
-      font-size: 0.74rem; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; font-feature-settings: "tnum";
-      white-space: nowrap; margin-right: 4px; flex-shrink: 0; 
+      border-radius: 8px; 
+      padding: 1px 7px;
+      height: 22px;
+      line-height: 20px;
+      font-size: 0.73rem; 
+      font-weight: 800; 
+      font-variant-numeric: tabular-nums; 
+      font-feature-settings: "tnum";
+      white-space: nowrap; 
+      margin-right: 4px; 
+      flex-shrink: 0; 
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.3s;
     }
     .tl-place { font-size: 0.92rem; font-weight: 800; color: var(--text-main); }
 
     .btn-nav-pin {
-      display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--accent);
-      background: var(--accent-soft); border: 1px solid var(--accent-border); width: 26px; height: 26px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem;
+      width: 26px; height: 26px; border-radius: 50%;
       text-decoration: none; vertical-align: middle; transition: all 0.2s;
     }
     .btn-nav-pin:active { transform: scale(0.92); opacity: 0.8; }
 
     .tl-desc { font-size: 0.76rem; color: var(--text-sub); line-height: 1.55; text-align: justify; }
-    .tl-desc-point { display: block; margin-top: 5px; }
-    .tl-desc-point:first-child { margin-top: 0; }
 
     .tl-notes { 
       background: var(--glass-bg); border-radius: 12px; padding: 10px 14px; margin-top: 8px; 
       font-size: 0.74rem; color: var(--text-sub); border: 1px solid var(--glass-border); line-height: 1.55; 
     }
-    .tl-notes strong { color: var(--accent); display: block; margin-bottom: 4px; }
+    .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    .tag { font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; display: inline-block; margin-left: 6px; }
-    .tag-warn { background: var(--warn-soft); color: var(--warn); }
-    .tag-ok { background: var(--success-soft); color: var(--success); }
+    /* 方案 A：微质感灵动卡片（晴雨联动变色） */
+    .disney-widget-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, var(--itin-soft) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1.5px solid var(--itin-border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-top: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--itin-shadow);
+      transition: all 0.3s;
+    }
+    .disney-widget-card:active { transform: scale(0.98); }
+    .disney-widget-left { display: flex; align-items: center; gap: 10px; }
+    .disney-widget-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--itin-main);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      box-shadow: 0 3px 10px var(--itin-shadow);
+    }
+    .disney-widget-title { font-size: 0.86rem; font-weight: 900; color: var(--text-main); }
+    .disney-widget-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; margin-top: 1px; }
+    .disney-widget-right-pill {
+      font-size: 0.70rem;
+      font-weight: 800;
+      color: var(--itin-main);
+      background: var(--glass-card);
+      border: 1px solid var(--itin-border);
+      padding: 4px 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* 弹窗核心样式：全面拦截穿透并隔离滚动 */
+    .modal-overlay {
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      background: rgba(0,0,0,0.75);
+      z-index: 99999; 
+      padding: 16px; 
+      align-items: flex-end; 
+      justify-content: center;
+      touch-action: none;
+      overscroll-behavior: contain;
+      pointer-events: auto !important;
+    }
+    .modal-sheet {
+      width: 100%; 
+      max-width: 480px; 
+      background: var(--modal-bg); 
+      color: var(--modal-text); 
+      border-radius: 28px 28px 16px 16px;
+      padding: 16px 18px 24px; 
+      box-shadow: 0 -12px 48px rgba(0,0,0,0.4); 
+      max-height: 88vh; 
+      overflow-y: auto;
+      border: 1px solid var(--modal-border); 
+      position: relative; 
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      pointer-events: auto !important;
+      transition: background 0.35s, color 0.35s;
+    }
+    .modal-handle { width: 38px; height: 4.5px; background: rgba(148, 163, 184, 0.4); border-radius: 4px; margin: 4px auto 14px; }
+
+    .disney-modal-sheet {
+      display: flex;
+      flex-direction: column;
+      height: 84vh;
+      max-height: 84vh;
+      padding: 14px 16px 12px !important;
+      overflow: hidden !important;
+      overscroll-behavior: contain;
+    }
+    .disney-fixed-top {
+      flex-shrink: 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .disney-scroll-middle {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding: 10px 0;
+      pointer-events: auto !important;
+    }
+    .disney-fixed-bottom {
+      flex-shrink: 0;
+      padding-top: 8px;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+    }
+
+    .disney-modal-tabs {
+      display: flex;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 3px;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    body.is-night .disney-modal-tabs { background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.12); }
+
+    .disney-modal-tab-btn {
+      flex: 1; border: none; background: transparent; padding: 8px 4px; font-size: 0.74rem; font-weight: 800;
+      border-radius: 9px; cursor: pointer; color: var(--text-sub); text-align: center; transition: all 0.2s;
+    }
+    .disney-modal-tab-btn.active {
+      background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.35);
+    }
+
+    .disney-zone-title {
+      font-size: 0.80rem;
+      font-weight: 900;
+      color: var(--itin-main);
+      margin: 12px 0 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed var(--glass-border);
+      pointer-events: auto;
+    }
+    .disney-card {
+      background: var(--glass-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 9px 12px;
+      margin-bottom: 7px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      pointer-events: auto;
+    }
+    .disney-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .disney-card-title { font-size: 0.82rem; font-weight: 900; color: var(--text-main); }
+    .disney-card-tag {
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .disney-card-tag.dpa { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+    .disney-card-desc {
+      font-size: 0.70rem;
+      color: var(--text-sub);
+      line-height: 1.45;
+    }
+
+    .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.74rem; pointer-events: auto; }
+    .bus-table th, .bus-table td { border: 1px solid var(--modal-table-td-border); padding: 8px 6px; text-align: center; }
+    .bus-table th { background: var(--modal-table-th-bg); color: var(--modal-table-th-text); font-weight: 900; font-size: 0.76rem; }
+    .bus-table td { font-weight: 700; color: var(--modal-table-td-text); }
+    
+    .bus-row-my-slot {
+      background: var(--itin-soft) !important;
+      border-left: 4px solid var(--itin-main) !important;
+      border-right: 4px solid var(--itin-main) !important;
+    }
+    .bus-row-my-slot td { color: var(--itin-main) !important; font-weight: 900 !important; }
+    .my-slot-badge {
+      display: inline-block;
+      background: var(--itin-main);
+      color: #fff;
+      font-size: 0.60rem;
+      font-weight: 900;
+      padding: 1px 5px;
+      border-radius: 4px;
+      margin-top: 3px;
+    }
+
+    .bus-next-row { background: rgba(56, 189, 248, 0.28) !important; color: #0284c7 !important; font-weight: 900; }
+    body.is-night .bus-next-row { color: #38bdf8 !important; background: rgba(56, 189, 248, 0.3) !important; }
+
+    .bus-sub-route {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: normal;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
 
     .btn-action-pill {
-      display: inline-flex; align-items: center; gap: 4px; background: var(--accent-soft);
-      border: 1px solid var(--accent-border); color: var(--accent); font-size: 0.70rem; font-weight: 700;
-      padding: 5px 11px; border-radius: 10px; cursor: pointer; margin-top: 6px; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px; background: var(--itin-soft);
+      border: 1px solid var(--itin-border); color: var(--itin-main); font-size: 0.70rem; font-weight: 700;
+      padding: 5px 11px; border-radius: 10px; cursor: pointer; margin-top: 6px; text-decoration: none; transition: all 0.3s;
     }
     .btn-action-pill:active { transform: scale(0.95); }
 
-    /* 设计感区域分割徽章横线 */
     .region-divider {
       position: relative;
       margin: 22px 0 16px;
@@ -603,14 +1037,13 @@
       letter-spacing: 0.08em;
       border-radius: 20px;
       background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
+      border: 1px solid var(--itin-border);
       color: var(--text-main);
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       margin: 0 10px;
       white-space: nowrap;
     }
 
-    /* 待办事项 */
     .todo-header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--glass-border); }
     .ring-wrap { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; font-weight: 800; }
     svg.progress-ring { width: 34px; height: 34px; transform: rotate(-90deg); }
@@ -637,7 +1070,8 @@
     .todo-item.status-done .todo-name { opacity: 0.5; }
 
     .todo-stepper-two { display: flex; background: rgba(0,0,0,0.05); border: 1px solid var(--glass-border); border-radius: 12px; padding: 2px; gap: 4px; }
-    @media (prefers-color-scheme: dark) { .todo-stepper-two { background: rgba(255,255,255,0.05); } }
+    body.is-night .todo-stepper-two { background: rgba(255,255,255,0.05); }
+
     .todo-step-btn {
       border: none; background: transparent; padding: 5px 9px; font-size: 0.70rem; font-weight: 700;
       border-radius: 8px; cursor: pointer; color: var(--text-sub); text-align: center; transition: all 0.2s;
@@ -645,38 +1079,6 @@
     .todo-step-btn.active { background: var(--accent); color: #fff; }
     .todo-step-btn.active.done { background: var(--success); color: #fff; }
 
-    /* 绝对清晰弹窗抽屉 (昼夜自适应配色) */
-    .modal-overlay {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75);
-      z-index: 99999; padding: 16px; align-items: flex-end; justify-content: center;
-    }
-    .modal-sheet {
-      width: 100%; max-width: 480px; background: var(--modal-bg); color: var(--modal-text); border-radius: 28px 28px 16px 16px;
-      padding: 16px 18px 28px; box-shadow: 0 -12px 48px rgba(0,0,0,0.4); max-height: 88vh; overflow-y: auto;
-      border: 1px solid var(--modal-border); position: relative; -webkit-overflow-scrolling: touch;
-      transition: background 0.35s, color 0.35s;
-    }
-    .modal-handle { width: 38px; height: 4.5px; background: rgba(148, 163, 184, 0.4); border-radius: 4px; margin: 4px auto 14px; }
-
-    .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.78rem; }
-    .bus-table th, .bus-table td { border: 1px solid var(--modal-table-td-border); padding: 11px 8px; text-align: center; }
-    .bus-table th { background: var(--modal-table-th-bg); color: var(--modal-table-th-text); font-weight: 900; font-size: 0.8rem; }
-    .bus-table td { font-weight: 700; color: var(--modal-table-td-text); }
-    .bus-next-row { background: rgba(250, 204, 21, 0.3) !important; color: #b45309 !important; font-weight: 900; }
-    body.is-night .bus-next-row { color: #fef08a !important; background: rgba(250, 204, 21, 0.25) !important; }
-    .weekend-badge {
-      display: inline-block;
-      background: #f59e0b;
-      color: #000;
-      font-size: 0.62rem;
-      font-weight: 900;
-      padding: 1px 6px;
-      border-radius: 6px;
-      margin-left: 4px;
-      box-shadow: 0 1px 4px rgba(245, 158, 11, 0.3);
-    }
-
-    /* 底部应急备忘录独立卡片 */
     .footer-tools-card {
       padding: 16px;
       border-radius: var(--radius);
@@ -689,27 +1091,48 @@
     .footer-tools-card p { margin-bottom: 6px; }
     .footer-tools-card a { color: var(--accent); text-decoration: none; font-weight: 800; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,0.03); }
 
-    /* 左下角回顶小胶囊 */
+    .offline-check-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.04);
+      margin-top: 6px;
+      transition: background 0.2s;
+    }
+    .offline-check-trigger:active { background: rgba(0,0,0,0.08); }
+    .offline-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #94a3b8;
+      transition: background 0.3s;
+    }
+    .offline-dot.ready { background: var(--success); }
+
+    /* 回顶悬浮按钮 */
     #scroll-top-btn {
       position: fixed;
-      left: 18px;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 68px);
-      width: 40px;
-      height: 40px;
+      left: 16px;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 98px);
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--itin-main);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
-      box-shadow: 0 10px 24px rgba(0, 113, 227, 0.4);
+      box-shadow: 0 8px 20px var(--itin-shadow);
       cursor: pointer;
       opacity: 0;
       pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
-      z-index: 9998;
+      transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.25s, background 0.3s;
+      z-index: 9996;
     }
     #scroll-top-btn.visible { opacity: 1; pointer-events: auto; }
     #scroll-top-btn:active { transform: scale(0.92); }
@@ -717,19 +1140,28 @@
     .confetti-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100002; display: none; overflow: hidden; }
     .confetti-piece { position: absolute; width: 8px; height: 12px; opacity: 0.85; animation: confettiFall 2.8s linear forwards; }
     @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+
+    .bus-run-day-tag {
+      color: var(--itin-main) !important;
+      font-weight: 800;
+    }
+    .bus-run-weekend {
+      color: #ef4444 !important;
+      font-weight: 900;
+    }
   </style>
 </head>
-<body>
+<body class="mode-sunny">
 
   <div class="confetti-box" id="confetti-box"></div>
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- Next Milestone 卡片 (昼夜自适应变色) -->
+  <!-- 下一行程卡片 -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
       <div class="timer-badge">
-        <span>NEXT MILESTONE</span>
+        <span>下一行程</span>
         <span id="timer-timezone-indicator" class="tz-flip">CST 中国标准时 (UTC+8)</span>
       </div>
       <div class="timer-event" id="timer-event-name" onclick="jumpToCurrentDay()">广州南乘车启程 🚄</div>
@@ -740,7 +1172,6 @@
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 后续倒计时行程折叠面板 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -754,13 +1185,12 @@
   <div class="viewport-outer" id="viewport-outer">
     <div class="viewport-track" id="viewport-track">
 
-      <!-- PANE 0: ✈️ 行程信息 -->
+      <!-- PANE 0: ✈️ 交通 -->
       <div class="view-pane" id="pane-transit">
         <div class="sec-head">
-          <span>🚄 ✈️ 行程信息</span>
+          <span>🚄 ✈️ 交通</span>
         </div>
 
-        <!-- 1. 去程高铁 -->
         <div class="transit-card" id="train-dep">
           <div class="t-head">
             <div class="t-head-left">
@@ -790,7 +1220,6 @@
           </div>
         </div>
 
-        <!-- 2. 去程航班 -->
         <div class="transit-card" id="flight-uo652">
           <div class="t-head">
             <div class="t-head-left">
@@ -820,7 +1249,6 @@
           </div>
         </div>
 
-        <!-- 3. 回程航班 -->
         <div class="transit-card" id="flight-uo623">
           <div class="t-head">
             <div class="t-head-left">
@@ -850,7 +1278,6 @@
           </div>
         </div>
 
-        <!-- 4. 回程高铁 -->
         <div class="transit-card" id="train-arr" style="margin-bottom:0;">
           <div class="t-head">
             <div class="t-head-left">
@@ -880,40 +1307,35 @@
           </div>
         </div>
 
-        <!-- 独立应急备忘录卡片 1 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
           <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
           <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
-          <div style="margin-top:10px; font-size:0.68rem; color:var(--success); font-weight:700;"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
+          <div class="offline-check-trigger" onclick="checkOfflineStatus()">
+            <span class="offline-dot" id="offline-dot-1"></span>
+            <span id="offline-text-1" style="font-size:0.68rem; font-weight:800; color:var(--text-muted);">本地离线未就绪</span>
+          </div>
         </div>
+
+        <div class="pane-version-badge">v7.6</div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 (原“逐日行程与独立地点导航”) -->
+      <!-- PANE 1: 📅 行程 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨决策与快捷日期胶囊控制舱 -->
-        <div class="control-deck-card sunny-deck" id="control-deck-card">
+        <!-- 晴雨天方案选择卡片 -->
+        <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
-            <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
-            <div class="toggle-sub">9.30 23:00 前根据实际天气预报决定是否保留热海酒店</div>
+            <div class="toggle-title">10.4 - 10.5 晴雨天方案选择</div>
           </div>
           <div class="toggle-switch-box">
-            <button class="t-btn-pill sun-btn active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天(热海+伊豆)</button>
-            <button class="t-btn-pill rain-btn" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天(WALK)</button>
+            <button class="t-btn-pill sun-btn active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天方案</button>
+            <button class="t-btn-pill rain-btn" id="btn-rain" onclick="setWeatherMode('rainy')">🌧️ 雨天方案</button>
           </div>
-
-          <!-- 联动日期快捷胶囊 -->
-          <div class="chips-bar" id="chips-bar-scroll">
-            <a href="#d1" class="chip" id="chip-d1" onclick="smoothOpenDay('d1')">9.30 落地</a>
-            <a href="#d2" class="chip" id="chip-d2" onclick="smoothOpenDay('d2')">10.1 瞎逛</a>
-            <a href="#d3" class="chip" id="chip-d3" onclick="smoothOpenDay('d3')">10.2 ANA见学</a>
-            <a href="#d4" class="chip" id="chip-d4" onclick="smoothOpenDay('d4')">10.3 迪士尼</a>
-            <a href="#d5" class="chip" id="chip-d5" onclick="smoothOpenDay('d5')">10.4 箱根/热海</a>
-            <a href="#d6" class="chip" id="chip-d6" onclick="smoothOpenDay('d6')">10.5 伊豆</a>
-            <a href="#d7" class="chip" id="chip-d7" onclick="smoothOpenDay('d7')">10.6 回国</a>
-          </div>
+          <div class="toggle-sub-note">晴天:箱根+热海+伊豆 ｜ 雨天:箱根+WALK</div>
+          
+          <div class="card-nodes-bar" id="card-nodes-bar"></div>
         </div>
 
         <!-- 区域动线与据点总览 -->
@@ -921,134 +1343,295 @@
           <span>🗺️ 区域动线与据点总览</span>
         </div>
         <div class="glass-card" style="padding: 12px; margin-bottom: 14px;">
-          <div class="map-tabs-bar">
-            <button class="map-tab-btn active" id="tab-map-all" onclick="showSketchMap('all')">🌐 全程大闭环</button>
-            <button class="map-tab-btn" id="tab-map-resort" onclick="showSketchMap('resort')">⛰️ 箱根·热海·伊豆</button>
-            <button class="map-tab-btn" id="tab-map-metro" onclick="showSketchMap('metro')">🗼 都会圈·大本营</button>
-          </div>
+          <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
-            <!-- 视图 1：全程大闭环 (全新手绘素描风格矢量，无指南针，全节点可点击精确居顶) -->
-            <svg class="apple-sketch-map" id="map-svg-all" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg">
-              <path class="map-sketch-line" d="M 470,45 C 410,65 340,90 270,115 C 210,135 180,165 150,180 C 145,210 160,225 165,235 C 160,245 150,255 150,260" stroke="var(--text-muted)" stroke-width="2.5" stroke-dasharray="3,3"/>
-              <path class="map-sketch-line" d="M 470,45 Q 360,70 270,115" stroke="#f59e0b" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,115 L 350,125" stroke="#ef4444" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,115 L 360,85" stroke="#8b5cf6" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,115 Q 200,140 150,180 L 165,220 L 150,258" stroke="#10b981" stroke-width="3.5"/>
+            
+            <!-- 晴天 1：全程概览 -->
+            <svg class="metro-map" id="map-svg-sun-all" viewBox="15 15 470 270" xmlns="http://www.w3.org/2000/svg">
+              <path class="metro-line" d="M 445,40 L 330,40 L 225,120" stroke="#ef4444" stroke-width="3.8" stroke-dasharray="6,4"/>
+              <path class="metro-line" d="M 225,120 L 290,75 L 375,75" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 225,120 L 310,120" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 225,120 L 130,120 L 75,175 L 75,225 L 140,265" stroke="#f59e0b" stroke-width="4.2"/>
+              <path class="metro-line" d="M 140,265 L 245,265 L 310,165" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="6,4"/>
 
-              <g class="map-node" onclick="jumpToNode('tl-d1-3', 'd1')">
-                <circle cx="470" cy="45" r="9" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="470" y="30" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">成田T2</text>
+              <g class="metro-node" id="node-sun-all-nrt">
+                <circle cx="445" cy="40" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="445" y="24" text-anchor="middle" font-size="11" font-weight="900" fill="#ef4444">成田T2</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d1-4', 'd1')">
-                <circle cx="270" cy="115" r="11" fill="#2563eb" stroke="#fff" stroke-width="2.5"/>
-                <text x="270" y="98" text-anchor="middle" font-size="12" font-weight="900" fill="#2563eb">家 (横滨)</text>
+              <g class="metro-node" id="node-sun-all-disney">
+                <circle cx="375" cy="75" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="375" y="61" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">迪士尼</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d3-1', 'd3')">
-                <circle cx="350" cy="125" r="8" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="355" y="145" text-anchor="start" font-size="10" font-weight="bold" fill="var(--text-main)">羽田T3/新整备场</text>
+              <g class="metro-node" id="node-sun-all-home">
+                <rect x="213" y="108" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="225" y="124" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d4-2', 'd4')">
-                <circle cx="360" cy="85" r="8" fill="#8b5cf6" stroke="#fff" stroke-width="2"/>
-                <text x="365" y="80" text-anchor="start" font-size="10" font-weight="bold" fill="var(--text-main)">迪士尼</text>
+              <g class="metro-node" id="node-sun-all-ana">
+                <circle cx="310" cy="120" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="325" y="124" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-3', 'd5')">
-                <circle cx="150" cy="180" r="8" fill="#10b981" stroke="#fff" stroke-width="2"/>
-                <text x="140" y="175" text-anchor="end" font-size="10" font-weight="bold" fill="var(--text-main)">箱根</text>
+              <g class="metro-node" id="node-sun-all-hnd">
+                <circle cx="310" cy="165" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="325" y="169" text-anchor="start" font-size="11" font-weight="900" fill="#ef4444">羽田T3</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-10', 'd5')">
-                <circle cx="165" cy="220" r="9" fill="#ec4899" stroke="#fff" stroke-width="2"/>
-                <text x="178" y="224" text-anchor="start" font-size="11" font-weight="bold" fill="#ec4899">热海酒店</text>
+              <g class="metro-node" id="node-sun-all-hakone">
+                <circle cx="75" cy="175" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="61" y="179" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d6-3', 'd6')">
-                <circle cx="150" cy="258" r="8" fill="#06b6d4" stroke="#fff" stroke-width="2"/>
-                <text x="140" y="260" text-anchor="end" font-size="10" font-weight="bold" fill="var(--text-main)">伊豆大室山</text>
-              </g>
-            </svg>
-
-            <!-- 视图 2：箱根·热海·伊豆 -->
-            <svg class="apple-sketch-map" id="map-svg-resort" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 110,45 C 160,40 210,40 250,75 C 230,110 180,125 130,120 Z" stroke="#10b981" stroke-width="3.5"/>
-              <path class="map-sketch-line" d="M 210,120 Q 280,140 310,165 Q 330,200 380,240" stroke="#ec4899" stroke-width="3" stroke-dasharray="4,4"/>
-
-              <g class="map-node" onclick="jumpToNode('tl-d5-3', 'd5')">
-                <circle cx="110" cy="45" r="7" fill="#10b981" stroke="#fff" stroke-width="2"/>
-                <text x="110" y="30" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">箱根汤本</text>
+              <g class="metro-node" id="node-sun-all-atami">
+                <circle cx="75" cy="225" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="61" y="229" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-4', 'd5')">
-                <circle cx="210" cy="45" r="7" fill="#10b981" stroke="#fff" stroke-width="2"/>
-                <text x="210" y="30" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">元箱根港</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d5-7', 'd5')">
-                <circle cx="250" cy="75" r="8" fill="#10b981" stroke="#fff" stroke-width="2"/>
-                <text x="262" y="80" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">桃源台 (海贼船)</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d5-9', 'd5')">
-                <circle cx="130" cy="120" r="7" fill="#10b981" stroke="#fff" stroke-width="2"/>
-                <text x="130" y="140" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">雕刻之森</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d5-10', 'd5')">
-                <circle cx="310" cy="165" r="9" fill="#ec4899" stroke="#fff" stroke-width="2"/>
-                <text x="322" y="170" text-anchor="start" font-size="12" font-weight="900" fill="#ec4899">热海酒店</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d6-3', 'd6')">
-                <circle cx="330" cy="205" r="8" fill="#06b6d4" stroke="#fff" stroke-width="2"/>
-                <text x="315" y="210" text-anchor="end" font-size="11" font-weight="bold" fill="var(--text-main)">大室山 / 仙人掌</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d6-7', 'd6')">
-                <circle cx="380" cy="240" r="7" fill="#06b6d4" stroke="#fff" stroke-width="2"/>
-                <text x="380" y="258" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">城崎海岸</text>
+              <g class="metro-node" id="node-sun-all-izu">
+                <circle cx="140" cy="265" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="140" y="251" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">伊豆</text>
               </g>
             </svg>
 
-            <!-- 视图 3：都会圈·大本营 -->
-            <svg class="apple-sketch-map" id="map-svg-metro" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 270,140 L 450,55" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4,4"/>
-              <path class="map-sketch-line" d="M 270,140 L 360,170" stroke="#ef4444" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,140 Q 250,85 240,70 Q 320,65 380,75" stroke="#8b5cf6" stroke-width="3"/>
+            <!-- 晴天 2：ANA·迪士尼 -->
+            <svg class="metro-map" id="map-svg-sun-metro" viewBox="80 30 380 200" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 170,140 L 260,80 L 370,80" stroke="#f59e0b" stroke-width="4.5"/>
+              <path class="metro-line" d="M 170,140 L 310,140" stroke="#f59e0b" stroke-width="4.5"/>
 
-              <g class="map-node" onclick="jumpToNode('tl-d1-4', 'd1')">
-                <circle cx="270" cy="140" r="11" fill="#2563eb" stroke="#fff" stroke-width="3"/>
-                <text x="270" y="165" text-anchor="middle" font-size="13" font-weight="900" fill="#2563eb">🏠 家 (横滨)</text>
+              <g class="metro-node" id="node-sun-m-home">
+                <rect x="156" y="126" width="28" height="28" rx="7" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="170" y="144" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d6')">
-                <circle cx="240" cy="70" r="8" fill="#3b82f6" stroke="#fff" stroke-width="2"/>
-                <text x="228" y="74" text-anchor="end" font-size="11" font-weight="bold" fill="var(--text-main)">中目黑 / 涩谷</text>
+              <g class="metro-node" id="node-sun-m-ana">
+                <circle cx="310" cy="140" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
+                <text x="325" y="144" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学 (新整备场)</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d4-2', 'd4')">
-                <circle cx="380" cy="75" r="8" fill="#8b5cf6" stroke="#fff" stroke-width="2"/>
-                <text x="380" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">舞滨迪士尼</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d3-1', 'd3')">
-                <circle cx="360" cy="170" r="8" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="372" y="174" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">羽田T3 / 新整备场</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d1-3', 'd1')">
-                <circle cx="450" cy="55" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="450" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">成田机场</text>
+              <g class="metro-node" id="node-sun-m-disney">
+                <circle cx="370" cy="80" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
+                <text x="370" y="65" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
               </g>
             </svg>
+
+            <!-- 晴天 3：箱根·热海·伊豆度假全景 -->
+            <svg class="metro-map" id="map-svg-sun-resort" viewBox="20 15 460 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 50,45 L 115,45 L 185,45 L 255,45 L 255,95 L 185,95 L 115,95 L 115,150 L 185,150" stroke="#f59e0b" stroke-width="3.8"/>
+              <path class="metro-line" d="M 185,150 L 265,150 L 265,195 L 350,195 L 350,245 L 430,245" stroke="#f59e0b" stroke-width="3.8"/>
+
+              <g class="metro-node" id="node-sun-r-odawara">
+                <circle cx="50" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="50" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">小田原</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-yumoto">
+                <circle cx="115" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="115" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">箱根汤本</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-motohakone">
+                <circle cx="185" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="185" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">元箱根港</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-torii">
+                <circle cx="255" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="266" y="48" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">平和鸟居</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-narukawa">
+                <circle cx="255" cy="95" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="266" y="98" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">成川美术馆</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-ship">
+                <circle cx="185" cy="95" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+                <text x="185" y="81" text-anchor="middle" font-size="12" font-weight="900" fill="#b45309">海贼船 ⚓</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-owakudani">
+                <circle cx="115" cy="95" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+                <text x="101" y="99" text-anchor="end" font-size="12" font-weight="900" fill="#b45309">大涌谷 🚠</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-sculpture">
+                <circle cx="115" cy="150" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="101" y="154" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">雕刻之森</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-atami">
+                <circle cx="185" cy="150" r="7" fill="#fff" stroke="#f59e0b" stroke-width="2.5"/>
+                <text x="185" y="168" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
+              </g>
+
+              <!-- 大室山精准映射至 tl-d6-4 -->
+              <g class="metro-node" id="node-sun-r-omuro">
+                <circle cx="265" cy="195" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+                <text x="265" y="181" text-anchor="middle" font-size="12" font-weight="900" fill="#b45309">大室山 🌋</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-cactus">
+                <circle cx="350" cy="195" r="6" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="362" y="199" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">仙人掌</text>
+              </g>
+
+              <g class="metro-node" id="node-sun-r-jogasaki">
+                <circle cx="430" cy="245" r="6" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="430" y="262" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">城崎海岸</text>
+              </g>
+            </svg>
+
+            <!-- 雨天 1：全程概览 -->
+            <svg class="metro-map" id="map-svg-rain-all" viewBox="15 15 470 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 445,40 L 330,40 L 225,130" stroke="#ef4444" stroke-width="3.8" stroke-dasharray="6,4"/>
+              <path class="metro-line" d="M 225,130 L 290,75 L 375,75" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 225,130 L 310,130" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 225,130 L 120,130 L 75,195" stroke="#047857" stroke-width="4.2"/>
+              <path class="metro-line" d="M 225,130 L 225,210 L 270,210" stroke="#047857" stroke-width="4.2"/>
+              <path class="metro-line" d="M 270,210 L 340,210 L 340,175" stroke="#ef4444" stroke-width="3.8" stroke-dasharray="6,4"/>
+
+              <g class="metro-node" id="node-rain-all-nrt">
+                <circle cx="445" cy="40" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="445" y="24" text-anchor="middle" font-size="11" font-weight="900" fill="#ef4444">成田T2</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-all-home">
+                <rect x="213" y="118" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="225" y="134" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-all-ana">
+                <circle cx="310" cy="130" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="325" y="134" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-all-disney">
+                <circle cx="375" cy="75" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="375" y="61" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">迪士尼</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-all-hakone">
+                <circle cx="75" cy="195" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="61" y="199" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-all-walk">
+                <circle cx="270" cy="210" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="270" y="228" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">都心WALK</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-all-hnd">
+                <circle cx="340" cy="175" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="355" y="179" text-anchor="start" font-size="11" font-weight="900" fill="#ef4444">羽田T3</text>
+              </g>
+            </svg>
+
+            <!-- 雨天 2：ANA·迪士尼 -->
+            <svg class="metro-map" id="map-svg-rain-metro" viewBox="80 30 380 200" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 170,140 L 260,80 L 370,80" stroke="#047857" stroke-width="4.5"/>
+              <path class="metro-line" d="M 170,140 L 310,140" stroke="#047857" stroke-width="4.5"/>
+
+              <g class="metro-node" id="node-rain-m-home">
+                <rect x="156" y="126" width="28" height="28" rx="7" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="170" y="144" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">家</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-m-ana">
+                <circle cx="310" cy="140" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
+                <text x="325" y="144" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学 (新整备场)</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-m-disney">
+                <circle cx="370" cy="80" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
+                <text x="370" y="65" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
+              </g>
+            </svg>
+
+            <!-- 雨天 3：箱根+WALK -->
+            <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 20 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.8"/>
+              <path class="metro-line" d="M 240,145 L 240,200 L 295,200 L 350,200 L 400,200 L 445,200" stroke="#047857" stroke-width="3.8"/>
+              <path class="metro-line" d="M 400,200 L 445,200" stroke="#ef4444" stroke-width="3.8" stroke-dasharray="5,3"/>
+
+              <g class="metro-node" id="node-rain-hw-odawara">
+                <circle cx="45" cy="45" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="45" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">小田原</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-yumoto">
+                <circle cx="95" cy="45" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="95" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">箱根汤本</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-motohakone">
+                <circle cx="145" cy="45" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="145" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">元箱根港</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-torii">
+                <circle cx="195" cy="45" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="204" y="48" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">平和鸟居</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-narukawa">
+                <circle cx="195" cy="95" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="204" y="98" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">成川美术馆</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-ship">
+                <circle cx="145" cy="95" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="145" y="81" text-anchor="middle" font-size="12" font-weight="900" fill="#047857">海贼船 ⚓</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-owakudani">
+                <circle cx="95" cy="95" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="81" y="99" text-anchor="end" font-size="12" font-weight="900" fill="#047857">大涌谷 🚠</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-sculpture">
+                <circle cx="95" cy="145" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="81" y="149" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">雕刻之森</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-home">
+                <rect x="228" y="133" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="240" y="149" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-nakameguro">
+                <circle cx="240" cy="200" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="240" y="218" text-anchor="middle" font-size="12" font-weight="900" fill="#047857">中目黑</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-daikanyama">
+                <circle cx="295" cy="200" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="295" y="186" text-anchor="middle" font-size="12" font-weight="900" fill="#047857">代官山</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-shibuya">
+                <circle cx="350" cy="200" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="350" y="218" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">涩谷</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-park">
+                <circle cx="400" cy="200" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="400" y="186" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">公园</text>
+              </g>
+
+              <g class="metro-node" id="node-rain-hw-hnd">
+                <circle cx="445" cy="200" r="7" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="445" y="218" text-anchor="middle" font-weight="900" fill="#ef4444">羽田T3</text>
+              </g>
+            </svg>
+
           </div>
         </div>
 
         <!-- 逐日行程卡片 -->
         <div class="sec-head">
-          <span>📅 行程安排</span>
+          <span>📅 行程</span>
         </div>
 
         <!-- Day 1 -->
@@ -1058,7 +1641,7 @@
               <div class="day-badge-big"><div class="day-badge-d">9.30</div><div class="day-badge-w">周三</div></div>
               <div class="day-info">
                 <h3>落地</h3>
-                <p>广州南 → 香港T2 → 成田T2 · 直达成田中</p>
+                <p>广州南 · 香港T2 · 成田T2 · 家</p>
               </div>
             </div>
           </div>
@@ -1090,23 +1673,23 @@
               </div>
               <div class="tl-node" id="tl-d1-4">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
-                  <span class="tl-place">回到家中</span>
+                  <span class="tl-place">回家</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
-              <div class="tl-node" id="tl-d1-5">
+              
+              <div class="tl-node hotel-cancel-node" id="tl-d1-5">
                 <div class="tl-top">
-                  <span class="tl-time" style="color:var(--warn);">23:00 前</span>
-                  <span class="tl-place">🔴 天气与酒店最终决策</span>
-                  <span class="tag tag-warn">免费取消截止</span>
+                  <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
+                  <span class="tl-place" style="color:var(--danger); font-weight:900;">酒店退订 ⚠️</span>
                 </div>
                 <div class="tl-desc">
-                  查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
-                  <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:800; color:var(--warn); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
+                  查看 10.5 伊豆天气预报：下雨→退订，晴天→保留。<br>
+                  <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:900; color:var(--danger); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -1118,7 +1701,7 @@
               <div class="day-badge-big"><div class="day-badge-d">10.1</div><div class="day-badge-w">周四</div></div>
               <div class="day-info">
                 <h3>瞎逛</h3>
-                <p>横滨海港漫步 · 台场悠闲看海 · 晚上吃烤肉 🥩</p>
+                <p>横滨 · 台场 · 烤肉</p>
               </div>
             </div>
           </div>
@@ -1140,7 +1723,6 @@
               </div>
               <div class="tl-node" id="tl-d2-3">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
                   <span class="tl-place">家周边烤肉店 🥩</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
@@ -1157,7 +1739,7 @@
               <div class="day-badge-big"><div class="day-badge-d">10.2</div><div class="day-badge-w">周五</div></div>
               <div class="day-info">
                 <h3>ANA见学</h3>
-                <p>14:15-15:30 见学 · 晚上超市买肉寿喜烧回家吃</p>
+                <p>ANA见学 · 寿喜烧</p>
               </div>
             </div>
           </div>
@@ -1186,11 +1768,10 @@
               </div>
               <div class="tl-node" id="tl-d3-2">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
                   <span class="tl-place">家周边超市 / 家 🍲</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
-                <div class="tl-desc">汇合后前往超市选购优质牛肉与新鲜蔬菜，回家做寿喜烧晚餐。</div>
+                <div class="tl-desc">下班后去超市买寿喜烧汁和牛肉，回家吃。</div>
               </div>
             </div>
           </div>
@@ -1203,9 +1784,10 @@
               <div class="day-badge-big"><div class="day-badge-d">10.3</div><div class="day-badge-w">周六</div></div>
               <div class="day-info">
                 <h3>迪士尼</h3>
-                <p>万圣节档期 · 舞滨站 · 全天游玩</p>
+                <p>迪士尼 · 牛来！</p>
               </div>
             </div>
+            <a class="btn-top-right-app" href="tokyodisneyresort://" onclick="setTimeout(function(){ window.location='https://www.tokyodisneyresort.jp/tc/tdr/app.html'; }, 1500)">🏰 官方 App ↗</a>
           </div>
           <div class="day-body-inner">
             <div class="timeline">
@@ -1218,25 +1800,25 @@
               </div>
               <div class="tl-node" id="tl-d4-2">
                 <div class="tl-top">
-                  <span class="tl-time">08:30</span>
                   <span class="tl-place">东京迪士尼乐园</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">🗺️</a>
-                  <span class="tag tag-warn">需购票</span>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
-                <div class="tl-notes">
-                  <strong>开园优先建议：</strong>
-                  <span class="tl-note-line">• 陆地 Disneyland：首抢《美女与野兽》DPA，直冲《太空山》或《巨雷山》</span>
-                  <span class="tl-note-line">• 海洋 DisneySea：首抢 Fantasy Springs 新园区预约，直冲《飞天奇梦》</span>
-                </div>
-                <div style="margin-top:8px;">
-                  <a class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 12px;" href="https://www.tokyodisneyresort.jp/tc/tdr/app.html" target="_blank">🏰 打开东京迪士尼官方 App ↗</a>
+
+                <div class="disney-widget-card" onclick="openDisneyModal()">
+                  <div class="disney-widget-left">
+                    <div class="disney-widget-icon">🎢</div>
+                    <div>
+                      <div class="disney-widget-title">迪士尼项目</div>
+                      <div class="disney-widget-sub">双园全区 · 热门速查</div>
+                    </div>
+                  </div>
+                  <div class="disney-widget-right-pill">查看指南 ›</div>
                 </div>
               </div>
               <div class="tl-node" id="tl-d4-3">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
-                  <span class="tl-place">回到家中</span>
+                  <span class="tl-place">回家</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">避开闭园离场人流高峰，乘电车回家休息。</div>
@@ -1245,21 +1827,20 @@
           </div>
         </div>
 
-        <!-- Day 5 (大涌谷文案精简，热海独立横线徽章) -->
-        <div class="day-wrapper theme-sunny" id="d5">
+        <!-- Day 5 -->
+        <div class="day-wrapper" id="d5">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.4</div><div class="day-badge-w">周日</div></div>
               <div class="day-info">
                 <h3 id="d5-title">箱根</h3>
-                <p id="d5-desc">箱根顺时针玩避人流 · 海贼船 · 宿热海温泉酒店</p>
+                <p id="d5-desc">箱根 · 热海</p>
               </div>
             </div>
           </div>
           <div class="day-body-inner">
-            <!-- 独立箱根准则专栏 -->
-            <div class="guideline-panel sunny" id="d5-guideline">
-              <div class="guideline-header">📌 箱根核心准则</div>
+            <div class="guideline-panel" id="d5-guideline">
+              <div class="guideline-header">📌 备注PS</div>
               <div class="guideline-body">
                 <span class="guideline-item">1、天气一定一定要好</span>
                 <span class="guideline-item">2、买箱根二日周游券（咸鱼买，最少是二日游的，不管玩几天都赚，买横滨出发，要纸质版不要电子版），免费坐所有箱根的交通工具、小田原站→箱根汤本</span>
@@ -1271,8 +1852,8 @@
           </div>
         </div>
 
-        <!-- Day 6 (伊豆准则专栏，WALK独立分割线) -->
-        <div class="day-wrapper theme-sunny" id="d6">
+        <!-- Day 6 -->
+        <div class="day-wrapper" id="d6">
           <div class="day-head">
             <div class="day-meta">
               <div class="day-badge-big"><div class="day-badge-d">10.5</div><div class="day-badge-w">周一</div></div>
@@ -1283,19 +1864,19 @@
             </div>
           </div>
           <div class="day-body-inner">
-            <!-- 独立伊豆准则专栏 -->
-            <div class="guideline-panel sunny" id="d6-guideline">
-              <div class="guideline-header">📌 伊豆核心准则</div>
+            <div class="guideline-panel" id="d6-guideline">
+              <div class="guideline-header">📌 备注PS</div>
               <div class="guideline-body">
                 <span class="guideline-item">1、天气一定一定要好</span>
-                <span class="guideline-item">2、8点就要出门，9：25第一班大巴发车，第二班是10：00</span>
+                <span class="guideline-item">2、8点就要出门。</span>
+                <span class="guideline-item">3、9：25第一班大巴发车，10：00第二班大巴发车。</span>
               </div>
             </div>
             <div class="timeline" id="d6-timeline"></div>
           </div>
         </div>
 
-        <!-- Day 7 (描述更新为：羽田T3 · 香港T1 · 香港西九龙 · 广州南) -->
+        <!-- Day 7 -->
         <div class="day-wrapper" id="d7">
           <div class="day-head">
             <div class="day-meta">
@@ -1314,7 +1895,7 @@
                   <span class="tl-place">羽田机场 T3</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Haneda+Airport+Terminal+3" target="_blank">🗺️</a>
                 </div>
-                <div class="tl-desc">搭乘快运航班启程回港。</div>
+                <div class="tl-desc">搭乘快运航班启程回国返港。</div>
               </div>
               <div class="tl-node">
                 <div class="tl-top">
@@ -1338,26 +1919,30 @@
                   <span class="tl-place">广州南站</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Guangzhounan+Railway+Station" target="_blank">🗺️</a>
                 </div>
-                <div class="tl-desc">平安抵穗，圆满结束日本关东 7 日旅程！🎉</div>
+                <div class="tl-desc">平安抵穗，圆满回国！🎉</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 独立应急备忘录卡片 2 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
           <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
           <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
-          <div style="margin-top:10px; font-size:0.68rem; color:var(--success); font-weight:700;"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--success); margin-right:4px;"></span>本地离线就绪 (v2.0)</div>
+          <div class="offline-check-trigger" onclick="checkOfflineStatus()">
+            <span class="offline-dot" id="offline-dot-2"></span>
+            <span id="offline-text-2" style="font-size:0.68rem; font-weight:800; color:var(--text-muted);">本地离线未就绪</span>
+          </div>
         </div>
+
+        <div class="pane-version-badge">v7.6</div>
       </div>
 
-      <!-- PANE 2: 📌 待办事项 -->
+      <!-- PANE 2: 📌 代办 -->
       <div class="view-pane" id="pane-todo">
         <div class="sec-head">
-          <span>📌 待办事项</span>
+          <span>📌 代办</span>
           <button class="todo-filter-btn" id="todo-filter-btn" onclick="toggleTodoFilter()">仅看未完成</button>
         </div>
         <div class="glass-card" style="margin-bottom: 14px;">
@@ -1375,15 +1960,27 @@
           <div id="todo-list-container"></div>
         </div>
 
-        <!-- 独立应急备忘录卡片 3 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
           <p>• 中国驻日使馆领保求助：<a href="tel:+81-3-6450-2195">+81-3-6450-2195</a></p>
           <p>• 外交部全球领事保护热线：<a href="tel:+86-10-12308">+86-10-12308</a></p>
+          <div class="offline-check-trigger" onclick="checkOfflineStatus()">
+            <span class="offline-dot" id="offline-dot-3"></span>
+            <span id="offline-text-3" style="font-size:0.68rem; font-weight:800; color:var(--text-muted);">本地离线未就绪</span>
+          </div>
         </div>
+
+        <div class="pane-version-badge">v7.6</div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- 底部灵动胶囊栏：无外层大框，左右独立方块完全不透明且高对比度 -->
+  <div class="floating-chips-container" id="floating-chips-container">
+    <div class="floating-chips-inner" id="floating-chips-bar">
+      <div class="chips-center-group" id="chips-center-group"></div>
     </div>
   </div>
 
@@ -1392,18 +1989,18 @@
     <div class="dock-island">
       <div class="dock-slider" id="dock-slider"></div>
       <button class="dock-btn" id="dock-btn-transit" onclick="slideToPane(0)">
-        <span>✈️ 行程信息</span>
+        <span>✈️ 交通</span>
       </button>
       <button class="dock-btn active" id="dock-btn-itinerary" onclick="slideToPane(1)">
-        <span>📅 逐日行程</span>
+        <span>📅 行程</span>
       </button>
       <button class="dock-btn" id="dock-btn-todo" onclick="slideToPane(2)">
-        <span>📌 待办事项</span>
+        <span>📌 代办</span>
       </button>
     </div>
   </div>
 
-  <!-- 弹窗 1：ANA 见学接驳车时刻表 (全汉化、删除“我的场次”、昼夜自适应) -->
+  <!-- 弹窗 1：ANA 见学接驳车时刻表 -->
   <div class="modal-overlay" id="modal-ana-bus" onclick="closeModal('modal-ana-bus')">
     <div class="modal-sheet" id="sheet-ana-bus" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -1424,86 +2021,149 @@
           <tr data-time="08:55"><td>① 8:55<br>② 9:15</td><td><strong>9:30</strong><br><small>9:00-10:45</small></td><td>① 10:55<br>② 11:15</td></tr>
           <tr data-time="10:10"><td>① 10:10<br>② 10:30</td><td><strong>10:45</strong><br><small>10:15-12:00</small></td><td>① 12:10<br>② 12:30</td></tr>
           <tr data-time="12:25"><td>① 12:25<br>② 12:45</td><td><strong>13:00</strong><br><small>12:30-14:15</small></td><td>① 14:25<br>② 14:45</td></tr>
-          <tr data-time="13:40">
-            <td><strong>① 13:40<br>② 14:00</strong></td>
-            <td><strong>14:15</strong><br><small>13:45-15:30</small></td>
-            <td><strong>① 15:40<br>② 16:00</strong></td>
+          
+          <tr data-time="13:40" class="bus-row-my-slot">
+            <td>
+              <strong>① 13:40<br>② 14:00</strong>
+            </td>
+            <td>
+              <strong style="font-size:0.86rem;">14:15</strong><br>
+              <small>13:45-15:30</small><br>
+              <span class="my-slot-badge">★ 我的预约场次</span>
+            </td>
+            <td>
+              <strong>① 15:40<br>② 16:00</strong>
+            </td>
           </tr>
+
           <tr data-time="14:55"><td>① 14:55<br>② 15:15</td><td><strong>15:30</strong><br><small>15:00-16:45</small></td><td>① 16:55<br>② 17:15</td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block;" onclick="closeModal('modal-ana-bus')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-ana-bus')">关闭</button>
       </div>
     </div>
   </div>
 
-  <!-- 弹窗 2：伊豆大巴时刻表 1 (汉化、无备注列、周末醒目徽章、昼夜自适应) -->
+  <!-- 弹窗 2：伊豆大巴时刻表 1 -->
   <div class="modal-overlay" id="modal-izu-bus1" onclick="closeModal('modal-izu-bus1')">
     <div class="modal-sheet" id="sheet-izu-bus1" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.92rem; font-weight:900;">伊豆：伊豆高原站 → 仙人掌公园 (1号站台 430円)</h4>
+        <h4 style="font-size:0.90rem; font-weight:900;">伊豆高原站 → 仙人掌公园 (1号站台 430円)</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus1')">✕</span>
       </div>
       <table class="bus-table">
         <thead>
-          <tr><th>发车</th><th>到达</th><th>线路 / 经由</th></tr>
+          <tr>
+            <th style="width:50px;">发车</th>
+            <th style="width:50px;">到达</th>
+            <th style="width:62px;">运行日</th>
+            <th>线路 / 经由</th>
+          </tr>
         </thead>
         <tbody id="izu-bus1-tbody">
-          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td>I72 往仙人掌公园 (经由樱花树道)</td></tr>
-          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td>I71 往仙人掌公园 (经由Granpal)</td></tr>
-          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td>I77 往仙人掌公园 (直达快线 15分)</td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td>I70 往仙人掌公园 (经由樱花树道)</td></tr>
-          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td>I77 往仙人掌公园 (直达快线)</td></tr>
-          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td>I73 往仙人掌公园 (经由池・南原)</td></tr>
-          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td>I80 往仙人掌公园 (经由Granpal)</td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td>I70 往仙人掌公园 (经由樱花树道)</td></tr>
-          <tr data-time="13:00"><td>13:00 <span class="weekend-badge">仅周末节假日</span></td><td>13:15</td><td>I78 往仙人掌公园</td></tr>
-          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td>I80 往仙人掌公园 (经由Granpal)</td></tr>
-          <tr data-time="14:20"><td>14:20 <span class="weekend-badge">仅周末节假日</span></td><td>14:35</td><td>I78 往仙人掌公园</td></tr>
-          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td>I70 往仙人掌公园 (经由樱花树道)</td></tr>
-          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td>I80 往仙人掌公园 (经由Granpal)</td></tr>
-          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td>I73 往仙人掌公园 (经由池・南原)</td></tr>
-          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td>I70 往仙人掌公园 (经由樱花树道)</td></tr>
-          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td>I70 / I72 往仙人掌公园</td></tr>
+          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I72 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I71 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线 15分)</span></td></tr>
+          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线)</span></td></tr>
+          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
+          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="13:00"><td>13:00</td><td>13:15</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
+          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="14:20"><td>14:20</td><td>14:35</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
+          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
+          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 / I72 往仙人掌公园</td></tr>
         </tbody>
       </table>
-      <p style="font-size:0.68rem; color:var(--modal-sub); margin-top:8px; line-height:1.4;">* 标注橙色【仅周末节假日】的班次仅在周六、周日及日本法定节假日运行，工作日停运。</p>
       <div style="text-align:center; margin-top:14px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block;" onclick="closeModal('modal-izu-bus1')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-izu-bus1')">关闭</button>
       </div>
     </div>
   </div>
 
-  <!-- 弹窗 3：伊豆大巴时刻表 2 (汉化、无备注列、周末醒目徽章、昼夜自适应) -->
+  <!-- 弹窗 3：伊豆大巴时刻表 2 -->
   <div class="modal-overlay" id="modal-izu-bus2" onclick="closeModal('modal-izu-bus2')">
     <div class="modal-sheet" id="sheet-izu-bus2" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.92rem; font-weight:900;">伊豆：仙人掌公园 → 伊豆海洋公园 (2号站台 570円)</h4>
+        <h4 style="font-size:0.90rem; font-weight:900;">仙人掌公园 → 伊豆海洋公园 (2号站台 570円)</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus2')">✕</span>
       </div>
       <table class="bus-table">
         <thead>
-          <tr><th>发车</th><th>到达</th><th>线路 / 经由</th></tr>
+          <tr>
+            <th style="width:50px;">发车</th>
+            <th style="width:50px;">到达</th>
+            <th style="width:62px;">运行日</th>
+            <th>线路 / 经由</th>
+          </tr>
         </thead>
         <tbody id="izu-bus2-tbody">
-          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td>I70 往海洋公园 (经由樱花树道 26分)</td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td>I80 往海洋公园 (经由Granpal 29分)</td></tr>
-          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td>I70 往海洋公园 (经由樱花树道 26分)</td></tr>
-          <tr data-time="12:05"><td>12:05 <span class="weekend-badge">仅周末节假日</span></td><td>12:30</td><td>I78 往海洋公园 (经由伊豆高原站)</td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td>I80 往海洋公园 (经由Granpal)</td></tr>
-          <tr data-time="13:30"><td>13:30 <span class="weekend-badge">仅周末节假日</span></td><td>13:55</td><td>I78 往海洋公园 (经由伊豆高原站)</td></tr>
-          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td>I70 往海洋公园 (经由樱花树道)</td></tr>
-          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td>I80 往海洋公园 (经由Granpal)</td></tr>
-          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td>I70 往海洋公园 (经由樱花树道)</td></tr>
-          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td>I70 往海洋公园 (季节运行)</td></tr>
+          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
+          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal 29分)</span></td></tr>
+          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
+          <tr data-time="12:05"><td>12:05</td><td>12:30</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
+          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="13:30"><td>13:30</td><td>13:55</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
+          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(季节运行)</span></td></tr>
         </tbody>
       </table>
-      <p style="font-size:0.68rem; color:var(--modal-sub); margin-top:8px; line-height:1.4;">* 标注橙色【仅周末节假日】的班次仅在周六、周日及日本法定节假日运行，工作日停运。</p>
       <div style="text-align:center; margin-top:14px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block;" onclick="closeModal('modal-izu-bus2')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-izu-bus2')">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 4：离线就绪说明 -->
+  <div class="modal-overlay" id="modal-offline-info" onclick="closeModal('modal-offline-info')">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="font-size:0.92rem; font-weight:900;">🌐 本地离线就绪状态</h4>
+        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-offline-info')">✕</span>
+      </div>
+      <div style="font-size:0.75rem; color:var(--text-sub); line-height:1.6;">
+        <p style="margin-bottom:8px;">• <strong>当前状态</strong>：<span id="modal-offline-status-tag" style="color:var(--success); font-weight:900;">已就绪</span></p>
+        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼双园百科、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
+        <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
+      </div>
+      <div style="text-align:center; margin-top:16px;">
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-offline-info')">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 5：迪士尼项目指南 -->
+  <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
+    <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
+      <div class="disney-fixed-top">
+        <div class="modal-handle" style="margin-bottom:8px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼双园项目指南</h4>
+          <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
+        </div>
+
+        <div class="disney-modal-tabs">
+          <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 (7大主题区)</button>
+          <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 (8大主题港口)</button>
+        </div>
+      </div>
+
+      <div class="disney-scroll-middle" id="disney-scroll-area">
+        <div id="modal-zone-container"></div>
+      </div>
+
+      <div class="disney-fixed-bottom">
+        <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成阅读</button>
       </div>
     </div>
   </div>
@@ -1516,7 +2176,6 @@
       setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
-    // 三板块独立记录滚动高度，切回时不回顶
     const paneScrollPositions = [0, 0, 0];
     let currentPaneIndex = 1;
 
@@ -1528,11 +2187,16 @@
     const paneTransit = document.getElementById('pane-transit');
     const paneItinerary = document.getElementById('pane-itinerary');
     const paneTodo = document.getElementById('pane-todo');
+    const scrollTopBtn = document.getElementById('scroll-top-btn');
+    const floatingChipsContainer = document.getElementById('floating-chips-container');
+
+    function updateScrollTopColor() {
+      scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
+      scrollTopBtn.style.boxShadow = (currentWeatherMode === 'sunny') ? '0 8px 20px rgba(217, 119, 6, 0.35)' : '0 8px 20px rgba(4, 120, 87, 0.35)';
+    }
 
     function slideToPane(index) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
-
-      // 记录切走前的滚动位置
       paneScrollPositions[currentPaneIndex] = window.pageYOffset || document.documentElement.scrollTop;
 
       currentPaneIndex = index;
@@ -1550,7 +2214,14 @@
       paneItinerary.classList.toggle('pane-dim', index !== 1);
       paneTodo.classList.toggle('pane-dim', index !== 2);
 
-      // 恢复切入板块的对应高度
+      if (index === 1) {
+        floatingChipsContainer.style.display = 'flex';
+      } else {
+        floatingChipsContainer.style.display = 'none';
+      }
+
+      updateScrollTopColor();
+
       requestAnimationFrame(() => {
         window.scrollTo({
           top: paneScrollPositions[index] || 0,
@@ -1559,13 +2230,12 @@
       });
     }
 
-    // 手势横向滑动处理
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
 
     outer.addEventListener('touchstart', e => {
-      if (e.target.closest('.chips-bar, .map-tabs-bar, .offline-map-container, .todo-stepper-two, button, a')) {
+      if (e.target.closest('.card-nodes-bar, .floating-chips-inner, .map-tabs-bar, .offline-map-container, .metro-map, .metro-node, .todo-stepper-two, button, a')) {
         ignoreSwipe = true;
         return;
       }
@@ -1624,26 +2294,151 @@
       }
     }, { passive: true });
 
-    const scrollTopBtn = document.getElementById('scroll-top-btn');
+    /* 悬浮胶囊栏核心逻辑：3个独立小方块高对比度不透明防透底，支持滑动切换 */
+    const allDaysMeta = [
+      { id: 'd1', d: '9.30', t: '落地' },
+      { id: 'd2', d: '10.1', t: '瞎逛' },
+      { id: 'd3', d: '10.2', t: 'ANA' },
+      { id: 'd4', d: '10.3', t: '迪士尼' },
+      { id: 'd5', d: '10.4', t: '箱根' },
+      { id: 'd6', d: '10.5', t: '伊豆' },
+      { id: 'd7', d: '10.6', t: '回国' }
+    ];
+
+    let currentVisibleDayIndex = 0;
+    let isManualScrollingChips = false; // 节流锁
+
+    function detectCurrentViewingDay() {
+      if (currentPaneIndex !== 1 || isManualScrollingChips) return;
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const triggerPoint = scrollY + 220;
+
+      let matchedIndex = 0;
+      for (let i = 0; i < allDaysMeta.length; i++) {
+        const el = document.getElementById(allDaysMeta[i].id);
+        if (el && el.offsetTop <= triggerPoint) {
+          matchedIndex = i;
+        }
+      }
+      if (matchedIndex !== currentVisibleDayIndex) {
+        currentVisibleDayIndex = matchedIndex;
+        renderFloatingChips();
+      }
+    }
+
+    function renderFloatingChips() {
+      const centerGroup = document.getElementById('chips-center-group');
+      if (!centerGroup) return;
+
+      const d6Title = (currentWeatherMode === 'sunny') ? '伊豆' : 'WALK';
+      const displayMeta = allDaysMeta.map((item, idx) => {
+        return idx === 5 ? { ...item, t: d6Title } : item;
+      });
+
+      let leftHtml = '';
+      let rightHtml = '';
+
+      if (currentVisibleDayIndex === 0) {
+        leftHtml = `<div class="f-chip placeholder-chip"><span class="fc-d">&nbsp;</span><span class="fc-t">&nbsp;</span></div>`;
+        const nextItem = displayMeta[1];
+        rightHtml = `<div class="f-chip" data-day="${nextItem.id}" data-index="1"><span class="fc-d">${nextItem.d}</span><span class="fc-t">${nextItem.t}</span></div>`;
+      } else if (currentVisibleDayIndex === displayMeta.length - 1) {
+        const prevItem = displayMeta[displayMeta.length - 2];
+        leftHtml = `<div class="f-chip" data-day="${prevItem.id}" data-index="${displayMeta.length - 2}"><span class="fc-d">${prevItem.d}</span><span class="fc-t">${prevItem.t}</span></div>`;
+        rightHtml = `<div class="f-chip placeholder-chip"><span class="fc-d">&nbsp;</span><span class="fc-t">&nbsp;</span></div>`;
+      } else {
+        const prevItem = displayMeta[currentVisibleDayIndex - 1];
+        const nextItem = displayMeta[currentVisibleDayIndex + 1];
+        leftHtml = `<div class="f-chip" data-day="${prevItem.id}" data-index="${currentVisibleDayIndex - 1}"><span class="fc-d">${prevItem.d}</span><span class="fc-t">${prevItem.t}</span></div>`;
+        rightHtml = `<div class="f-chip" data-day="${nextItem.id}" data-index="${currentVisibleDayIndex + 1}"><span class="fc-d">${nextItem.d}</span><span class="fc-t">${nextItem.t}</span></div>`;
+      }
+
+      const currItem = displayMeta[currentVisibleDayIndex];
+      const middleHtml = `<div class="f-chip active-current" data-day="${currItem.id}" data-index="${currentVisibleDayIndex}"><span class="fc-d">${currItem.d}</span><span class="fc-t">${currItem.t}</span></div>`;
+
+      centerGroup.innerHTML = leftHtml + middleHtml + rightHtml;
+    }
+
+    // 胶囊栏左右滑动手势及触觉反馈逻辑
+    const chipsBarContainer = document.getElementById('floating-chips-bar');
+    let chipStartX = 0;
+    let chipMovedX = 0;
+
+    chipsBarContainer.addEventListener('touchstart', e => {
+      chipStartX = e.touches[0].clientX;
+      chipMovedX = 0;
+    }, { passive: true });
+
+    chipsBarContainer.addEventListener('touchmove', e => {
+      chipMovedX = e.touches[0].clientX - chipStartX;
+    }, { passive: true });
+
+    chipsBarContainer.addEventListener('touchend', e => {
+      const threshold = 20;
+      if (Math.abs(chipMovedX) > threshold) {
+        const d6Title = (currentWeatherMode === 'sunny') ? '伊豆' : 'WALK';
+        const displayMeta = allDaysMeta.map((item, idx) => idx === 5 ? { ...item, t: d6Title } : item);
+
+        if (chipMovedX < 0) {
+          if (currentVisibleDayIndex < displayMeta.length - 1) {
+            currentVisibleDayIndex++;
+            if (navigator.vibrate) navigator.vibrate(12);
+            isManualScrollingChips = true;
+            smoothOpenDay(displayMeta[currentVisibleDayIndex].id);
+            setTimeout(() => { isManualScrollingChips = false; }, 400);
+          }
+        } else {
+          if (currentVisibleDayIndex > 0) {
+            currentVisibleDayIndex--;
+            if (navigator.vibrate) navigator.vibrate(12);
+            isManualScrollingChips = true;
+            smoothOpenDay(displayMeta[currentVisibleDayIndex].id);
+            setTimeout(() => { isManualScrollingChips = false; }, 400);
+          }
+        }
+        renderFloatingChips();
+      } else {
+        const targetChip = e.target.closest('.f-chip');
+        if (targetChip && !targetChip.classList.contains('placeholder-chip')) {
+          const dayId = targetChip.getAttribute('data-day');
+          const idx = Number(targetChip.getAttribute('data-index'));
+          currentVisibleDayIndex = idx;
+          if (navigator.vibrate) navigator.vibrate(8);
+          isManualScrollingChips = true;
+          smoothOpenDay(dayId);
+          setTimeout(() => { isManualScrollingChips = false; }, 400);
+          renderFloatingChips();
+        }
+      }
+    }, { passive: true });
+
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollY > window.innerHeight * 1.2) {
+      if (scrollY > 20) {
         scrollTopBtn.classList.add('visible');
       } else {
         scrollTopBtn.classList.remove('visible');
       }
+      detectCurrentViewingDay();
     }, { passive: true });
 
+    /* 弹窗核心：全面锁死防穿透 */
     function openModal(id) { 
       const overlay = document.getElementById(id);
       overlay.style.display = 'flex';
+      document.body.classList.add('modal-locked');
       initSheetDrag(id);
     }
     function closeModal(id) { 
       document.getElementById(id).style.display = 'none'; 
+      const anyOpen = Array.from(document.querySelectorAll('.modal-overlay')).some(el => el.style.display === 'flex');
+      if (!anyOpen) {
+        document.body.classList.remove('modal-locked');
+      }
     }
 
     function initSheetDrag(modalId) {
+      if (modalId === 'modal-disney') return;
       const sheet = document.querySelector(`#${modalId} .modal-sheet`);
       if (!sheet || sheet._dragInited) return;
       sheet._dragInited = true;
@@ -1672,18 +2467,17 @@
       }, { passive: true });
     }
 
-    // 地图与胶囊置顶跳转：充分考虑 iPhone 15 Pro 灵动岛安全区高裕度，绝对居顶并闪烁
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
       requestAnimationFrame(() => {
         const nodeEl = document.getElementById(nodeId);
         if (nodeEl) {
-          const iphoneDynamicIslandOffset = 70;
-          const nodeTop = nodeEl.getBoundingClientRect().top + window.pageYOffset - iphoneDynamicIslandOffset;
+          const rect = nodeEl.getBoundingClientRect();
+          const targetCenter = window.pageYOffset + rect.top - (window.innerHeight / 2) + (rect.height / 2);
 
           window.scrollTo({
-            top: Math.max(0, nodeTop),
+            top: Math.max(0, targetCenter),
             behavior: 'smooth'
           });
 
@@ -1691,12 +2485,10 @@
           setTimeout(() => {
             nodeEl.classList.remove('node-flash');
           }, 1200);
+        } else {
+          smoothOpenDay(dayId);
         }
       });
-
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('chip-' + dayId);
-      if (chip) chip.classList.add('active');
     }
 
     function smoothOpenDay(id) {
@@ -1704,8 +2496,8 @@
       const t = document.getElementById(id);
       if (t) {
         requestAnimationFrame(() => {
-          const iphoneDynamicIslandOffset = 70;
-          const cardTop = t.getBoundingClientRect().top + window.pageYOffset - iphoneDynamicIslandOffset;
+          const iphoneOffset = 70;
+          const cardTop = t.getBoundingClientRect().top + window.pageYOffset - iphoneOffset;
           window.scrollTo({
             top: Math.max(0, cardTop),
             behavior: 'smooth'
@@ -1715,14 +2507,11 @@
           setTimeout(() => t.classList.remove('focus-halo'), 1000);
         });
       }
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('chip-' + id);
-      if (chip) chip.classList.add('active');
     }
 
     function jumpToDayCard(id) {
       if (currentPaneIndex !== 1) slideToPane(1);
-      setTimeout(() => smoothOpenDay(id), 250);
+      setTimeout(() => smoothOpenDay(id), 50);
     }
 
     function copyCode(str) {
@@ -1733,28 +2522,157 @@
       });
     }
 
+    function attachFastMetroClick(elId, callback) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      let startX = 0, startY = 0;
+      
+      el.addEventListener('touchstart', e => {
+        e.stopPropagation();
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: false });
+
+      el.addEventListener('touchmove', e => {
+        e.stopPropagation();
+      }, { passive: false });
+
+      el.addEventListener('touchend', e => {
+        e.stopPropagation();
+        e.preventDefault();
+        const diffX = Math.abs(e.changedTouches[0].clientX - startX);
+        const diffY = Math.abs(e.changedTouches[0].clientY - startY);
+        if (diffX < 8 && diffY < 8) {
+          callback();
+        }
+      }, { passive: false });
+
+      el.addEventListener('click', e => {
+        e.stopPropagation();
+        callback();
+      });
+    }
+
+    /* 地图全部节点精准一对一绑定 */
+    function initAllMetroNodes() {
+      attachFastMetroClick('node-sun-all-nrt', () => jumpToDayCard('d1'));
+      attachFastMetroClick('node-sun-all-home', () => jumpToDayCard('d1'));
+      attachFastMetroClick('node-sun-all-ana', () => jumpToDayCard('d3'));
+      attachFastMetroClick('node-sun-all-disney', () => jumpToDayCard('d4'));
+      attachFastMetroClick('node-sun-all-hakone', () => jumpToDayCard('d5'));
+      attachFastMetroClick('node-sun-all-atami', () => jumpToDayCard('d5'));
+      attachFastMetroClick('node-sun-all-izu', () => jumpToDayCard('d6'));
+      attachFastMetroClick('node-sun-all-hnd', () => jumpToDayCard('d7'));
+
+      attachFastMetroClick('node-sun-m-home', () => jumpToNode('tl-d1-4', 'd1'));
+      attachFastMetroClick('node-sun-m-ana', () => jumpToNode('tl-d3-1', 'd3'));
+      attachFastMetroClick('node-sun-m-disney', () => jumpToNode('tl-d4-2', 'd4'));
+
+      attachFastMetroClick('node-sun-r-odawara', () => jumpToNode('tl-d5-2', 'd5'));
+      attachFastMetroClick('node-sun-r-yumoto', () => jumpToNode('tl-d5-3', 'd5'));
+      attachFastMetroClick('node-sun-r-motohakone', () => jumpToNode('tl-d5-4', 'd5'));
+      attachFastMetroClick('node-sun-r-torii', () => jumpToNode('tl-d5-5', 'd5'));
+      attachFastMetroClick('node-sun-r-narukawa', () => jumpToNode('tl-d5-6', 'd5'));
+      attachFastMetroClick('node-sun-r-ship', () => jumpToNode('tl-d5-7', 'd5'));
+      attachFastMetroClick('node-sun-r-owakudani', () => jumpToNode('tl-d5-8', 'd5'));
+      attachFastMetroClick('node-sun-r-sculpture', () => jumpToNode('tl-d5-9', 'd5'));
+      attachFastMetroClick('node-sun-r-atami', () => jumpToNode('tl-d5-10', 'd5'));
+      
+      attachFastMetroClick('node-sun-r-omuro', () => jumpToNode('tl-d6-4', 'd6'));
+      attachFastMetroClick('node-sun-r-cactus', () => jumpToNode('tl-d6-5', 'd6'));
+      attachFastMetroClick('node-sun-r-jogasaki', () => jumpToNode('tl-d6-7', 'd6'));
+
+      attachFastMetroClick('node-rain-all-nrt', () => jumpToDayCard('d1'));
+      attachFastMetroClick('node-rain-all-home', () => jumpToDayCard('d1'));
+      attachFastMetroClick('node-rain-all-ana', () => jumpToDayCard('d3'));
+      attachFastMetroClick('node-rain-all-disney', () => jumpToDayCard('d4'));
+      attachFastMetroClick('node-rain-all-hakone', () => jumpToDayCard('d5'));
+      attachFastMetroClick('node-rain-all-walk', () => jumpToDayCard('d6'));
+      attachFastMetroClick('node-rain-all-hnd', () => jumpToDayCard('d7'));
+
+      attachFastMetroClick('node-rain-m-home', () => jumpToNode('tl-d1-4', 'd1'));
+      attachFastMetroClick('node-rain-m-ana', () => jumpToNode('tl-d3-1', 'd3'));
+      attachFastMetroClick('node-rain-m-disney', () => jumpToNode('tl-d4-2', 'd4'));
+
+      attachFastMetroClick('node-rain-hw-odawara', () => jumpToNode('tl-d5-r2', 'd5'));
+      attachFastMetroClick('node-rain-hw-yumoto', () => jumpToNode('tl-d5-r3', 'd5'));
+      attachFastMetroClick('node-rain-hw-motohakone', () => jumpToNode('tl-d5-r4', 'd5'));
+      attachFastMetroClick('node-rain-hw-torii', () => jumpToNode('tl-d5-r5', 'd5'));
+      attachFastMetroClick('node-rain-hw-narukawa', () => jumpToNode('tl-d5-r6', 'd5'));
+      attachFastMetroClick('node-rain-hw-ship', () => jumpToNode('tl-d5-r7', 'd5'));
+      attachFastMetroClick('node-rain-hw-owakudani', () => jumpToNode('tl-d5-r9', 'd5'));
+      attachFastMetroClick('node-rain-hw-sculpture', () => jumpToNode('tl-d5-r10', 'd5'));
+      attachFastMetroClick('node-rain-hw-home', () => jumpToNode('tl-d1-4', 'd1'));
+      attachFastMetroClick('node-rain-hw-nakameguro', () => jumpToNode('tl-d6-r1', 'd6'));
+      attachFastMetroClick('node-rain-hw-daikanyama', () => jumpToNode('tl-d6-r9', 'd6'));
+      attachFastMetroClick('node-rain-hw-shibuya', () => jumpToNode('tl-d6-r12', 'd6'));
+      attachFastMetroClick('node-rain-hw-park', () => jumpToNode('tl-d6-r13', 'd6'));
+      attachFastMetroClick('node-rain-hw-hnd', () => jumpToNode('tl-d6-r14', 'd6'));
+    }
+
+    let currentWeatherMode = 'sunny';
+
     function showSketchMap(type) {
       document.querySelectorAll('.map-tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('map-svg-all').style.display = 'none';
-      document.getElementById('map-svg-resort').style.display = 'none';
-      document.getElementById('map-svg-metro').style.display = 'none';
+      document.querySelectorAll('svg.metro-map').forEach(svg => svg.style.display = 'none');
 
-      if (type === 'all') {
-        document.getElementById('tab-map-all').classList.add('active');
-        document.getElementById('map-svg-all').style.display = 'block';
-      } else if (type === 'resort') {
-        document.getElementById('tab-map-resort').classList.add('active');
-        document.getElementById('map-svg-resort').style.display = 'block';
-      } else if (type === 'metro') {
-        document.getElementById('tab-map-metro').classList.add('active');
-        document.getElementById('map-svg-metro').style.display = 'block';
+      const tabBtn = document.getElementById('tab-map-' + type);
+      if (tabBtn) tabBtn.classList.add('active');
+
+      const targetSvg = document.getElementById('map-svg-' + type);
+      if (targetSvg) targetSvg.style.display = 'block';
+    }
+
+    function updateMapTabsForWeather(mode) {
+      const container = document.getElementById('map-tabs-container');
+
+      if (mode === 'sunny') {
+        container.innerHTML = `
+          <button class="map-tab-btn active" id="tab-map-sun-all" onclick="showSketchMap('sun-all')">🌐 全程概览</button>
+          <button class="map-tab-btn" id="tab-map-sun-metro" onclick="showSketchMap('sun-metro')">🗼 ANA·迪士尼</button>
+          <button class="map-tab-btn" id="tab-map-sun-resort" onclick="showSketchMap('sun-resort')">⛰️ 箱根·热海·伊豆</button>
+        `;
+        showSketchMap('sun-all');
+      } else {
+        container.innerHTML = `
+          <button class="map-tab-btn active" id="tab-map-rain-all" onclick="showSketchMap('rain-all')">🌐 全程概览</button>
+          <button class="map-tab-btn" id="tab-map-rain-metro" onclick="showSketchMap('rain-metro')">🗼 ANA·迪士尼</button>
+          <button class="map-tab-btn" id="tab-map-rain-hw" onclick="showSketchMap('rain-hw')">⛰️ 箱根·WALK</button>
+        `;
+        showSketchMap('rain-all');
+      }
+    }
+
+    function renderCardNodesBar(mode) {
+      const bar = document.getElementById('card-nodes-bar');
+      if (!bar) return;
+      if (mode === 'sunny') {
+        bar.innerHTML = `
+          <button class="card-node-chip" onclick="smoothOpenDay('d1')"><span>9.30</span><span>落地</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d2')"><span>10.1</span><span>瞎逛</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d3')"><span>10.2</span><span>ANA</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d4')"><span>10.3</span><span>迪士尼</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d5')"><span>10.4</span><span>箱根</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d6')"><span>10.5</span><span>伊豆</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d7')"><span>10.6</span><span>回国</span></button>
+        `;
+      } else {
+        bar.innerHTML = `
+          <button class="card-node-chip" onclick="smoothOpenDay('d1')"><span>9.30</span><span>落地</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d2')"><span>10.1</span><span>瞎逛</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d3')"><span>10.2</span><span>ANA</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d4')"><span>10.3</span><span>迪士尼</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d5')"><span>10.4</span><span>箱根</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d6')"><span>10.5</span><span>WALK</span></button>
+          <button class="card-node-chip" onclick="smoothOpenDay('d7')"><span>10.6</span><span>回国</span></button>
+        `;
       }
     }
 
     const customDays = {
       sunny: {
         d5_title: "箱根",
-        d5_desc: "箱根顺时针玩避人流 · 海贼船 · 宿热海温泉酒店",
+        d5_desc: "箱根 · 热海",
         d5_nodes: [
           { id: "tl-d5-2", time: "", place: "市区→地铁→小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "用周游券坐 or 浪漫特快（单独买票）" },
           { id: "tl-d5-3", time: "", place: "小田原站→登山列车→箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "下车！" },
@@ -1765,7 +2683,6 @@
           { id: "tl-d5-8", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!" },
           { id: "tl-d5-9", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
           
-          /* 热海专属高质感分割徽章 */
           { isDivider: true, title: "热海" },
 
           { id: "tl-d5-10", time: "", place: "热海酒店", nav: "https://maps.google.com/?q=Hotel+Resorpia+Atami", desc: "记得带护照" },
@@ -1782,16 +2699,16 @@
           { id: "tl-d6-3", time: "", place: "上山缆车 🚠", nav: "https://maps.google.com/?q=Omuroyama", desc: "最后一个柱子两侧有拍照的机器，照片1200ren" },
           { id: "tl-d6-4", time: "", place: "大室山", nav: "https://maps.google.com/?q=Mount+Omuro", desc: "你的名字取景地" },
           { id: "tl-d6-5", time: "", place: "仙人掌公园", nav: "https://maps.google.com/?q=Izu+Shaboten+Zoo", desc: "如果缆车临时停运再考虑去，可以和动物互动" },
-          { id: "tl-d6-6", time: "", place: "仙人掌公园站→巴士→伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "1、大巴间隔时间很长，海洋公园站离城崎海岸最近；2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
+          { id: "tl-d6-6", time: "", place: "仙人掌公园站→巴士→伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "1、大巴间隔时间很长，海洋公园站离城崎海岸最近；<br>2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
           { id: "tl-d6-7", time: "", place: "城崎海岸", nav: "https://maps.google.com/?q=Kadowaki+Suspension+Bridge", desc: "门胁吊桥，海边散步，灯塔可以上去" },
           { id: "tl-d6-8", time: "", place: "城崎海岸站→巴士→伊豆高原站", nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station", desc: "返回伊豆高原站" },
-          { id: "tl-d6-9", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "如果时间早可以接上“WALK”的行程" },
-          { id: "tl-d6-10", time: "", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "前往羽田办理托运值机，准备启程返航。" }
+          { id: "tl-d6-9", time: "", place: "回家", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "如果时间早可以接上“WALK”的行程" },
+          { id: "tl-d6-10", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "前往羽田办理托运值机，从容准备启程回国。" }
         ]
       },
       rainy: {
         d5_title: "箱根",
-        d5_desc: "箱根全套顺时针大回线 · 海贼船 · 天气不好回横滨家中",
+        d5_desc: "箱根顺时针玩 · 天气不好回横滨家中安睡",
         d5_nodes: [
           { id: "tl-d5-r2", time: "", place: "市区→地铁→小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "用周游券坐 or 浪漫特快（单独买票）" },
           { id: "tl-d5-r3", time: "", place: "小田原站→登山列车→箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "下车！" },
@@ -1802,47 +2719,42 @@
           { id: "tl-d5-r8", time: "", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷" },
           { id: "tl-d5-r9", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!" },
           { id: "tl-d5-r10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
-          { id: "tl-d5-r11", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已取消热海酒店，返回横滨家中安睡" }
+          { id: "tl-d5-r11", time: "", place: "回家", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已退订热海酒店，返回横滨家中安睡" }
         ],
         d6_title: "WALK",
-        d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田撤离",
+        d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田回国",
         d6_nodes: [
-          /* 中目黑专属分割线 */
           { isDivider: true, title: "中目黑" },
           { id: "tl-d6-r1", time: "", place: "Sidewalk Stand", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
           { id: "tl-d6-r2", time: "", place: "TRASPARENTE - 糕点店Nakameguro", nav: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", desc: "奶茶布丁 推荐试一下" },
-          { id: "tl-d6-r3", time: "", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：香肠卷心菜面包、虾仁土豆塔丁、鸡肉土豆佛卡夏" },
+          { id: "tl-d6-r3", time: "", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：<br>• 香肠卷心菜面包<br>• 虾仁土豆塔丁<br>• 鸡肉土豆佛卡夏" },
           { id: "tl-d6-r4", time: "", place: "I'm donut ?", nav: "https://maps.google.com/?q=I'm+donut+Nakameguro", desc: "很多人吃的甜甜圈 只能cash" },
           { id: "tl-d6-r5", time: "", place: "樱桥", nav: "https://maps.google.com/?q=Sakura-bashi+Nakameguro", desc: "周杰伦机位" },
           { id: "tl-d6-r6", time: "", place: "dacō", nav: "https://maps.google.com/?q=dacō+Nakameguro", desc: "平价面包店" },
           { id: "tl-d6-r7", time: "", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡，很多人喝，但是好像一般般" },
           { id: "tl-d6-r8", time: "", place: "星巴克", nav: "https://maps.google.com/?q=Starbucks+Reserve+Roastery+Tokyo", desc: "亚洲最大星巴克，提前搜一下预约码" },
 
-          /* 代官山专属分割线 */
           { isDivider: true, title: "代官山" },
           { id: "tl-d6-r9", time: "", place: "茑屋书店", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "一个漂亮的小书店" },
           { id: "tl-d6-r10", time: "", place: "Miffy café", nav: "https://maps.google.com/?q=Miffy+cafe+Daikanyama", desc: "米菲咖啡" },
-          { id: "tl-d6-11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
+          { id: "tl-d6-r11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
 
-          /* 涩谷专属分割线 */
           { isDivider: true, title: "涩谷" },
-          { id: "tl-d6-12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
+          { id: "tl-d6-r12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
 
-          /* 公园专属分割线 */
           { isDivider: true, title: "公园" },
-          { id: "tl-d6-13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" },
-          { id: "tl-d6-14", time: "撤离", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续。" }
+          { id: "tl-d6-r13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" },
+          { id: "tl-d6-r14", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续启程回国。" }
         ]
       }
     };
 
     function renderTour(mode) {
+      currentWeatherMode = mode;
       const p = customDays[mode];
-      
-      const d5Card = document.getElementById('d5');
-      const d6Card = document.getElementById('d6');
-      d5Card.className = `day-wrapper theme-${mode}`;
-      d6Card.className = `day-wrapper theme-${mode}`;
+
+      document.body.classList.toggle('mode-sunny', mode === 'sunny');
+      document.body.classList.toggle('mode-rainy', mode === 'rainy');
 
       document.getElementById('d5-title').innerHTML = p.d5_title;
       document.getElementById('d5-desc').innerHTML = p.d5_desc;
@@ -1894,19 +2806,11 @@
         `;
       }).join('');
 
-      const deck = document.getElementById('control-deck-card');
-      const chipD5 = document.getElementById('chip-d5');
-      const chipD6 = document.getElementById('chip-d6');
-
-      if (mode === 'sunny') {
-        deck.className = "control-deck-card sunny-deck";
-        chipD5.innerText = "10.4 箱根/热海";
-        chipD6.innerText = "10.5 伊豆";
-      } else {
-        deck.className = "control-deck-card rainy-deck";
-        chipD5.innerText = "10.4 箱根";
-        chipD6.innerText = "10.5 WALK";
-      }
+      renderCardNodesBar(mode);
+      updateMapTabsForWeather(mode);
+      renderFloatingChips();
+      updateScrollTopColor();
+      initAllMetroNodes();
     }
 
     function setWeatherMode(mode) {
@@ -1915,13 +2819,125 @@
       renderTour(mode);
     }
 
-    // 待办事项
+    /* 方案 3：全量双园百科数据 */
+    const fullDisneyZones = {
+      land: [
+        {
+          zone: "🌲 梦幻乐园 (Fantasyland)",
+          items: [
+            { name: "美女与野兽：城堡奇缘", tag: "DPA必抢", dpa: true, desc: "搭乘转转魔法咖啡杯，沉浸式穿梭于野兽城堡，视觉舞美原声巅峰。" },
+            { name: "幽灵公馆 (万圣特别版)", tag: "万圣限定", dpa: false, desc: "999只幽灵聚集，万圣节档期《圣诞夜惊魂》杰克特别装饰，氛围感拉满。" },
+            { name: "小熊维尼猎蜜记", tag: "全家推荐", dpa: false, desc: "无轨旋转蜜罐车，逼真还原百亩森林吹大风与跳跳虎弹跳场景。" },
+            { name: "小飞侠天空之旅", tag: "经典复古", dpa: false, desc: "搭乘飞船在夜空中俯瞰伦敦大本钟，直飞梦幻岛。" },
+            { name: "小飞象 / 旋转木马", tag: "经典游乐", dpa: false, desc: "梦幻乐园标志性户外轻量设施，适合拍照打卡。" }
+          ]
+        },
+        {
+          zone: "🚀 明日乐园 (Tomorrowland)",
+          items: [
+            { name: "杯面欢乐之旅", tag: "DPA热门", dpa: true, desc: "超能陆战队大白甩尾车，动感迪斯科洗脑神曲，解压狂欢必刷。" },
+            { name: "太空山", tag: "室内过山车", dpa: false, desc: "在漆黑无光的银河星际高速穿梭，全黑暗视效过山车。" },
+            { name: "怪兽电力公司：迷藏巡游车", tag: "互动手电", dpa: false, desc: "手持手电筒寻找安全帽上的小怪兽M标志，互动感极佳。" },
+            { name: "星际旅行：冒险续航", tag: "3D飞行", dpa: false, desc: "多种随机剧情体验星球大战超光速跳跃与宇宙空战。" }
+          ]
+        },
+        {
+          zone: "🤠 西部乐园 & 动物天地 (Westernland & Critter Country)",
+          items: [
+            { name: "巨雷山", tag: "人气矿山车", dpa: false, desc: "无回旋急转弯矿山过山车，在荒废金矿间高速飞驰，视野极好。" },
+            { name: "飞溅山", tag: "水上俯冲", dpa: true, desc: "搭乘圆木舟缓缓漂流，最后从16米高断崖以45度角冲入瀑布溅起巨浪。" },
+            { name: "豪华马克吐温号 / 顽童汤姆泰山岛", tag: "悠闲观光", dpa: false, desc: "环绕美国河流巡游，感受开拓时代的壮丽河畔景致。" }
+          ]
+        },
+        {
+          zone: "🏴‍☠️ 探险乐园 & 卡通城 (Adventureland & Toontown)",
+          items: [
+            { name: "加勒比海盗", tag: "室内暗骑", dpa: false, desc: "乘小船探访杰克船长与黑珍珠号，逼真机械人偶与海盗炮火特效。" },
+            { name: "丛林巡航：野生动物探险", tag: "船长互动", dpa: false, desc: "乘船穿越充满机械大象、鳄鱼的神秘雨林，船长风趣解说。" },
+            { name: "米奇公馆会米奇 / 艾瑟尔旋转车", tag: "合影互动", dpa: false, desc: "深入卡通城米奇的私人影棚与米奇合影留念。" }
+          ]
+        }
+      ],
+      sea: [
+        {
+          zone: "❄️ 梦幻泉乡 (Fantasy Springs 新园区头牌)",
+          items: [
+            { name: "安娜与艾莎的冰雪之旅", tag: "DPA神作", dpa: true, desc: "顶级水上暗骑，全景立体呈现Elsa《Let It Go》冰雪城堡蜕变魔法。" },
+            { name: "长发公主微菌奇缘", tag: "浪漫天灯", dpa: true, desc: "乘木舟进入水上万盏天灯盛典，浪漫氛围与歌曲完美融合。" },
+            { name: "小飞侠梦幻岛历险记", tag: "3D视听", dpa: true, desc: "戴上3D眼镜与彼得潘飞越梦幻岛营救约翰，身临其境。" },
+            { name: "奇妙仙子妙妙车", tag: "童话穿梭", dpa: false, desc: "帮助小仙子递送精灵山谷四季包裹，轻松惬意。" }
+          ]
+        },
+        {
+          zone: "🌋 神秘岛 (Mysterious Island)",
+          items: [
+            { name: "地心探险之旅", tag: "火山冲刺", dpa: true, desc: "穿行于普罗米修斯活火山地心，最后从火山口疾速喷发俯冲！" },
+            { name: "海底两万哩", tag: "深海探秘", dpa: false, desc: "操控个人探照灯寻找沉没亚特兰蒂斯与发光深海生物。" }
+          ]
+        },
+        {
+          zone: "🗽 美国海滨 (American Waterfront)",
+          items: [
+            { name: "惊魂古塔", tag: "跳楼机神作", dpa: true, desc: "废弃饭店诅咒电梯垂直多次失重坠落，万圣氛围绝配。" },
+            { name: "玩具总动员疯狂游戏屋", tag: "3D射击对战", dpa: true, desc: "钻进胡迪大嘴乘车射击各种3D气球飞靶，老少咸宜争分王。" }
+          ]
+        },
+        {
+          zone: "🌊 地中海海湾 & 失落河三角洲",
+          items: [
+            { name: "翱翔：梦幻奇航", tag: "DPA顶级", dpa: true, desc: "巨幕球形悬空滑翔翼，飞越五大洲名胜，伴随微风与花香气味。" },
+            { name: "印第安纳琼斯：水晶骷髅头魔宫", tag: "越野飞车", dpa: false, desc: "乘坐吉普车在摇晃崩塌的古代神殿内逃避大滚石袭击。" },
+            { name: "忿怒双神", tag: "360度翻转", dpa: false, desc: "在古代石造遗迹中穿梭的360度垂直大回转疾速过山车。" }
+          ]
+        },
+        {
+          zone: "🧞 阿拉伯海岸 & 美人鱼礁湖",
+          items: [
+            { name: "辛巴达传奇之旅", tag: "室内治愈", dpa: false, desc: "伴随Alan Menken动人音乐《Compass of Your Heart》航行。" },
+            { name: "神灯剧场 3D / 礁湖剧场", tag: "室内剧场", dpa: false, desc: "真人和3D精灵互动的魔术剧场，避暑吹空调极佳。" }
+          ]
+        }
+      ]
+    };
+
+    let currentDisneyParkView = 'land';
+
+    function setDisneyParkView(park) {
+      currentDisneyParkView = park;
+      document.getElementById('modal-tab-land').classList.toggle('active', park === 'land');
+      document.getElementById('modal-tab-sea').classList.toggle('active', park === 'sea');
+      renderDisneyEncyclopedia();
+    }
+
+    function renderDisneyEncyclopedia() {
+      const container = document.getElementById('modal-zone-container');
+      const zones = fullDisneyZones[currentDisneyParkView];
+
+      container.innerHTML = zones.map(z => `
+        <div class="disney-zone-title">${z.zone}</div>
+        ${z.items.map(item => `
+          <div class="disney-card">
+            <div class="disney-card-top">
+              <span class="disney-card-title">${item.name}</span>
+              <span class="disney-card-tag ${item.dpa ? 'dpa' : ''}">${item.tag}</span>
+            </div>
+            <div class="disney-card-desc">${item.desc}</div>
+          </div>
+        `).join('')}
+      `).join('');
+    }
+
+    function openDisneyModal() {
+      renderDisneyEncyclopedia();
+      openModal('modal-disney');
+    }
+
     const allTodoItems = [
       { key: 'pass', name: '护照' },
       { key: 'idcard', name: '身份证' },
       { key: 'disney', name: '东京迪士尼门票' },
       { key: 'vjw', name: 'VJW填报' },
-      { key: 'sim_jp', name: '日本 7 日高速流量卡 (1张)' },
+      { key: 'sim_jp', name: '日本 7 日流量卡 (1张)' },
       { key: 'sim_hk', name: '香港 1 日流量卡 (2张)' },
       { key: 'pbank', name: '充电宝' },
       { key: 'charger', name: '充电器（猪猪日本充电器）' },
@@ -2026,7 +3042,6 @@
       } catch (e) {}
     }
 
-    // 仅游玩当天才对最近一班大巴开启倒计时并高亮
     function highlightNextBus(tbodyId, modalSheetId, targetDateStr) {
       try {
         const tbody = document.getElementById(tbodyId);
@@ -2093,17 +3108,41 @@
       highlightNextBus(`izu-bus${idx}-tbody`, `sheet-izu-bus${idx}`, '2026-10-05');
     }
 
-    // 后续倒计时行程列表
+    let isAppOfflineReady = false;
+    function initOfflineDetector() {
+      setTimeout(() => {
+        isAppOfflineReady = true;
+        for (let i = 1; i <= 3; i++) {
+          const dot = document.getElementById(`offline-dot-${i}`);
+          const txt = document.getElementById(`offline-text-${i}`);
+          if (dot) dot.classList.add('ready');
+          if (txt) {
+            txt.innerText = "本地离线就绪";
+            txt.style.color = "var(--success)";
+          }
+        }
+      }, 500);
+    }
+
+    function checkOfflineStatus() {
+      const tag = document.getElementById('modal-offline-status-tag');
+      if (tag) {
+        tag.innerText = isAppOfflineReady ? "已就绪 (内联单文件完全离线可用)" : "离线探测中...";
+        tag.style.color = isAppOfflineReady ? "var(--success)" : "#94a3b8";
+      }
+      openModal('modal-offline-info');
+    }
+
     const milestoneEvents = [
-      { name: "广州南乘车启程 🚄", time: new Date("2026-09-30T10:28:00+08:00").getTime(), dayId: "d1" },
-      { name: "香港快运航班起飞 🛫", time: new Date("2026-09-30T15:10:00+08:00").getTime(), dayId: "d1" },
-      { name: "成田 T2 落地 🛬", time: new Date("2026-09-30T20:40:00+09:00").getTime(), dayId: "d1" },
-      { name: "ANA 机体见学报到 ✈️", time: new Date("2026-10-02T14:15:00+09:00").getTime(), dayId: "d3" },
-      { name: "东京迪士尼开园 🏰", time: new Date("2026-10-03T08:30:00+09:00").getTime(), dayId: "d4" },
-      { name: "箱根顺时针巡游 🚠", time: new Date("2026-10-04T08:00:00+09:00").getTime(), dayId: "d5" },
-      { name: "伊豆大室山 / WALK 🌋", time: new Date("2026-10-05T08:00:00+09:00").getTime(), dayId: "d6" },
-      { name: "羽田起飞返港 ✈️", time: new Date("2026-10-06T01:00:00+09:00").getTime(), dayId: "d7" },
-      { name: "香港西九龙高铁启程 🚄", time: new Date("2026-10-06T07:20:00+08:00").getTime(), dayId: "d7" }
+      { name: "广州南乘车启程 🚄", time: new Date("2026-09-30T10:28:00+08:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "10:28", desc: "香港西九龙一地两检" },
+      { name: "香港快运航班起飞 🛫", time: new Date("2026-09-30T15:10:00+08:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "15:10", desc: "香港 T2 ➔ 成田 T2" },
+      { name: "成田 T2 落地 🛬", time: new Date("2026-09-30T20:40:00+09:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "20:40", desc: "提取行李直达成田中" },
+      { name: "ANA 机体见学报到 ✈️", time: new Date("2026-10-02T14:15:00+09:00").getTime(), dayId: "d3", dateText: "10.02", timeText: "14:15", desc: "新整备场大巴直达机库" },
+      { name: "东京迪士尼开园 🏰", time: new Date("2026-10-03T08:30:00+09:00").getTime(), dayId: "d4", dateText: "10.03", timeText: "08:30", desc: "迪士尼 · 牛来！" },
+      { name: "箱根顺时针巡游 🚠", time: new Date("2026-10-04T08:00:00+09:00").getTime(), dayId: "d5", dateText: "10.04", timeText: "08:00", desc: "海贼船 · 宿热海温泉" },
+      { name: "伊豆大室山 / WALK 🌋", time: new Date("2026-10-05T08:00:00+09:00").getTime(), dayId: "d6", dateText: "10.05", timeText: "08:00", desc: "缆车登顶 / 都心漫步" },
+      { name: "羽田起飞返港 ✈️", time: new Date("2026-10-06T01:00:00+09:00").getTime(), dayId: "d7", dateText: "10.06", timeText: "01:00", desc: "羽田 T3 启程回国" },
+      { name: "香港西九龙高铁启程 🚄", time: new Date("2026-10-06T07:20:00+08:00").getTime(), dayId: "d7", dateText: "10.06", timeText: "07:20", desc: "平安抵穗结束旅程" }
     ];
 
     let isFutureListOpen = false;
@@ -2125,7 +3164,6 @@
 
     let currentDayTarget = "d1";
 
-    // 动态检查昼夜模式：06:00 - 18:00 为白天，其他为夜晚
     function updateDayNightMode() {
       const now = new Date();
       const jstH = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', hour12: false }).format(now));
@@ -2195,7 +3233,6 @@
       sEl.classList.add('num-tick');
       setTimeout(() => sEl.classList.remove('num-tick'), 150);
 
-      // 渲染后续日程列表
       const futureEvents = milestoneEvents.filter(e => e.time > now);
       const listContainer = document.getElementById('future-schedule-list');
       if (listContainer) {
@@ -2204,9 +3241,19 @@
           const fd = Math.floor(fDiff / (1000 * 60 * 60 * 24));
           const fh = Math.floor((fDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           return `
-            <div class="milestone-future-item" onclick="jumpToDayCard('${fe.dayId}')">
-              <span>${fe.name}</span>
-              <span class="milestone-future-time">${fd > 0 ? fd + '天 ' : ''}${fh}小时后</span>
+            <div class="milestone-ticket-card" onclick="jumpToDayCard('${fe.dayId}')">
+              <div class="ticket-left">
+                <span class="ticket-date-badge">${fe.dateText}</span>
+                <span class="ticket-time-badge">${fe.timeText}</span>
+              </div>
+              <div class="ticket-main">
+                <div class="ticket-event-name">${fe.name}</div>
+                <div class="ticket-tag-desc">${fe.desc}</div>
+              </div>
+              <div class="ticket-right-countdown">
+                <span class="ticket-countdown-val">${fd > 0 ? fd + '天' : ''}${fh}小时后</span>
+                <span class="ticket-jump-arrow">查看 ↗</span>
+              </div>
             </div>
           `;
         }).join('');
@@ -2215,14 +3262,20 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
     refreshTodoUI();
     updateTimers();
+    initOfflineDetector();
     setInterval(updateTimers, 1000);
-    slideToPane(1);
+
+    track.style.transform = 'translate3d(-33.3333%, 0, 0)';
+    dockSlider.style.transform = 'translate3d(100%, 0, 0)';
+    paneTransit.classList.add('pane-dim');
+    paneTodo.classList.add('pane-dim');
+    paneItinerary.classList.remove('pane-dim');
+    floatingChipsContainer.style.display = 'flex';
   </script>
 </body>
 </html>
