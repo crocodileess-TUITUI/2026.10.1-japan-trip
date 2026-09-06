@@ -1,5 +1,12 @@
-# Create the full HTML single file as requested
-html_content = """<!DOCTYPE html>
+# Generate the final v27.0 clean HTML file incorporating all requested features:
+# 1. Clean HTML output with zero Python artifact text
+# 2. Tab names updated to 交通, 行程, 代办
+# 3. "牛来！" static easter egg only on 交通 and 代办 panes (bottom)
+# 4. Disney modal project plan, zero scroll-jump when toggling wishlist items
+# 5. Hakone and Izu guidelines renamed to 📌 备注PS
+# 6. Izu bus guideline reformatted into distinct lines
+# 7. Map touch-action: none and strict event interception to prevent swipe interruption
+html_v27 = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -307,30 +314,17 @@ html_content = """<!DOCTYPE html>
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 板块底部彩蛋与版本号微标 */
-    .pane-easter-egg-btn {
+    /* 纯静态无交互“牛来！”微标 (仅交通、代办) */
+    .pane-easter-egg-static {
       display: block;
       margin: 16px auto 4px;
-      background: rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      padding: 5px 14px;
       font-size: 0.72rem;
       font-weight: 900;
-      color: var(--text-sub);
-      cursor: pointer;
-      width: fit-content;
+      color: var(--text-muted);
+      opacity: 0.55;
       text-align: center;
-      letter-spacing: 0.04em;
-      transition: all 0.2s;
-    }
-    @media (prefers-color-scheme: dark) {
-      .pane-easter-egg-btn { background: rgba(255, 255, 255, 0.06); }
-    }
-    .pane-easter-egg-btn:active {
-      transform: scale(0.92);
-      background: var(--accent-soft);
-      color: var(--accent);
+      letter-spacing: 0.08em;
+      user-select: none;
     }
 
     .pane-version-badge {
@@ -404,7 +398,7 @@ html_content = """<!DOCTYPE html>
     .dock-btn.active { color: #fff; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 晴雨决策卡片 */
+    /* 晴雨天方案选择卡片 */
     .control-deck-card {
       background: #ffffff;
       border: 2px solid var(--itin-border);
@@ -554,7 +548,7 @@ html_content = """<!DOCTYPE html>
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* Metro 轨交风格地图 */
+    /* Metro 轨交风格地图 (严格锁定 touch-action 与防误触) */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -624,6 +618,7 @@ html_content = """<!DOCTYPE html>
       -webkit-user-drag: none;
       user-drag: none;
       -webkit-touch-callout: none;
+      touch-action: none;
     }
     .metro-node:active { transform: scale(1.25); }
     .metro-station-outer { stroke-width: 2.5; }
@@ -765,7 +760,7 @@ html_content = """<!DOCTYPE html>
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 迪士尼项目计划入口微卡 (取消小字) */
+    /* 迪士尼项目计划入口微卡 */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
@@ -779,7 +774,7 @@ html_content = """<!DOCTYPE html>
     }
     .disney-wish-header-pill:active { transform: scale(0.98); }
 
-    /* 迪士尼弹窗：上下分层，顶底吸附，中间滚动 (修复上滑退出BUG) */
+    /* 迪士尼弹窗：上下分层，顶底吸附，中间滚动 (修复原地不动与防误跳) */
     .disney-modal-sheet {
       display: flex;
       flex-direction: column;
@@ -1069,7 +1064,7 @@ html_content = """<!DOCTYPE html>
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- Next Milestone 卡片 (夜间变量已修复) -->
+  <!-- Next Milestone 卡片 -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
       <div class="timer-badge">
@@ -1098,10 +1093,10 @@ html_content = """<!DOCTYPE html>
   <div class="viewport-outer" id="viewport-outer">
     <div class="viewport-track" id="viewport-track">
 
-      <!-- PANE 0: ✈️ 行程信息 -->
+      <!-- PANE 0: 🚄 交通 (原行程信息) -->
       <div class="view-pane" id="pane-transit">
         <div class="sec-head">
-          <span>🚄 ✈️ 行程信息</span>
+          <span>🚄 ✈️ 交通</span>
         </div>
 
         <!-- 1. 去程高铁 -->
@@ -1236,12 +1231,12 @@ html_content = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- 底部彩蛋与版本号 -->
-        <button class="pane-easter-egg-btn" onclick="triggerEasterEgg()">🐂 牛来！</button>
-        <div class="pane-version-badge">v26.0</div>
+        <!-- 纯静态牛来彩蛋 (仅交通板块底部) -->
+        <div class="pane-easter-egg-static">🐂 牛来！</div>
+        <div class="pane-version-badge">v27.0</div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 -->
+      <!-- PANE 1: 📅 行程 (原逐日行程) -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 晴雨天方案选择卡片 -->
@@ -1275,7 +1270,7 @@ html_content = """<!DOCTYPE html>
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 晴天 1：全程概览 (成田T2到家全段红色虚线) -->
+            <!-- 晴天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
@@ -1347,7 +1342,7 @@ html_content = """<!DOCTYPE html>
               </g>
             </svg>
 
-            <!-- 晴天 3：箱根·热海·伊豆 (单独突出海贼船、大涌谷、大室山) -->
+            <!-- 晴天 3：箱根·热海·伊豆 -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
@@ -1377,13 +1372,11 @@ html_content = """<!DOCTYPE html>
                 <text x="255" y="98" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">成川美术馆</text>
               </g>
 
-              <!-- 突出海贼船 ⚓ (表情在后) -->
               <g class="metro-node" id="node-sun-r-ship">
                 <circle cx="175" cy="95" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="175" y="81" text-anchor="middle" font-size="12" font-weight="900" fill="#b45309">海贼船 ⚓</text>
               </g>
 
-              <!-- 突出大涌谷 🚠 -->
               <g class="metro-node" id="node-sun-r-owakudani">
                 <circle cx="105" cy="95" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="91" y="99" text-anchor="end" font-size="12" font-weight="900" fill="#b45309">大涌谷 🚠</text>
@@ -1399,7 +1392,6 @@ html_content = """<!DOCTYPE html>
                 <text x="175" y="164" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
               </g>
 
-              <!-- 突出大室山 🌋 -->
               <g class="metro-node" id="node-sun-r-omuro">
                 <circle cx="255" cy="190" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="255" y="176" text-anchor="middle" font-size="12" font-weight="900" fill="#b45309">大室山 🌋</text>
@@ -1416,7 +1408,7 @@ html_content = """<!DOCTYPE html>
               </g>
             </svg>
 
-            <!-- 雨天 1：全程概览 (成田T2到家全段红色虚线) -->
+            <!-- 雨天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
@@ -1458,7 +1450,7 @@ html_content = """<!DOCTYPE html>
 
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田T3</text>
               </g>
             </svg>
 
@@ -1483,7 +1475,7 @@ html_content = """<!DOCTYPE html>
               </g>
             </svg>
 
-            <!-- 雨天 3：箱根·WALK (突出海贼船、大涌谷、中目黑、代官山) -->
+            <!-- 雨天 3：箱根·WALK -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 15 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
               <path class="metro-line" d="M 240,145 L 240,195 L 295,195 L 350,195 L 400,195 L 445,195" stroke="#047857" stroke-width="3.5"/>
@@ -1514,13 +1506,11 @@ html_content = """<!DOCTYPE html>
                 <text x="204" y="98" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">成川美术馆</text>
               </g>
 
-              <!-- 突出海贼船 ⚓ -->
               <g class="metro-node" id="node-rain-hw-ship">
                 <circle cx="145" cy="95" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
                 <text x="145" y="81" text-anchor="middle" font-size="12" font-weight="900" fill="#047857">海贼船 ⚓</text>
               </g>
 
-              <!-- 突出大涌谷 🚠 -->
               <g class="metro-node" id="node-rain-hw-owakudani">
                 <circle cx="95" cy="95" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
                 <text x="81" y="99" text-anchor="end" font-size="12" font-weight="900" fill="#047857">大涌谷 🚠</text>
@@ -1536,13 +1526,11 @@ html_content = """<!DOCTYPE html>
                 <text x="240" y="149" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <!-- 突出中目黑 -->
               <g class="metro-node" id="node-rain-hw-nakameguro">
                 <circle cx="240" cy="195" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
                 <text x="240" y="213" text-anchor="middle" font-size="12" font-weight="900" fill="#047857">中目黑</text>
               </g>
 
-              <!-- 突出代官山 -->
               <g class="metro-node" id="node-rain-hw-daikanyama">
                 <circle cx="295" cy="195" r="7.5" fill="#047857" stroke="#fff" stroke-width="2"/>
                 <text x="295" y="181" text-anchor="middle" font-size="12" font-weight="900" fill="#047857">代官山</text>
@@ -1617,7 +1605,7 @@ html_content = """<!DOCTYPE html>
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
-              <!-- 酒店退订 ⚠️ (原生时间轴内联，绝不对齐错位) -->
+              <!-- 酒店退订 ⚠️ -->
               <div class="tl-node hotel-cancel-node" id="tl-d1-5">
                 <div class="tl-top">
                   <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
@@ -1716,7 +1704,7 @@ html_content = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- Day 4 (迪士尼项目计划 · 无小字) -->
+        <!-- Day 4 (迪士尼项目计划) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1743,7 +1731,7 @@ html_content = """<!DOCTYPE html>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 心愿清单弹窗交互胶囊 -->
+                <!-- 迪士尼项目计划入口卡 -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
                   <span style="font-size:0.86rem; font-weight:900; color:var(--accent);">🎢 迪士尼项目计划</span>
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
@@ -1777,7 +1765,7 @@ html_content = """<!DOCTYPE html>
           </div>
           <div class="day-body-inner">
             <div class="guideline-panel" id="d5-guideline">
-              <div class="guideline-header">📌 箱根核心准则</div>
+              <div class="guideline-header">📌 备注PS</div>
               <div class="guideline-body">
                 <span class="guideline-item">1、天气一定一定要好</span>
                 <span class="guideline-item">2、买箱根二日周游券（咸鱼买，最少是二日游的，不管玩几天都赚，买横滨出发，要纸质版不要电子版），免费坐所有箱根的交通工具、小田原站→箱根汤本</span>
@@ -1802,10 +1790,11 @@ html_content = """<!DOCTYPE html>
           </div>
           <div class="day-body-inner">
             <div class="guideline-panel" id="d6-guideline">
-              <div class="guideline-header">📌 伊豆核心准则</div>
+              <div class="guideline-header">📌 备注PS</div>
               <div class="guideline-body">
                 <span class="guideline-item">1、天气一定一定要好</span>
-                <span class="guideline-item">2、8点就要出门，9：25第一班大巴发车，第二班是10：00</span>
+                <span class="guideline-item">2、8点就要出门。</span>
+                <span class="guideline-item">3、9：25第一班大巴发车，10：00第二班大巴发车。</span>
               </div>
             </div>
             <div class="timeline" id="d6-timeline"></div>
@@ -1873,14 +1862,14 @@ html_content = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- 底部版本号 -->
-        <div class="pane-version-badge">v26.0</div>
+        <!-- 版本号 (行程板块无牛来彩蛋) -->
+        <div class="pane-version-badge" style="margin-top:16px;">v27.0</div>
       </div>
 
-      <!-- PANE 2: 📌 待办事项 -->
+      <!-- PANE 2: 📌 代办 (原待办事项) -->
       <div class="view-pane" id="pane-todo">
         <div class="sec-head">
-          <span>📌 待办事项</span>
+          <span>📌 代办</span>
           <button class="todo-filter-btn" id="todo-filter-btn" onclick="toggleTodoFilter()">仅看未完成</button>
         </div>
         <div class="glass-card" style="margin-bottom: 14px;">
@@ -1910,26 +1899,26 @@ html_content = """<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- 底部彩蛋与版本号 -->
-        <button class="pane-easter-egg-btn" onclick="triggerEasterEgg()">🐂 牛来！</button>
-        <div class="pane-version-badge">v26.0</div>
+        <!-- 纯静态牛来彩蛋 (仅代办板块底部) -->
+        <div class="pane-easter-egg-static">🐂 牛来！</div>
+        <div class="pane-version-badge">v27.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 三栏底置 Dock 导航 -->
+  <!-- 三栏底置 Dock 导航 (更新名称) -->
   <div class="dock-wrap" id="dock-wrap">
     <div class="dock-island">
       <div class="dock-slider" id="dock-slider"></div>
       <button class="dock-btn" id="dock-btn-transit" onclick="slideToPane(0)">
-        <span>✈️ 行程信息</span>
+        <span>✈️ 交通</span>
       </button>
       <button class="dock-btn active" id="dock-btn-itinerary" onclick="slideToPane(1)">
-        <span>📅 逐日行程</span>
+        <span>📅 行程</span>
       </button>
       <button class="dock-btn" id="dock-btn-todo" onclick="slideToPane(2)">
-        <span>📌 待办事项</span>
+        <span>📌 代办</span>
       </button>
     </div>
   </div>
@@ -2067,7 +2056,7 @@ html_content = """<!DOCTYPE html>
       </div>
       <div style="font-size:0.75rem; color:var(--text-sub); line-height:1.6;">
         <p style="margin-bottom:8px;">• <strong>当前状态</strong>：<span id="modal-offline-status-tag" style="color:var(--success); font-weight:900;">已就绪</span></p>
-        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼心愿库、逐日行程及待办事项均采用<strong>纯单文件内联架构</strong>。</p>
+        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼项目库、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
         <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
       </div>
       <div style="text-align:center; margin-top:16px;">
@@ -2076,7 +2065,7 @@ html_content = """<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼项目计划 (上下分层 · 顶底吸附 · 修复误退BUG · 原位不跳动) -->
+  <!-- 弹窗 5：迪士尼项目计划 (局部静默局部更新 · 原位锁定不跳动) -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       
@@ -2094,7 +2083,7 @@ html_content = """<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 (上滑绝对不触发退出) -->
+      <!-- 2. 中间独立平滑滚动区 -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
         <div class="disney-section-title">
           <span>⭐ 我的想玩心愿清单</span>
@@ -2130,11 +2119,6 @@ html_content = """<!DOCTYPE html>
       if (msg) toast.innerText = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2200);
-    }
-
-    function triggerEasterEgg() {
-      if (navigator.vibrate) navigator.vibrate([15, 30, 20]);
-      showToast("🐂 牛来！假期万事大吉，牛气冲天！✨");
     }
 
     const paneScrollPositions = [0, 0, 0];
@@ -2187,7 +2171,7 @@ html_content = """<!DOCTYPE html>
       });
     }
 
-    // 触摸滑动判定 (将地图及其站点纳入黑名单)
+    // 触摸滑动判定 (严格拦截地图与内部元素，防止上下滑动被误中断)
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2252,7 +2236,13 @@ html_content = """<!DOCTYPE html>
       }
     }, { passive: true });
 
-    // 回顶快捷按钮：向下一发生滑动立即出现
+    // 针对地图容器单独拦截冒泡，防止地图上划时中断外部垂直滚动
+    document.querySelectorAll('.offline-map-container, .metro-map').forEach(mapEl => {
+      mapEl.addEventListener('touchstart', e => { e.stopPropagation(); }, { passive: true });
+      mapEl.addEventListener('touchmove', e => { e.stopPropagation(); }, { passive: true });
+      mapEl.addEventListener('touchend', e => { e.stopPropagation(); }, { passive: true });
+    });
+
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollY > 20) {
@@ -2271,9 +2261,8 @@ html_content = """<!DOCTYPE html>
       document.getElementById(id).style.display = 'none'; 
     }
 
-    // 弹窗手势 (仅下拉且在非滚动状态下触发关闭，彻底杜绝上滑误关闭)
     function initSheetDrag(modalId) {
-      if (modalId === 'modal-disney') return; // 迪士尼弹窗采用内部安全滚动机制
+      if (modalId === 'modal-disney') return;
       const sheet = document.querySelector(`#${modalId} .modal-sheet`);
       if (!sheet || sheet._dragInited) return;
       sheet._dragInited = true;
@@ -2302,7 +2291,6 @@ html_content = """<!DOCTYPE html>
       }, { passive: true });
     }
 
-    // 次级地图：平滑滚动至屏幕绝对中央并闪烁
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
@@ -2331,7 +2319,6 @@ html_content = """<!DOCTYPE html>
       if (chip) chip.classList.add('active');
     }
 
-    // 全程概览：平滑滚动至整日卡片顶部
     function smoothOpenDay(id) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       const t = document.getElementById(id);
@@ -2360,13 +2347,12 @@ html_content = """<!DOCTYPE html>
 
     function copyCode(str) {
       navigator.clipboard.writeText(str).then(() => {
-        alert("已成功复制確認コード: " + str + "\n打开官网后可直接长按粘贴！");
+        alert("已成功复制確認コード: " + str + "\\n打开官网后可直接长按粘贴！");
       }).catch(() => {
         prompt("请手动复制確認コード：", str);
       });
     }
 
-    /* 原生 0 延迟事件绑定 */
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -2392,7 +2378,6 @@ html_content = """<!DOCTYPE html>
     }
 
     function initAllMetroNodes() {
-      // 晴天 1: 全程概览
       attachFastMetroClick('node-sun-all-nrt', () => jumpToDayCard('d1'));
       attachFastMetroClick('node-sun-all-home', () => jumpToDayCard('d1'));
       attachFastMetroClick('node-sun-all-ana', () => jumpToDayCard('d3'));
@@ -2402,12 +2387,10 @@ html_content = """<!DOCTYPE html>
       attachFastMetroClick('node-sun-all-izu', () => jumpToDayCard('d6'));
       attachFastMetroClick('node-sun-all-hnd', () => jumpToDayCard('d7'));
 
-      // 晴天 2: ANA·迪士尼
       attachFastMetroClick('node-sun-m-home', () => jumpToNode('tl-d1-4', 'd1'));
       attachFastMetroClick('node-sun-m-ana', () => jumpToNode('tl-d3-1', 'd3'));
       attachFastMetroClick('node-sun-m-disney', () => jumpToNode('tl-d4-2', 'd4'));
 
-      // 晴天 3: 箱根·热海·伊豆
       attachFastMetroClick('node-sun-r-odawara', () => jumpToNode('tl-d5-2', 'd5'));
       attachFastMetroClick('node-sun-r-yumoto', () => jumpToNode('tl-d5-3', 'd5'));
       attachFastMetroClick('node-sun-r-motohakone', () => jumpToNode('tl-d5-4', 'd5'));
@@ -2421,7 +2404,6 @@ html_content = """<!DOCTYPE html>
       attachFastMetroClick('node-sun-r-cactus', () => jumpToNode('tl-d6-5', 'd6'));
       attachFastMetroClick('node-sun-r-jogasaki', () => jumpToNode('tl-d6-7', 'd6'));
 
-      // 雨天 1: 全程概览
       attachFastMetroClick('node-rain-all-nrt', () => jumpToDayCard('d1'));
       attachFastMetroClick('node-rain-all-home', () => jumpToDayCard('d1'));
       attachFastMetroClick('node-rain-all-ana', () => jumpToDayCard('d3'));
@@ -2430,12 +2412,10 @@ html_content = """<!DOCTYPE html>
       attachFastMetroClick('node-rain-all-walk', () => jumpToDayCard('d6'));
       attachFastMetroClick('node-rain-all-hnd', () => jumpToDayCard('d7'));
 
-      // 雨天 2: ANA·迪士尼
       attachFastMetroClick('node-rain-m-home', () => jumpToNode('tl-d1-4', 'd1'));
       attachFastMetroClick('node-rain-m-ana', () => jumpToNode('tl-d3-1', 'd3'));
       attachFastMetroClick('node-rain-m-disney', () => jumpToNode('tl-d4-2', 'd4'));
 
-      // 雨天 3: 箱根·WALK
       attachFastMetroClick('node-rain-hw-odawara', () => jumpToNode('tl-d5-r2', 'd5'));
       attachFastMetroClick('node-rain-hw-yumoto', () => jumpToNode('tl-d5-r3', 'd5'));
       attachFastMetroClick('node-rain-hw-motohakone', () => jumpToNode('tl-d5-r4', 'd5'));
@@ -2644,7 +2624,7 @@ html_content = """<!DOCTYPE html>
       renderTour(mode);
     }
 
-    /* 方案 A 迪士尼心愿单与全量项目库数据 */
+    /* 迪士尼项目计划数据与状态保持逻辑 */
     const allDisneyData = {
       land: [
         { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
@@ -2695,7 +2675,7 @@ html_content = """<!DOCTYPE html>
       }
     }
 
-    // 修复点击原位不跳动问题 (严格保持 scrollTop)
+    // 绝对局部静默局部更新，锁定滚动轴原位不跳动
     function toggleWishItem(id) {
       const scrollArea = document.getElementById('disney-scroll-area');
       const prevScrollTop = scrollArea ? scrollArea.scrollTop : 0;
@@ -2789,7 +2769,7 @@ html_content = """<!DOCTYPE html>
       openModal('modal-disney');
     }
 
-    // 待办事项逻辑
+    // 代办事项逻辑
     const allTodoItems = [
       { key: 'pass', name: '护照' },
       { key: 'idcard', name: '身份证' },
@@ -3130,7 +3110,7 @@ html_content = """<!DOCTYPE html>
     initOfflineDetector();
     setInterval(updateTimers, 1000);
 
-    // 首屏静态就绪处于 Pane 1 (逐日行程)
+    // 首屏静态就绪处于 Pane 1 (行程)
     track.style.transform = 'translate3d(-33.3333%, 0, 0)';
     dockSlider.style.transform = 'translate3d(100%, 0, 0)';
     paneTransit.classList.add('pane-dim');
@@ -3141,8 +3121,8 @@ html_content = """<!DOCTYPE html>
 </html>
 """
 
-output_path = "japan_itinerary_v26.html"
+output_path = "japan_itinerary_v27.html"
 with open(output_path, "w", encoding="utf-8") as f:
-    f.write(html_content)
+    f.write(html_v27)
 
-print(f"File successfully created at {output_path}")
+print(f"v27.0 file generated successfully at {output_path}")
