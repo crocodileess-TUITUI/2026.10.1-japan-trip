@@ -26,14 +26,13 @@
       --warn: #d97706;
       --warn-soft: rgba(217, 119, 6, 0.12);
       --danger: #dc2626;
-      --danger-soft: rgba(220, 38, 38, 0.10);
+      --danger-soft: rgba(220, 38, 38, 0.08);
       --success: #10b981;
       --success-soft: rgba(16, 185, 129, 0.12);
       --island-bg: #090e17;
       --island-text: #ffffff;
       --radius: 22px;
       
-      /* Next Milestone 独立昼夜色 */
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
       --milestone-border: rgba(14, 165, 233, 0.4);
       --milestone-text: #0f172a;
@@ -44,7 +43,6 @@
       --milestone-sub-text: #475569;
       --milestone-item-bg: rgba(255, 255, 255, 0.92);
 
-      /* 弹窗基础色 */
       --modal-bg: #ffffff;
       --modal-text: #0f172a;
       --modal-border: rgba(0, 0, 0, 0.12);
@@ -54,7 +52,6 @@
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
 
-      /* 逐日行程局部色彩 (晴天默认橙金) */
       --itin-main: #d97706;
       --itin-border: rgba(245, 158, 11, 0.45);
       --itin-soft: rgba(245, 158, 11, 0.12);
@@ -217,7 +214,7 @@
     .timer-val.num-tick { transform: translateY(-2px); }
     .timer-lbl { font-size: 0.64rem; font-weight: 800; color: var(--milestone-sub-text); margin-top: 5px; }
 
-    /* Next Milestone 方案 1：航旅登机牌/车票票根风展开卡片 */
+    /* 登机牌车票风展开卡片 */
     .milestone-future-box {
       margin-top: 14px;
       padding-top: 12px;
@@ -247,7 +244,7 @@
       transition: max-height 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), margin-top 0.2s;
     }
     .milestone-future-list.open {
-      max-height: 520px;
+      max-height: 540px;
       margin-top: 12px;
     }
     .milestone-ticket-card {
@@ -518,7 +515,7 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 方案 A 现代 Metro 轨交风格地图 (严格锁定滑动手势与长按) */
+    /* 方案 A Metro 轨交地图容器 */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -643,7 +640,7 @@
     .guideline-item { display: block; margin-top: 4px; }
     .guideline-item:first-child { margin-top: 0; }
 
-    /* iPhone 15 Pro 像素级绝对垂直居中时间轴 */
+    /* iPhone 15 Pro 像素级严丝合缝垂直穿心对齐 */
     .timeline { 
       position: relative; 
       border-left: 2px solid var(--glass-border); 
@@ -656,19 +653,21 @@
       margin-bottom: 16px; 
       transition: opacity 0.25s, background 0.4s; 
       border-radius: 8px; 
-      padding: 2px 4px; 
+      padding: 4px 6px; 
     }
     .tl-node:last-child { margin-bottom: 0; }
+    /* 竖线穿心点：以 .tl-top 的首行中心为绝对基准 */
     .tl-node::before {
       content: ''; 
       position: absolute; 
       left: -21px; 
-      top: 11px; /* 严格对齐 22px 时间胶囊中心 */
+      top: 15px; 
       width: 8px; 
       height: 8px;
       border-radius: 50%; 
       border: 2px solid var(--glass-card); 
       transition: background 0.3s;
+      box-sizing: content-box;
     }
     .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
@@ -678,13 +677,13 @@
       flex-wrap: wrap; 
       gap: 6px; 
       margin-bottom: 4px; 
-      min-height: 24px;
+      min-height: 22px;
     }
     .tl-time { 
       border-radius: 8px; 
-      padding: 1px 7px;
+      padding: 0 7px;
       height: 22px;
-      line-height: 20px;
+      line-height: 22px;
       font-size: 0.73rem; 
       font-weight: 800; 
       font-variant-numeric: tabular-nums; 
@@ -694,13 +693,14 @@
       flex-shrink: 0; 
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       transition: all 0.3s;
     }
-    .tl-place { font-size: 0.92rem; font-weight: 800; color: var(--text-main); }
+    .tl-place { font-size: 0.92rem; font-weight: 800; color: var(--text-main); line-height: 22px; }
 
     .btn-nav-pin {
       display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem;
-      width: 26px; height: 26px; border-radius: 50%;
+      width: 24px; height: 24px; border-radius: 50%;
       text-decoration: none; vertical-align: middle; transition: all 0.2s;
     }
     .btn-nav-pin:active { transform: scale(0.92); opacity: 0.8; }
@@ -714,17 +714,18 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 独立醒目“酒店退订”红底微卡 (仅局部限定，不影响其他) */
-    .hotel-cancel-highlight-box {
-      background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%);
+    /* 独立“酒店退订”红底微卡 */
+    .hotel-cancel-highlight-node {
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.02) 100%);
       border: 1.5px solid rgba(220, 38, 38, 0.32);
-      border-radius: 14px;
-      padding: 10px 12px;
-      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.06);
+      border-radius: 12px;
+      padding: 8px 10px;
+      margin-top: 6px;
     }
-    .hotel-cancel-highlight-box .tl-node::before {
+    .hotel-cancel-highlight-node::before {
       background: #dc2626 !important;
       border-color: #fee2e2 !important;
+      top: 19px !important;
     }
 
     /* 方案 A 迪士尼心愿单与全项目库弹窗交互 */
@@ -968,7 +969,7 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 回顶快捷按钮：向下滑动立即出现，且随逐日行程局部变色 */
+    /* 回顶快捷按钮 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -1004,7 +1005,7 @@
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- Next Milestone 卡片 (夜间变量已修复) -->
+  <!-- Next Milestone 卡片 -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
       <div class="timer-badge">
@@ -1019,7 +1020,7 @@
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 方案 1：航旅登机牌/车票票根风格展开日程 -->
+      <!-- 登机牌车票风格后续展开 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -1175,7 +1176,7 @@
       <!-- PANE 1: 📅 行程安排 (默认首屏直接就绪) -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨决策控制舱 (副标题置底灰色小字) -->
+        <!-- 晴雨决策控制舱 -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
@@ -1198,7 +1199,7 @@
           </div>
         </div>
 
-        <!-- 区域动线与据点总览 (纯净标题) -->
+        <!-- 区域动线与据点总览 -->
         <div class="sec-head">
           <span>🗺️ 区域动线与据点总览</span>
         </div>
@@ -1206,25 +1207,32 @@
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 方案 A Metro风 晴天 1：全程概览 -->
+            <!-- 方案 A Metro风 晴天 1：全程概览 (成田到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
-              <path class="metro-line" d="M 430,35 L 340,35" stroke="#ef4444" stroke-width="4.5" stroke-dasharray="5,4"/>
-              <path class="metro-line" d="M 340,35 L 240,100" stroke="#f59e0b" stroke-width="4"/>
+              <!-- 成田到家全段红色虚线 -->
+              <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
+              
+              <!-- 常规主干统一晴天色 -->
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
-              <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="5,4"/>
+              
+              <!-- 羽田段红色虚线 -->
+              <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
+              <!-- 成田T2 (红色高亮) -->
               <g class="metro-node" id="node-sun-all-nrt">
                 <circle cx="430" cy="35" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="430" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2</text>
               </g>
 
+              <!-- 家 (经典蓝色圆角矩形，突出大本营语言) -->
               <g class="metro-node" id="node-sun-all-home">
                 <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
                 <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
               </g>
 
+              <!-- 各站点字体字重完全统一 -->
               <g class="metro-node" id="node-sun-all-ana">
                 <circle cx="330" cy="100" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
                 <text x="344" y="104" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
@@ -1240,6 +1248,7 @@
                 <text x="106" y="149" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根</text>
               </g>
 
+              <!-- 热海 (统一字体与晴天色，不单独改色) -->
               <g class="metro-node" id="node-sun-all-atami">
                 <circle cx="120" cy="185" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
                 <text x="106" y="189" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
@@ -1250,6 +1259,7 @@
                 <text x="170" y="252" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">伊豆</text>
               </g>
 
+              <!-- 羽田T3 (红色高亮) -->
               <g class="metro-node" id="node-sun-all-hnd">
                 <circle cx="330" cy="140" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="344" y="144" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
@@ -1268,43 +1278,43 @@
 
               <g class="metro-node" id="node-sun-m-ana">
                 <circle cx="340" cy="125" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
-                <text x="355" y="129" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">ANA见学</text>
+                <text x="355" y="129" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
               </g>
 
               <g class="metro-node" id="node-sun-m-disney">
                 <circle cx="340" cy="65" r="8" fill="#fff" stroke="#f59e0b" stroke-width="3"/>
-                <text x="355" y="69" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">东京迪士尼乐园</text>
+                <text x="355" y="69" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 (突出海贼船、大涌谷、大室山) -->
+            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 (全站点，突出海贼船、大涌谷、大室山) -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
 
               <g class="metro-node" id="node-sun-r-odawara">
                 <circle cx="45" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="45" y="32" text-anchor="middle" font-size="9" font-weight="500" fill="#64748b">小田原</text>
+                <text x="45" y="32" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">小田原</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-yumoto">
                 <circle cx="105" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="105" y="32" text-anchor="middle" font-size="9" font-weight="500" fill="#64748b">箱根汤本</text>
+                <text x="105" y="32" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">箱根汤本</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-motohakone">
                 <circle cx="175" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="175" y="32" text-anchor="middle" font-size="9" font-weight="500" fill="#64748b">元箱根港</text>
+                <text x="175" y="32" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">元箱根港</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-torii">
                 <circle cx="245" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="255" y="48" text-anchor="start" font-size="9" font-weight="500" fill="#64748b">平和鸟居</text>
+                <text x="255" y="48" text-anchor="start" font-size="9.5" font-weight="500" fill="#64748b">平和鸟居</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-narukawa">
                 <circle cx="245" cy="95" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="255" y="98" text-anchor="start" font-size="9" font-weight="500" fill="#64748b">成川美术馆</text>
+                <text x="255" y="98" text-anchor="start" font-size="9.5" font-weight="500" fill="#64748b">成川美术馆</text>
               </g>
 
               <!-- 突出海贼船 ⚓ (表情在后) -->
@@ -1321,12 +1331,12 @@
 
               <g class="metro-node" id="node-sun-r-sculpture">
                 <circle cx="105" cy="145" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="91" y="149" text-anchor="end" font-size="9" font-weight="500" fill="#64748b">雕刻之森</text>
+                <text x="91" y="149" text-anchor="end" font-size="9.5" font-weight="500" fill="#64748b">雕刻之森</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-atami">
-                <circle cx="175" cy="145" r="6.5" fill="#fff" stroke="#f59e0b" stroke-width="2.5"/>
-                <text x="175" y="164" text-anchor="middle" font-size="10" font-weight="800" fill="var(--text-main)">热海</text>
+                <circle cx="175" cy="145" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="175" y="164" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">热海</text>
               </g>
 
               <!-- 突出大室山 🌋 -->
@@ -1346,21 +1356,26 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 雨天 1：全程概览 (成田T2 ➔ 家 ➔ ANA ➔ 迪士尼 ➔ 箱根 ➔ WALK ➔ 羽田T3) -->
+            <!-- 方案 A Metro风 雨天 1：全程概览 (成田到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="metro-line" d="M 430,35 L 340,35" stroke="#ef4444" stroke-width="4.5" stroke-dasharray="5,4"/>
-              <path class="metro-line" d="M 340,35 L 240,100" stroke="#047857" stroke-width="4"/>
+              <!-- 成田到家全段红色虚线 -->
+              <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
+              
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 130,175 L 240,175 L 240,225" stroke="#047857" stroke-width="4"/>
-              <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4.5" stroke-dasharray="5,4"/>
+              
+              <!-- 羽田段红色虚线 -->
+              <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
+              <!-- 成田T2 (红色高亮) -->
               <g class="metro-node" id="node-rain-all-nrt">
                 <circle cx="430" cy="35" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="430" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2</text>
               </g>
 
+              <!-- 家 -->
               <g class="metro-node" id="node-rain-all-home">
                 <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
                 <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
@@ -1386,6 +1401,7 @@
                 <text x="240" y="244" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">WALK</text>
               </g>
 
+              <!-- 羽田T3 (红色高亮) -->
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
@@ -1404,12 +1420,12 @@
 
               <g class="metro-node" id="node-rain-m-ana">
                 <circle cx="340" cy="125" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
-                <text x="355" y="129" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">ANA见学</text>
+                <text x="355" y="129" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
               </g>
 
               <g class="metro-node" id="node-rain-m-disney">
                 <circle cx="340" cy="65" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
-                <text x="355" y="69" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">东京迪士尼乐园</text>
+                <text x="355" y="69" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">东京迪士尼乐园</text>
               </g>
             </svg>
 
@@ -1486,9 +1502,10 @@
               <!-- 公园 -->
               <g class="metro-node" id="node-rain-hw-park">
                 <circle cx="400" cy="195" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="400" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="var(--text-main)">公园</text>
+                <text x="400" y="181" text-anchor="middle" font-size="9" font-weight="500" fill="#64748b">公园</text>
               </g>
 
+              <!-- 羽田T3 (红标) -->
               <g class="metro-node" id="node-rain-hw-hnd">
                 <circle cx="445" cy="195" r="7" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="445" y="213" text-anchor="middle" font-size="10" font-weight="900" fill="#ef4444">羽田T3</text>
@@ -1549,17 +1566,15 @@
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
-              <!-- 酒店退订 ⚠️ (精准局部设计感红底，不影响其他) -->
-              <div class="hotel-cancel-highlight-box" style="margin-top:6px;">
-                <div class="tl-node" id="tl-d1-5" style="margin-bottom:0;">
-                  <div class="tl-top">
-                    <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
-                    <span class="tl-place" style="color:var(--danger); font-weight:900;">酒店退订 ⚠️</span>
-                  </div>
-                  <div class="tl-desc">
-                    查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
-                    <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:900; color:var(--danger); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
-                  </div>
+              <!-- 酒店退订 ⚠️ (严格融入时间轴穿心居中，独立红底色块，不影响上下) -->
+              <div class="tl-node hotel-cancel-highlight-node" id="tl-d1-5">
+                <div class="tl-top">
+                  <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
+                  <span class="tl-place" style="color:var(--danger); font-weight:900;">酒店退订 ⚠️</span>
+                </div>
+                <div class="tl-desc" style="color:var(--danger); font-weight:700;">
+                  查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
+                  <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:900; color:var(--danger); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
                 </div>
               </div>
 
@@ -1646,13 +1661,13 @@
                   <span class="tl-place">家周边超市 / 家 🍲</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
-                <div class="tl-desc">汇合后前往超市选购优质牛肉与新鲜蔬菜，回家做寿喜烧晚餐。</div>
+                <div class="tl-desc">下班后去超市买寿喜烧汁和牛肉，回家吃。</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Day 4 (方案 A 迪士尼心愿单与全项目库弹窗入口) -->
+        <!-- Day 4 (迪士尼 App 直跳与心愿清单弹窗入口) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1689,8 +1704,11 @@
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
                 </div>
 
+                <!-- 与 12306 / 航旅纵横一致的 App 直接唤醒逻辑 -->
                 <div style="margin-top:8px;">
-                  <a class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 12px;" href="https://www.tokyodisneyresort.jp/tc/tdr/app.html" target="_blank">🏰 打开东京迪士尼官方 App ↗</a>
+                  <button class="btn-action-pill" style="width:100%; justify-content:center; padding:9px 12px;" onclick="openDisneyApp()">
+                    🏰 启动东京迪士尼官方 App ↗
+                  </button>
                 </div>
               </div>
               <div class="tl-node" id="tl-d4-3">
@@ -1991,7 +2009,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 4：离线就绪探测说明 -->
+  <!-- 弹窗 4：离线探测说明 -->
   <div class="modal-overlay" id="modal-offline-info" onclick="closeModal('modal-offline-info')">
     <div class="modal-sheet" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2010,7 +2028,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼心愿单与全项目库管理 (方案 A) -->
+  <!-- 弹窗 5：迪士尼心愿单与全量项目库管理 (全量项目补充) -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2019,30 +2037,26 @@
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
       </div>
 
-      <!-- 园区切换 -->
       <div class="disney-modal-tabs">
         <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 Disneyland</button>
         <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 DisneySea</button>
       </div>
 
-      <!-- 1. 我的心愿想玩区 -->
       <div class="disney-section-title">
         <span>⭐ 我的想玩心愿清单</span>
         <span style="font-size:0.68rem; color:var(--text-muted);" id="modal-wish-count">已选 0 项</span>
       </div>
       <div id="modal-wishlist-container"></div>
 
-      <!-- 2. 展开全量项目库按钮 -->
       <div style="margin:14px 0 8px; text-align:center;">
         <button class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 0; font-size:0.75rem;" onclick="toggleDisneyAllDrawer()">
-          <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开项目库)</span>
+          <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开全量项目库)</span>
         </button>
       </div>
 
-      <!-- 3. 全量项目库折叠面板 -->
       <div id="disney-all-drawer" style="display:none; margin-top:8px;">
         <div class="disney-section-title">
-          <span>📚 园区全部项目 (按热门程度排序)</span>
+          <span>📚 园区全部项目 (官方热门排位)</span>
         </div>
         <div id="modal-all-container"></div>
       </div>
@@ -2111,7 +2125,7 @@
       });
     }
 
-    // 触摸滑动判定 (将地图及其站点纳入黑名单，彻底避免事件冲突)
+    // 触摸滑动拦截：地图与站点彻底黑名单化，不阻断点击
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2176,7 +2190,7 @@
       }
     }, { passive: true });
 
-    // 回顶快捷按钮：向下一发生滑动立即出现
+    // 回顶快捷按钮：滑动即现
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollY > 20) {
@@ -2224,18 +2238,20 @@
       }, { passive: true });
     }
 
-    // 次级地图：平滑滚动至具体节点并闪烁
+    // 次级地图：精准计算并平滑滚动到屏幕正中
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
       requestAnimationFrame(() => {
         const nodeEl = document.getElementById(nodeId);
         if (nodeEl) {
-          const iphoneDynamicIslandOffset = 70;
-          const nodeTop = nodeEl.getBoundingClientRect().top + window.pageYOffset - iphoneDynamicIslandOffset;
+          const rect = nodeEl.getBoundingClientRect();
+          const nodeTop = rect.top + window.pageYOffset;
+          const nodeHeight = rect.height;
+          const targetY = nodeTop - (window.innerHeight / 2) + (nodeHeight / 2);
 
           window.scrollTo({
-            top: Math.max(0, nodeTop),
+            top: Math.max(0, targetY),
             behavior: 'smooth'
           });
 
@@ -2253,7 +2269,7 @@
       if (chip) chip.classList.add('active');
     }
 
-    // 全程概览：平滑滚动至整日卡片
+    // 全程概览：平滑滚动至整日卡片顶部
     function smoothOpenDay(id) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       const t = document.getElementById(id);
@@ -2277,7 +2293,7 @@
 
     function jumpToDayCard(id) {
       if (currentPaneIndex !== 1) slideToPane(1);
-      setTimeout(() => smoothOpenDay(id), 50);
+      setTimeout(() => smoothOpenDay(id), 40);
     }
 
     function copyCode(str) {
@@ -2288,7 +2304,21 @@
       });
     }
 
-    /* 方案 1、2、4 综合防抖与 0 延迟原生绑定 (彻底消除点击多次才跳转) */
+    // 唤醒迪士尼官方 App (同 12306 / 航旅纵横逻辑)
+    function openDisneyApp() {
+      showToast("正在唤醒东京迪士尼度假区 App 🏰");
+      const appUrl = "tokyodisneyresort://";
+      const fallbackUrl = "https://www.tokyodisneyresort.jp/tc/tdr/app.html";
+      const start = Date.now();
+      window.location.href = appUrl;
+      setTimeout(() => {
+        if (Date.now() - start < 1500) {
+          window.open(fallbackUrl, "_blank");
+        }
+      }, 1000);
+    }
+
+    // 0 延迟原生触控绑定
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -2437,7 +2467,7 @@
           { id: "tl-d6-3", time: "", place: "上山缆车 🚠", nav: "https://maps.google.com/?q=Omuroyama", desc: "最后一个柱子两侧有拍照的机器，照片1200ren" },
           { id: "tl-d6-4", time: "", place: "大室山", nav: "https://maps.google.com/?q=Mount+Omuro", desc: "你的名字取景地" },
           { id: "tl-d6-5", time: "", place: "仙人掌公园", nav: "https://maps.google.com/?q=Izu+Shaboten+Zoo", desc: "如果缆车临时停运再考虑去，可以和动物互动" },
-          { id: "tl-d6-6", time: "", place: "仙人掌公园站→巴士→伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "1、大巴间隔时间很长，海洋公园站离城崎海岸最近；2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
+          { id: "tl-d6-6", time: "", place: "仙人掌公园站→巴士→伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "1、大巴间隔时间很长，海洋公园站离城崎海岸最近；<br>2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
           { id: "tl-d6-7", time: "", place: "城崎海岸", nav: "https://maps.google.com/?q=Kadowaki+Suspension+Bridge", desc: "门胁吊桥，海边散步，灯塔可以上去" },
           { id: "tl-d6-8", time: "", place: "城崎海岸站→巴士→伊豆高原站", nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station", desc: "返回伊豆高原站" },
           { id: "tl-d6-9", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "如果时间早可以接上“WALK”的行程" },
@@ -2465,7 +2495,7 @@
           { isDivider: true, title: "中目黑" },
           { id: "tl-d6-r1", time: "", place: "Sidewalk Stand", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
           { id: "tl-d6-r2", time: "", place: "TRASPARENTE - 糕点店Nakameguro", nav: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", desc: "奶茶布丁 推荐试一下" },
-          { id: "tl-d6-r3", time: "", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：香肠卷心菜面包、虾仁土豆塔丁、鸡肉土豆佛卡夏" },
+          { id: "tl-d6-r3", time: "", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：<br>• 香肠卷心菜面包<br>• 虾仁土豆塔丁<br>• 鸡肉土豆佛卡夏" },
           { id: "tl-d6-r4", time: "", place: "I'm donut ?", nav: "https://maps.google.com/?q=I'm+donut+Nakameguro", desc: "很多人吃的甜甜圈 只能cash" },
           { id: "tl-d6-r5", time: "", place: "樱桥", nav: "https://maps.google.com/?q=Sakura-bashi+Nakameguro", desc: "周杰伦机位" },
           { id: "tl-d6-r6", time: "", place: "dacō", nav: "https://maps.google.com/?q=dacō+Nakameguro", desc: "平价面包店" },
@@ -2566,28 +2596,37 @@
       renderTour(mode);
     }
 
-    /* 方案 A 迪士尼心愿单与全项目库管理数据逻辑 */
+    /* 方案 A 迪士尼心愿单与全量项目库管理数据逻辑 (全量丰富补充) */
     const allDisneyData = {
       land: [
         { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l2', name: '杯面欢乐之旅', wait: '60-90分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l3', name: '太空山 / 巨雷山', wait: '50-80分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l4', name: '飞溅山', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 'l5', name: '幽灵公馆 (万圣特别版)', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l6', name: '小熊维尼猎蜜记', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 'l7', name: '怪兽电力公司：迷藏巡游车', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l8', name: '星际旅行：冒险续航', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l9', name: '加勒比海盗', wait: '15-25分', star: '★★★☆☆', dpa: false, defaultWish: false }
+        { id: 'l2', name: '杯面欢乐之旅', wait: '65-95分', star: '★★★★★', dpa: true, defaultWish: true },
+        { id: 'l3', name: '太空山', wait: '50-80分', star: '★★★★☆', dpa: false, defaultWish: true },
+        { id: 'l4', name: '巨雷山', wait: '45-75分', star: '★★★★☆', dpa: false, defaultWish: true },
+        { id: 'l5', name: '飞溅山', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: false },
+        { id: 'l6', name: '幽灵公馆 (万圣特别版)', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: true },
+        { id: 'l7', name: '小熊维尼猎蜜记', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
+        { id: 'l8', name: '怪兽电力公司：迷藏巡游车', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 'l9', name: '星际旅行：冒险续航', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 'l10', name: '小飞侠天空之旅', wait: '30-45分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 'l11', name: '加勒比海盗', wait: '15-25分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 'l12', name: '巴斯光年星际历险', wait: '25-40分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 'l13', name: '丛林巡航：野生动物探险', wait: '15-30分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 'l14', name: '小小世界', wait: '10-20分', star: '★★☆☆☆', dpa: false, defaultWish: false }
       ],
       sea: [
-        { id: 's1', name: '安娜与艾莎的冰雪之旅', wait: '120-160分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's2', name: '长发公主微菌奇缘 / 彼得潘', wait: '90-130分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's3', name: '翱翔：梦幻奇航', wait: '100-140分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's4', name: '玩具总动员疯狂游戏屋', wait: '70-100分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 's5', name: '惊魂古塔', wait: '60-90分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's6', name: '地心探险之旅', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 's7', name: '印第安纳琼斯冒险旅程', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's8', name: '海底巡游艇：尼莫和好友的海洋世界', wait: '25-45分', star: '★★★☆☆', dpa: false, defaultWish: false }
+        { id: 's1', name: '安娜与艾莎的冰雪之旅 (新园区)', wait: '120-160分', star: '★★★★★', dpa: true, defaultWish: true },
+        { id: 's2', name: '长发公主微菌奇缘 (新园区)', wait: '90-130分', star: '★★★★★', dpa: true, defaultWish: true },
+        { id: 's3', name: '彼得潘梦幻岛历险记 (新园区)', wait: '85-120分', star: '★★★★★', dpa: true, defaultWish: true },
+        { id: 's4', name: '翱翔：梦幻奇航', wait: '100-140分', star: '★★★★★', dpa: true, defaultWish: true },
+        { id: 's5', name: '玩具总动员疯狂游戏屋', wait: '70-100分', star: '★★★★☆', dpa: true, defaultWish: false },
+        { id: 's6', name: '惊魂古塔', wait: '60-90分', star: '★★★★☆', dpa: true, defaultWish: true },
+        { id: 's7', name: '地心探险之旅', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: true },
+        { id: 's8', name: '印第安纳琼斯冒险：水晶骷髅头魔宫', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: false },
+        { id: 's9', name: '忿怒双神 (360度过山车)', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
+        { id: 's10', name: '海底两万哩', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 's11', name: '海底巡游艇：尼莫和好友的海洋世界', wait: '25-45分', star: '★★★☆☆', dpa: false, defaultWish: false },
+        { id: 's12', name: '美人鱼礁湖剧场', wait: '15-30分', star: '★★★☆☆', dpa: false, defaultWish: false }
       ]
     };
 
@@ -2607,7 +2646,7 @@
           });
         }
       } catch (e) {
-        userDisneyWishes = { l1: true, l2: true, l3: true, l5: true, s1: true, s2: true, s3: true, s5: true };
+        userDisneyWishes = { l1: true, l2: true, l3: true, l4: true, l6: true, s1: true, s2: true, s3: true, s4: true, s6: true, s7: true };
       }
       updateDisneySummaryPill();
     }
@@ -2643,10 +2682,10 @@
       const txt = document.getElementById('disney-drawer-btn-txt');
       if (isDisneyDrawerOpen) {
         drawer.style.display = 'block';
-        txt.innerText = '收起项目库';
+        txt.innerText = '收起全量项目库';
       } else {
         drawer.style.display = 'none';
-        txt.innerText = '+ 添加更多游玩项目 (展开项目库)';
+        txt.innerText = '+ 添加更多游玩项目 (展开全量项目库)';
       }
     }
 
@@ -2702,7 +2741,7 @@
       openModal('modal-disney');
     }
 
-    // 待办事项逻辑
+    // 待办事项
     const allTodoItems = [
       { key: 'pass', name: '护照' },
       { key: 'idcard', name: '身份证' },
@@ -2892,7 +2931,7 @@
             txt.style.color = "var(--success)";
           }
         }
-      }, 500);
+      }, 350);
     }
 
     function checkOfflineStatus() {
@@ -3004,7 +3043,6 @@
       sEl.classList.add('num-tick');
       setTimeout(() => sEl.classList.remove('num-tick'), 150);
 
-      // 方案 1：登机牌票根卡片式渲染
       const futureEvents = milestoneEvents.filter(e => e.time > now);
       const listContainer = document.getElementById('future-schedule-list');
       if (listContainer) {
@@ -3034,7 +3072,7 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行：直接首屏就绪，不跑初始动画竞争
+    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
