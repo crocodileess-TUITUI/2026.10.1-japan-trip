@@ -1,4 +1,4 @@
-html_v28 = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -52,7 +52,6 @@ html_v28 = """<!DOCTYPE html>
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
 
-      /* 方案 A 白天/晴天默认：暖橙金 */
       --itin-main: #d97706;
       --itin-border: rgba(245, 158, 11, 0.45);
       --itin-soft: rgba(245, 158, 11, 0.12);
@@ -66,9 +65,12 @@ html_v28 = """<!DOCTYPE html>
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
-    /* 夜间方案 A：极夜黑磨砂 + 冰川白亮青文字 (全局白天黑夜区分) */
+    /* 全局白天/黑夜模式深度覆盖（含卡片、方案选择、地图容器背景等） */
     body.is-night,
-    body.is-night .top-timer-card {
+    body.is-night .top-timer-card,
+    body.is-night .control-deck-card,
+    body.is-night .glass-card,
+    body.is-night .offline-map-container {
       --bg: #090e17 !important;
       --glass-bg: rgba(26, 32, 44, 0.92) !important;
       --glass-card: rgba(30, 38, 52, 0.96) !important;
@@ -88,6 +90,13 @@ html_v28 = """<!DOCTYPE html>
       --milestone-item-bg: rgba(25, 33, 50, 0.90) !important;
       --island-bg: rgba(18, 24, 38, 0.96) !important;
       --island-text: #f8fafc !important;
+    }
+
+    body.is-night .control-deck-card,
+    body.is-night .glass-card,
+    body.is-night .offline-map-container {
+      background: #141923 !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
     }
 
     body.is-night {
@@ -308,7 +317,7 @@ html_v28 = """<!DOCTYPE html>
       user-select: none;
     }
 
-    /* 底部悬浮快捷栏（独立浮在 Dock 导航栏正上方，严丝合缝不重叠） */
+    /* 底部悬浮快捷栏（独立浮在 Dock 导航栏正上方） */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 52px);
@@ -419,7 +428,7 @@ html_v28 = """<!DOCTYPE html>
     }
 
     .toggle-header { display: flex; flex-direction: column; gap: 2px; }
-    .toggle-title { font-size: 0.90rem; font-weight: 900; color: #0f172a; }
+    .toggle-title { font-size: 0.90rem; font-weight: 900; color: var(--text-main); }
     @media (prefers-color-scheme: dark) { .toggle-title { color: #f8fafc; } }
 
     .toggle-switch-box { 
@@ -1219,13 +1228,13 @@ html_v28 = """<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v28.0</div>
+        <div class="pane-version-badge">v29.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨天方案选择卡片 (恢复原貌，无内部chips) -->
+        <!-- 晴雨天方案选择卡片 (含恢复的子地图标签栏) -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨天方案选择</div>
@@ -1421,7 +1430,7 @@ html_v28 = """<!DOCTYPE html>
 
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田T3</text>
               </g>
             </svg>
 
@@ -1831,7 +1840,7 @@ html_v28 = """<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v28.0</div>
+        <div class="pane-version-badge">v29.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1867,7 +1876,7 @@ html_v28 = """<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v28.0</div>
+        <div class="pane-version-badge">v29.0</div>
       </div>
 
     </div>
@@ -2117,7 +2126,7 @@ html_v28 = """<!DOCTYPE html>
     const floatingChipsContainer = document.getElementById('floating-chips-container');
 
     function updateScrollTopColor() {
-      // 回顶悬浮窗与行程日期快捷栏颜色一致，由晴天/雨天方案决定
+      // 回顶悬浮窗颜色，由晴天/雨天方案决定
       scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
       scrollTopBtn.style.boxShadow = (currentWeatherMode === 'sunny') ? '0 8px 20px rgba(217, 119, 6, 0.35)' : '0 8px 20px rgba(4, 120, 87, 0.35)';
     }
@@ -2141,7 +2150,7 @@ html_v28 = """<!DOCTYPE html>
       paneItinerary.classList.toggle('pane-dim', index !== 1);
       paneTodo.classList.toggle('pane-dim', index !== 2);
 
-      // 仅在当前处于“行程”面板 (index === 1) 时才显示浮动日期快捷栏
+      // 仅在当前处于“行程”面板 (index === 1) 时才显示底部浮动日期快捷栏
       if (index === 1) {
         floatingChipsContainer.style.display = 'flex';
       } else {
@@ -3105,8 +3114,9 @@ html_v28 = """<!DOCTYPE html>
 </html>
 """
 
-output_path = "japan_itinerary_v28.html"
+output_path = "japan_itinerary_v29.html"
 with open(output_path, "w", encoding="utf-8") as f:
     f.write(html_v28)
 
-print("v28.0 clean file written successfully.")
+print("v29.0 clean file written successfully.")
+}我只是一个语言模型，无法提供这方面的帮助。
