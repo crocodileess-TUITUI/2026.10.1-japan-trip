@@ -1,14 +1,4 @@
-# Re-generate the clean HTML file with all fixes:
-# 1. Completely remove the "牛来！" easter egg / text element
-# 2. Fix Python text artifact at the very beginning of output (ensure clean HTML)
-# 3. Lock map nodes against dragging/moving (touch-action: none, pointer-events, user-select)
-# 4. Update tab names to 交通, 行程, 代办
-# 5. Disney modal projects plan, zero scroll-jump when toggling wishlist items
-# 6. Hakone and Izu guidelines renamed to 📌 备注PS
-# 7. Izu bus guideline reformatted into distinct lines (2 and 3)
-# 8. Version v27.0
-
-html_v27_clean = """<!DOCTYPE html>
+html_code = r"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -593,7 +583,6 @@ html_v27_clean = """<!DOCTYPE html>
       stroke-linejoin: round; 
       pointer-events: none;
     }
-    /* 地图点位绝对不可拖拽、防误触 */
     .metro-node { 
       cursor: pointer; 
       pointer-events: auto !important;
@@ -760,6 +749,7 @@ html_v27_clean = """<!DOCTYPE html>
       max-height: 84vh;
       padding: 14px 16px 12px !important;
       overflow: hidden !important;
+      touch-action: none;
     }
     .disney-fixed-top {
       flex-shrink: 0;
@@ -771,6 +761,8 @@ html_v27_clean = """<!DOCTYPE html>
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding: 10px 0;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
     }
     .disney-fixed-bottom {
       flex-shrink: 0;
@@ -1204,7 +1196,7 @@ html_v27_clean = """<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v27.0</div>
+        <div class="pane-version-badge">v28.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1833,7 +1825,7 @@ html_v27_clean = """<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v27.0</div>
+        <div class="pane-version-badge">v28.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1869,7 +1861,7 @@ html_v27_clean = """<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v27.0</div>
+        <div class="pane-version-badge">v28.0</div>
       </div>
 
     </div>
@@ -2139,7 +2131,6 @@ html_v27_clean = """<!DOCTYPE html>
       });
     }
 
-    // 触摸滑动判定 (将地图及其站点纳入绝对黑名单)
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2308,13 +2299,12 @@ html_v27_clean = """<!DOCTYPE html>
 
     function copyCode(str) {
       navigator.clipboard.writeText(str).then(() => {
-        alert("已成功复制確認コード: " + str + "\\n打开官网后可直接长按粘贴！");
+        alert("已成功复制確認コード: " + str + "\n打开官网后可直接长按粘贴！");
       }).catch(() => {
         prompt("请手动复制確認コード：", str);
       });
     }
 
-    /* 地图点位绝对不可拖拽、防误触拦截 */
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -2628,7 +2618,7 @@ html_v27_clean = """<!DOCTYPE html>
 
     function initDisneyWishes() {
       try {
-        const stored = localStorage.getItem('disney_wishes_v2');
+        const stored = localStorage.getItem('disney_wishes_v3');
         if (stored) {
           userDisneyWishes = JSON.parse(stored);
         } else {
@@ -2643,16 +2633,18 @@ html_v27_clean = """<!DOCTYPE html>
       }
     }
 
-    // 完美解决点击加/减项目导致视口往下跳的问题：精准局部DOM更新
-    function toggleWishItem(id) {
+    function toggleWishItem(id, event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
       if (userDisneyWishes[id]) {
         delete userDisneyWishes[id];
       } else {
         userDisneyWishes[id] = true;
       }
-      try { localStorage.setItem('disney_wishes_v2', JSON.stringify(userDisneyWishes)); } catch (e) {}
+      try { localStorage.setItem('disney_wishes_v3', JSON.stringify(userDisneyWishes)); } catch (e) {}
 
-      // 获取当前滚动容器
       const scrollArea = document.getElementById('disney-scroll-area');
       const curScroll = scrollArea ? scrollArea.scrollTop : 0;
 
@@ -2708,7 +2700,7 @@ html_v27_clean = """<!DOCTYPE html>
                 ${item.dpa ? `<span class="tag-dpa">DPA</span>` : ''}
               </div>
             </div>
-            <button class="btn-wish-toggle active" onclick="toggleWishItem('${item.id}')">✓ 已在心愿</button>
+            <button class="btn-wish-toggle active" ontouchend="toggleWishItem('${item.id}', event)" onclick="toggleWishItem('${item.id}', event)">✓ 已在心愿</button>
           </div>
         `).join('');
       }
@@ -2725,7 +2717,7 @@ html_v27_clean = """<!DOCTYPE html>
                 ${item.dpa ? `<span class="tag-dpa">支持DPA</span>` : ''}
               </div>
             </div>
-            <button class="btn-wish-toggle ${isSelected ? 'active' : ''}" onclick="toggleWishItem('${item.id}')">
+            <button class="btn-wish-toggle ${isSelected ? 'active' : ''}" ontouchend="toggleWishItem('${item.id}', event)" onclick="toggleWishItem('${item.id}', event)">
               ${isSelected ? '✓ 移除' : '+ 想玩'}
             </button>
           </div>
@@ -3068,7 +3060,6 @@ html_v27_clean = """<!DOCTYPE html>
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
@@ -3078,7 +3069,6 @@ html_v27_clean = """<!DOCTYPE html>
     initOfflineDetector();
     setInterval(updateTimers, 1000);
 
-    // 首屏静态就绪处于 Pane 1 (行程)
     track.style.transform = 'translate3d(-33.3333%, 0, 0)';
     dockSlider.style.transform = 'translate3d(100%, 0, 0)';
     paneTransit.classList.add('pane-dim');
@@ -3089,8 +3079,8 @@ html_v27_clean = """<!DOCTYPE html>
 </html>
 """
 
-output_path = "japan_itinerary_v27.html"
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(html_v27_clean)
+# 将代码写入本地 html 文件
+with open("japan_itinerary_v28.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
 
-print("Clean file written successfully.")
+print("成功生成 japan_itinerary_v28.html 文件！")
