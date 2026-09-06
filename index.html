@@ -33,7 +33,6 @@
       --island-text: #ffffff;
       --radius: 22px;
       
-      /* Next Milestone 昼夜动态基础色 */
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
       --milestone-border: rgba(14, 165, 233, 0.4);
       --milestone-text: #0f172a;
@@ -44,7 +43,6 @@
       --milestone-sub-text: #475569;
       --milestone-item-bg: rgba(255, 255, 255, 0.92);
 
-      /* 弹窗基础色 */
       --modal-bg: #ffffff;
       --modal-text: #0f172a;
       --modal-border: rgba(0, 0, 0, 0.12);
@@ -54,14 +52,12 @@
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
 
-      /* 逐日行程局部变量 (默认晴天暖橙金) */
       --itin-main: #d97706;
       --itin-border: rgba(245, 158, 11, 0.45);
       --itin-soft: rgba(245, 158, 11, 0.12);
       --itin-shadow: rgba(245, 158, 11, 0.22);
     }
 
-    /* 逐日行程雨天局部色彩 */
     #pane-itinerary.itin-rainy {
       --itin-main: #047857;
       --itin-border: rgba(4, 120, 87, 0.45);
@@ -69,7 +65,6 @@
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
-    /* Next Milestone 夜间修复 */
     body.is-night,
     body.is-night .top-timer-card {
       --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%) !important;
@@ -127,7 +122,7 @@
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.5;
-      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 75px);
+      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 68px);
       max-width: 680px;
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
@@ -219,7 +214,7 @@
     .timer-val.num-tick { transform: translateY(-2px); }
     .timer-lbl { font-size: 0.64rem; font-weight: 800; color: var(--milestone-sub-text); margin-top: 5px; }
 
-    /* Next Milestone 方案 1：航旅登机牌/车票票根风格展开日程 */
+    /* Next Milestone 票根风展开卡片 */
     .milestone-future-box {
       margin-top: 14px;
       padding-top: 12px;
@@ -293,11 +288,12 @@
     .ticket-countdown-val { font-size: 0.76rem; font-weight: 900; color: var(--milestone-badge); font-variant-numeric: tabular-nums; }
     .ticket-jump-arrow { font-size: 0.65rem; color: var(--milestone-sub-text); }
 
-    /* 三栏视口 */
+    /* 三栏视口与消除多余留白 */
     .viewport-outer { width: 100%; overflow: hidden; position: relative; }
     .viewport-track {
       display: flex;
       width: 300%;
+      align-items: flex-start;
       will-change: transform;
       transform: translateZ(0);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
@@ -309,6 +305,18 @@
       transition: opacity 0.25s, transform 0.25s;
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
+
+    /* 板块底部版本号微标 */
+    .pane-version-badge {
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      opacity: 0.6;
+      letter-spacing: 0.05em;
+      margin: 14px 0 6px;
+      user-select: none;
+    }
 
     /* 底置 Dock 导航 */
     .dock-wrap {
@@ -520,7 +528,7 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 方案 A 现代 Metro 轨交风格地图 (全手势防误触锁死) */
+    /* Metro 轨交风格地图 */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -645,7 +653,7 @@
     .guideline-item { display: block; margin-top: 4px; }
     .guideline-item:first-child { margin-top: 0; }
 
-    /* iPhone 15 Pro 像素级绝对垂直居中时间轴与圆点 (严丝合缝居中对齐) */
+    /* iPhone 15 Pro 像素级绝对垂直居中时间轴与圆点 */
     .timeline { 
       position: relative; 
       border-left: 2px solid var(--glass-border); 
@@ -662,7 +670,6 @@
     }
     .tl-node:last-child { margin-bottom: 0; }
     
-    /* 核心基准对齐计算：让 8px 的圆点中心精确位于竖线轴心与首行中心 */
     .tl-node::before {
       content: ''; 
       position: absolute; 
@@ -678,7 +685,7 @@
     }
     .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
-    /* 独立“酒店退订”红底高亮行 (原生在时间轴内，绝不对齐错位) */
+    /* 独立“酒店退订”红底高亮行 */
     .tl-node.hotel-cancel-node {
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%);
       border: 1px solid rgba(220, 38, 38, 0.3);
@@ -732,7 +739,7 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 方案 A 迪士尼心愿单与全项目库弹窗交互 */
+    /* 迪士尼游玩心计划入口微卡 (取消小字) */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
@@ -740,11 +747,38 @@
       background: rgba(0, 113, 227, 0.08);
       border: 1px solid var(--accent-border);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 11px 14px;
       margin-top: 10px;
       cursor: pointer;
     }
     .disney-wish-header-pill:active { transform: scale(0.98); }
+
+    /* 迪士尼弹窗：上下分层，顶底固定吸附，中间滚动 (修复上滑退出BUG) */
+    .disney-modal-sheet {
+      display: flex;
+      flex-direction: column;
+      height: 84vh;
+      max-height: 84vh;
+      padding: 14px 16px 12px !important;
+      overflow: hidden !important;
+    }
+    .disney-fixed-top {
+      flex-shrink: 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .disney-scroll-middle {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px 0;
+    }
+    .disney-fixed-bottom {
+      flex-shrink: 0;
+      padding-top: 8px;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+    }
 
     .disney-modal-tabs {
       display: flex;
@@ -753,7 +787,7 @@
       border-radius: 12px;
       padding: 3px;
       gap: 4px;
-      margin-bottom: 12px;
+      margin-top: 8px;
     }
     @media (prefers-color-scheme: dark) {
       .disney-modal-tabs { background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.12); }
@@ -770,7 +804,7 @@
       font-size: 0.78rem;
       font-weight: 900;
       color: var(--text-main);
-      margin: 10px 0 6px;
+      margin: 8px 0 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -883,7 +917,7 @@
     .todo-step-btn.active { background: var(--accent); color: #fff; }
     .todo-step-btn.active.done { background: var(--success); color: #fff; }
 
-    /* 弹窗抽屉 */
+    /* 弹窗抽屉基础样式 */
     .modal-overlay {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75);
       z-index: 99999; padding: 16px; align-items: flex-end; justify-content: center;
@@ -973,7 +1007,7 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 回顶快捷按钮：向下滑动立即出现，且随逐日行程局部变色 */
+    /* 回顶快捷按钮：向下滑动立即出现，跟随局部主题色 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -1024,7 +1058,7 @@
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 方案 1：航旅登机牌/车票票根风格展开日程 -->
+      <!-- 票根风格展开日程 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -1175,12 +1209,15 @@
             <span id="offline-text-1" style="font-size:0.68rem; font-weight:800; color:var(--text-muted);">本地离线未就绪</span>
           </div>
         </div>
+
+        <!-- 版块底部版本号微标 -->
+        <div class="pane-version-badge">v25.0</div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 (默认首屏直接就绪) -->
+      <!-- PANE 1: 📅 行程安排 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨决策控制舱 (副标题置底灰色小字) -->
+        <!-- 晴雨决策控制舱 -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
@@ -1203,7 +1240,7 @@
           </div>
         </div>
 
-        <!-- 区域动线与据点总览 (纯净标题) -->
+        <!-- 区域动线与据点总览 -->
         <div class="sec-head">
           <span>🗺️ 区域动线与据点总览</span>
         </div>
@@ -1211,16 +1248,14 @@
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 方案 A Metro风 晴天 1：全程概览 (成田T2到家全部改为红色虚线) -->
+            <!-- 晴天 1：全程概览 (成田T2到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
-              <!-- 成田T2到家全段红色虚线 -->
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
               
-              <!-- 羽田段红色虚线 -->
               <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-sun-all-nrt">
@@ -1264,7 +1299,7 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 晴天 2：ANA·迪士尼 -->
+            <!-- 晴天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-sun-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,125 L 340,125" stroke="#f59e0b" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#f59e0b" stroke-width="4.5"/>
@@ -1285,7 +1320,7 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 (突出海贼船、大涌谷、大室山) -->
+            <!-- 晴天 3：箱根·热海·伊豆 (单独突出海贼船、大涌谷、大室山) -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
@@ -1354,16 +1389,14 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 雨天 1：全程概览 (成田T2到家全部改为红色虚线) -->
+            <!-- 雨天 1：全程概览 (成田T2到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <!-- 成田T2到家全段红色虚线 -->
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 130,175 L 240,175 L 240,225" stroke="#047857" stroke-width="4"/>
-              <!-- 羽田段红色虚线 -->
               <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-rain-all-nrt">
@@ -1402,7 +1435,7 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 雨天 2：ANA·迪士尼 -->
+            <!-- 雨天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-rain-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,125 L 340,125" stroke="#047857" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#047857" stroke-width="4.5"/>
@@ -1423,11 +1456,10 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 雨天 3：箱根·WALK (突出海贼船、大涌谷、中目黑、代官山) -->
+            <!-- 雨天 3：箱根·WALK (突出海贼船、大涌谷、中目黑、代官山) -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 15 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
               <path class="metro-line" d="M 240,145 L 240,195 L 295,195 L 350,195 L 400,195 L 445,195" stroke="#047857" stroke-width="3.5"/>
-              <!-- 羽田段红虚线 -->
               <path class="metro-line" d="M 400,195 L 445,195" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="4,3"/>
 
               <g class="metro-node" id="node-rain-hw-odawara">
@@ -1660,7 +1692,7 @@
           </div>
         </div>
 
-        <!-- Day 4 (方案 A 迪士尼心愿单与全项目库弹窗入口) -->
+        <!-- Day 4 (迪士尼游玩心计划 · 无小字) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1688,12 +1720,9 @@
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 方案 A：心愿清单弹窗交互胶囊 -->
+                <!-- 方案 A：心愿清单弹窗交互胶囊 (无小字备注) -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
-                  <div>
-                    <span style="font-size:0.82rem; font-weight:900; color:var(--accent);">🎢 迪士尼游玩心愿单 & 全量项目库</span>
-                    <div style="font-size:0.66rem; color:var(--text-muted); margin-top:2px;" id="disney-summary-pill-text">查看想玩清单 ｜ 管理全量项目库 ↗</div>
-                  </div>
+                  <span style="font-size:0.86rem; font-weight:900; color:var(--accent);">🎢 迪士尼游玩心计划</span>
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
                 </div>
 
@@ -1821,6 +1850,9 @@
             <span id="offline-text-2" style="font-size:0.68rem; font-weight:800; color:var(--text-muted);">本地离线未就绪</span>
           </div>
         </div>
+
+        <!-- 版块底部版本号微标 -->
+        <div class="pane-version-badge">v25.0</div>
       </div>
 
       <!-- PANE 2: 📌 待办事项 -->
@@ -1855,6 +1887,9 @@
             <span id="offline-text-3" style="font-size:0.68rem; font-weight:800; color:var(--text-muted);">本地离线未就绪</span>
           </div>
         </div>
+
+        <!-- 版块底部版本号微标 -->
+        <div class="pane-version-badge">v25.0</div>
       </div>
 
     </div>
@@ -2018,46 +2053,51 @@
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼心愿单与全量项目库管理 (方案 A) -->
+  <!-- 弹窗 5：迪士尼游玩心计划 (上下分层 · 顶底吸附 · 修复误退BUG) -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
-    <div class="modal-sheet" onclick="event.stopPropagation()">
-      <div class="modal-handle"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.95rem; font-weight:900;">🏰 东京迪士尼心愿单与全量项目库</h4>
-        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
-      </div>
-
-      <!-- 园区切换 -->
-      <div class="disney-modal-tabs">
-        <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 Disneyland</button>
-        <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 DisneySea</button>
-      </div>
-
-      <!-- 1. 我的心愿想玩区 -->
-      <div class="disney-section-title">
-        <span>⭐ 我的想玩心愿清单</span>
-        <span style="font-size:0.68rem; color:var(--text-muted);" id="modal-wish-count">已选 0 项</span>
-      </div>
-      <div id="modal-wishlist-container"></div>
-
-      <!-- 2. 展开全量项目库按钮 -->
-      <div style="margin:14px 0 8px; text-align:center;">
-        <button class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 0; font-size:0.75rem;" onclick="toggleDisneyAllDrawer()">
-          <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开全量项目库)</span>
-        </button>
-      </div>
-
-      <!-- 3. 全量项目库折叠面板 -->
-      <div id="disney-all-drawer" style="display:none; margin-top:8px;">
-        <div class="disney-section-title">
-          <span>📚 园区全量项目 (按热门程度排序)</span>
+    <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
+      
+      <!-- 1. 顶部固定吸附栏 -->
+      <div class="disney-fixed-top">
+        <div class="modal-handle" style="margin-bottom:8px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼游玩心计划</h4>
+          <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
         </div>
-        <div id="modal-all-container"></div>
+
+        <div class="disney-modal-tabs">
+          <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 Disneyland</button>
+          <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 DisneySea</button>
+        </div>
       </div>
 
-      <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:9px 26px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-disney')">完成设置</button>
+      <!-- 2. 中间独立平滑滚动区 (上滑绝对不触发关闭) -->
+      <div class="disney-scroll-middle" id="disney-scroll-area">
+        <div class="disney-section-title">
+          <span>⭐ 我的想玩心愿清单</span>
+          <span style="font-size:0.68rem; color:var(--text-muted);" id="modal-wish-count">已选 0 项</span>
+        </div>
+        <div id="modal-wishlist-container"></div>
+
+        <div style="margin:12px 0 6px; text-align:center;">
+          <button class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 0; font-size:0.75rem;" onclick="toggleDisneyAllDrawer()">
+            <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开全量项目库)</span>
+          </button>
+        </div>
+
+        <div id="disney-all-drawer" style="display:none; margin-top:8px;">
+          <div class="disney-section-title">
+            <span>📚 园区全量项目 (按热门程度排序)</span>
+          </div>
+          <div id="modal-all-container"></div>
+        </div>
       </div>
+
+      <!-- 3. 底部固定吸附按钮 -->
+      <div class="disney-fixed-bottom">
+        <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成设置</button>
+      </div>
+
     </div>
   </div>
 
@@ -2203,7 +2243,9 @@
       document.getElementById(id).style.display = 'none'; 
     }
 
+    // 弹窗手势优化 (仅下拉且在非滚动状态下触发关闭，彻底杜绝上滑误关闭)
     function initSheetDrag(modalId) {
+      if (modalId === 'modal-disney') return; // 迪士尼弹窗采用内部安全滚动机制
       const sheet = document.querySelector(`#${modalId} .modal-sheet`);
       if (!sheet || sheet._dragInited) return;
       sheet._dragInited = true;
@@ -2232,7 +2274,7 @@
       }, { passive: true });
     }
 
-    // 次级地图：精准平滑滚动到屏幕中央并闪烁 (居中算法重构)
+    // 次级地图：平滑滚动至屏幕绝对中央并闪烁
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
@@ -2296,7 +2338,7 @@
       });
     }
 
-    /* 方案 1、2、4 综合防抖与 0 延迟原生绑定 */
+    /* 原生 0 延迟事件绑定 */
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -2574,7 +2616,7 @@
       renderTour(mode);
     }
 
-    /* 方案 A 迪士尼心愿单与全量项目库管理数据逻辑 (全量补充官方核心项目) */
+    /* 方案 A 迪士尼心愿单与全量项目库管理数据 */
     const allDisneyData = {
       land: [
         { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
@@ -2623,7 +2665,6 @@
       } catch (e) {
         userDisneyWishes = { l1: true, l2: true, l3: true, l4: true, l5: true, l6: true, s1: true, s2: true, s3: true, s4: true, s6: true, s7: true };
       }
-      updateDisneySummaryPill();
     }
 
     function toggleWishItem(id) {
@@ -2634,13 +2675,6 @@
       }
       try { localStorage.setItem('disney_wishes_v2', JSON.stringify(userDisneyWishes)); } catch (e) {}
       renderDisneyModalView();
-      updateDisneySummaryPill();
-    }
-
-    function updateDisneySummaryPill() {
-      const count = Object.keys(userDisneyWishes).length;
-      const el = document.getElementById('disney-summary-pill-text');
-      if (el) el.innerText = `查看想玩清单 (已选 ${count} 项) ｜ 管理全量项目库 ↗`;
     }
 
     function setDisneyParkView(park) {
