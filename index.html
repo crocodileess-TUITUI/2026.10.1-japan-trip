@@ -357,7 +357,6 @@
     }
     .floating-chips-inner::-webkit-scrollbar { display: none; }
 
-    /* 方案 1 胶囊样式：阶梯式字号层级 */
     .f-chip {
       white-space: nowrap;
       padding: 4px 8px;
@@ -378,7 +377,6 @@
     .f-chip .fc-d { font-size: 0.52rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
     .f-chip .fc-t { font-size: 0.58rem; font-weight: 800; white-space: nowrap; }
 
-    /* 中间当前项：标准饱满字号 + 晴雨变色高亮 */
     .f-chip.active-current {
       background: var(--itin-main) !important;
       color: #fff !important;
@@ -401,7 +399,7 @@
       align-items: center;
     }
 
-    /* 底置 Dock 导航栏（紧凑沉底，绝不与 Touch Bar 冲突） */
+    /* 底置 Dock 导航栏 */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 2px);
@@ -517,7 +515,6 @@
     }
     body.is-night .toggle-sub-note { color: #94a3b8; }
 
-    /* 方案卡片内部：带日期的7个快捷胶囊 */
     .card-nodes-bar {
       display: flex;
       gap: 6px;
@@ -636,7 +633,6 @@
       box-shadow: 0 2px 8px var(--itin-shadow); 
     }
     
-    /* 铺满且具美感的地图容器 */
     .offline-map-container {
       width: 100%; 
       background: #ffffff; 
@@ -812,24 +808,48 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 方案 3：迪士尼项目计划条（晴雨动态联动） */
-    .disney-wish-header-pill {
+    /* 方案 A：微质感灵动卡片（晴雨联动变色） */
+    .disney-widget-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--itin-soft);
+      background: linear-gradient(135deg, var(--itin-soft) 0%, rgba(255,255,255,0.05) 100%);
       border: 1.5px solid var(--itin-border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 10px 14px;
       margin-top: 8px;
       cursor: pointer;
-      box-shadow: 0 4px 14px var(--itin-shadow);
+      box-shadow: 0 4px 16px var(--itin-shadow);
       transition: all 0.3s;
     }
-    .disney-wish-header-pill:active { transform: scale(0.98); }
-    .disney-wish-pill-title { font-size: 0.84rem; font-weight: 900; color: var(--itin-main); }
+    .disney-widget-card:active { transform: scale(0.98); }
+    .disney-widget-left { display: flex; align-items: center; gap: 10px; }
+    .disney-widget-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--itin-main);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      box-shadow: 0 3px 10px var(--itin-shadow);
+    }
+    .disney-widget-title { font-size: 0.86rem; font-weight: 900; color: var(--text-main); }
+    .disney-widget-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; margin-top: 1px; }
+    .disney-widget-right-pill {
+      font-size: 0.70rem;
+      font-weight: 800;
+      color: var(--itin-main);
+      background: var(--glass-card);
+      border: 1px solid var(--itin-border);
+      padding: 4px 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
 
-    /* 弹窗核心样式：完全拦截穿透并隔离滚动 */
+    /* 弹窗核心样式：全面拦截穿透并隔离滚动 */
     .modal-overlay {
       display: none; 
       position: fixed; 
@@ -959,17 +979,15 @@
     .bus-table td { font-weight: 700; color: var(--modal-table-td-text); }
     
     .bus-row-my-slot {
-      background: rgba(245, 158, 11, 0.18) !important;
-      border-left: 4px solid #f59e0b !important;
-      border-right: 4px solid #f59e0b !important;
+      background: var(--itin-soft) !important;
+      border-left: 4px solid var(--itin-main) !important;
+      border-right: 4px solid var(--itin-main) !important;
     }
-    .bus-row-my-slot td { color: #b45309 !important; font-weight: 900 !important; }
-    body.is-night .bus-row-my-slot { background: rgba(245, 158, 11, 0.25) !important; }
-    body.is-night .bus-row-my-slot td { color: #fef08a !important; }
+    .bus-row-my-slot td { color: var(--itin-main) !important; font-weight: 900 !important; }
     .my-slot-badge {
       display: inline-block;
-      background: #f59e0b;
-      color: #000;
+      background: var(--itin-main);
+      color: #fff;
       font-size: 0.60rem;
       font-weight: 900;
       padding: 1px 5px;
@@ -1090,7 +1108,7 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 回顶悬浮按钮：与沉底后的双栏保持极佳呼吸间距 */
+    /* 回顶悬浮按钮 */
     #scroll-top-btn {
       position: fixed;
       left: 16px;
@@ -1287,13 +1305,13 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v32.0</div>
+        <div class="pane-version-badge">v33.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨天方案选择卡片 (带日期7个核心跳转胶囊) -->
+        <!-- 晴雨天方案选择卡片 -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨天方案选择</div>
@@ -1307,7 +1325,7 @@
           <div class="card-nodes-bar" id="card-nodes-bar"></div>
         </div>
 
-        <!-- 区域动线与据点总览 (真实地理方位重构版) -->
+        <!-- 区域动线与据点总览 -->
         <div class="sec-head">
           <span>🗺️ 区域动线与据点总览</span>
         </div>
@@ -1315,24 +1333,14 @@
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 晴天 1：真实地理方位·全程概览 (满幅铺满) -->
+            <!-- 晴天 1：真实地理方位·全程概览 -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 15 470 270" xmlns="http://www.w3.org/2000/svg">
-              <!-- 成田(东北) ➔ 家(中偏西南) -->
               <path class="metro-line" d="M 445,40 L 330,40 L 225,120" stroke="#ef4444" stroke-width="3.8" stroke-dasharray="6,4"/>
-              
-              <!-- 家 ➔ 迪士尼(东京湾北岸) -->
               <path class="metro-line" d="M 225,120 L 290,75 L 375,75" stroke="#f59e0b" stroke-width="4"/>
-              
-              <!-- 家 ➔ ANA见学 / 羽田(东京湾西岸) -->
               <path class="metro-line" d="M 225,120 L 310,120" stroke="#f59e0b" stroke-width="4"/>
-              
-              <!-- 家 ➔ 箱根(西南内陆) ➔ 热海(沿海向南) ➔ 伊豆(最南端) -->
               <path class="metro-line" d="M 225,120 L 130,120 L 75,175 L 75,225 L 140,265" stroke="#f59e0b" stroke-width="4.2"/>
-              
-              <!-- 伊豆 ➔ 羽田T3(沿湾北上返航) -->
               <path class="metro-line" d="M 140,265 L 245,265 L 310,165" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="6,4"/>
 
-              <!-- 节点 -->
               <g class="metro-node" id="node-sun-all-nrt">
                 <circle cx="445" cy="40" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="445" y="24" text-anchor="middle" font-size="11" font-weight="900" fill="#ef4444">成田T2</text>
@@ -1374,7 +1382,7 @@
               </g>
             </svg>
 
-            <!-- 晴天 2：真实方位·ANA与迪士尼 -->
+            <!-- 晴天 2：ANA·迪士尼 -->
             <svg class="metro-map" id="map-svg-sun-metro" viewBox="80 30 380 200" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 170,140 L 260,80 L 370,80" stroke="#f59e0b" stroke-width="4.5"/>
               <path class="metro-line" d="M 170,140 L 310,140" stroke="#f59e0b" stroke-width="4.5"/>
@@ -1395,7 +1403,7 @@
               </g>
             </svg>
 
-            <!-- 晴天 3：真实方位·箱根·热海·伊豆度假全景 (饱满铺满) -->
+            <!-- 晴天 3：箱根·热海·伊豆度假全景 -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="20 15 460 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 50,45 L 115,45 L 185,45 L 255,45 L 255,95 L 185,95 L 115,95 L 115,150 L 185,150" stroke="#f59e0b" stroke-width="3.8"/>
               <path class="metro-line" d="M 185,150 L 265,150 L 265,195 L 350,195 L 350,245 L 430,245" stroke="#f59e0b" stroke-width="3.8"/>
@@ -1462,7 +1470,7 @@
               </g>
             </svg>
 
-            <!-- 雨天 1：真实方位·全程概览 (满幅铺满) -->
+            <!-- 雨天 1：全程概览 -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 15 470 270" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 445,40 L 330,40 L 225,130" stroke="#ef4444" stroke-width="3.8" stroke-dasharray="6,4"/>
               <path class="metro-line" d="M 225,130 L 290,75 L 375,75" stroke="#047857" stroke-width="4"/>
@@ -1528,7 +1536,7 @@
               </g>
             </svg>
 
-            <!-- 雨天 3：真实方位·箱根+WALK (满幅铺满) -->
+            <!-- 雨天 3：箱根+WALK -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 20 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.8"/>
               <path class="metro-line" d="M 240,145 L 240,200 L 295,200 L 350,200 L 400,200 L 445,200" stroke="#047857" stroke-width="3.8"/>
@@ -1756,7 +1764,7 @@
           </div>
         </div>
 
-        <!-- Day 4 (方案 3：标题行右上角常驻跳转标签 + 晴雨变色项目计划卡) -->
+        <!-- Day 4 (10.3 迪士尼：右上角官方 App 按钮 + 方案 A 微质感灵动卡片“迪士尼项目”) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1766,6 +1774,8 @@
                 <p>万圣节档期 · 舞滨站 · 全天游玩</p>
               </div>
             </div>
+            <!-- 官方 App 按钮移至卡片头部右上角 (对齐 12306 风格) -->
+            <a class="btn-top-right-app" href="tokyodisneyresort://" onclick="setTimeout(function(){ window.location='https://www.tokyodisneyresort.jp/tc/tdr/app.html'; }, 1500)">🏰 官方 App ↗</a>
           </div>
           <div class="day-body-inner">
             <div class="timeline">
@@ -1777,20 +1787,22 @@
                 <div class="tl-desc">乘地铁换乘至 JR 京叶线直达「舞滨站」。</div>
               </div>
               <div class="tl-node" id="tl-d4-2">
-                <div class="tl-top" style="justify-content:space-between; align-items:center;">
-                  <div style="display:flex; align-items:center; gap:6px;">
-                    <span class="tl-place">东京迪士尼乐园</span>
-                    <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">🗺️</a>
-                  </div>
-                  <!-- 方案 3：标题行右上角常驻轻量跳转标签 -->
-                  <a class="btn-top-right-app" href="tokyodisneyresort://" onclick="setTimeout(function(){ window.location='https://www.tokyodisneyresort.jp/tc/tdr/app.html'; }, 1500)">🏰 官方 App ↗</a>
+                <div class="tl-top">
+                  <span class="tl-place">东京迪士尼乐园</span>
+                  <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 方案 3：精简版项目计划横栏（晴雨动态变色） -->
-                <div class="disney-wish-header-pill" onclick="openDisneyModal()">
-                  <span class="disney-wish-pill-title">🎢 迪士尼项目计划（双园各区域热门项目速查）</span>
-                  <span style="font-size:1.05rem; color:var(--itin-main);">✦</span>
+                <!-- 方案 A：微质感灵动卡片 (“迪士尼项目”) -->
+                <div class="disney-widget-card" onclick="openDisneyModal()">
+                  <div class="disney-widget-left">
+                    <div class="disney-widget-icon">🎢</div>
+                    <div>
+                      <div class="disney-widget-title">迪士尼项目</div>
+                      <div class="disney-widget-sub">双园全区 · 热门速查</div>
+                    </div>
+                  </div>
+                  <div class="disney-widget-right-pill">查看指南 ›</div>
                 </div>
               </div>
               <div class="tl-node" id="tl-d4-3">
@@ -1913,7 +1925,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v32.0</div>
+        <div class="pane-version-badge">v33.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1948,17 +1960,15 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v32.0</div>
+        <div class="pane-version-badge">v33.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 方案 1：底部灵动折叠胶囊栏（当前项居中正常，两侧微缩弱化，晴雨变色完全联动） -->
+  <!-- 底部折叠胶囊栏 -->
   <div class="floating-chips-container" id="floating-chips-container">
-    <div class="floating-chips-inner" id="floating-chips-bar" onclick="handleFloatingChipsClick(event)">
-      <!-- 动态渲染 -->
-    </div>
+    <div class="floating-chips-inner" id="floating-chips-bar" onclick="handleFloatingChipsClick(event)"></div>
   </div>
 
   <!-- 三栏底置 Dock 导航 -->
@@ -2035,27 +2045,27 @@
           <tr>
             <th style="width:50px;">发车</th>
             <th style="width:50px;">到达</th>
-            <th style="width:52px;">运行日</th>
+            <th style="width:62px;">运行日</th>
             <th>线路 / 经由</th>
           </tr>
         </thead>
         <tbody id="izu-bus1-tbody">
-          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I72 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I71 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线 15分)</span></td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线)</span></td></tr>
-          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
-          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="13:00"><td>13:00</td><td>13:15</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
-          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="14:20"><td>14:20</td><td>14:35</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
-          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
-          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 / I72 往仙人掌公园</td></tr>
+          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I72 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I71 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线 15分)</span></td></tr>
+          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线)</span></td></tr>
+          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
+          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="13:00"><td>13:00</td><td>13:15</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
+          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="14:20"><td>14:20</td><td>14:35</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
+          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
+          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 / I72 往仙人掌公园</td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:14px;">
@@ -2077,21 +2087,21 @@
           <tr>
             <th style="width:50px;">发车</th>
             <th style="width:50px;">到达</th>
-            <th style="width:52px;">运行日</th>
+            <th style="width:62px;">运行日</th>
             <th>线路 / 经由</th>
           </tr>
         </thead>
         <tbody id="izu-bus2-tbody">
-          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal 29分)</span></td></tr>
-          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
-          <tr data-time="12:05"><td>12:05</td><td>12:30</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="13:30"><td>13:30</td><td>13:55</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
-          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(季节运行)</span></td></tr>
+          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
+          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal 29分)</span></td></tr>
+          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
+          <tr data-time="12:05"><td>12:05</td><td>12:30</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
+          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="13:30"><td>13:30</td><td>13:55</td><td><span class="bus-run-weekend">仅周末</span></td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
+          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td><span class="bus-run-day-tag">每日</span></td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(季节运行)</span></td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:14px;">
@@ -2100,7 +2110,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 4：离线就绪探测说明 -->
+  <!-- 弹窗 4：离线就绪说明 -->
   <div class="modal-overlay" id="modal-offline-info" onclick="closeModal('modal-offline-info')">
     <div class="modal-sheet" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2119,7 +2129,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 5：方案 3 迪士尼项目计划（防穿透隔离机制） -->
+  <!-- 弹窗 5：迪士尼项目指南 (方案 A 灵动卡片触发) -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       <div class="disney-fixed-top">
@@ -2144,6 +2154,17 @@
       </div>
     </div>
   </div>
+
+  <style>
+    .bus-run-day-tag {
+      color: var(--itin-main) !important;
+      font-weight: 800;
+    }
+    .bus-run-weekend {
+      color: #ef4444 !important;
+      font-weight: 900;
+    }
+  </style>
 
   <script>
     function showToast(msg) {
@@ -2271,7 +2292,7 @@
       }
     }, { passive: true });
 
-    /* 方案 1：悬浮折叠胶囊核心逻辑（阶梯式字号 + 晴雨联动变色） */
+    /* 方案 1：悬浮折叠胶囊核心逻辑 */
     const allDaysMeta = [
       { id: 'd1', d: '9.30', t: '落地' },
       { id: 'd2', d: '10.1', t: '瞎逛' },
@@ -2713,7 +2734,6 @@
       currentWeatherMode = mode;
       const p = customDays[mode];
 
-      // 全局 body 级晴雨切换，确保所有固定浮层瞬时同步变色
       document.body.classList.toggle('mode-sunny', mode === 'sunny');
       document.body.classList.toggle('mode-rainy', mode === 'rainy');
 
@@ -2780,7 +2800,7 @@
       renderTour(mode);
     }
 
-    /* 方案 3：全量双园主题区/港口百科数据 */
+    /* 方案 3：全量双园百科数据 */
     const fullDisneyZones = {
       land: [
         {
