@@ -242,7 +242,7 @@
       transition: max-height 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), margin-top 0.2s;
     }
     .milestone-future-list.open {
-      max-height: 540px;
+      max-height: 560px;
       margin-top: 12px;
     }
     .milestone-ticket-card {
@@ -291,7 +291,7 @@
       display: flex;
       width: 300%;
       will-change: transform;
-      transform: translateZ(0);
+      transform: translate3d(-33.3333%, 0, 0);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
     .view-pane { 
@@ -337,6 +337,7 @@
       background: var(--accent);
       border-radius: 30px;
       box-shadow: 0 4px 14px rgba(0, 113, 227, 0.35);
+      transform: translate3d(100%, 0, 0);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
       z-index: 1;
       pointer-events: none;
@@ -509,7 +510,6 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 允许地图区域顺畅上下滚动 (pan-y)，仅锁死横向拖拽与长按 */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -583,7 +583,6 @@
     .metro-node:active { transform: scale(1.25); }
     .metro-station-outer { stroke-width: 2.5; }
 
-    /* 逐日行程卡片 */
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
       border: 1.5px solid var(--itin-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
@@ -634,7 +633,7 @@
     .guideline-item { display: block; margin-top: 4px; }
     .guideline-item:first-child { margin-top: 0; }
 
-    /* iPhone 15 Pro 像素级严丝合缝垂直穿心对齐 */
+    /* 时间轴像素级穿心对齐 */
     .timeline { 
       position: relative; 
       border-left: 2px solid var(--glass-border); 
@@ -647,15 +646,14 @@
       margin-bottom: 16px; 
       transition: opacity 0.25s, background 0.4s; 
       border-radius: 8px; 
-      padding: 2px 4px; 
+      padding: 3px 6px; 
     }
     .tl-node:last-child { margin-bottom: 0; }
-    /* 严格对准 22px 高度时间胶囊的视觉正中心 (top: 11px, 圆点 8px, 半径 4px) */
     .tl-node::before {
       content: ''; 
       position: absolute; 
       left: -21px; 
-      top: 11px; 
+      top: 14px; 
       width: 8px; 
       height: 8px;
       border-radius: 50%; 
@@ -709,7 +707,7 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 酒店退订红底微卡节点：不破坏时间轴轴线 */
+    /* 独立“酒店退订”红底微卡节点 */
     .hotel-cancel-node-box {
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.02) 100%);
       border: 1.5px solid rgba(220, 38, 38, 0.32);
@@ -723,7 +721,7 @@
       top: 19px !important;
     }
 
-    /* 方案 A 迪士尼心愿单与全量项目库 */
+    /* 迪士尼心愿单与全量项目库 */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
@@ -1015,7 +1013,7 @@
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 方案 1：登机牌车票风格展开列表 -->
+      <!-- 登机牌票根风展开列表 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -1168,7 +1166,7 @@
         </div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 -->
+      <!-- PANE 1: 📅 行程安排 (默认首屏直接就绪) -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 晴雨决策控制舱 -->
@@ -1205,11 +1203,9 @@
             <!-- 方案 A Metro风 晴天 1：全程概览 (成田到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
-              
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
-              
               <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-sun-all-nrt">
@@ -1274,7 +1270,7 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 (海贼船、大涌谷、大室山独立突出，其余严格统一) -->
+            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
@@ -1304,13 +1300,11 @@
                 <text x="255" y="98" text-anchor="start" font-size="9" font-weight="600" fill="var(--text-main)">成川美术馆</text>
               </g>
 
-              <!-- 突出海贼船 ⚓ -->
               <g class="metro-node" id="node-sun-r-ship">
                 <circle cx="175" cy="95" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="175" y="81" text-anchor="middle" font-size="11.5" font-weight="900" fill="#b45309">海贼船 ⚓</text>
               </g>
 
-              <!-- 突出大涌谷 🚠 -->
               <g class="metro-node" id="node-sun-r-owakudani">
                 <circle cx="105" cy="95" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="91" y="99" text-anchor="end" font-size="11.5" font-weight="900" fill="#b45309">大涌谷 🚠</text>
@@ -1326,7 +1320,6 @@
                 <text x="175" y="164" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-main)">热海</text>
               </g>
 
-              <!-- 突出大室山 🌋 -->
               <g class="metro-node" id="node-sun-r-omuro">
                 <circle cx="255" cy="190" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="255" y="176" text-anchor="middle" font-size="11.5" font-weight="900" fill="#b45309">大室山 🌋</text>
@@ -1346,12 +1339,10 @@
             <!-- 方案 A Metro风 雨天 1：全程概览 (成田到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
-              
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 130,175 L 240,175 L 240,225" stroke="#047857" stroke-width="4"/>
-              
               <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
               <g class="metro-node" id="node-rain-all-nrt">
@@ -1411,7 +1402,7 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 雨天 3：箱根·WALK (突出海贼船、大涌谷、中目黑、代官山，含公园，其余统一) -->
+            <!-- 方案 A Metro风 雨天 3：箱根·WALK (海贼船、大涌谷、中目黑、代官山突出) -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 15 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
               <path class="metro-line" d="M 240,145 L 240,195 L 295,195 L 350,195 L 400,195 L 445,195" stroke="#047857" stroke-width="3.5"/>
@@ -1481,8 +1472,9 @@
                 <text x="350" y="213" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">涩谷</text>
               </g>
 
+              <!-- 公园 -->
               <g class="metro-node" id="node-rain-hw-park">
-                <circle cx="400" cy="195" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <circle cx="400" cy="195" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
                 <text x="400" y="181" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">公园</text>
               </g>
 
@@ -1547,13 +1539,13 @@
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
-              <!-- 酒店退订 ⚠️ (严格穿心居中时间轴，独立红底微卡) -->
+              <!-- 酒店退订 ⚠️ (严格穿心居中时间轴，深红加粗备注) -->
               <div class="tl-node hotel-cancel-node-box" id="tl-d1-5">
                 <div class="tl-top">
                   <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
                   <span class="tl-place" style="color:var(--danger); font-weight:900;">酒店退订 ⚠️</span>
                 </div>
-                <div class="tl-desc" style="color:var(--danger); font-weight:700;">
+                <div class="tl-desc" style="color:#b91c1c; font-weight:800; line-height:1.6;">
                   查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
                   <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:900; color:var(--danger); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
                 </div>
@@ -1648,7 +1640,7 @@
           </div>
         </div>
 
-        <!-- Day 4 (迪士尼 App 直跳与心愿清单弹窗入口) -->
+        <!-- Day 4 -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1676,7 +1668,7 @@
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 方案 A：心愿清单弹窗交互胶囊 -->
+                <!-- 心愿清单弹窗交互胶囊 -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
                   <div>
                     <span style="font-size:0.82rem; font-weight:900; color:var(--accent);">🎢 迪士尼游玩心愿单 & 热门排位</span>
@@ -1685,7 +1677,6 @@
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
                 </div>
 
-                <!-- 与 12306 / 航旅纵横一致的原生 App 启动逻辑 -->
                 <div style="margin-top:8px;">
                   <button class="btn-action-pill" style="width:100%; justify-content:center; padding:9px 12px;" onclick="openDisneyApp()">
                     🏰 启动东京迪士尼官方 App ↗
@@ -1704,7 +1695,7 @@
           </div>
         </div>
 
-        <!-- Day 5 -->
+        <!-- Day 5 (静动态双重保障) -->
         <div class="day-wrapper" id="d5">
           <div class="day-head">
             <div class="day-meta">
@@ -1725,11 +1716,28 @@
                 <span class="guideline-item">4、顺时针玩避开傍晚回程元箱根港→箱根汤本的巴士排队</span>
               </div>
             </div>
-            <div class="timeline" id="d5-timeline"></div>
+            <div class="timeline" id="d5-timeline">
+              <!-- 静态首屏默认晴天骨架，防止脚本执行延迟闪烁 -->
+              <div class="tl-node" id="tl-d5-2"><div class="tl-top"><span class="tl-place">市区→地铁→小田原站</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Odawara+Station" target="_blank">🗺️</a></div><div class="tl-desc">用周游券坐 or 浪漫特快（单独买票）</div></div>
+              <div class="tl-node" id="tl-d5-3"><div class="tl-top"><span class="tl-place">小田原站→登山列车→箱根汤本站</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Hakone-Yumoto+Station" target="_blank">🗺️</a></div><div class="tl-desc">下车！</div></div>
+              <div class="tl-node" id="tl-d5-4"><div class="tl-top"><span class="tl-place">箱根汤本站→巴士→元箱根港</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Motohakone-port" target="_blank">🗺️</a></div><div class="tl-desc">建议等座位，全是山路无座会挤得很难受，路途后半段开始能看到富士山</div></div>
+              <div class="tl-node" id="tl-d5-5"><div class="tl-top"><span class="tl-place">平和鸟居/箱根神社 ⛩️</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Hakone+Shrine" target="_blank">🗺️</a></div><div class="tl-desc">人很多，步行往返共40分钟</div></div>
+              <div class="tl-node" id="tl-d5-6"><div class="tl-top"><span class="tl-place">成川美术馆</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Narukawa+Art+Museum" target="_blank">🗺️</a></div><div class="tl-desc">出示周游券-200ren=1300ren 有观景台，芦之湖、平和鸟居和富士山同框</div></div>
+              <div class="tl-node" id="tl-d5-7"><div class="tl-top"><span class="tl-place">元箱根港→海贼船→桃源台站 ⚓</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Togendai+Station" target="_blank">🗺️</a></div><div class="tl-desc">周游券是普通席免费，加钱升舱体验会好很多，什么舱都可以上甲板</div></div>
+              <div class="tl-node" id="tl-d5-8"><div class="tl-top"><span class="tl-place">大涌谷站 🚠</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Owakudani" target="_blank">🗺️</a></div><div class="tl-desc">活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!</div></div>
+              <div class="tl-node" id="tl-d5-9"><div class="tl-top"><span class="tl-place">雕刻之森美术馆</span><a class="btn-nav-pin" href="https://maps.google.com/?q=The+Hakone+Open-Air+Museum" target="_blank">🗺️</a></div><div class="tl-desc">有毕加索的画，出示周游券-100~200ren=1800ren</div></div>
+              <div class="region-divider"><span class="region-divider-badge">热海</span></div>
+              <div class="tl-node" id="tl-d5-10"><div class="tl-top"><span class="tl-place">热海酒店</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Hotel+Resorpia+Atami" target="_blank">🗺️</a></div><div class="tl-desc">记得带护照</div></div>
+              <div class="tl-node" id="tl-d5-11"><div class="tl-top"><span class="tl-place">热海布丁本店</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Atami+Purin" target="_blank">🗺️</a></div><div class="tl-desc">有限定口味，还有抹茶或者招牌都可以</div></div>
+              <div class="tl-node" id="tl-d5-12"><div class="tl-top"><span class="tl-place">热海银座商业街</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Atami+Ginza+Shopping+Street" target="_blank">🗺️</a></div><div class="tl-desc">饿了就吃，吃完就逛</div></div>
+              <div class="tl-node" id="tl-d5-13"><div class="tl-top"><span class="tl-place">热海亲水公园</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Atami+Shinsui+Park" target="_blank">🗺️</a></div><div class="tl-desc">商业街吃完可以来逛逛海边</div></div>
+              <div class="tl-node" id="tl-d5-14"><div class="tl-top"><span class="tl-place">MOA美术馆</span><a class="btn-nav-pin" href="https://maps.google.com/?q=MOA+Museum+of+Art" target="_blank">🗺️</a></div><div class="tl-desc">门口公交直达，去程坐左边，返程坐右边；馆里有海景位，天气不好就不用去了</div></div>
+              <div class="tl-node" id="tl-d5-15"><div class="tl-top"><span class="tl-place">来宫神社</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Kinomiya+Shrine" target="_blank">🗺️</a></div><div class="tl-desc">免费 有棵2000多岁的大楠</div></div>
+            </div>
           </div>
         </div>
 
-        <!-- Day 6 -->
+        <!-- Day 6 (静动态双重保障) -->
         <div class="day-wrapper" id="d6">
           <div class="day-head">
             <div class="day-meta">
@@ -1749,7 +1757,18 @@
                 <span class="guideline-item">3、9：25第一班大巴发车，10：00第二班大巴发车</span>
               </div>
             </div>
-            <div class="timeline" id="d6-timeline"></div>
+            <div class="timeline" id="d6-timeline">
+              <!-- 静态首屏默认晴天骨架 -->
+              <div class="tl-node" id="tl-d6-2"><div class="tl-top"><span class="tl-place">伊豆高原站→巴士→仙人掌公园站</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Izu-Kogen+Station" target="_blank">🗺️</a></div><div class="tl-desc">大巴间隔时间很长<br><button class='btn-action-pill' onclick='openIzuBusModal(1)'>🚏 查看此段完整时刻表</button></div></div>
+              <div class="tl-node" id="tl-d6-3"><div class="tl-top"><span class="tl-place">上山缆车 🚠</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Omuroyama" target="_blank">🗺️</a></div><div class="tl-desc">最后一个柱子两侧有拍照的机器，照片1200ren</div></div>
+              <div class="tl-node" id="tl-d6-4"><div class="tl-top"><span class="tl-place">大室山</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Mount+Omuro" target="_blank">🗺️</a></div><div class="tl-desc">你的名字取景地</div></div>
+              <div class="tl-node" id="tl-d6-5"><div class="tl-top"><span class="tl-place">仙人掌公园</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Izu+Shaboten+Zoo" target="_blank">🗺️</a></div><div class="tl-desc">如果缆车临时停运再考虑去，可以和动物互动</div></div>
+              <div class="tl-node" id="tl-d6-6"><div class="tl-top"><span class="tl-place">仙人掌公园站→巴士→伊豆海洋公园</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Izu+Ocean+Park" target="_blank">🗺️</a></div><div class="tl-desc">1、大巴间隔时间很长，海洋公园站离城崎海岸最近；<br>2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button></div></div>
+              <div class="tl-node" id="tl-d6-7"><div class="tl-top"><span class="tl-place">城崎海岸</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Kadowaki+Suspension+Bridge" target="_blank">🗺️</a></div><div class="tl-desc">门胁吊桥，海边散步，灯塔可以上去</div></div>
+              <div class="tl-node" id="tl-d6-8"><div class="tl-top"><span class="tl-place">城崎海岸站→巴士→伊豆高原站</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Jogasaki-Kaigan+Station" target="_blank">🗺️</a></div><div class="tl-desc">返回伊豆高原站</div></div>
+              <div class="tl-node" id="tl-d6-9"><div class="tl-top"><span class="tl-time">回家</span><span class="tl-place">回到家中</span><a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a></div><div class="tl-desc">如果时间早可以接上“WALK”的行程</div></div>
+              <div class="tl-node" id="tl-d6-10"><div class="tl-top"><span class="tl-time">回国</span><span class="tl-place">羽田机场 T3</span><a class="btn-nav-pin" href="https://maps.google.com/?q=Haneda+Airport+Terminal+3" target="_blank">🗺️</a></div><div class="tl-desc">前往羽田办理托运值机，从容准备启程回国。</div></div>
+            </div>
           </div>
         </div>
 
@@ -1815,7 +1834,7 @@
         </div>
       </div>
 
-      <!-- PANE 2: 📌 待办事项 -->
+      <!-- PANE 2: 📌 待办事项 (静态骨架直出，JS崩溃也绝不丢失) -->
       <div class="view-pane" id="pane-todo">
         <div class="sec-head">
           <span>📌 待办事项</span>
@@ -1833,7 +1852,24 @@
             </div>
           </div>
 
-          <div id="todo-list-container"></div>
+          <div id="todo-list-container">
+            <!-- 15项静态完备骨架 -->
+            <div class="todo-item" id="todo-item-pass"><span class="todo-name">护照</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="pass-0" onclick="setTodo('pass',0)">⚪ 未完成</button><button class="todo-step-btn" id="pass-1" onclick="setTodo('pass',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-idcard"><span class="todo-name">身份证</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="idcard-0" onclick="setTodo('idcard',0)">⚪ 未完成</button><button class="todo-step-btn" id="idcard-1" onclick="setTodo('idcard',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-disney"><span class="todo-name">东京迪士尼门票</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="disney-0" onclick="setTodo('disney',0)">⚪ 未完成</button><button class="todo-step-btn" id="disney-1" onclick="setTodo('disney',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-vjw"><span class="todo-name">VJW填报</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="vjw-0" onclick="setTodo('vjw',0)">⚪ 未完成</button><button class="todo-step-btn" id="vjw-1" onclick="setTodo('vjw',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-sim_jp"><span class="todo-name">日本 7 日高速流量卡 (1张)</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="sim_jp-0" onclick="setTodo('sim_jp',0)">⚪ 未完成</button><button class="todo-step-btn" id="sim_jp-1" onclick="setTodo('sim_jp',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-sim_hk"><span class="todo-name">香港 1 日流量卡 (2张)</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="sim_hk-0" onclick="setTodo('sim_hk',0)">⚪ 未完成</button><button class="todo-step-btn" id="sim_hk-1" onclick="setTodo('sim_hk',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-pbank"><span class="todo-name">充电宝</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="pbank-0" onclick="setTodo('pbank',0)">⚪ 未完成</button><button class="todo-step-btn" id="pbank-1" onclick="setTodo('pbank',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-charger"><span class="todo-name">充电器（猪猪日本充电器）</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="charger-0" onclick="setTodo('charger',0)">⚪ 未完成</button><button class="todo-step-btn" id="charger-1" onclick="setTodo('charger',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-gr3x"><span class="todo-name">理光GR 3X HDF相机</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="gr3x-0" onclick="setTodo('gr3x',0)">⚪ 未完成</button><button class="todo-step-btn" id="gr3x-1" onclick="setTodo('gr3x',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-llblade"><span class="todo-name">LOVELIVE应援棒</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="llblade-0" onclick="setTodo('llblade',0)">⚪ 未完成</button><button class="todo-step-btn" id="llblade-1" onclick="setTodo('llblade',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-umbrella"><span class="todo-name">雨伞</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="umbrella-0" onclick="setTodo('umbrella',0)">⚪ 未完成</button><button class="todo-step-btn" id="umbrella-1" onclick="setTodo('umbrella',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-sunglass"><span class="todo-name">墨镜</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="sunglass-0" onclick="setTodo('sunglass',0)">⚪ 未完成</button><button class="todo-step-btn" id="sunglass-1" onclick="setTodo('sunglass',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-upillow"><span class="todo-name">U型枕</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="upillow-0" onclick="setTodo('upillow',0)">⚪ 未完成</button><button class="todo-step-btn" id="upillow-1" onclick="setTodo('upillow',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-perfume"><span class="todo-name">香水</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="perfume-0" onclick="setTodo('perfume',0)">⚪ 未完成</button><button class="todo-step-btn" id="perfume-1" onclick="setTodo('perfume',1)">🟢 已完成</button></div></div>
+            <div class="todo-item" id="todo-item-homekey"><span class="todo-name">家门钥匙放门口</span><div class="todo-stepper-two"><button class="todo-step-btn active" id="homekey-0" onclick="setTodo('homekey',0)">⚪ 未完成</button><button class="todo-step-btn" id="homekey-1" onclick="setTodo('homekey',1)">🟢 已完成</button></div></div>
+          </div>
         </div>
 
         <!-- 独立应急备忘录卡片 3 -->
@@ -1852,759 +1888,9 @@
     </div>
   </div>
 
-  <!-- 三栏底置 Dock 导航 -->
-  <div class="dock-wrap" id="dock-wrap">
-    <div class="dock-island">
-      <div class="dock-slider" id="dock-slider"></div>
-      <button class="dock-btn" id="dock-btn-transit" onclick="slideToPane(0)">
-        <span>✈️ 行程信息</span>
-      </button>
-      <button class="dock-btn active" id="dock-btn-itinerary" onclick="slideToPane(1)">
-        <span>📅 逐日行程</span>
-      </button>
-      <button class="dock-btn" id="dock-btn-todo" onclick="slideToPane(2)">
-        <span>📌 待办事项</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- 弹窗 1：ANA 见学接驳车时刻表 -->
-  <div class="modal-overlay" id="modal-ana-bus" onclick="closeModal('modal-ana-bus')">
-    <div class="modal-sheet" id="sheet-ana-bus" onclick="event.stopPropagation()">
-      <div class="modal-handle"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.92rem; font-weight:900;">新整备场站 ⇔ ANA大楼 联络大巴</h4>
-        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-ana-bus')">✕</span>
-      </div>
-      <p style="font-size:0.72rem; color:var(--modal-sub); margin-bottom:8px;">车程约 5 分钟 · 上车前请准备好预约信息</p>
-      <table class="bus-table">
-        <thead>
-          <tr>
-            <th>新整备场站 发车</th>
-            <th>见学参观场次</th>
-            <th>ANA大楼 返程发车</th>
-          </tr>
-        </thead>
-        <tbody id="ana-bus-tbody">
-          <tr data-time="08:55"><td>① 8:55<br>② 9:15</td><td><strong>9:30</strong><br><small>9:00-10:45</small></td><td>① 10:55<br>② 11:15</td></tr>
-          <tr data-time="10:10"><td>① 10:10<br>② 10:30</td><td><strong>10:45</strong><br><small>10:15-12:00</small></td><td>① 12:10<br>② 12:30</td></tr>
-          <tr data-time="12:25"><td>① 12:25<br>② 12:45</td><td><strong>13:00</strong><br><small>12:30-14:15</small></td><td>① 14:25<br>② 14:45</td></tr>
-          
-          <tr data-time="13:40" class="bus-row-my-slot">
-            <td>
-              <strong>① 13:40<br>② 14:00</strong>
-            </td>
-            <td>
-              <strong style="font-size:0.86rem;">14:15</strong><br>
-              <small>13:45-15:30</small><br>
-              <span class="my-slot-badge">★ 我的预约场次</span>
-            </td>
-            <td>
-              <strong>① 15:40<br>② 16:00</strong>
-            </td>
-          </tr>
-
-          <tr data-time="14:55"><td>① 14:55<br>② 15:15</td><td><strong>15:30</strong><br><small>15:00-16:45</small></td><td>① 16:55<br>② 17:15</td></tr>
-        </tbody>
-      </table>
-      <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-ana-bus')">关闭</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 弹窗 2：伊豆大巴时刻表 1 -->
-  <div class="modal-overlay" id="modal-izu-bus1" onclick="closeModal('modal-izu-bus1')">
-    <div class="modal-sheet" id="sheet-izu-bus1" onclick="event.stopPropagation()">
-      <div class="modal-handle"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.90rem; font-weight:900;">伊豆高原站 → 仙人掌公园 (1号站台 430円)</h4>
-        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus1')">✕</span>
-      </div>
-      <table class="bus-table">
-        <thead>
-          <tr>
-            <th style="width:50px;">发车</th>
-            <th style="width:50px;">到达</th>
-            <th style="width:52px;">运行日</th>
-            <th>线路 / 经由</th>
-          </tr>
-        </thead>
-        <tbody id="izu-bus1-tbody">
-          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I72 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I71 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线 15分)</span></td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线)</span></td></tr>
-          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
-          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="13:00"><td>13:00</td><td>13:15</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
-          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="14:20"><td>14:20</td><td>14:35</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
-          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
-          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 / I72 往仙人掌公园</td></tr>
-        </tbody>
-      </table>
-      <div style="text-align:center; margin-top:14px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-izu-bus1')">关闭</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 弹窗 3：伊豆大巴时刻表 2 -->
-  <div class="modal-overlay" id="modal-izu-bus2" onclick="closeModal('modal-izu-bus2')">
-    <div class="modal-sheet" id="sheet-izu-bus2" onclick="event.stopPropagation()">
-      <div class="modal-handle"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.90rem; font-weight:900;">仙人掌公园 → 伊豆海洋公园 (2号站台 570円)</h4>
-        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-izu-bus2')">✕</span>
-      </div>
-      <table class="bus-table">
-        <thead>
-          <tr>
-            <th style="width:50px;">发车</th>
-            <th style="width:50px;">到达</th>
-            <th style="width:52px;">运行日</th>
-            <th>线路 / 经由</th>
-          </tr>
-        </thead>
-        <tbody id="izu-bus2-tbody">
-          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal 29分)</span></td></tr>
-          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
-          <tr data-time="12:05"><td>12:05</td><td>12:30</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="13:30"><td>13:30</td><td>13:55</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
-          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(季节运行)</span></td></tr>
-        </tbody>
-      </table>
-      <div style="text-align:center; margin-top:14px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-izu-bus2')">关闭</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 弹窗 4：离线探测说明 -->
-  <div class="modal-overlay" id="modal-offline-info" onclick="closeModal('modal-offline-info')">
-    <div class="modal-sheet" onclick="event.stopPropagation()">
-      <div class="modal-handle"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.92rem; font-weight:900;">🌐 本地离线就绪状态</h4>
-        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-offline-info')">✕</span>
-      </div>
-      <div style="font-size:0.75rem; color:var(--text-sub); line-height:1.6;">
-        <p style="margin-bottom:8px;">• <strong>当前状态</strong>：<span id="modal-offline-status-tag" style="color:var(--success); font-weight:900;">已就绪</span></p>
-        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼心愿库、逐日行程及待办事项均采用<strong>纯单文件内联架构</strong>。</p>
-        <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
-      </div>
-      <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-offline-info')">确定</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 弹窗 5：迪士尼心愿单与全量项目库管理 -->
-  <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
-    <div class="modal-sheet" id="sheet-disney-content" onclick="event.stopPropagation()">
-      <div class="modal-handle" id="handle-disney"></div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h4 style="font-size:0.95rem; font-weight:900;">🏰 东京迪士尼心愿单与项目库</h4>
-        <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
-      </div>
-
-      <div class="disney-modal-tabs">
-        <button class="disney-modal-tab-btn active" id="modal-tab-land" onclick="setDisneyParkView('land')">🏰 陆地 Disneyland</button>
-        <button class="disney-modal-tab-btn" id="modal-tab-sea" onclick="setDisneyParkView('sea')">🌋 海洋 DisneySea</button>
-      </div>
-
-      <div class="disney-section-title">
-        <span>⭐ 我的想玩心愿清单</span>
-        <span style="font-size:0.68rem; color:var(--text-muted);" id="modal-wish-count">已选 0 项</span>
-      </div>
-      <div id="modal-wishlist-container"></div>
-
-      <div style="margin:14px 0 8px; text-align:center;">
-        <button class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 0; font-size:0.75rem;" onclick="toggleDisneyAllDrawer()">
-          <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开全量项目库)</span>
-        </button>
-      </div>
-
-      <div id="disney-all-drawer" style="display:none; margin-top:8px;">
-        <div class="disney-section-title">
-          <span>📚 园区全部项目 (官方热门排位)</span>
-        </div>
-        <div id="modal-all-container"></div>
-      </div>
-
-      <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:9px 26px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-disney')">完成设置</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    function showToast(msg) {
-      const toast = document.getElementById('mini-toast');
-      if (msg) toast.innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2200);
-    }
-
-    const paneScrollPositions = [0, 0, 0];
-    let currentPaneIndex = 1;
-
-    const track = document.getElementById('viewport-track');
-    const dockSlider = document.getElementById('dock-slider');
-    const btnTransit = document.getElementById('dock-btn-transit');
-    const btnItinerary = document.getElementById('dock-btn-itinerary');
-    const btnTodo = document.getElementById('dock-btn-todo');
-    const paneTransit = document.getElementById('pane-transit');
-    const paneItinerary = document.getElementById('pane-itinerary');
-    const paneTodo = document.getElementById('pane-todo');
-    const scrollTopBtn = document.getElementById('scroll-top-btn');
-
-    function updateScrollTopColor() {
-      if (currentPaneIndex === 1) {
-        scrollTopBtn.style.background = (currentWeatherMode === 'sunny') ? '#d97706' : '#047857';
-      } else {
-        scrollTopBtn.style.background = 'var(--accent)';
-      }
-    }
-
-    function slideToPane(index) {
-      if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
-      paneScrollPositions[currentPaneIndex] = window.pageYOffset || document.documentElement.scrollTop;
-
-      currentPaneIndex = index;
-      track.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
-      track.style.transform = `translate3d(-${index * 33.3333}%, 0, 0)`;
-
-      dockSlider.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1)';
-      dockSlider.style.transform = `translate3d(${index * 100}%, 0, 0)`;
-
-      btnTransit.classList.toggle('active', index === 0);
-      btnItinerary.classList.toggle('active', index === 1);
-      btnTodo.classList.toggle('active', index === 2);
-
-      paneTransit.classList.toggle('pane-dim', index !== 0);
-      paneItinerary.classList.toggle('pane-dim', index !== 1);
-      paneTodo.classList.toggle('pane-dim', index !== 2);
-
-      updateScrollTopColor();
-
-      requestAnimationFrame(() => {
-        window.scrollTo({
-          top: paneScrollPositions[index] || 0,
-          behavior: 'instant'
-        });
-      });
-    }
-
-    // 触摸滑动判定 (仅横向滑动视口，严格忽略地图区域及可点击元素)
-    let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
-    let touchStartTime = 0;
-    const outer = document.getElementById('viewport-outer');
-
-    outer.addEventListener('touchstart', e => {
-      if (e.target.closest('.chips-bar, .map-tabs-bar, .offline-map-container, .metro-map, .metro-node, .todo-stepper-two, button, a')) {
-        ignoreSwipe = true;
-        return;
-      }
-      ignoreSwipe = false;
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      touchStartTime = Date.now();
-      currentDeltaX = 0;
-      isSwiping = false;
-      track.style.transition = 'none';
-      dockSlider.style.transition = 'none';
-    }, { passive: true });
-
-    outer.addEventListener('touchmove', e => {
-      if (ignoreSwipe) return;
-      const diffX = e.touches[0].clientX - startX;
-      const diffY = e.touches[0].clientY - startY;
-      
-      if (!isSwiping && Math.abs(diffX) > Math.abs(diffY) * 1.5 && Math.abs(diffX) > 12) {
-        isSwiping = true;
-      }
-      if (isSwiping) {
-        if (e.cancelable) e.preventDefault();
-        let delta = diffX;
-        if ((currentPaneIndex === 0 && diffX > 0) || (currentPaneIndex === 2 && diffX < 0)) {
-          delta = diffX / (1 + Math.abs(diffX) / 180);
-        }
-        currentDeltaX = delta;
-
-        const basePercent = -currentPaneIndex * 33.3333;
-        const pxToPercent = (delta / window.innerWidth) * 33.3333;
-        track.style.transform = `translate3d(${basePercent + pxToPercent}%, 0, 0)`;
-
-        const sliderBase = currentPaneIndex * 100;
-        const sliderOffset = (-delta / window.innerWidth) * 100;
-        const clampedSlider = Math.max(0, Math.min(200, sliderBase + sliderOffset));
-        dockSlider.style.transform = `translate3d(${clampedSlider}%, 0, 0)`;
-      }
-    }, { passive: false });
-
-    outer.addEventListener('touchend', e => {
-      if (ignoreSwipe) return;
-      if (isSwiping) {
-        const touchDuration = Date.now() - touchStartTime;
-        const velocity = Math.abs(currentDeltaX) / touchDuration;
-
-        if (currentDeltaX < -45 || (velocity > 0.25 && currentDeltaX < -15)) {
-          if (currentPaneIndex < 2) slideToPane(currentPaneIndex + 1);
-          else slideToPane(2);
-        } else if (currentDeltaX > 45 || (velocity > 0.25 && currentDeltaX > 15)) {
-          if (currentPaneIndex > 0) slideToPane(currentPaneIndex - 1);
-          else slideToPane(0);
-        } else {
-          slideToPane(currentPaneIndex);
-        }
-      }
-    }, { passive: true });
-
-    // 回顶快捷按钮：滑动即现
-    window.addEventListener('scroll', () => {
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollY > 20) {
-        scrollTopBtn.classList.add('visible');
-      } else {
-        scrollTopBtn.classList.remove('visible');
-      }
-    }, { passive: true });
-
-    function openModal(id) { 
-      const overlay = document.getElementById(id);
-      overlay.style.display = 'flex';
-      initSheetDrag(id);
-    }
-    function closeModal(id) { 
-      document.getElementById(id).style.display = 'none'; 
-    }
-
-    // 弹窗手势隔离：仅允许在顶部拉手（modal-handle）区域下拉关闭，彻底防止选项目向上/向下滑动时误关弹窗
-    function initSheetDrag(modalId) {
-      const sheet = document.querySelector(`#${modalId} .modal-sheet`);
-      const handle = document.querySelector(`#${modalId} .modal-handle`);
-      if (!sheet || sheet._dragInited) return;
-      sheet._dragInited = true;
-
-      const dragTarget = handle || sheet;
-      let sheetStartY = 0;
-      let isDraggingHandle = false;
-
-      dragTarget.addEventListener('touchstart', e => {
-        sheetStartY = e.touches[0].clientY;
-        isDraggingHandle = true;
-      }, { passive: true });
-
-      dragTarget.addEventListener('touchmove', e => {
-        if (!isDraggingHandle) return;
-        const diffY = e.touches[0].clientY - sheetStartY;
-        if (diffY > 0 && sheet.scrollTop <= 0) {
-          sheet.style.transform = `translateY(${diffY}px)`;
-        }
-      }, { passive: true });
-
-      dragTarget.addEventListener('touchend', e => {
-        if (!isDraggingHandle) return;
-        isDraggingHandle = false;
-        const diffY = e.changedTouches[0].clientY - sheetStartY;
-        sheet.style.transition = 'transform 0.2s';
-        if (diffY > 90) {
-          closeModal(modalId);
-          sheet.style.transform = 'none';
-        } else {
-          sheet.style.transform = 'none';
-        }
-      }, { passive: true });
-    }
-
-    // 次级地图：精准计算并平滑滚动到屏幕正中 (50% 居中)
-    function jumpToNode(nodeId, dayId) {
-      if (currentPaneIndex !== 1) slideToPane(1);
-
-      requestAnimationFrame(() => {
-        const nodeEl = document.getElementById(nodeId);
-        if (nodeEl) {
-          const rect = nodeEl.getBoundingClientRect();
-          const nodeTop = rect.top + window.pageYOffset;
-          const nodeHeight = rect.height;
-          const targetY = nodeTop - (window.innerHeight / 2) + (nodeHeight / 2);
-
-          window.scrollTo({
-            top: Math.max(0, targetY),
-            behavior: 'smooth'
-          });
-
-          nodeEl.classList.add('node-flash');
-          setTimeout(() => {
-            nodeEl.classList.remove('node-flash');
-          }, 1200);
-        } else {
-          smoothOpenDay(dayId);
-        }
-      });
-
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('chip-' + dayId);
-      if (chip) chip.classList.add('active');
-    }
-
-    // 全程概览：平滑滚动至整日卡片顶部
-    function smoothOpenDay(id) {
-      if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
-      const t = document.getElementById(id);
-      if (t) {
-        requestAnimationFrame(() => {
-          const iphoneDynamicIslandOffset = 70;
-          const cardTop = t.getBoundingClientRect().top + window.pageYOffset - iphoneDynamicIslandOffset;
-          window.scrollTo({
-            top: Math.max(0, cardTop),
-            behavior: 'smooth'
-          });
-
-          t.classList.add('focus-halo');
-          setTimeout(() => t.classList.remove('focus-halo'), 1000);
-        });
-      }
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('chip-' + id);
-      if (chip) chip.classList.add('active');
-    }
-
-    function jumpToDayCard(id) {
-      if (currentPaneIndex !== 1) slideToPane(1);
-      setTimeout(() => smoothOpenDay(id), 40);
-    }
-
-    function copyCode(str) {
-      navigator.clipboard.writeText(str).then(() => {
-        alert("已成功复制確認コード: " + str + "\n打开官网后可直接长按粘贴！");
-      }).catch(() => {
-        prompt("请手动复制確認コード：", str);
-      });
-    }
-
-    // 唤醒迪士尼官方 App
-    function openDisneyApp() {
-      showToast("正在唤醒东京迪士尼度假区 App 🏰");
-      const appUrl = "tokyodisneyresort://";
-      const fallbackUrl = "https://www.tokyodisneyresort.jp/tc/tdr/app.html";
-      const start = Date.now();
-      window.location.href = appUrl;
-      setTimeout(() => {
-        if (Date.now() - start < 1500) {
-          window.open(fallbackUrl, "_blank");
-        }
-      }, 1000);
-    }
-
-    // 0 延迟原生触控绑定与穿透保护
-    function attachFastMetroClick(elId, callback) {
-      const el = document.getElementById(elId);
-      if (!el) return;
-      let startX = 0, startY = 0;
-      el.addEventListener('touchstart', e => {
-        e.stopPropagation();
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-      }, { passive: false });
-      el.addEventListener('touchend', e => {
-        e.stopPropagation();
-        e.preventDefault();
-        const diffX = Math.abs(e.changedTouches[0].clientX - startX);
-        const diffY = Math.abs(e.changedTouches[0].clientY - startY);
-        if (diffX < 8 && diffY < 8) {
-          callback();
-        }
-      }, { passive: false });
-      el.addEventListener('click', e => {
-        e.stopPropagation();
-        callback();
-      });
-    }
-
-    function initAllMetroNodes() {
-      // 晴天 1: 全程概览
-      attachFastMetroClick('node-sun-all-nrt', () => jumpToDayCard('d1'));
-      attachFastMetroClick('node-sun-all-home', () => jumpToDayCard('d1'));
-      attachFastMetroClick('node-sun-all-ana', () => jumpToDayCard('d3'));
-      attachFastMetroClick('node-sun-all-disney', () => jumpToDayCard('d4'));
-      attachFastMetroClick('node-sun-all-hakone', () => jumpToDayCard('d5'));
-      attachFastMetroClick('node-sun-all-atami', () => jumpToDayCard('d5'));
-      attachFastMetroClick('node-sun-all-izu', () => jumpToDayCard('d6'));
-      attachFastMetroClick('node-sun-all-hnd', () => jumpToDayCard('d7'));
-
-      // 晴天 2: ANA·迪士尼
-      attachFastMetroClick('node-sun-m-home', () => jumpToNode('tl-d1-4', 'd1'));
-      attachFastMetroClick('node-sun-m-ana', () => jumpToNode('tl-d3-1', 'd3'));
-      attachFastMetroClick('node-sun-m-disney', () => jumpToNode('tl-d4-2', 'd4'));
-
-      // 晴天 3: 箱根·热海·伊豆
-      attachFastMetroClick('node-sun-r-odawara', () => jumpToNode('tl-d5-2', 'd5'));
-      attachFastMetroClick('node-sun-r-yumoto', () => jumpToNode('tl-d5-3', 'd5'));
-      attachFastMetroClick('node-sun-r-motohakone', () => jumpToNode('tl-d5-4', 'd5'));
-      attachFastMetroClick('node-sun-r-torii', () => jumpToNode('tl-d5-5', 'd5'));
-      attachFastMetroClick('node-sun-r-narukawa', () => jumpToNode('tl-d5-6', 'd5'));
-      attachFastMetroClick('node-sun-r-ship', () => jumpToNode('tl-d5-7', 'd5'));
-      attachFastMetroClick('node-sun-r-owakudani', () => jumpToNode('tl-d5-8', 'd5'));
-      attachFastMetroClick('node-sun-r-sculpture', () => jumpToNode('tl-d5-9', 'd5'));
-      attachFastMetroClick('node-sun-r-atami', () => jumpToNode('tl-d5-10', 'd5'));
-      attachFastMetroClick('node-sun-r-omuro', () => jumpToNode('tl-d6-3', 'd6'));
-      attachFastMetroClick('node-sun-r-cactus', () => jumpToNode('tl-d6-5', 'd6'));
-      attachFastMetroClick('node-sun-r-jogasaki', () => jumpToNode('tl-d6-7', 'd6'));
-
-      // 雨天 1: 全程概览
-      attachFastMetroClick('node-rain-all-nrt', () => jumpToDayCard('d1'));
-      attachFastMetroClick('node-rain-all-home', () => jumpToDayCard('d1'));
-      attachFastMetroClick('node-rain-all-ana', () => jumpToDayCard('d3'));
-      attachFastMetroClick('node-rain-all-disney', () => jumpToDayCard('d4'));
-      attachFastMetroClick('node-rain-all-hakone', () => jumpToDayCard('d5'));
-      attachFastMetroClick('node-rain-all-walk', () => jumpToDayCard('d6'));
-      attachFastMetroClick('node-rain-all-hnd', () => jumpToDayCard('d7'));
-
-      // 雨天 2: ANA·迪士尼
-      attachFastMetroClick('node-rain-m-home', () => jumpToNode('tl-d1-4', 'd1'));
-      attachFastMetroClick('node-rain-m-ana', () => jumpToNode('tl-d3-1', 'd3'));
-      attachFastMetroClick('node-rain-m-disney', () => jumpToNode('tl-d4-2', 'd4'));
-
-      // 雨天 3: 箱根·WALK
-      attachFastMetroClick('node-rain-hw-odawara', () => jumpToNode('tl-d5-r2', 'd5'));
-      attachFastMetroClick('node-rain-hw-yumoto', () => jumpToNode('tl-d5-r3', 'd5'));
-      attachFastMetroClick('node-rain-hw-motohakone', () => jumpToNode('tl-d5-r4', 'd5'));
-      attachFastMetroClick('node-rain-hw-torii', () => jumpToNode('tl-d5-r5', 'd5'));
-      attachFastMetroClick('node-rain-hw-narukawa', () => jumpToNode('tl-d5-r6', 'd5'));
-      attachFastMetroClick('node-rain-hw-ship', () => jumpToNode('tl-d5-r7', 'd5'));
-      attachFastMetroClick('node-rain-hw-owakudani', () => jumpToNode('tl-d5-r9', 'd5'));
-      attachFastMetroClick('node-rain-hw-sculpture', () => jumpToNode('tl-d5-r10', 'd5'));
-      attachFastMetroClick('node-rain-hw-home', () => jumpToNode('tl-d1-4', 'd1'));
-      attachFastMetroClick('node-rain-hw-nakameguro', () => jumpToNode('tl-d6-r1', 'd6'));
-      attachFastMetroClick('node-rain-hw-daikanyama', () => jumpToNode('tl-d6-r9', 'd6'));
-      attachFastMetroClick('node-rain-hw-shibuya', () => jumpToNode('tl-d6-12', 'd6'));
-      attachFastMetroClick('node-rain-hw-park', () => jumpToNode('tl-d6-13', 'd6'));
-      attachFastMetroClick('node-rain-hw-hnd', () => jumpToNode('tl-d6-14', 'd6'));
-    }
-
-    let currentWeatherMode = 'sunny';
-
-    function showSketchMap(type) {
-      document.querySelectorAll('.map-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('svg.metro-map').forEach(svg => svg.style.display = 'none');
-
-      const tabBtn = document.getElementById('tab-map-' + type);
-      if (tabBtn) tabBtn.classList.add('active');
-
-      const targetSvg = document.getElementById('map-svg-' + type);
-      if (targetSvg) targetSvg.style.display = 'block';
-    }
-
-    function updateMapTabsForWeather(mode) {
-      const container = document.getElementById('map-tabs-container');
-
-      if (mode === 'sunny') {
-        container.innerHTML = `
-          <button class="map-tab-btn active" id="tab-map-sun-all" onclick="showSketchMap('sun-all')">🌐 全程概览</button>
-          <button class="map-tab-btn" id="tab-map-sun-metro" onclick="showSketchMap('sun-metro')">🗼 ANA·迪士尼</button>
-          <button class="map-tab-btn" id="tab-map-sun-resort" onclick="showSketchMap('sun-resort')">⛰️ 箱根·热海·伊豆</button>
-        `;
-        showSketchMap('sun-all');
-      } else {
-        container.innerHTML = `
-          <button class="map-tab-btn active" id="tab-map-rain-all" onclick="showSketchMap('rain-all')">🌐 全程概览</button>
-          <button class="map-tab-btn" id="tab-map-rain-metro" onclick="showSketchMap('rain-metro')">🗼 ANA·迪士尼</button>
-          <button class="map-tab-btn" id="tab-map-rain-hw" onclick="showSketchMap('rain-hw')">⛰️ 箱根·WALK</button>
-        `;
-        showSketchMap('rain-all');
-      }
-    }
-
-    /* 方案 A 迪士尼心愿单与全量项目库管理数据逻辑 (全量补充) */
-    const allDisneyData = {
-      land: [
-        { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l2', name: '杯面欢乐之旅', wait: '65-95分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l3', name: '太空山', wait: '50-80分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l4', name: '巨雷山', wait: '45-75分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l5', name: '飞溅山', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 'l6', name: '幽灵公馆 (万圣特别版)', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l7', name: '小熊维尼猎蜜记', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 'l8', name: '怪兽电力公司：迷藏巡游车', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l9', name: '星际旅行：冒险续航', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l10', name: '小飞侠天空之旅', wait: '30-45分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l11', name: '加勒比海盗', wait: '15-25分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l12', name: '巴斯光年星际历险', wait: '25-40分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l13', name: '丛林巡航：野生动物探险', wait: '15-30分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l14', name: '小小世界', wait: '10-20分', star: '★★☆☆☆', dpa: false, defaultWish: false }
-      ],
-      sea: [
-        { id: 's1', name: '安娜与艾莎的冰雪之旅 (新园区)', wait: '120-160分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's2', name: '长发公主微菌奇缘 (新园区)', wait: '90-130分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's3', name: '彼得潘梦幻岛历险记 (新园区)', wait: '85-120分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's4', name: '翱翔：梦幻奇航', wait: '100-140分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's5', name: '玩具总动员疯狂游戏屋', wait: '70-100分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 's6', name: '惊魂古塔', wait: '60-90分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's7', name: '地心探险之旅', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's8', name: '印第安纳琼斯冒险：水晶骷髅头魔宫', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's9', name: '忿怒双神 (360度过山车)', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's10', name: '海底两万哩', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 's11', name: '海底巡游艇：尼莫和好友的海洋世界', wait: '25-45分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 's12', name: '美人鱼礁湖剧场', wait: '15-30分', star: '★★★☆☆', dpa: false, defaultWish: false }
-      ]
-    };
-
-    let currentDisneyParkView = 'land';
-    let userDisneyWishes = {};
-
-    function initDisneyWishes() {
-      try {
-        const stored = localStorage.getItem('disney_wishes_v1');
-        if (stored) {
-          userDisneyWishes = JSON.parse(stored);
-        } else {
-          ['land', 'sea'].forEach(park => {
-            allDisneyData[park].forEach(item => {
-              if (item.defaultWish) userDisneyWishes[item.id] = true;
-            });
-          });
-        }
-      } catch (e) {
-        userDisneyWishes = { l1: true, l2: true, l3: true, l4: true, l6: true, s1: true, s2: true, s3: true, s4: true, s6: true, s7: true };
-      }
-      updateDisneySummaryPill();
-    }
-
-    function toggleWishItem(id) {
-      if (userDisneyWishes[id]) {
-        delete userDisneyWishes[id];
-      } else {
-        userDisneyWishes[id] = true;
-      }
-      try { localStorage.setItem('disney_wishes_v1', JSON.stringify(userDisneyWishes)); } catch (e) {}
-      renderDisneyModalView();
-      updateDisneySummaryPill();
-    }
-
-    function updateDisneySummaryPill() {
-      const count = Object.keys(userDisneyWishes).length;
-      const el = document.getElementById('disney-summary-pill-text');
-      if (el) el.innerText = `查看想玩清单 (已选 ${count} 项) ｜ 管理全量项目库 ↗`;
-    }
-
-    function setDisneyParkView(park) {
-      currentDisneyParkView = park;
-      document.getElementById('modal-tab-land').classList.toggle('active', park === 'land');
-      document.getElementById('modal-tab-sea').classList.toggle('active', park === 'sea');
-      renderDisneyModalView();
-    }
-
-    let isDisneyDrawerOpen = false;
-    function toggleDisneyAllDrawer() {
-      isDisneyDrawerOpen = !isDisneyDrawerOpen;
-      const drawer = document.getElementById('disney-all-drawer');
-      const txt = document.getElementById('disney-drawer-btn-txt');
-      if (isDisneyDrawerOpen) {
-        drawer.style.display = 'block';
-        txt.innerText = '收起全量项目库';
-      } else {
-        drawer.style.display = 'none';
-        txt.innerText = '+ 添加更多游玩项目 (展开全量项目库)';
-      }
-    }
-
-    function renderDisneyModalView() {
-      const wishContainer = document.getElementById('modal-wishlist-container');
-      const allContainer = document.getElementById('modal-all-container');
-      const countLabel = document.getElementById('modal-wish-count');
-      const parkData = allDisneyData[currentDisneyParkView];
-
-      const wishes = parkData.filter(i => userDisneyWishes[i.id]);
-      countLabel.innerText = `本园已选 ${wishes.length} 项`;
-
-      if (wishes.length === 0) {
-        wishContainer.innerHTML = `<div style="text-align:center; padding:16px 0; font-size:0.75rem; color:var(--text-muted);">本园区暂无勾选项，请点击下方展开项目库添加！</div>`;
-      } else {
-        wishContainer.innerHTML = wishes.map(item => `
-          <div class="disney-item-card">
-            <div class="disney-item-meta">
-              <h5>${item.name}</h5>
-              <div class="disney-item-tags">
-                <span class="tag-star">${item.star}</span>
-                <span class="tag-wait">预估排队: ${item.wait}</span>
-                ${item.dpa ? `<span class="tag-dpa">DPA</span>` : ''}
-              </div>
-            </div>
-            <button class="btn-wish-toggle active" onclick="toggleWishItem('${item.id}')">✓ 已在心愿</button>
-          </div>
-        `).join('');
-      }
-
-      allContainer.innerHTML = parkData.map(item => {
-        const isSelected = !!userDisneyWishes[item.id];
-        return `
-          <div class="disney-item-card">
-            <div class="disney-item-meta">
-              <h5>${item.name}</h5>
-              <div class="disney-item-tags">
-                <span class="tag-star">${item.star}</span>
-                <span class="tag-wait">排队: ${item.wait}</span>
-                ${item.dpa ? `<span class="tag-dpa">支持DPA</span>` : ''}
-              </div>
-            </div>
-            <button class="btn-wish-toggle ${isSelected ? 'active' : ''}" onclick="toggleWishItem('${item.id}')">
-              ${isSelected ? '✓ 移除' : '+ 想玩'}
-            </button>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function openDisneyModal() {
-      renderDisneyModalView();
-      openModal('modal-disney');
-    }
-
-    // 待办事项
-    const allTodoItems = [
-      { key: 'pass', name: '护照' },
-      { key: 'idcard', name: '身份证' },
-      { key: 'disney', name: '东京迪士尼门票' },
-      { key: 'vjw', name: 'VJW填报' },
-      { key: 'sim_jp', name: '日本 7 日高速流量卡 (1张)' },
-      { key: 'sim_hk', name: '香港 1 日流量卡 (2张)' },
-      { key: 'pbank', name: '充电宝' },
-      { key: 'charger', name: '充电器（猪猪日本充电器）' },
-      { key: 'gr3x', name: '理光GR 3X HDF相机' },
-      { key: 'llblade', name: 'LOVELIVE应援棒' },
-      { key: 'umbrella', name: '雨伞' },
-      { key: 'sunglass', name: '墨镜' },
-      { key: 'upillow', name: 'U型枕' },
-      { key: 'perfume', name: '香水' },
-      { key: 'homekey', name: '家门钥匙放门口' }
-    ];
-
-    function renderTodoList() {
-      const container = document.getElementById('todo-list-container');
-      if (!container) return;
-      container.innerHTML = allTodoItems.map(item => `
-        <div class="todo-item" id="todo-item-${item.key}">
-          <span class="todo-name">${item.name}</span>
-          <div class="todo-stepper-two">
-            <button class="todo-step-btn" id="${item.key}-0" onclick="setTodo('${item.key}', 0)">⚪ 未完成</button>
-            <button class="todo-step-btn" id="${item.key}-1" onclick="setTodo('${item.key}', 1)">🟢 已完成</button>
-          </div>
-        </div>
-      `).join('');
-    }
+    /* 模块沙盒独立保护执行 */
+    const allTodoKeys = ['pass','idcard','disney','vjw','sim_jp','sim_hk','pbank','charger','gr3x','llblade','umbrella','sunglass','upillow','perfume','homekey'];
 
     function setTodo(key, val) {
       try { localStorage.setItem('todo_' + key, val); } catch (e) {}
@@ -2615,176 +1901,62 @@
     function toggleTodoFilter() {
       isFilterOnlyIncomplete = !isFilterOnlyIncomplete;
       const btn = document.getElementById('todo-filter-btn');
-      btn.classList.toggle('active', isFilterOnlyIncomplete);
-      btn.innerText = isFilterOnlyIncomplete ? '显示全部' : '仅看未完成';
-      refreshTodoUI();
-    }
-
-    function fireConfetti() {
-      const box = document.getElementById('confetti-box');
-      box.innerHTML = '';
-      box.style.display = 'block';
-      const colors = ['#2997ff', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
-      for (let i = 0; i < 45; i++) {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDelay = (Math.random() * 0.8) + 's';
-        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-        box.appendChild(piece);
+      if (btn) {
+        btn.classList.toggle('active', isFilterOnlyIncomplete);
+        btn.innerText = isFilterOnlyIncomplete ? '显示全部' : '仅看未完成';
       }
-      if (navigator.vibrate) navigator.vibrate([15, 30, 15, 30, 20]);
-      setTimeout(() => { box.style.display = 'none'; }, 3500);
+      refreshTodoUI();
     }
 
     function refreshTodoUI() {
       try {
         let completedCount = 0;
-        allTodoItems.forEach(item => {
-          const k = item.key;
+        allTodoKeys.forEach(k => {
           const val = Number(localStorage.getItem('todo_' + k) || 0);
           const container = document.getElementById('todo-item-' + k);
-          if (container) container.classList.remove('status-done');
-
           const btn0 = document.getElementById(`${k}-0`);
           const btn1 = document.getElementById(`${k}-1`);
-          if (btn0 && btn1) {
-            btn0.classList.toggle('active', val === 0);
-            btn1.classList.toggle('active', val === 1);
-            btn1.classList.toggle('done', val === 1);
-          }
-
           const isDone = (val === 1);
-          if (isDone) {
-            completedCount++;
-            if (container) container.classList.add('status-done');
+
+          if (btn0 && btn1) {
+            btn0.classList.toggle('active', !isDone);
+            btn1.classList.toggle('active', isDone);
+            btn1.classList.toggle('done', isDone);
           }
 
           if (container) {
+            container.classList.toggle('status-done', isDone);
             container.classList.toggle('filtered-out', isFilterOnlyIncomplete && isDone);
           }
+
+          if (isDone) completedCount++;
         });
 
         const ringCircle = document.getElementById('todo-ring-circle');
         const countLabel = document.getElementById('todo-count-label');
-        countLabel.innerText = `已就绪 ${completedCount} / 15`;
-        const circumference = 2 * Math.PI * 14;
-        const offset = circumference - (completedCount / 15) * circumference;
-        ringCircle.style.strokeDashoffset = offset;
-        
-        if (completedCount === 15) {
-          if (!ringCircle.classList.contains('complete')) {
-            fireConfetti();
-          }
-          ringCircle.classList.add('complete');
-        } else {
-          ringCircle.classList.remove('complete');
+        if (countLabel) countLabel.innerText = `已就绪 ${completedCount} / 15`;
+        if (ringCircle) {
+          const circumference = 2 * Math.PI * 14;
+          const offset = circumference - (completedCount / 15) * circumference;
+          ringCircle.style.strokeDashoffset = offset;
+          ringCircle.classList.toggle('complete', completedCount === 15);
         }
-      } catch (e) {}
-    }
-
-    function highlightNextBus(tbodyId, modalSheetId, targetDateStr) {
-      try {
-        const tbody = document.getElementById(tbodyId);
-        if (!tbody) return;
-        const rows = tbody.querySelectorAll('tr[data-time]');
-        rows.forEach(r => {
-          r.classList.remove('bus-next-row');
-          const badge = r.querySelector('.bus-countdown-badge');
-          if (badge) badge.remove();
-        });
-
-        const now = new Date();
-        const jstDateStr = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', month: '2-digit', day: '2-digit', year: 'numeric' }).format(now);
-        const [m, d, y] = jstDateStr.split('/').map(Number);
-        const curDateFormatted = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-
-        if (targetDateStr && curDateFormatted !== targetDateStr) {
-          return;
-        }
-
-        const jstStr = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', minute: 'numeric', hour12: false }).format(now);
-        const [curH, curM] = jstStr.split(':').map(Number);
-        const curTotalMin = curH * 60 + curM;
-
-        let targetRow = null;
-        for (let r of rows) {
-          const tStr = r.getAttribute('data-time');
-          const [h, m] = tStr.split(':').map(Number);
-          const busMin = h * 60 + m;
-          if (busMin >= curTotalMin) {
-            r.classList.add('bus-next-row');
-            targetRow = r;
-            const diffMin = busMin - curTotalMin;
-            
-            const badge = document.createElement('div');
-            badge.className = 'bus-countdown-badge';
-            badge.style.fontSize = '0.66rem';
-            badge.style.fontWeight = '900';
-            badge.style.marginTop = '4px';
-            badge.innerText = `⏱️ 离发车还剩 ${diffMin} 分钟`;
-            r.querySelector('td')?.appendChild(badge);
-            break;
-          }
-        }
-
-        if (targetRow && modalSheetId) {
-          requestAnimationFrame(() => {
-            const sheet = document.getElementById(modalSheetId);
-            if (sheet) {
-              const offsetTop = targetRow.offsetTop - 110;
-              sheet.scrollTo({ top: Math.max(0, offsetTop), behavior: 'smooth' });
-            }
-          });
-        }
-      } catch (e) {}
-    }
-
-    function openAnaBusModal() {
-      openModal('modal-ana-bus');
-      highlightNextBus('ana-bus-tbody', 'sheet-ana-bus', '2026-10-02');
-    }
-    function openIzuBusModal(idx) {
-      openModal(`modal-izu-bus${idx}`);
-      highlightNextBus(`izu-bus${idx}-tbody`, `sheet-izu-bus${idx}`, '2026-10-05');
-    }
-
-    let isAppOfflineReady = false;
-    function initOfflineDetector() {
-      setTimeout(() => {
-        isAppOfflineReady = true;
-        for (let i = 1; i <= 3; i++) {
-          const dot = document.getElementById(`offline-dot-${i}`);
-          const txt = document.getElementById(`offline-text-${i}`);
-          if (dot) dot.classList.add('ready');
-          if (txt) {
-            txt.innerText = "本地离线就绪";
-            txt.style.color = "var(--success)";
-          }
-        }
-      }, 350);
-    }
-
-    function checkOfflineStatus() {
-      const tag = document.getElementById('modal-offline-status-tag');
-      if (tag) {
-        tag.innerText = isAppOfflineReady ? "已就绪 (内联单文件完全离线可用)" : "离线探测中...";
-        tag.style.color = isAppOfflineReady ? "var(--success)" : "#94a3b8";
+      } catch (e) {
+        console.error("Todo error:", e);
       }
-      openModal('modal-offline-info');
     }
 
+    /* 安全时间戳毫秒数组 (防 NaN 崩溃) */
     const milestoneEvents = [
-      { name: "广州南乘车启程 🚄", time: new Date("2026-09-30T10:28:00+08:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "10:28", desc: "香港西九龙一地两检" },
-      { name: "香港快运航班起飞 🛫", time: new Date("2026-09-30T15:10:00+08:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "15:10", desc: "香港 T2 ➔ 成田 T2" },
-      { name: "成田 T2 落地 🛬", time: new Date("2026-09-30T20:40:00+09:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "20:40", desc: "提取行李直达成田中" },
-      { name: "ANA 机体见学报到 ✈️", time: new Date("2026-10-02T14:15:00+09:00").getTime(), dayId: "d3", dateText: "10.02", timeText: "14:15", desc: "新整备场大巴直达机库" },
-      { name: "东京迪士尼开园 🏰", time: new Date("2026-10-03T08:30:00+09:00").getTime(), dayId: "d4", dateText: "10.03", timeText: "08:30", desc: "万圣节特档抢刷 DPA" },
-      { name: "箱根顺时针巡游 🚠", time: new Date("2026-10-04T08:00:00+09:00").getTime(), dayId: "d5", dateText: "10.04", timeText: "08:00", desc: "海贼船 · 宿热海温泉" },
-      { name: "伊豆大室山 / WALK 🌋", time: new Date("2026-10-05T08:00:00+09:00").getTime(), dayId: "d6", dateText: "10.05", timeText: "08:00", desc: "缆车登顶 / 都心漫步" },
-      { name: "羽田起飞返港 ✈️", time: new Date("2026-10-06T01:00:00+09:00").getTime(), dayId: "d7", dateText: "10.06", timeText: "01:00", desc: "羽田 T3 启程回国" },
-      { name: "香港西九龙高铁启程 🚄", time: new Date("2026-10-06T07:20:00+08:00").getTime(), dayId: "d7", dateText: "10.06", timeText: "07:20", desc: "平安抵穗结束旅程" }
+      { name: "广州南乘车启程 🚄", time: 1790735280000, dayId: "d1", dateText: "9.30", timeText: "10:28", desc: "香港西九龙一地两检" },
+      { name: "香港快运航班起飞 🛫", time: 1790752200000, dayId: "d1", dateText: "9.30", timeText: "15:10", desc: "香港 T2 ➔ 成田 T2" },
+      { name: "成田 T2 落地 🛬", time: 1790768400000, dayId: "d1", dateText: "9.30", timeText: "20:40", desc: "提取行李直达成田中" },
+      { name: "ANA 机体见学报到 ✈️", time: 1790918100000, dayId: "d3", dateText: "10.02", timeText: "14:15", desc: "新整备场大巴直达机库" },
+      { name: "东京迪士尼开园 🏰", time: 1790983800000, dayId: "d4", dateText: "10.03", timeText: "08:30", desc: "万圣节特档抢刷 DPA" },
+      { name: "箱根顺时针巡游 🚠", time: 1791068400000, dayId: "d5", dateText: "10.04", timeText: "08:00", desc: "海贼船 · 宿热海温泉" },
+      { name: "伊豆大室山 / WALK 🌋", time: 1791154800000, dayId: "d6", dateText: "10.05", timeText: "08:00", desc: "缆车登顶 / 都心漫步" },
+      { name: "羽田起飞返港 ✈️", time: 1791216000000, dayId: "d7", dateText: "10.06", timeText: "01:00", desc: "羽田 T3 启程回国" },
+      { name: "香港西九龙高铁启程 🚄", time: 1791242400000, dayId: "d7", dateText: "10.06", timeText: "07:20", desc: "平安抵穗结束旅程" }
     ];
 
     let isFutureListOpen = false;
@@ -2793,133 +1965,101 @@
       const list = document.getElementById('future-schedule-list');
       const txt = document.getElementById('future-toggle-text');
       const arrow = document.getElementById('future-toggle-arrow');
-      if (isFutureListOpen) {
-        list.classList.add('open');
-        txt.innerText = "收起后续日程列表";
-        arrow.innerText = "▴";
-      } else {
-        list.classList.remove('open');
-        txt.innerText = "展开查看后续倒计时行程";
-        arrow.innerText = "▾";
-      }
+      if (list) list.classList.toggle('open', isFutureListOpen);
+      if (txt) txt.innerText = isFutureListOpen ? "收起后续日程列表" : "展开查看后续倒计时行程";
+      if (arrow) arrow.innerText = isFutureListOpen ? "▴" : "▾";
     }
 
     let currentDayTarget = "d1";
 
-    function updateDayNightMode() {
-      const now = new Date();
-      const jstH = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', hour12: false }).format(now));
-      const isNight = (jstH < 6 || jstH >= 18);
-      document.body.classList.toggle('is-night', isNight);
-    }
-
     function updateTimers() {
-      updateDayNightMode();
-      const now = new Date().getTime();
-      let target = milestoneEvents.find(e => e.time > now);
-      
-      const japanLandTime = new Date("2026-09-30T20:40:00+09:00").getTime();
-      const japanDepartFlightTime = new Date("2026-10-06T01:00:00+09:00").getTime();
-      const tzIndicator = document.getElementById('timer-timezone-indicator');
-      
-      if (now >= japanLandTime && now < japanDepartFlightTime) {
-        if (!tzIndicator.classList.contains('flipped')) {
-          tzIndicator.classList.add('flipped');
-          setTimeout(() => { tzIndicator.innerText = "JST 日本标准时 (UTC+9)"; }, 150);
+      try {
+        const now = Date.now();
+        let target = milestoneEvents.find(e => e.time > now);
+
+        // 截止时间探测
+        const cancelDeadline = 1790776800000;
+        const cancelEl = document.getElementById('hotel-cancel-countdown');
+        if (cancelEl) {
+          const cDiff = cancelDeadline - now;
+          if (cDiff > 0) {
+            const cd = Math.floor(cDiff / 86400000);
+            const ch = Math.floor((cDiff % 86400000) / 3600000);
+            const cm = Math.floor((cDiff % 3600000) / 60000);
+            cancelEl.innerText = `⏱️ 距离免费取消截止还剩：${cd}天 ${ch}小时 ${cm}分钟`;
+          } else {
+            cancelEl.innerText = `⏱️ 免费取消窗口已截止`;
+          }
         }
-      } else {
-        if (tzIndicator.classList.contains('flipped')) {
-          tzIndicator.classList.remove('flipped');
-          setTimeout(() => { tzIndicator.innerText = "CST 中国标准时 (UTC+8)"; }, 150);
+
+        if (target) {
+          currentDayTarget = target.dayId;
+          const nameEl = document.getElementById('timer-event-name');
+          if (nameEl) nameEl.innerText = target.name;
+
+          const diff = Math.max(0, target.time - now);
+          const days = Math.floor(diff / 86400000);
+          const hours = Math.floor((diff % 86400000) / 3600000);
+          const mins = Math.floor((diff % 3600000) / 60000);
+          const secs = Math.floor((diff % 60000) / 1000);
+
+          const dEl = document.getElementById('d');
+          const hEl = document.getElementById('h');
+          const mEl = document.getElementById('m');
+          const sEl = document.getElementById('s');
+
+          if (dEl) dEl.innerText = String(days).padStart(2, '0');
+          if (hEl) hEl.innerText = String(hours).padStart(2, '0');
+          if (mEl) mEl.innerText = String(mins).padStart(2, '0');
+          if (sEl) sEl.innerText = String(secs).padStart(2, '0');
         }
-      }
 
-      const cancelDeadline = new Date("2026-09-30T23:00:00+09:00").getTime();
-      const cancelEl = document.getElementById('hotel-cancel-countdown');
-      if (cancelEl) {
-        const cDiff = cancelDeadline - now;
-        if (cDiff > 0) {
-          const cd = Math.floor(cDiff / (1000 * 60 * 60 * 24));
-          const ch = Math.floor((cDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const cm = Math.floor((cDiff % (1000 * 60 * 60)) / (1000 * 60));
-          cancelEl.innerText = `⏱️ 距离免费取消截止还剩：${cd}天 ${ch}小时 ${cm}分钟`;
-        } else {
-          cancelEl.innerText = `⏱️ 免费取消窗口已截止`;
+        // 渲染后续票根卡片
+        const futureEvents = milestoneEvents.filter(e => e.time > now);
+        const listContainer = document.getElementById('future-schedule-list');
+        if (listContainer) {
+          listContainer.innerHTML = futureEvents.map(fe => {
+            const fDiff = fe.time - now;
+            const fd = Math.floor(fDiff / 86400000);
+            const fh = Math.floor((fDiff % 86400000) / 3600000);
+            return `
+              <div class="milestone-ticket-card" onclick="jumpToDayCard('${fe.dayId}')">
+                <div class="ticket-left">
+                  <span class="ticket-date-badge">${fe.dateText}</span>
+                  <span class="ticket-time-badge">${fe.timeText}</span>
+                </div>
+                <div class="ticket-main">
+                  <div class="ticket-event-name">${fe.name}</div>
+                  <div class="ticket-tag-desc">${fe.desc}</div>
+                </div>
+                <div class="ticket-right-countdown">
+                  <span class="ticket-countdown-val">${fd > 0 ? fd + '天' : ''}${fh}小时后</span>
+                  <span class="ticket-jump-arrow">查看 ↗</span>
+                </div>
+              </div>
+            `;
+          }).join('');
         }
-      }
-
-      if (!target) {
-        document.getElementById('timer-event-name').innerText = "旅途圆满结束！🎉";
-        return;
-      }
-
-      currentDayTarget = target.dayId;
-      document.getElementById('timer-event-name').innerText = target.name;
-
-      const diff = target.time - now;
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-      const dEl = document.getElementById('d');
-      const hEl = document.getElementById('h');
-      const mEl = document.getElementById('m');
-      const sEl = document.getElementById('s');
-
-      dEl.innerText = String(days).padStart(2, '0');
-      hEl.innerText = String(hours).padStart(2, '0');
-      mEl.innerText = String(mins).padStart(2, '0');
-      
-      sEl.innerText = String(secs).padStart(2, '0');
-      sEl.classList.add('num-tick');
-      setTimeout(() => sEl.classList.remove('num-tick'), 150);
-
-      const futureEvents = milestoneEvents.filter(e => e.time > now);
-      const listContainer = document.getElementById('future-schedule-list');
-      if (listContainer) {
-        listContainer.innerHTML = futureEvents.map(fe => {
-          const fDiff = fe.time - now;
-          const fd = Math.floor(fDiff / (1000 * 60 * 60 * 24));
-          const fh = Math.floor((fDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          return `
-            <div class="milestone-ticket-card" onclick="jumpToDayCard('${fe.dayId}')">
-              <div class="ticket-left">
-                <span class="ticket-date-badge">${fe.dateText}</span>
-                <span class="ticket-time-badge">${fe.timeText}</span>
-              </div>
-              <div class="ticket-main">
-                <div class="ticket-event-name">${fe.name}</div>
-                <div class="ticket-tag-desc">${fe.desc}</div>
-              </div>
-              <div class="ticket-right-countdown">
-                <span class="ticket-countdown-val">${fd > 0 ? fd + '天' : ''}${fh}小时后</span>
-                <span class="ticket-jump-arrow">查看 ↗</span>
-              </div>
-            </div>
-          `;
-        }).join('');
+      } catch (e) {
+        console.error("Timer error:", e);
       }
     }
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化
-    updateDayNightMode();
-    renderTour('sunny');
-    renderTodoList();
-    refreshTodoUI();
-    initDisneyWishes();
-    updateTimers();
-    initOfflineDetector();
-    setInterval(updateTimers, 1000);
-
-    // 首屏直接处于 Pane 1 (逐日行程)
-    track.style.transform = 'translate3d(-33.3333%, 0, 0)';
-    dockSlider.style.transform = 'translate3d(100%, 0, 0)';
-    paneTransit.classList.add('pane-dim');
-    paneTodo.classList.add('pane-dim');
-    paneItinerary.classList.remove('pane-dim');
+    // 页面初始化沙盒
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        refreshTodoUI();
+        renderTour('sunny');
+        initDisneyWishes();
+        initOfflineDetector();
+        updateTimers();
+        setInterval(updateTimers, 1000);
+      } catch (e) {
+        console.error("Init error:", e);
+      }
+    });
   </script>
 </body>
 </html>
