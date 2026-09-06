@@ -29,8 +29,8 @@
       --danger-soft: rgba(220, 38, 38, 0.10);
       --success: #10b981;
       --success-soft: rgba(16, 185, 129, 0.12);
-      --island-bg: #090e17;
-      --island-text: #ffffff;
+      --island-bg: #ffffff;
+      --island-text: #0f172a;
       --radius: 22px;
       
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
@@ -65,26 +65,26 @@
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
-    /* 夜间模式样式变量 */
+    /* 方案一：极简现代（苹果钛金白 & 曜石黑）- 纯自动日夜切换 */
     body.is-night,
     body.is-night .top-timer-card {
-      --bg: #0b1120 !important;
-      --text-main: #f8fafc !important;
+      --bg: #000000 !important;
+      --text-main: #f5f5f7 !important;
       --text-sub: #cbd5e1 !important;
-      --glass-bg: rgba(15, 23, 42, 0.92) !important;
-      --glass-card: rgba(30, 41, 59, 0.95) !important;
-      --glass-border: rgba(255, 255, 255, 0.12) !important;
-      --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%) !important;
-      --milestone-border: rgba(56, 189, 248, 0.38) !important;
-      --milestone-text: #ffffff !important;
-      --milestone-badge: #38bdf8 !important;
+      --glass-bg: rgba(26, 28, 35, 0.92) !important;
+      --glass-card: rgba(32, 35, 45, 0.96) !important;
+      --glass-border: rgba(255, 255, 255, 0.15) !important;
+      --milestone-bg: linear-gradient(140deg, #121214 0%, #1c1c1e 100%) !important;
+      --milestone-border: rgba(255, 255, 255, 0.18) !important;
+      --milestone-text: #f5f5f7 !important;
+      --milestone-badge: #2997ff !important;
       --milestone-box-bg: rgba(255, 255, 255, 0.08) !important;
       --milestone-box-border: rgba(255, 255, 255, 0.15) !important;
-      --milestone-val-text: #f8fafc !important;
+      --milestone-val-text: #ffffff !important;
       --milestone-sub-text: #94a3b8 !important;
-      --milestone-item-bg: rgba(25, 33, 50, 0.90) !important;
-      --island-bg: #1e293b !important;
-      --island-text: #ffffff !important;
+      --milestone-item-bg: rgba(40, 44, 56, 0.90) !important;
+      --island-bg: #1c1c1e !important;
+      --island-text: #f5f5f7 !important;
     }
 
     body.is-night {
@@ -149,7 +149,7 @@
       opacity: 1;
     }
 
-    /* 方案一：流光胶囊灵动岛 (仅在行程板块显示，位于底部导航上方) */
+    /* 悬浮灵动岛胶囊：颜色跟随晴雨方案色，横排且内部每项为上下双行文字 */
     .dynamic-island-pill {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 58px);
@@ -160,7 +160,7 @@
       -webkit-backdrop-filter: blur(25px);
       border: 1.5px solid var(--itin-border);
       border-radius: 30px;
-      padding: 6px 14px;
+      padding: 5px 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.18);
       z-index: 9996;
       display: none;
@@ -183,25 +183,34 @@
     }
     .island-dots-row {
       display: flex;
-      gap: 4px;
+      gap: 3px;
       align-items: center;
       max-width: 0;
       overflow: hidden;
       transition: max-width 0.35s ease;
     }
     .dynamic-island-pill.expanded .island-dots-row {
-      max-width: 260px;
+      max-width: 340px;
     }
     .island-dot-btn {
       background: transparent;
       border: none;
       color: var(--text-sub);
-      font-size: 0.65rem;
+      font-size: 0.58rem;
       font-weight: 800;
-      padding: 3px 7px;
-      border-radius: 12px;
+      padding: 4px 5px;
+      border-radius: 10px;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.15;
       transition: background 0.2s, color 0.2s;
+    }
+    .island-dot-btn span.day-sub {
+      font-size: 0.52rem;
+      font-weight: 600;
+      opacity: 0.8;
     }
     .island-dot-btn.active-step {
       background: var(--itin-main);
@@ -452,9 +461,9 @@
       left: 4px;
       width: calc(33.3333% - 3px);
       height: calc(100% - 8px);
-      background: var(--itin-main);
+      background: var(--accent);
       border-radius: 30px;
-      box-shadow: 0 4px 14px var(--itin-shadow);
+      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.35);
       transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1), background 0.3s;
       z-index: 1;
       pointer-events: none;
@@ -1108,7 +1117,7 @@
     #scroll-top-btn {
       position: fixed;
       left: 18px;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 78px);
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 92px);
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -1140,17 +1149,17 @@
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- 方案一：底部流光胶囊灵动岛 (仅在行程板块显示，点击可展开 7 天快捷跳转) -->
+  <!-- 方案一：底部流光胶囊灵动岛 (仅在行程板块显示，双行排版：上日期下名字) -->
   <div class="dynamic-island-pill" id="dynamic-island-pill" onclick="toggleIslandExpand()">
     <span class="island-status-text" id="island-status-text">📌 9.30 落地</span>
     <div class="island-dots-row" id="island-dots-row">
-      <button class="island-dot-btn" id="island-d1" onclick="jumpToDayCard('d1'); event.stopPropagation();">9.30</button>
-      <button class="island-dot-btn" id="island-d2" onclick="jumpToDayCard('d2'); event.stopPropagation();">10.1</button>
-      <button class="island-dot-btn" id="island-d3" onclick="jumpToDayCard('d3'); event.stopPropagation();">10.2</button>
-      <button class="island-dot-btn" id="island-d4" onclick="jumpToDayCard('d4'); event.stopPropagation();">10.3</button>
-      <button class="island-dot-btn" id="island-d5" onclick="jumpToDayCard('d5'); event.stopPropagation();">10.4</button>
-      <button class="island-dot-btn" id="island-d6" onclick="jumpToDayCard('d6'); event.stopPropagation();">10.5</button>
-      <button class="island-dot-btn" id="island-d7" onclick="jumpToDayCard('d7'); event.stopPropagation();">10.6</button>
+      <button class="island-dot-btn" id="island-d1" onclick="jumpToDayCard('d1'); event.stopPropagation();"><span>9.30</span><span class="day-sub">落地</span></button>
+      <button class="island-dot-btn" id="island-d2" onclick="jumpToDayCard('d2'); event.stopPropagation();"><span>10.1</span><span class="day-sub">瞎逛</span></button>
+      <button class="island-dot-btn" id="island-d3" onclick="jumpToDayCard('d3'); event.stopPropagation();"><span>10.2</span><span class="day-sub">ANA</span></button>
+      <button class="island-dot-btn" id="island-d4" onclick="jumpToDayCard('d4'); event.stopPropagation();"><span>10.3</span><span class="day-sub">迪士尼</span></button>
+      <button class="island-dot-btn" id="island-d5" onclick="jumpToDayCard('d5'); event.stopPropagation();"><span>10.4</span><span class="day-sub">箱根</span></button>
+      <button class="island-dot-btn" id="island-d6" onclick="jumpToDayCard('d6'); event.stopPropagation();"><span>10.5</span><span class="day-sub">伊豆</span></button>
+      <button class="island-dot-btn" id="island-d7" onclick="jumpToDayCard('d7'); event.stopPropagation();"><span>10.6</span><span class="day-sub">回国</span></button>
     </div>
   </div>
 
@@ -1332,7 +1341,7 @@
         <!-- 交通板块底部的牛来！彩蛋 -->
         <div class="niulai-trigger" onclick="triggerNiulai()">牛来！</div>
 
-        <div class="pane-version-badge">v34.0</div>
+        <div class="pane-version-badge">v35.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1361,7 +1370,7 @@
           </div>
         </div>
 
-        <!-- 区域动线与据点总览 (地名已完美修正) -->
+        <!-- 区域动线与据点总览 -->
         <div class="sec-head">
           <span>🗺️ 区域动线与据点总览</span>
         </div>
@@ -1957,7 +1966,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v34.0</div>
+        <div class="pane-version-badge">v35.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1996,7 +2005,7 @@
         <!-- 代办板块底部的牛来！彩蛋 -->
         <div class="niulai-trigger" onclick="triggerNiulai()">牛来！</div>
 
-        <div class="pane-version-badge">v34.0</div>
+        <div class="pane-version-badge">v35.0</div>
       </div>
 
     </div>
@@ -2063,7 +2072,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 2：伊豆大巴时刻表 1 (运行日“仅周末”标红，线路/经由居中) -->
+  <!-- 弹窗 2：伊豆大巴时刻表 1 -->
   <div class="modal-overlay" id="modal-izu-bus1" onclick="closeModal('modal-izu-bus1')">
     <div class="modal-sheet" id="sheet-izu-bus1" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2105,7 +2114,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 3：伊豆大巴时刻表 2 (运行日“仅周末”标红，线路/经由居中) -->
+  <!-- 弹窗 3：伊豆大巴时刻表 2 -->
   <div class="modal-overlay" id="modal-izu-bus2" onclick="closeModal('modal-izu-bus2')">
     <div class="modal-sheet" id="sheet-izu-bus2" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
