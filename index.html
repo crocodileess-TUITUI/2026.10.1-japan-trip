@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+# Create the full HTML single file as requested
+html_content = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -306,7 +307,32 @@
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 板块底部版本号微标 */
+    /* 板块底部彩蛋与版本号微标 */
+    .pane-easter-egg-btn {
+      display: block;
+      margin: 16px auto 4px;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 5px 14px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--text-sub);
+      cursor: pointer;
+      width: fit-content;
+      text-align: center;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+    }
+    @media (prefers-color-scheme: dark) {
+      .pane-easter-egg-btn { background: rgba(255, 255, 255, 0.06); }
+    }
+    .pane-easter-egg-btn:active {
+      transform: scale(0.92);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
     .pane-version-badge {
       text-align: center;
       font-size: 0.65rem;
@@ -314,7 +340,7 @@
       color: var(--text-muted);
       opacity: 0.6;
       letter-spacing: 0.05em;
-      margin: 14px 0 6px;
+      margin: 4px 0 10px;
       user-select: none;
     }
 
@@ -739,7 +765,7 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 迪士尼游玩心计划入口微卡 (取消小字) */
+    /* 迪士尼项目计划入口微卡 (取消小字) */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
@@ -753,7 +779,7 @@
     }
     .disney-wish-header-pill:active { transform: scale(0.98); }
 
-    /* 迪士尼弹窗：上下分层，顶底固定吸附，中间滚动 (修复上滑退出BUG) */
+    /* 迪士尼弹窗：上下分层，顶底吸附，中间滚动 (修复上滑退出BUG) */
     .disney-modal-sheet {
       display: flex;
       flex-direction: column;
@@ -1210,17 +1236,18 @@
           </div>
         </div>
 
-        <!-- 版块底部版本号微标 -->
-        <div class="pane-version-badge">v25.0</div>
+        <!-- 底部彩蛋与版本号 -->
+        <button class="pane-easter-egg-btn" onclick="triggerEasterEgg()">🐂 牛来！</button>
+        <div class="pane-version-badge">v26.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程安排 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨决策控制舱 -->
+        <!-- 晴雨天方案选择卡片 -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
-            <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
+            <div class="toggle-title">10.4 - 10.5 晴雨天方案选择</div>
           </div>
           <div class="toggle-switch-box">
             <button class="t-btn-pill sun-btn active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天方案</button>
@@ -1584,8 +1611,7 @@
               </div>
               <div class="tl-node" id="tl-d1-4">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
-                  <span class="tl-place">回到家中</span>
+                  <span class="tl-place">回家</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
@@ -1598,7 +1624,7 @@
                   <span class="tl-place" style="color:var(--danger); font-weight:900;">酒店退订 ⚠️</span>
                 </div>
                 <div class="tl-desc">
-                  查看 10.5 伊豆天气预报：若下雨立即退订热海 Resorpia；若晴天则保留。<br>
+                  查看 10.5 伊豆天气预报：下雨→退订，晴天→保留。<br>
                   <div id="hotel-cancel-countdown" style="font-size:0.7rem; font-weight:900; color:var(--danger); margin-top:4px;">⏱️ 距离免费取消截止还剩：计算中...</div>
                 </div>
               </div>
@@ -1636,7 +1662,6 @@
               </div>
               <div class="tl-node" id="tl-d2-3">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
                   <span class="tl-place">家周边烤肉店 🥩</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
@@ -1682,7 +1707,6 @@
               </div>
               <div class="tl-node" id="tl-d3-2">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
                   <span class="tl-place">家周边超市 / 家 🍲</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
@@ -1692,7 +1716,7 @@
           </div>
         </div>
 
-        <!-- Day 4 (迪士尼游玩心计划 · 无小字) -->
+        <!-- Day 4 (迪士尼项目计划 · 无小字) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1714,15 +1738,14 @@
               </div>
               <div class="tl-node" id="tl-d4-2">
                 <div class="tl-top">
-                  <span class="tl-time">08:30</span>
                   <span class="tl-place">东京迪士尼乐园</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=Tokyo+Disneyland" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 方案 A：心愿清单弹窗交互胶囊 (无小字备注) -->
+                <!-- 心愿清单弹窗交互胶囊 -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
-                  <span style="font-size:0.86rem; font-weight:900; color:var(--accent);">🎢 迪士尼游玩心计划</span>
+                  <span style="font-size:0.86rem; font-weight:900; color:var(--accent);">🎢 迪士尼项目计划</span>
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
                 </div>
 
@@ -1732,8 +1755,7 @@
               </div>
               <div class="tl-node" id="tl-d4-3">
                 <div class="tl-top">
-                  <span class="tl-time">回家</span>
-                  <span class="tl-place">回到家中</span>
+                  <span class="tl-place">回家</span>
                   <a class="btn-nav-pin" href="https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029" target="_blank">🗺️</a>
                 </div>
                 <div class="tl-desc">避开闭园离场人流高峰，乘电车回家休息。</div>
@@ -1851,8 +1873,8 @@
           </div>
         </div>
 
-        <!-- 版块底部版本号微标 -->
-        <div class="pane-version-badge">v25.0</div>
+        <!-- 底部版本号 -->
+        <div class="pane-version-badge">v26.0</div>
       </div>
 
       <!-- PANE 2: 📌 待办事项 -->
@@ -1888,8 +1910,9 @@
           </div>
         </div>
 
-        <!-- 版块底部版本号微标 -->
-        <div class="pane-version-badge">v25.0</div>
+        <!-- 底部彩蛋与版本号 -->
+        <button class="pane-easter-egg-btn" onclick="triggerEasterEgg()">🐂 牛来！</button>
+        <div class="pane-version-badge">v26.0</div>
       </div>
 
     </div>
@@ -2053,7 +2076,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼游玩心计划 (上下分层 · 顶底吸附 · 修复误退BUG) -->
+  <!-- 弹窗 5：迪士尼项目计划 (上下分层 · 顶底吸附 · 修复误退BUG · 原位不跳动) -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       
@@ -2061,7 +2084,7 @@
       <div class="disney-fixed-top">
         <div class="modal-handle" style="margin-bottom:8px;"></div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼游玩心计划</h4>
+          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼项目计划</h4>
           <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
         </div>
 
@@ -2071,7 +2094,7 @@
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 (上滑绝对不触发关闭) -->
+      <!-- 2. 中间独立平滑滚动区 (上滑绝对不触发退出) -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
         <div class="disney-section-title">
           <span>⭐ 我的想玩心愿清单</span>
@@ -2107,6 +2130,11 @@
       if (msg) toast.innerText = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function triggerEasterEgg() {
+      if (navigator.vibrate) navigator.vibrate([15, 30, 20]);
+      showToast("🐂 牛来！假期万事大吉，牛气冲天！✨");
     }
 
     const paneScrollPositions = [0, 0, 0];
@@ -2243,7 +2271,7 @@
       document.getElementById(id).style.display = 'none'; 
     }
 
-    // 弹窗手势优化 (仅下拉且在非滚动状态下触发关闭，彻底杜绝上滑误关闭)
+    // 弹窗手势 (仅下拉且在非滚动状态下触发关闭，彻底杜绝上滑误关闭)
     function initSheetDrag(modalId) {
       if (modalId === 'modal-disney') return; // 迪士尼弹窗采用内部安全滚动机制
       const sheet = document.querySelector(`#${modalId} .modal-sheet`);
@@ -2490,7 +2518,7 @@
           { id: "tl-d6-6", time: "", place: "仙人掌公园站→巴士→伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "1、大巴间隔时间很长，海洋公园站离城崎海岸最近；<br>2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
           { id: "tl-d6-7", time: "", place: "城崎海岸", nav: "https://maps.google.com/?q=Kadowaki+Suspension+Bridge", desc: "门胁吊桥，海边散步，灯塔可以上去" },
           { id: "tl-d6-8", time: "", place: "城崎海岸站→巴士→伊豆高原站", nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station", desc: "返回伊豆高原站" },
-          { id: "tl-d6-9", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "如果时间早可以接上“WALK”的行程" },
+          { id: "tl-d6-9", time: "", place: "回家", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "如果时间早可以接上“WALK”的行程" },
           { id: "tl-d6-10", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "前往羽田办理托运值机，从容准备启程回国。" }
         ]
       },
@@ -2507,7 +2535,7 @@
           { id: "tl-d5-r8", time: "", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷" },
           { id: "tl-d5-r9", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!" },
           { id: "tl-d5-r10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
-          { id: "tl-d5-r11", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已退订热海酒店，返回横滨家中安睡" }
+          { id: "tl-d5-r11", time: "", place: "回家", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已退订热海酒店，返回横滨家中安睡" }
         ],
         d6_title: "WALK",
         d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田回国",
@@ -2616,7 +2644,7 @@
       renderTour(mode);
     }
 
-    /* 方案 A 迪士尼心愿单与全量项目库管理数据 */
+    /* 方案 A 迪士尼心愿单与全量项目库数据 */
     const allDisneyData = {
       land: [
         { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
@@ -2667,14 +2695,25 @@
       }
     }
 
+    // 修复点击原位不跳动问题 (严格保持 scrollTop)
     function toggleWishItem(id) {
+      const scrollArea = document.getElementById('disney-scroll-area');
+      const prevScrollTop = scrollArea ? scrollArea.scrollTop : 0;
+
       if (userDisneyWishes[id]) {
         delete userDisneyWishes[id];
       } else {
         userDisneyWishes[id] = true;
       }
       try { localStorage.setItem('disney_wishes_v2', JSON.stringify(userDisneyWishes)); } catch (e) {}
+
       renderDisneyModalView();
+
+      if (scrollArea) {
+        requestAnimationFrame(() => {
+          scrollArea.scrollTop = prevScrollTop;
+        });
+      }
     }
 
     function setDisneyParkView(park) {
@@ -3081,7 +3120,7 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行：直接首屏就绪
+    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
@@ -3091,7 +3130,7 @@
     initOfflineDetector();
     setInterval(updateTimers, 1000);
 
-    // 首屏直接处于 Pane 1 (逐日行程)
+    // 首屏静态就绪处于 Pane 1 (逐日行程)
     track.style.transform = 'translate3d(-33.3333%, 0, 0)';
     dockSlider.style.transform = 'translate3d(100%, 0, 0)';
     paneTransit.classList.add('pane-dim');
@@ -3100,3 +3139,10 @@
   </script>
 </body>
 </html>
+"""
+
+output_path = "japan_itinerary_v26.html"
+with open(output_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"File successfully created at {output_path}")
