@@ -71,8 +71,7 @@
     body.is-night .top-timer-card,
     body.is-night .control-deck-card,
     body.is-night .glass-card,
-    body.is-night .offline-map-container,
-    body.is-night .floating-chips-inner {
+    body.is-night .offline-map-container {
       --bg: #05070b !important;
       --glass-bg: rgba(18, 24, 38, 0.94) !important;
       --glass-card: rgba(22, 30, 46, 0.98) !important;
@@ -323,7 +322,7 @@
       user-select: none;
     }
 
-    /* 底部灵动胶囊栏：去掉了两侧箭头，只保留严格固定的左中右三个小框 */
+    /* 底部灵动胶囊栏：删除了外层大胶囊背景框，仅保留三个独立干净的小椭圆 */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
@@ -339,18 +338,16 @@
     .floating-chips-container.hide-dock { transform: translateY(140%); }
     .floating-chips-inner {
       pointer-events: auto;
-      background: var(--glass-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--glass-border);
-      border-radius: 28px;
-      padding: 4px 6px;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.16), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+      background: transparent; /* 彻底移除外层大圆形毛玻璃背景 */
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: none;
+      box-shadow: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      width: 226px; /* 严格固定 3 个小框的整体宽度 */
+      width: 230px;
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
@@ -367,9 +364,9 @@
 
     .f-chip {
       white-space: nowrap;
-      padding: 4px 8px;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.04);
+      padding: 6px 10px;
+      border-radius: 16px;
+      background: var(--glass-bg); /* 赋予每个小方块独立的实体质感 */
       border: 1px solid var(--glass-border);
       color: var(--text-main);
       text-decoration: none;
@@ -379,10 +376,11 @@
       align-items: center;
       line-height: 1.15;
       font-size: 0.58rem;
-      opacity: 0.65;
-      width: 68px; /* 严格固定每个小框宽度 */
+      opacity: 0.85;
+      width: 70px;
       text-align: center;
       flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
     .f-chip.placeholder-chip {
       visibility: hidden;
@@ -398,10 +396,10 @@
       background: var(--itin-main) !important;
       color: #fff !important;
       border-color: var(--itin-main) !important;
-      box-shadow: 0 3px 12px var(--itin-shadow);
+      box-shadow: 0 4px 14px var(--itin-shadow);
       transform: scale(1.06);
       opacity: 1 !important;
-      padding: 5px 6px;
+      padding: 7px 8px;
     }
     .f-chip.active-current .fc-d { font-size: 0.62rem; color: #fff !important; opacity: 0.95; }
     .f-chip.active-current .fc-t { font-size: 0.72rem; font-weight: 900; color: #fff !important; }
@@ -1321,7 +1319,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v7.4</div>
+        <div class="pane-version-badge">v7.5</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1939,7 +1937,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v7.4</div>
+        <div class="pane-version-badge">v7.5</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1974,13 +1972,13 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v7.4</div>
+        <div class="pane-version-badge">v7.5</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 底部灵动胶囊栏：彻底去除左右箭头，仅保留纯净的左中右三个方块 -->
+  <!-- 底部灵动胶囊栏：彻底剥离外层大胶囊背景框，仅剩 3 个独立悬浮的实体小方块 -->
   <div class="floating-chips-container" id="floating-chips-container">
     <div class="floating-chips-inner" id="floating-chips-bar">
       <div class="chips-center-group" id="chips-center-group"></div>
@@ -2297,7 +2295,7 @@
       }
     }, { passive: true });
 
-    /* 悬浮折叠胶囊核心逻辑：仅保留纯净左中右三个方块，无箭头，支持手势滑动切换 */
+    /* 悬浮胶囊栏核心逻辑：仅保留三个独立干净的悬浮方块，支持手势滑动切换 */
     const allDaysMeta = [
       { id: 'd1', d: '9.30', t: '落地' },
       { id: 'd2', d: '10.1', t: '瞎逛' },
@@ -2362,7 +2360,7 @@
       centerGroup.innerHTML = leftHtml + middleHtml + rightHtml;
     }
 
-    // 胶囊栏磁吸左右拨动手势及触觉反馈逻辑
+    // 胶囊栏左右滑动手势及触觉反馈逻辑
     const chipsBarContainer = document.getElementById('floating-chips-bar');
     let chipStartX = 0;
     let chipMovedX = 0;
