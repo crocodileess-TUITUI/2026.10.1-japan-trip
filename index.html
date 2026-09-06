@@ -157,6 +157,79 @@ html_code = r"""<!DOCTYPE html>
       opacity: 1;
     }
 
+    /* 左侧半隐式边缘悬浮球导航 */
+    #left-floating-ball {
+      position: fixed;
+      left: -22px;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: var(--itin-main);
+      color: #fff;
+      border-radius: 0 22px 22px 0;
+      box-shadow: 4px 6px 20px var(--itin-shadow);
+      z-index: 9997;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      opacity: 0.45;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      pointer-events: auto;
+    }
+    #left-floating-ball:hover, #left-floating-ball.expanded {
+      left: 0;
+      opacity: 1;
+      width: 52px;
+      border-radius: 0 26px 26px 0;
+    }
+
+    .quick-jump-drawer {
+      position: fixed;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%) scale(0.9);
+      background: var(--glass-card);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1.5px solid var(--itin-border);
+      border-radius: 16px;
+      padding: 8px 6px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+    .quick-jump-drawer.open {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+      pointer-events: auto;
+    }
+    .quick-jump-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .quick-jump-btn:active, .quick-jump-btn:hover {
+      background: var(--itin-soft);
+      color: var(--itin-main);
+    }
+
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -733,12 +806,13 @@ html_code = r"""<!DOCTYPE html>
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(0, 113, 227, 0.08);
-      border: 1px solid var(--accent-border);
+      background: var(--itin-soft);
+      border: 1px solid var(--itin-border);
       border-radius: 12px;
       padding: 11px 14px;
       margin-top: 10px;
       cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
     }
     .disney-wish-header-pill:active { transform: scale(0.98); }
 
@@ -788,56 +862,60 @@ html_code = r"""<!DOCTYPE html>
       border-radius: 9px; cursor: pointer; color: var(--text-sub); text-align: center; transition: all 0.2s;
     }
     .disney-modal-tab-btn.active {
-      background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(0, 113, 227, 0.35);
+      background: var(--itin-main); color: #fff; box-shadow: 0 2px 8px var(--itin-shadow); 
     }
 
-    .disney-section-title {
-      font-size: 0.78rem;
+    .disney-category-title {
+      font-size: 0.82rem;
       font-weight: 900;
-      color: var(--text-main);
-      margin: 8px 0 6px;
+      color: var(--itin-main);
+      margin: 14px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed var(--glass-border);
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 6px;
     }
-    .disney-item-card {
+    .disney-grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    @media (max-width: 420px) {
+      .disney-grid-container { grid-template-columns: 1fr; }
+    }
+    .disney-card-box {
       background: var(--glass-card);
       border: 1px solid var(--glass-border);
       border-radius: 12px;
-      padding: 9px 12px;
-      margin-bottom: 6px;
+      padding: 10px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
-    .disney-item-meta h5 { font-size: 0.82rem; font-weight: 900; color: var(--text-main); }
-    .disney-item-tags {
+    .disney-card-header {
       display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       gap: 4px;
-      margin-top: 3px;
-      font-size: 0.64rem;
+      margin-bottom: 4px;
+    }
+    .disney-card-name { font-size: 0.80rem; font-weight: 900; color: var(--text-main); line-height: 1.25; }
+    .disney-card-star { font-size: 0.65rem; color: #eab308; white-space: nowrap; }
+    .disney-card-desc { font-size: 0.68rem; color: var(--text-sub); line-height: 1.4; margin-bottom: 8px; }
+    .disney-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.62rem;
       font-weight: 700;
+      border-top: 1px solid var(--glass-border);
+      padding-top: 6px;
+      margin-top: auto;
     }
-    .tag-wait { color: #d97706; background: rgba(217, 119, 6, 0.12); padding: 1px 5px; border-radius: 4px; }
-    .tag-star { color: #eab308; }
-    .tag-dpa { color: #ef4444; background: rgba(239, 68, 68, 0.12); padding: 1px 5px; border-radius: 4px; font-weight: 900; }
-    
-    .btn-wish-toggle {
-      border: none;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-weight: 900;
-      font-size: 0.70rem;
-      padding: 5px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .btn-wish-toggle.active {
-      background: #10b981;
-      color: #fff;
-    }
+    .disney-card-wait { color: #d97706; background: rgba(217, 119, 6, 0.1); padding: 1px 5px; border-radius: 4px; }
+    .disney-card-dpa { color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 1px 5px; border-radius: 4px; font-weight: 900; }
 
     .btn-action-pill {
       display: inline-flex; align-items: center; gap: 4px; background: var(--itin-soft);
@@ -1029,6 +1107,18 @@ html_code = r"""<!DOCTYPE html>
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
+  <!-- 左侧半隐式边缘悬浮球 & 快捷跳转抽屉 -->
+  <div id="left-floating-ball" onclick="toggleQuickJumpDrawer()">📅</div>
+  <div class="quick-jump-drawer" id="quick-jump-drawer">
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d1')">9.30 落地</button>
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d2')">10.1 瞎逛</button>
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d3')">10.2 ANA</button>
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d4')">10.3 迪士尼</button>
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d5')">10.4 箱根</button>
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d6')">10.5 伊豆</button>
+    <button class="quick-jump-btn" onclick="jumpToDayCard('d7')">10.6 回国</button>
+  </div>
+
   <!-- Next Milestone 卡片 -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
@@ -1196,7 +1286,7 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v28.0</div>
+        <div class="pane-version-badge">v30.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1413,7 +1503,7 @@ html_code = r"""<!DOCTYPE html>
 
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
-                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">羽田T3</text>
               </g>
             </svg>
 
@@ -1667,7 +1757,7 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- Day 4 (迪士尼项目计划) -->
+        <!-- Day 4 (迪士尼项目概览) -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1694,10 +1784,10 @@ html_code = r"""<!DOCTYPE html>
                 </div>
                 <div class="tl-desc">开园进场，手机 App 抢刷 Standby Pass 与 DPA。</div>
 
-                <!-- 迪士尼项目计划入口 -->
+                <!-- 迪士尼项目概览入口 -->
                 <div class="disney-wish-header-pill" onclick="openDisneyModal()">
-                  <span style="font-size:0.86rem; font-weight:900; color:var(--accent);">🎢 迪士尼项目计划</span>
-                  <span style="font-size:1.1rem; color:var(--accent);">✦</span>
+                  <span style="font-size:0.86rem; font-weight:900; color:var(--itin-main);">🎢 迪士尼项目概览</span>
+                  <span style="font-size:1.1rem; color:var(--itin-main);">✦</span>
                 </div>
 
                 <div style="margin-top:8px;">
@@ -1825,7 +1915,7 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v28.0</div>
+        <div class="pane-version-badge">v30.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1861,7 +1951,7 @@ html_code = r"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="pane-version-badge">v28.0</div>
+        <div class="pane-version-badge">v30.0</div>
       </div>
 
     </div>
@@ -2016,7 +2106,7 @@ html_code = r"""<!DOCTYPE html>
       </div>
       <div style="font-size:0.75rem; color:var(--text-sub); line-height:1.6;">
         <p style="margin-bottom:8px;">• <strong>当前状态</strong>：<span id="modal-offline-status-tag" style="color:var(--success); font-weight:900;">已就绪</span></p>
-        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼项目计划、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
+        <p style="margin-bottom:8px;">• 本行程单所有 SVG 矢量轨交地图、大巴全量时刻表、迪士尼项目概览、逐日行程及代办事项均采用<strong>纯单文件内联架构</strong>。</p>
         <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
       </div>
       <div style="text-align:center; margin-top:16px;">
@@ -2025,7 +2115,7 @@ html_code = r"""<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼项目计划 -->
+  <!-- 弹窗 5：迪士尼项目概览 -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
     <div class="modal-sheet disney-modal-sheet" id="sheet-disney-body" onclick="event.stopPropagation()">
       
@@ -2033,7 +2123,7 @@ html_code = r"""<!DOCTYPE html>
       <div class="disney-fixed-top">
         <div class="modal-handle" style="margin-bottom:8px;"></div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼项目计划</h4>
+          <h4 style="font-size:0.95rem; font-weight:900;">🎢 迪士尼项目概览</h4>
           <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
         </div>
 
@@ -2043,31 +2133,14 @@ html_code = r"""<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- 2. 中间独立平滑滚动区 (绝对不触发外层滚动冲突) -->
+      <!-- 2. 中间两栏网格与分类简介区 -->
       <div class="disney-scroll-middle" id="disney-scroll-area">
-        <div class="disney-section-title">
-          <span>⭐ 我的想玩心愿清单</span>
-          <span style="font-size:0.68rem; color:var(--text-muted);" id="modal-wish-count">已选 0 项</span>
-        </div>
-        <div id="modal-wishlist-container"></div>
-
-        <div style="margin:12px 0 6px; text-align:center;">
-          <button class="btn-action-pill" style="width:100%; justify-content:center; padding:8px 0; font-size:0.75rem;" onclick="toggleDisneyAllDrawer()">
-            <span id="disney-drawer-btn-txt">+ 添加更多游玩项目 (展开全量项目库)</span>
-          </button>
-        </div>
-
-        <div id="disney-all-drawer" style="display:none; margin-top:8px;">
-          <div class="disney-section-title">
-            <span>📚 园区全量项目 (按热门程度排序)</span>
-          </div>
-          <div id="modal-all-container"></div>
-        </div>
+        <div id="disney-overview-container"></div>
       </div>
 
       <!-- 3. 底部固定吸附按钮 -->
       <div class="disney-fixed-bottom">
-        <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--accent); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">完成设置</button>
+        <button class="t-btn-pill active" style="width:100%; padding:9px 0; background:var(--itin-main); color:#fff; font-size:0.76rem;" onclick="closeModal('modal-disney')">关闭概览</button>
       </div>
 
     </div>
@@ -2100,6 +2173,13 @@ html_code = r"""<!DOCTYPE html>
       } else {
         scrollTopBtn.style.background = 'var(--accent)';
       }
+    }
+
+    function toggleQuickJumpDrawer() {
+      const drawer = document.getElementById('quick-jump-drawer');
+      const ball = document.getElementById('left-floating-ball');
+      drawer.classList.toggle('open');
+      ball.classList.toggle('expanded');
     }
 
     function slideToPane(index) {
@@ -2294,7 +2374,13 @@ html_code = r"""<!DOCTYPE html>
 
     function jumpToDayCard(id) {
       if (currentPaneIndex !== 1) slideToPane(1);
-      setTimeout(() => smoothOpenDay(id), 50);
+      setTimeout(() => {
+        smoothOpenDay(id);
+        const drawer = document.getElementById('quick-jump-drawer');
+        const ball = document.getElementById('left-floating-ball');
+        drawer.classList.remove('open');
+        ball.classList.remove('expanded');
+      }, 50);
     }
 
     function copyCode(str) {
@@ -2583,150 +2669,97 @@ html_code = r"""<!DOCTYPE html>
       renderTour(mode);
     }
 
-    const allDisneyData = {
+    const disneyOverviewData = {
       land: [
-        { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l2', name: '杯面欢乐之旅', wait: '60-90分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 'l3', name: '太空山', wait: '50-80分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l4', name: '巨雷山', wait: '45-75分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l5', name: '飞溅山', wait: '50-85分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 'l6', name: '幽灵公馆 (万圣特别版)', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: true },
-        { id: 'l7', name: '小熊维尼猎蜜记', wait: '40-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 'l8', name: '巴斯光年星际历险', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l9', name: '怪兽电力公司：迷藏巡游车', wait: '35-50分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l10', name: '加勒比海盗', wait: '15-25分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l11', name: '小飞侠天空之旅', wait: '30-45分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 'l12', name: '星际旅行：冒险续航', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false }
+        {
+          category: "🏰 必玩沉浸地标 (E-Ticket)",
+          items: [
+            { name: "美女与野兽：城堡奇缘", star: "★★★★★", desc: "坐在魔法茶杯中360度旋转，重温经典动画浪漫剧情。", wait: "110-150分", dpa: true },
+            { name: "杯面欢乐之旅", star: "★★★★★", desc: "超欢乐的动感甩尾游艺车，音乐动感氛围极佳。", wait: "60-90分", dpa: true },
+            { name: "飞溅山", star: "★★★★☆", desc: "原木激流勇进，伴随欢快音乐从高空急坠而下。", wait: "50-85分", dpa: true }
+          ]
+        },
+        {
+          category: "🎢 经典过山车与探险",
+          items: [
+            { name: "太空山", star: "★★★★☆", desc: "在璀璨星河与黑暗宇宙中穿梭的室内过山车。", wait: "50-80分", dpa: false },
+            { name: "巨雷山", star: "★★★★☆", desc: "西部矿山疯狂列车，伴随矿洞呼啸急驰。", wait: "45-75分", dpa: false },
+            { name: "幽灵公馆", star: "★★★★☆", desc: "万圣节特别版鬼屋，充满神秘诡谲的趣味。", wait: "45-70分", dpa: false }
+          ]
+        },
+        {
+          category: "🧸 梦幻童趣与合家欢",
+          items: [
+            { name: "小熊维尼猎蜜记", star: "★★★★☆", desc: "坐上蜂蜜罐寻找维尼的甜蜜梦境。", wait: "40-65分", dpa: false },
+            { name: "怪兽电力公司", star: "★★★☆☆", desc: "手持手电筒在厂区到处搜寻藏匿的小怪物。", wait: "35-50分", dpa: false },
+            { name: "小飞侠天空之旅", star: "★★★☆☆", desc: "乘海盗船飞越伦敦夜空寻找梦幻岛。", wait: "30-45分", dpa: false }
+          ]
+        }
       ],
       sea: [
-        { id: 's1', name: '安娜与艾莎的冰雪之旅', wait: '120-160分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's2', name: '长发公主微菌奇缘', wait: '90-130分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's3', name: '小飞侠梦幻岛历险记', wait: '80-120分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's4', name: '翱翔：梦幻奇航', wait: '100-140分', star: '★★★★★', dpa: true, defaultWish: true },
-        { id: 's5', name: '玩具总动员疯狂游戏屋', wait: '70-100分', star: '★★★★☆', dpa: true, defaultWish: false },
-        { id: 's6', name: '惊魂古塔', wait: '60-90分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's7', name: '地心探险之旅', wait: '50-80分', star: '★★★★☆', dpa: true, defaultWish: true },
-        { id: 's8', name: '印第安纳琼斯：水晶骷髅头魔宫', wait: '45-70分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's9', name: '忿怒双神 (360度过山车)', wait: '45-65分', star: '★★★★☆', dpa: false, defaultWish: false },
-        { id: 's10', name: '海底两万哩', wait: '20-35分', star: '★★★☆☆', dpa: false, defaultWish: false },
-        { id: 's11', name: '海底巡游艇：尼莫和好友的海洋世界', wait: '25-45分', star: '★★★☆☆', dpa: false, defaultWish: false }
+        {
+          category: "🌋 梦幻泉乡全新史诗级项目",
+          items: [
+            { name: "冰雪奇缘：安娜与艾莎", star: "★★★★★", desc: "乘船身临其境体验艾莎冰雪宫殿的震撼魔法。", wait: "120-160分", dpa: true },
+            { name: "长发公主微菌奇缘", star: "★★★★★", desc: "跟随乐佩开启浪漫的天灯节水上浪漫之旅。", wait: "90-130分", dpa: true },
+            { name: "小飞侠梦幻岛历险", star: "★★★★★", desc: "3D立体戴镜飞行，与温迪并肩作战击败海盗。", wait: "80-120分", dpa: true }
+          ]
+        },
+        {
+          category: "⛵ 海洋人气地标与飞行影院",
+          items: [
+            { name: "翱翔：梦幻奇航", star: "★★★★★", desc: "悬挂式球幕飞行，俯瞰世界壮丽美景与奇观。", wait: "100-140分", dpa: true },
+            { name: "玩具总动员疯狂游戏屋", star: "★★★★☆", desc: "3D射击互动小游戏，欢乐竞技感十足。", wait: "70-100分", dpa: true }
+          ]
+        },
+        {
+          category: "⚓ 刺激探险与经典暗黑乘骑",
+          items: [
+            { name: "地心探险之旅", star: "★★★★☆", desc: "深入火山内部遭遇火山爆发惊险逃生。", wait: "50-80分", dpa: true },
+            { name: "惊魂古塔", star: "★★★★☆", desc: "纽约市电梯失控垂直骤降的超刺激体验。", wait: "60-90分", dpa: true },
+            { name: "忿怒双神", star: "★★★★☆", desc: "360度大回环古代遗迹双轨过山车。", wait: "45-65分", dpa: false }
+          ]
+        }
       ]
     };
 
     let currentDisneyParkView = 'land';
-    let userDisneyWishes = {};
-
-    function initDisneyWishes() {
-      try {
-        const stored = localStorage.getItem('disney_wishes_v3');
-        if (stored) {
-          userDisneyWishes = JSON.parse(stored);
-        } else {
-          ['land', 'sea'].forEach(park => {
-            allDisneyData[park].forEach(item => {
-              if (item.defaultWish) userDisneyWishes[item.id] = true;
-            });
-          });
-        }
-      } catch (e) {
-        userDisneyWishes = { l1: true, l2: true, l3: true, l4: true, l5: true, l6: true, s1: true, s2: true, s3: true, s4: true, s6: true, s7: true };
-      }
-    }
-
-    function toggleWishItem(id, event) {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      if (userDisneyWishes[id]) {
-        delete userDisneyWishes[id];
-      } else {
-        userDisneyWishes[id] = true;
-      }
-      try { localStorage.setItem('disney_wishes_v3', JSON.stringify(userDisneyWishes)); } catch (e) {}
-
-      const scrollArea = document.getElementById('disney-scroll-area');
-      const curScroll = scrollArea ? scrollArea.scrollTop : 0;
-
-      renderDisneyModalView();
-
-      if (scrollArea) {
-        requestAnimationFrame(() => {
-          scrollArea.scrollTop = curScroll;
-        });
-      }
-    }
 
     function setDisneyParkView(park) {
       currentDisneyParkView = park;
       document.getElementById('modal-tab-land').classList.toggle('active', park === 'land');
       document.getElementById('modal-tab-sea').classList.toggle('active', park === 'sea');
-      renderDisneyModalView();
+      renderDisneyOverviewView();
     }
 
-    let isDisneyDrawerOpen = false;
-    function toggleDisneyAllDrawer() {
-      isDisneyDrawerOpen = !isDisneyDrawerOpen;
-      const drawer = document.getElementById('disney-all-drawer');
-      const txt = document.getElementById('disney-drawer-btn-txt');
-      if (isDisneyDrawerOpen) {
-        drawer.style.display = 'block';
-        txt.innerText = '收起全量项目库';
-      } else {
-        drawer.style.display = 'none';
-        txt.innerText = '+ 添加更多游玩项目 (展开全量项目库)';
-      }
-    }
+    function renderDisneyOverviewView() {
+      const container = document.getElementById('disney-overview-container');
+      const sections = disneyOverviewData[currentDisneyParkView];
 
-    function renderDisneyModalView() {
-      const wishContainer = document.getElementById('modal-wishlist-container');
-      const allContainer = document.getElementById('modal-all-container');
-      const countLabel = document.getElementById('modal-wish-count');
-      const parkData = allDisneyData[currentDisneyParkView];
-
-      const wishes = parkData.filter(i => userDisneyWishes[i.id]);
-      countLabel.innerText = `本园已选 ${wishes.length} 项`;
-
-      if (wishes.length === 0) {
-        wishContainer.innerHTML = `<div style="text-align:center; padding:16px 0; font-size:0.75rem; color:var(--text-muted);">本园区暂无勾选项，请点击下方展开项目库添加！</div>`;
-      } else {
-        wishContainer.innerHTML = wishes.map(item => `
-          <div class="disney-item-card" data-id="${item.id}">
-            <div class="disney-item-meta">
-              <h5>${item.name}</h5>
-              <div class="disney-item-tags">
-                <span class="tag-star">${item.star}</span>
-                <span class="tag-wait">预估排队: ${item.wait}</span>
-                ${item.dpa ? `<span class="tag-dpa">DPA</span>` : ''}
+      container.innerHTML = sections.map(sec => `
+        <div class="disney-category-title">${sec.category}</div>
+        <div class="disney-grid-container">
+          ${sec.items.map(item => `
+            <div class="disney-card-box">
+              <div>
+                <div class="disney-card-header">
+                  <span class="disney-card-name">${item.name}</span>
+                  <span class="disney-card-star">${item.star}</span>
+                </div>
+                <div class="disney-card-desc">${item.desc}</div>
+              </div>
+              <div class="disney-card-footer">
+                <span class="disney-card-wait">⏱️ ${item.wait}</span>
+                ${item.dpa ? '<span class="disney-card-dpa">支持DPA</span>' : '<span style="color:var(--text-muted);">免费排队</span>'}
               </div>
             </div>
-            <button class="btn-wish-toggle active" ontouchend="toggleWishItem('${item.id}', event)" onclick="toggleWishItem('${item.id}', event)">✓ 已在心愿</button>
-          </div>
-        `).join('');
-      }
-
-      allContainer.innerHTML = parkData.map(item => {
-        const isSelected = !!userDisneyWishes[item.id];
-        return `
-          <div class="disney-item-card" data-id="${item.id}">
-            <div class="disney-item-meta">
-              <h5>${item.name}</h5>
-              <div class="disney-item-tags">
-                <span class="tag-star">${item.star}</span>
-                <span class="tag-wait">排队: ${item.wait}</span>
-                ${item.dpa ? `<span class="tag-dpa">支持DPA</span>` : ''}
-              </div>
-            </div>
-            <button class="btn-wish-toggle ${isSelected ? 'active' : ''}" ontouchend="toggleWishItem('${item.id}', event)" onclick="toggleWishItem('${item.id}', event)">
-              ${isSelected ? '✓ 移除' : '+ 想玩'}
-            </button>
-          </div>
-        `;
-      }).join('');
+          `).join('')}
+        </div>
+      `).join('');
     }
 
     function openDisneyModal() {
-      renderDisneyModalView();
+      renderDisneyOverviewView();
       openModal('modal-disney');
     }
 
@@ -3064,7 +3097,6 @@ html_code = r"""<!DOCTYPE html>
     renderTour('sunny');
     renderTodoList();
     refreshTodoUI();
-    initDisneyWishes();
     updateTimers();
     initOfflineDetector();
     setInterval(updateTimers, 1000);
@@ -3079,8 +3111,7 @@ html_code = r"""<!DOCTYPE html>
 </html>
 """
 
-# 将代码写入本地 html 文件
-with open("japan_itinerary_v28.html", "w", encoding="utf-8") as f:
+with open("japan_itinerary_v30.html", "w", encoding="utf-8") as f:
     f.write(html_code)
 
-print("成功生成 japan_itinerary_v28.html 文件！")
+print("成功生成 japan_itinerary_v30.html 文件！")
