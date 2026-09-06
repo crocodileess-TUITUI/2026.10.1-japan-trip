@@ -31,7 +31,7 @@
       --island-text: #ffffff;
       --radius: 22px;
       
-      /* Next Milestone 独立基础色 */
+      /* Next Milestone 昼夜动态基础色 */
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
       --milestone-border: rgba(14, 165, 233, 0.4);
       --milestone-text: #0f172a;
@@ -52,14 +52,14 @@
       --modal-table-td-border: #e2e8f0;
       --modal-table-td-text: #0f172a;
 
-      /* 逐日行程板块内部局部变量 (默认晴天暖橙金色) */
+      /* 逐日行程板块局部色彩 (晴天默认橙金) */
       --itin-main: #d97706;
       --itin-border: rgba(245, 158, 11, 0.45);
       --itin-soft: rgba(245, 158, 11, 0.12);
       --itin-shadow: rgba(245, 158, 11, 0.22);
     }
 
-    /* 雨天方案局部色彩系统 */
+    /* 逐日行程雨天局部色彩系统 */
     #pane-itinerary.itin-rainy {
       --itin-main: #047857;
       --itin-border: rgba(4, 120, 87, 0.45);
@@ -67,18 +67,21 @@
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
-    /* 夜间模式 */
-    body.is-night {
-      --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%);
-      --milestone-border: rgba(56, 189, 248, 0.38);
-      --milestone-text: #ffffff;
-      --milestone-badge: #38bdf8;
-      --milestone-box-bg: rgba(255, 255, 255, 0.07);
-      --milestone-box-border: rgba(255, 255, 255, 0.14);
-      --milestone-val-text: #f8fafc;
-      --milestone-sub-text: #94a3b8;
-      --milestone-item-bg: rgba(0, 0, 0, 0.35);
+    /* Next Milestone 夜间模式变量修复 */
+    body.is-night,
+    body.is-night .top-timer-card {
+      --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%) !important;
+      --milestone-border: rgba(56, 189, 248, 0.38) !important;
+      --milestone-text: #ffffff !important;
+      --milestone-badge: #38bdf8 !important;
+      --milestone-box-bg: rgba(255, 255, 255, 0.08) !important;
+      --milestone-box-border: rgba(255, 255, 255, 0.15) !important;
+      --milestone-val-text: #f8fafc !important;
+      --milestone-sub-text: #94a3b8 !important;
+      --milestone-item-bg: rgba(0, 0, 0, 0.45) !important;
+    }
 
+    body.is-night {
       --modal-bg: #121826;
       --modal-text: #ffffff;
       --modal-border: rgba(255, 255, 255, 0.18);
@@ -214,7 +217,6 @@
     .timer-val.num-tick { transform: translateY(-2px); }
     .timer-lbl { font-size: 0.64rem; font-weight: 800; color: var(--milestone-sub-text); margin-top: 5px; }
 
-    /* 后续日程折叠 */
     .milestone-future-box {
       margin-top: 14px;
       padding-top: 12px;
@@ -279,7 +281,7 @@
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 三栏底置 Dock 导航 (保持原生经典蓝体系) */
+    /* 底置 Dock 导航 (经典蓝原色) */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -339,7 +341,7 @@
     .dock-btn.active { color: #fff; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 晴雨决策卡片 (彻底解决换行与溢出) */
+    /* 晴雨决策卡片 */
     .control-deck-card {
       background: #ffffff;
       border: 2px solid var(--itin-border);
@@ -356,16 +358,43 @@
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
     }
     @media (prefers-color-scheme: dark) {
-      .control-deck-card {
-        background: #1a1e28;
-      }
+      .control-deck-card { background: #1a1e28; }
     }
 
-    .toggle-header { display: flex; flex-direction: column; gap: 2px; }
+    .toggle-header { display: flex; flex-direction: column; gap: 4px; }
     .toggle-title { font-size: 0.90rem; font-weight: 900; color: #0f172a; }
     @media (prefers-color-scheme: dark) { .toggle-title { color: #f8fafc; } }
-    .toggle-sub { font-size: 0.70rem; color: #475569; font-weight: 700; line-height: 1.4; }
-    @media (prefers-color-scheme: dark) { .toggle-sub { color: #94a3b8; } }
+
+    /* 双色胶囊设计 */
+    .dual-badge-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .capsule-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      letter-spacing: -0.01em;
+    }
+    .capsule-badge.sun {
+      background: rgba(245, 158, 11, 0.15);
+      color: #b45309;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .capsule-badge.rain {
+      background: rgba(4, 120, 87, 0.15);
+      color: #065f46;
+      border: 1px solid rgba(4, 120, 87, 0.3);
+    }
+    @media (prefers-color-scheme: dark) {
+      .capsule-badge.sun { color: #fbbf24; }
+      .capsule-badge.rain { color: #34d399; }
+    }
 
     .toggle-switch-box { 
       display: flex; 
@@ -422,7 +451,7 @@
 
     .sec-head { font-size: 0.96rem; font-weight: 900; margin: 16px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片 (保持原生经典体系) */
+    /* 大交通卡片 (经典蓝原生) */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -481,7 +510,7 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* SVG 地图容器 (饱满布局，削减边缘多余留白) */
+    /* 方案 A 极简现代 Metro 轨交风格地图容器 */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -509,11 +538,11 @@
       width: 100%; 
       background: #ffffff; 
       border-radius: 16px; 
-      padding: 6px 4px; 
+      padding: 4px; 
       display: flex;
       align-items: center; 
       justify-content: center; 
-      height: 270px; 
+      height: 275px; 
       overflow: hidden; 
       position: relative; 
       border: 1.5px solid var(--itin-border);
@@ -523,18 +552,28 @@
     @media (prefers-color-scheme: dark) {
       .offline-map-container { background: #141923; }
     }
-    svg.apple-sketch-map { 
+    svg.metro-map { 
       width: 100%; 
       height: 100%; 
       display: block; 
-      max-height: 265px; 
+      max-height: 270px; 
       transform-origin: center center; 
     }
-    .map-sketch-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .map-node { cursor: pointer; transition: transform 0.2s; }
-    .map-node:active { transform: scale(1.25); }
+    
+    /* Metro 风格轨道路线与站点 */
+    .metro-line { 
+      fill: none; 
+      stroke-linecap: round; 
+      stroke-linejoin: round; 
+    }
+    .metro-node { 
+      cursor: pointer; 
+      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1); 
+    }
+    .metro-node:active { transform: scale(1.22); }
+    .metro-station-outer { stroke-width: 2.5; }
 
-    /* 逐日行程卡片 (受 --itin-main 方案控制) */
+    /* 逐日行程卡片 */
     .day-wrapper {
       background: var(--glass-card); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
       border: 1.5px solid var(--itin-border); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--glass-shadow);
@@ -560,7 +599,6 @@
 
     .day-body-inner { padding: 16px; }
 
-    /* 准则卡片 */
     .guideline-panel {
       border-radius: 16px;
       padding: 12px 14px;
@@ -631,7 +669,6 @@
     }
     .btn-action-pill:active { transform: scale(0.95); }
 
-    /* 区域分割徽章横线 */
     .region-divider {
       position: relative;
       margin: 22px 0 16px;
@@ -659,7 +696,7 @@
       white-space: nowrap;
     }
 
-    /* 待办事项 (保持原生经典蓝绿体系) */
+    /* 待办事项 (保持原生经典蓝绿) */
     .todo-header-wrap { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--glass-border); }
     .ring-wrap { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; font-weight: 800; }
     svg.progress-ring { width: 34px; height: 34px; transform: rotate(-90deg); }
@@ -742,7 +779,6 @@
     .bus-next-row { background: rgba(56, 189, 248, 0.28) !important; color: #0284c7 !important; font-weight: 900; }
     body.is-night .bus-next-row { color: #38bdf8 !important; background: rgba(56, 189, 248, 0.3) !important; }
 
-    /* 伊豆时刻表括号换行弱化样式 */
     .bus-sub-route {
       display: block;
       font-size: 0.65rem;
@@ -764,7 +800,7 @@
     .footer-tools-card p { margin-bottom: 6px; }
     .footer-tools-card a { color: var(--accent); text-decoration: none; font-weight: 800; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,0.03); }
 
-    /* 回顶小胶囊：只要向下滚动就出现 */
+    /* 回顶小胶囊：向下滚动出现 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -800,7 +836,7 @@
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- Next Milestone 卡片 (原生配色) -->
+  <!-- Next Milestone 卡片 -->
   <div class="top-card-container">
     <div class="top-timer-card" id="top-timer-card">
       <div class="timer-badge">
@@ -829,7 +865,7 @@
   <div class="viewport-outer" id="viewport-outer">
     <div class="viewport-track" id="viewport-track">
 
-      <!-- PANE 0: ✈️ 行程信息 (原生经典蓝体系) -->
+      <!-- PANE 0: ✈️ 行程信息 -->
       <div class="view-pane" id="pane-transit">
         <div class="sec-head">
           <span>🚄 ✈️ 行程信息</span>
@@ -955,7 +991,7 @@
           </div>
         </div>
 
-        <!-- 独立应急备忘录卡片 1 (原生经典色) -->
+        <!-- 独立应急备忘录卡片 1 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -965,14 +1001,18 @@
         </div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 (受晴雨模式色彩与动线控制) -->
+      <!-- PANE 1: 📅 行程安排 -->
       <div class="view-pane" id="pane-itinerary">
         
-        <!-- 晴雨决策控制舱 (文字不折行、防溢出) -->
+        <!-- 晴雨决策控制舱 (双色胶囊精致排版) -->
         <div class="control-deck-card" id="control-deck-card">
           <div class="toggle-header">
             <div class="toggle-title">10.4 - 10.5 晴雨决策方案</div>
-            <div class="toggle-sub">晴天：箱根+热海+伊豆 ｜ 雨天：箱根回住+WALK (9.30 23:00决策)</div>
+            <div class="dual-badge-wrap">
+              <span class="capsule-badge sun">☀️ 晴天: 箱根+热海+伊豆</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">|</span>
+              <span class="capsule-badge rain">🌧️ 雨天: 箱根回住+WALK</span>
+            </div>
           </div>
           <div class="toggle-switch-box">
             <button class="t-btn-pill sun-btn active" id="btn-sun" onclick="setWeatherMode('sunny')">☀️ 晴天方案</button>
@@ -991,221 +1031,310 @@
           </div>
         </div>
 
-        <!-- 区域动线与据点总览 (随晴雨方案联动切换) -->
+        <!-- 区域动线与据点总览 (干净纯标题) -->
         <div class="sec-head">
-          <span id="map-sec-head-title">🗺️ 区域动线与据点总览</span>
+          <span>🗺️ 区域动线与据点总览</span>
         </div>
         <div class="glass-card" style="padding: 12px; margin-bottom: 14px;">
           <div class="map-tabs-bar" id="map-tabs-container"></div>
           <div class="offline-map-container" id="map-zoom-container">
             
-            <!-- 晴天 1：全程概览 (点击直达对应当日一栏顶部) -->
-            <svg class="apple-sketch-map" id="map-svg-sun-all" viewBox="50 15 440 255" xmlns="http://www.w3.org/2000/svg">
-              <path class="map-sketch-line" d="M 440,35 Q 350,60 270,110 L 350,115 L 360,75 L 170,165 L 195,205 L 180,248" stroke="var(--text-muted)" stroke-width="2" stroke-dasharray="3,3"/>
-              <path class="map-sketch-line" d="M 440,35 Q 350,60 270,110" stroke="#f59e0b" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,110 L 350,115" stroke="#ef4444" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,110 L 360,75" stroke="#8b5cf6" stroke-width="3"/>
-              <path class="map-sketch-line" d="M 270,110 Q 210,135 170,165 L 195,205 L 180,248" stroke="#f59e0b" stroke-width="3.5"/>
+            <!-- 方案A Metro风 晴天 1：全程概览 (点击直达对应当日一栏顶部) -->
+            <svg class="metro-map" id="map-svg-sun-all" viewBox="20 10 460 255" xmlns="http://www.w3.org/2000/svg">
+              <!-- Metro 线路 -->
+              <path class="metro-line" d="M 430,35 L 300,35 L 240,100" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 240,100 L 330,100" stroke="#ef4444" stroke-width="4"/>
+              <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#8b5cf6" stroke-width="4"/>
+              <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
+              <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#0284c7" stroke-width="3" stroke-dasharray="5,4"/>
 
-              <g class="map-node" onclick="jumpToDayCard('d1')">
-                <circle cx="440" cy="35" r="9" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="440" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="var(--text-main)">成田T2</text>
+              <!-- 成田T2 -->
+              <g class="metro-node" onclick="jumpToDayCard('d1')">
+                <circle cx="430" cy="35" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="430" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">成田T2</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d1')">
-                <circle cx="270" cy="110" r="11" fill="#2563eb" stroke="#fff" stroke-width="2.5"/>
-                <text x="270" y="93" text-anchor="middle" font-size="13" font-weight="900" fill="#2563eb">家</text>
+              <!-- 家 -->
+              <g class="metro-node" onclick="jumpToDayCard('d1')">
+                <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d3')">
-                <circle cx="350" cy="115" r="8" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="358" y="132" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">ANA见学</text>
+              <!-- ANA见学 -->
+              <g class="metro-node" onclick="jumpToDayCard('d3')">
+                <circle cx="330" cy="100" r="7" fill="#fff" stroke="#ef4444" class="metro-station-outer"/>
+                <text x="344" y="104" text-anchor="start" font-size="11" font-weight="900" fill="var(--text-main)">ANA见学</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d4')">
-                <circle cx="360" cy="75" r="8" fill="#8b5cf6" stroke="#fff" stroke-width="2"/>
-                <text x="368" y="72" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">迪士尼</text>
+              <!-- 迪士尼 -->
+              <g class="metro-node" onclick="jumpToDayCard('d4')">
+                <circle cx="400" cy="65" r="7" fill="#fff" stroke="#8b5cf6" class="metro-station-outer"/>
+                <text x="400" y="52" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">迪士尼</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d5')">
-                <circle cx="170" cy="165" r="9" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="156" y="162" text-anchor="end" font-size="12" font-weight="bold" fill="var(--text-main)">箱根</text>
+              <!-- 箱根 -->
+              <g class="metro-node" onclick="jumpToDayCard('d5')">
+                <circle cx="120" cy="145" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="106" y="149" text-anchor="end" font-size="11" font-weight="900" fill="var(--text-main)">箱根</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d5')">
-                <circle cx="195" cy="205" r="9" fill="#ec4899" stroke="#fff" stroke-width="2"/>
-                <text x="208" y="209" text-anchor="start" font-size="12" font-weight="bold" fill="#ec4899">热海</text>
+              <!-- 热海 -->
+              <g class="metro-node" onclick="jumpToDayCard('d5')">
+                <circle cx="120" cy="185" r="7" fill="#fff" stroke="#ec4899" class="metro-station-outer"/>
+                <text x="106" y="189" text-anchor="end" font-size="11" font-weight="900" fill="#ec4899">热海</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d6')">
-                <circle cx="180" cy="248" r="9" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="166" y="252" text-anchor="end" font-size="12" font-weight="bold" fill="var(--text-main)">伊豆</text>
+              <!-- 伊豆 -->
+              <g class="metro-node" onclick="jumpToDayCard('d6')">
+                <circle cx="170" cy="235" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
+                <text x="170" y="252" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">伊豆</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d7')">
-                <circle cx="350" cy="150" r="8" fill="#0284c7" stroke="#fff" stroke-width="2"/>
-                <text x="360" y="154" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">羽田T3</text>
-              </g>
-            </svg>
-
-            <!-- 晴天 2：ANA·迪士尼 (点击具体节点细化跳转) -->
-            <svg class="apple-sketch-map" id="map-svg-sun-metro" viewBox="150 25 320 205" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 240,140 L 360,145" stroke="#ef4444" stroke-width="3.5"/>
-              <path class="map-sketch-line" d="M 240,140 Q 280,75 380,65" stroke="#8b5cf6" stroke-width="3.5"/>
-
-              <g class="map-node" onclick="jumpToNode('tl-d1-4', 'd1')">
-                <circle cx="240" cy="140" r="11" fill="#2563eb" stroke="#fff" stroke-width="3"/>
-                <text x="240" y="165" text-anchor="middle" font-size="13" font-weight="900" fill="#2563eb">家</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d3-1', 'd3')">
-                <circle cx="360" cy="145" r="9" fill="#ef4444" stroke="#fff" stroke-width="2.5"/>
-                <text x="372" y="149" text-anchor="start" font-size="12" font-weight="bold" fill="var(--text-main)">ANA见学 (新整备场)</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d4-2', 'd4')">
-                <circle cx="380" cy="65" r="9" fill="#8b5cf6" stroke="#fff" stroke-width="2.5"/>
-                <text x="380" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-main)">东京迪士尼乐园</text>
+              <!-- 羽田T3 -->
+              <g class="metro-node" onclick="jumpToDayCard('d7')">
+                <circle cx="330" cy="140" r="7" fill="#fff" stroke="#0284c7" class="metro-station-outer"/>
+                <text x="344" y="144" text-anchor="start" font-size="11" font-weight="900" fill="var(--text-main)">羽田T3</text>
               </g>
             </svg>
 
-            <!-- 晴天 3：箱根·热海·伊豆 (点击具体节点细化跳转) -->
-            <svg class="apple-sketch-map" id="map-svg-sun-resort" viewBox="60 15 410 245" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 100,45 C 150,38 200,38 240,75 C 220,110 170,125 120,120 Z" stroke="#f59e0b" stroke-width="3.5"/>
-              <path class="map-sketch-line" d="M 200,120 Q 270,135 300,160 Q 320,195 350,225" stroke="#ec4899" stroke-width="3" stroke-dasharray="4,4"/>
+            <!-- 方案A Metro风 晴天 2：ANA·迪士尼 (细化跳转) -->
+            <svg class="metro-map" id="map-svg-sun-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 170,125 L 340,125" stroke="#ef4444" stroke-width="4.5"/>
+              <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#8b5cf6" stroke-width="4.5"/>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-3', 'd5')">
-                <circle cx="100" cy="45" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="100" y="30" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">箱根汤本</text>
+              <!-- 家 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d1-4', 'd1')">
+                <rect x="156" y="111" width="28" height="28" rx="7" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+                <text x="170" y="129" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-4', 'd5')">
-                <circle cx="200" cy="45" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="200" y="30" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">元箱根港</text>
+              <!-- ANA见学 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d3-1', 'd3')">
+                <circle cx="340" cy="125" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
+                <text x="355" y="129" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">ANA见学</text>
               </g>
 
-              <!-- 保留海贼船可独立点击 -->
-              <g class="map-node" onclick="jumpToNode('tl-d5-7', 'd5')">
-                <circle cx="240" cy="75" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="252" y="79" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">海贼船 (桃源台)</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d5-9', 'd5')">
-                <circle cx="120" cy="120" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="120" y="138" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">雕刻之森</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d5-10', 'd5')">
-                <circle cx="300" cy="160" r="9" fill="#ec4899" stroke="#fff" stroke-width="2"/>
-                <text x="312" y="164" text-anchor="start" font-size="12" font-weight="900" fill="#ec4899">热海</text>
-              </g>
-
-              <!-- 拆开：大室山 -->
-              <g class="map-node" onclick="jumpToNode('tl-d6-3', 'd6')">
-                <circle cx="310" cy="198" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="298" y="202" text-anchor="end" font-size="11" font-weight="bold" fill="var(--text-main)">大室山</text>
-              </g>
-
-              <!-- 拆开：仙人掌 -->
-              <g class="map-node" onclick="jumpToNode('tl-d6-5', 'd6')">
-                <circle cx="330" cy="208" r="8" fill="#10b981" stroke="#fff" stroke-width="2"/>
-                <text x="342" y="212" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">仙人掌</text>
-              </g>
-
-              <g class="map-node" onclick="jumpToNode('tl-d6-7', 'd6')">
-                <circle cx="350" cy="235" r="7" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
-                <text x="350" y="250" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">城崎海岸</text>
+              <!-- 迪士尼 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d4-2', 'd4')">
+                <circle cx="340" cy="65" r="8" fill="#fff" stroke="#8b5cf6" stroke-width="3"/>
+                <text x="355" y="69" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">东京迪士尼乐园</text>
               </g>
             </svg>
 
-            <!-- 雨天 1：全程概览 (点击直达对应当日一栏顶部) -->
-            <svg class="apple-sketch-map" id="map-svg-rain-all" viewBox="50 15 440 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 440,35 Q 350,60 270,110 L 350,115 L 360,75 L 160,170 Q 220,140 270,110 L 260,65 L 350,150" stroke="#047857" stroke-width="3"/>
-              
-              <g class="map-node" onclick="jumpToDayCard('d1')">
-                <circle cx="440" cy="35" r="9" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="440" y="22" text-anchor="middle" font-size="12" font-weight="900" fill="var(--text-main)">成田T2</text>
+            <!-- 方案A Metro风 晴天 3：箱根·热海·伊豆 (包含箱根全站，细化跳转) -->
+            <svg class="metro-map" id="map-svg-sun-resort" viewBox="20 10 460 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <!-- 箱根环线与南延线 -->
+              <path class="metro-line" d="M 50,45 L 110,45 L 180,45 L 245,45 L 245,95 L 180,95 L 110,95 L 110,140 L 180,140" stroke="#f59e0b" stroke-width="3.5"/>
+              <path class="metro-line" d="M 180,140 L 255,140 L 255,185 L 340,185 L 340,230 L 415,230" stroke="#ec4899" stroke-width="3.5"/>
+
+              <!-- 站点 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d5-2', 'd5')">
+                <circle cx="50" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="50" y="32" text-anchor="middle" font-size="9.5" font-weight="bold" fill="var(--text-main)">小田原</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d1')">
-                <circle cx="270" cy="110" r="11" fill="#047857" stroke="#fff" stroke-width="2.5"/>
-                <text x="270" y="93" text-anchor="middle" font-size="13" font-weight="900" fill="#047857">家</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-3', 'd5')">
+                <circle cx="110" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="110" y="32" text-anchor="middle" font-size="9.5" font-weight="bold" fill="var(--text-main)">箱根汤本</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d3')">
-                <circle cx="350" cy="115" r="8" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="358" y="132" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">ANA见学</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-4', 'd5')">
+                <circle cx="180" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="180" y="32" text-anchor="middle" font-size="9.5" font-weight="bold" fill="var(--text-main)">元箱根港</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d4')">
-                <circle cx="360" cy="75" r="8" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="368" y="72" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">迪士尼</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-5', 'd5')">
+                <circle cx="245" cy="45" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="255" y="48" text-anchor="start" font-size="9.5" font-weight="bold" fill="var(--text-main)">平和鸟居</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d5')">
-                <circle cx="160" cy="170" r="9" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="146" y="174" text-anchor="end" font-size="12" font-weight="bold" fill="var(--text-main)">箱根</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-6', 'd5')">
+                <circle cx="245" cy="95" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="255" y="98" text-anchor="start" font-size="9.5" font-weight="bold" fill="var(--text-main)">成川美术馆</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d6')">
-                <circle cx="260" cy="65" r="9" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="260" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--text-main)">中目黑/代官山</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-7', 'd5')">
+                <circle cx="180" cy="95" r="6" fill="#f59e0b" stroke="#fff" stroke-width="1.5"/>
+                <text x="180" y="82" text-anchor="middle" font-size="10" font-weight="900" fill="#b45309">海贼船</text>
               </g>
 
-              <g class="map-node" onclick="jumpToDayCard('d7')">
-                <circle cx="350" cy="150" r="9" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="360" y="154" text-anchor="start" font-size="12" font-weight="bold" fill="var(--text-main)">羽田T3</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-8', 'd5')">
+                <circle cx="110" cy="95" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="96" y="98" text-anchor="end" font-size="9.5" font-weight="bold" fill="var(--text-main)">大涌谷</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-9', 'd5')">
+                <circle cx="110" cy="140" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="96" y="144" text-anchor="end" font-size="9.5" font-weight="bold" fill="var(--text-main)">雕刻之森</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-10', 'd5')">
+                <circle cx="180" cy="140" r="7" fill="#ec4899" stroke="#fff" stroke-width="2"/>
+                <text x="180" y="160" text-anchor="middle" font-size="11" font-weight="900" fill="#ec4899">热海</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d6-3', 'd6')">
+                <circle cx="255" cy="185" r="6" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="255" y="172" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-main)">大室山</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d6-5', 'd6')">
+                <circle cx="340" cy="185" r="6" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="352" y="189" text-anchor="start" font-size="10" font-weight="bold" fill="var(--text-main)">仙人掌</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d6-7', 'd6')">
+                <circle cx="415" cy="230" r="6" fill="#fff" stroke="#0284c7" stroke-width="2"/>
+                <text x="415" y="248" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-main)">城崎海岸</text>
               </g>
             </svg>
 
-            <!-- 雨天 2：箱根往返 (排在中目黑前，点击具体节点细化跳转) -->
-            <svg class="apple-sketch-map" id="map-svg-rain-hakone" viewBox="90 30 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 360,110 L 230,140 L 150,175" stroke="#047857" stroke-width="3.5"/>
-              <path class="map-sketch-line" d="M 150,175 Q 230,140 360,110" stroke="#047857" stroke-width="3" stroke-dasharray="4,4"/>
+            <!-- 方案A Metro风 雨天 1：全程概览 (成田T2 ➔ 家 ➔ ANA ➔ 迪士尼 ➔ 箱根 ➔ WALK ➔ 羽田T3) -->
+            <svg class="metro-map" id="map-svg-rain-all" viewBox="20 10 460 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 430,35 L 300,35 L 240,100" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 130,175 L 240,175 L 240,225" stroke="#047857" stroke-width="4"/>
+              <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4"/>
 
-              <g class="map-node" onclick="jumpToNode('tl-d1-4', 'd1')">
-                <circle cx="360" cy="110" r="11" fill="#047857" stroke="#fff" stroke-width="2.5"/>
-                <text x="360" y="95" text-anchor="middle" font-size="13" font-weight="900" fill="#047857">家</text>
+              <!-- 成田T2 -->
+              <g class="metro-node" onclick="jumpToDayCard('d1')">
+                <circle cx="430" cy="35" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="430" y="22" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">成田T2</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-r2', 'd5')">
-                <circle cx="230" cy="140" r="8" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="230" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">小田原</text>
+              <!-- 家 -->
+              <g class="metro-node" onclick="jumpToDayCard('d1')">
+                <rect x="228" y="88" width="24" height="24" rx="6" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d5-r3', 'd5')">
-                <circle cx="150" cy="175" r="9" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="138" y="180" text-anchor="end" font-size="12" font-weight="bold" fill="var(--text-main)">箱根</text>
+              <!-- ANA -->
+              <g class="metro-node" onclick="jumpToDayCard('d3')">
+                <circle cx="330" cy="100" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="344" y="104" text-anchor="start" font-size="11" font-weight="900" fill="var(--text-main)">ANA见学</text>
+              </g>
+
+              <!-- 迪士尼 -->
+              <g class="metro-node" onclick="jumpToDayCard('d4')">
+                <circle cx="400" cy="65" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="400" y="52" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">迪士尼</text>
+              </g>
+
+              <!-- 箱根 -->
+              <g class="metro-node" onclick="jumpToDayCard('d5')">
+                <circle cx="130" cy="175" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="116" y="179" text-anchor="end" font-size="11" font-weight="900" fill="var(--text-main)">箱根</text>
+              </g>
+
+              <!-- WALK -->
+              <g class="metro-node" onclick="jumpToDayCard('d6')">
+                <circle cx="240" cy="225" r="7" fill="#fff" stroke="#047857" class="metro-station-outer"/>
+                <text x="240" y="244" text-anchor="middle" font-size="11" font-weight="900" fill="var(--text-main)">WALK</text>
+              </g>
+
+              <!-- 羽田T3 -->
+              <g class="metro-node" onclick="jumpToDayCard('d7')">
+                <circle cx="340" cy="150" r="8" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+                <text x="354" y="154" text-anchor="start" font-size="11" font-weight="900" fill="var(--text-main)">羽田T3</text>
               </g>
             </svg>
 
-            <!-- 雨天 3：中目黑/代官山 (无多余备注，纯净地名，点击细化跳转) -->
-            <svg class="apple-sketch-map" id="map-svg-rain-city" viewBox="160 25 280 215" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <path class="map-sketch-line" d="M 230,175 C 220,120 215,95 235,75 L 265,65 L 295,80 C 315,110 330,140 350,180" stroke="#047857" stroke-width="3.5"/>
+            <!-- 方案A Metro风 雨天 2：ANA·迪士尼 (加入雨天，保持一致) -->
+            <svg class="metro-map" id="map-svg-rain-metro" viewBox="100 20 360 210" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <path class="metro-line" d="M 170,125 L 340,125" stroke="#047857" stroke-width="4.5"/>
+              <path class="metro-line" d="M 170,125 L 240,65 L 340,65" stroke="#047857" stroke-width="4.5"/>
 
-              <g class="map-node" onclick="jumpToNode('tl-d1-4', 'd1')">
-                <circle cx="230" cy="175" r="11" fill="#047857" stroke="#fff" stroke-width="2.5"/>
-                <text x="230" y="198" text-anchor="middle" font-size="13" font-weight="900" fill="#047857">家</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d1-4', 'd1')">
+                <rect x="156" y="111" width="28" height="28" rx="7" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="170" y="129" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d6-r1', 'd6')">
-                <circle cx="235" cy="75" r="8" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="225" y="78" text-anchor="end" font-size="11" font-weight="bold" fill="var(--text-main)">中目黑</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d3-1', 'd3')">
+                <circle cx="340" cy="125" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
+                <text x="355" y="129" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">ANA见学</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d6-r9', 'd6')">
-                <circle cx="265" cy="65" r="8" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="265" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--text-main)">代官山</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d4-2', 'd4')">
+                <circle cx="340" cy="65" r="8" fill="#fff" stroke="#047857" stroke-width="3"/>
+                <text x="355" y="69" text-anchor="start" font-size="12" font-weight="900" fill="var(--text-main)">东京迪士尼乐园</text>
+              </g>
+            </svg>
+
+            <!-- 方案A Metro风 雨天 3：箱根·WALK (合并视图，箱根全站+WALK全站，细化跳转) -->
+            <svg class="metro-map" id="map-svg-rain-hw" viewBox="20 15 460 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+              <!-- 轨交线：箱根环线 ➔ 回家 ➔ 中目黑 ➔ 代官山 ➔ 涩谷 ➔ 羽田T3 -->
+              <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
+              <path class="metro-line" d="M 240,145 L 240,195 L 305,195 L 365,195 L 420,195" stroke="#047857" stroke-width="3.5"/>
+
+              <!-- 箱根站点 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r2', 'd5')">
+                <circle cx="45" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="45" y="32" text-anchor="middle" font-size="9" font-weight="bold" fill="var(--text-main)">小田原</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d6-12', 'd6')">
-                <circle cx="295" cy="80" r="8" fill="#047857" stroke="#fff" stroke-width="2"/>
-                <text x="305" y="83" text-anchor="start" font-size="11" font-weight="bold" fill="var(--text-main)">涩谷</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r3', 'd5')">
+                <circle cx="95" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="95" y="32" text-anchor="middle" font-size="9" font-weight="bold" fill="var(--text-main)">箱根汤本</text>
               </g>
 
-              <g class="map-node" onclick="jumpToNode('tl-d6-14', 'd6')">
-                <circle cx="350" cy="180" r="9" fill="#ef4444" stroke="#fff" stroke-width="2"/>
-                <text x="360" y="184" text-anchor="start" font-size="12" font-weight="bold" fill="var(--text-main)">羽田T3</text>
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r4', 'd5')">
+                <circle cx="145" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="145" y="32" text-anchor="middle" font-size="9" font-weight="bold" fill="var(--text-main)">元箱根港</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r5', 'd5')">
+                <circle cx="195" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="204" y="48" text-anchor="start" font-size="9" font-weight="bold" fill="var(--text-main)">平和鸟居</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r6', 'd5')">
+                <circle cx="195" cy="95" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="204" y="98" text-anchor="start" font-size="9" font-weight="bold" fill="var(--text-main)">成川美术馆</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r7', 'd5')">
+                <circle cx="145" cy="95" r="5.5" fill="#047857" stroke="#fff" stroke-width="1.5"/>
+                <text x="145" y="82" text-anchor="middle" font-size="9.5" font-weight="900" fill="#047857">海贼船</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r9', 'd5')">
+                <circle cx="95" cy="95" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="82" y="98" text-anchor="end" font-size="9" font-weight="bold" fill="var(--text-main)">大涌谷</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d5-r10', 'd5')">
+                <circle cx="95" cy="145" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="82" y="149" text-anchor="end" font-size="9" font-weight="bold" fill="var(--text-main)">雕刻之森</text>
+              </g>
+
+              <!-- 家 (回住) -->
+              <g class="metro-node" onclick="jumpToNode('tl-d1-4', 'd1')">
+                <rect x="228" y="133" width="24" height="24" rx="6" fill="#047857" stroke="#fff" stroke-width="2"/>
+                <text x="240" y="149" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
+              </g>
+
+              <!-- WALK 核心点 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d6-r1', 'd6')">
+                <circle cx="240" cy="195" r="6" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="240" y="213" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-main)">中目黑</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d6-r9', 'd6')">
+                <circle cx="305" cy="195" r="6" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="305" y="182" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-main)">代官山</text>
+              </g>
+
+              <g class="metro-node" onclick="jumpToNode('tl-d6-12', 'd6')">
+                <circle cx="365" cy="195" r="6" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="365" y="213" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--text-main)">涩谷</text>
+              </g>
+
+              <!-- 羽田T3 -->
+              <g class="metro-node" onclick="jumpToNode('tl-d6-14', 'd6')">
+                <circle cx="420" cy="195" r="7" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+                <text x="420" y="182" text-anchor="middle" font-size="10" font-weight="900" fill="var(--text-main)">羽田T3</text>
               </g>
             </svg>
 
@@ -1362,7 +1491,7 @@
           </div>
         </div>
 
-        <!-- Day 4 (已删除需购票) -->
+        <!-- Day 4 -->
         <div class="day-wrapper" id="d4">
           <div class="day-head">
             <div class="day-meta">
@@ -1507,7 +1636,7 @@
           </div>
         </div>
 
-        <!-- 独立应急备忘录卡片 2 (原生经典色) -->
+        <!-- 独立应急备忘录卡片 2 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -1517,7 +1646,7 @@
         </div>
       </div>
 
-      <!-- PANE 2: 📌 待办事项 (原生经典体系) -->
+      <!-- PANE 2: 📌 待办事项 -->
       <div class="view-pane" id="pane-todo">
         <div class="sec-head">
           <span>📌 待办事项</span>
@@ -1538,7 +1667,7 @@
           <div id="todo-list-container"></div>
         </div>
 
-        <!-- 独立应急备忘录卡片 3 (原生经典色) -->
+        <!-- 独立应急备忘录卡片 3 -->
         <div class="footer-tools-card">
           <div style="font-weight:800; margin-bottom:8px; color:var(--text-main);">🛡️ 驻日应急备忘录</div>
           <p>• 日本紧急报警：<a href="tel:110">110</a> ｜ 火警急救：<a href="tel:119">119</a></p>
@@ -1737,7 +1866,7 @@
       });
     }
 
-    // 手势滑动处理
+    // 手势滑动
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -1802,11 +1931,11 @@
       }
     }, { passive: true });
 
-    // 回顶快捷按钮：只要向下一滑动 (>50px) 就立即出现
+    // 回顶快捷按钮：向下滑动立即出现
     const scrollTopBtn = document.getElementById('scroll-top-btn');
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollY > 50) {
+      if (scrollY > 30) {
         scrollTopBtn.classList.add('visible');
       } else {
         scrollTopBtn.classList.remove('visible');
@@ -1851,7 +1980,7 @@
       }, { passive: true });
     }
 
-    // 跳转具体点位（闪烁高亮对应时间轴节点）
+    // 跳转具体点位
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
@@ -1880,7 +2009,7 @@
       if (chip) chip.classList.add('active');
     }
 
-    // 跳转整日卡片（光环居中聚焦）
+    // 全程概览：跳转整日一栏卡片
     function smoothOpenDay(id) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
       const t = document.getElementById(id);
@@ -1919,7 +2048,7 @@
 
     function showSketchMap(type) {
       document.querySelectorAll('.map-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('svg.apple-sketch-map').forEach(svg => svg.style.display = 'none');
+      document.querySelectorAll('svg.metro-map').forEach(svg => svg.style.display = 'none');
 
       const tabBtn = document.getElementById('tab-map-' + type);
       if (tabBtn) tabBtn.classList.add('active');
@@ -1930,10 +2059,8 @@
 
     function updateMapTabsForWeather(mode) {
       const container = document.getElementById('map-tabs-container');
-      const mapTitle = document.getElementById('map-sec-head-title');
 
       if (mode === 'sunny') {
-        mapTitle.innerText = "🗺️ 区域动线与据点总览 (晴天热海动线)";
         container.innerHTML = `
           <button class="map-tab-btn active" id="tab-map-sun-all" onclick="showSketchMap('sun-all')">🌐 全程概览</button>
           <button class="map-tab-btn" id="tab-map-sun-metro" onclick="showSketchMap('sun-metro')">🗼 ANA·迪士尼</button>
@@ -1941,11 +2068,10 @@
         `;
         showSketchMap('sun-all');
       } else {
-        mapTitle.innerText = "🗺️ 区域动线与据点总览 (雨天都会圈避雨动线)";
         container.innerHTML = `
           <button class="map-tab-btn active" id="tab-map-rain-all" onclick="showSketchMap('rain-all')">🌐 全程概览</button>
-          <button class="map-tab-btn" id="tab-map-rain-hakone" onclick="showSketchMap('rain-hakone')">🚠 箱根往返</button>
-          <button class="map-tab-btn" id="tab-map-rain-city" onclick="showSketchMap('rain-city')">🏙️ 中目黑/代官山</button>
+          <button class="map-tab-btn" id="tab-map-rain-metro" onclick="showSketchMap('rain-metro')">🗼 ANA·迪士尼</button>
+          <button class="map-tab-btn" id="tab-map-rain-hw" onclick="showSketchMap('rain-hw')">⛰️ 箱根·WALK</button>
         `;
         showSketchMap('rain-all');
       }
@@ -2035,7 +2161,6 @@
       currentWeatherMode = mode;
       const p = customDays[mode];
 
-      // 仅逐日行程板块切换局部主题类名
       const itinPane = document.getElementById('pane-itinerary');
       itinPane.classList.toggle('itin-rainy', mode === 'rainy');
 
