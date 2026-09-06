@@ -322,7 +322,7 @@
       user-select: none;
     }
 
-    /* 底部灵动胶囊栏：两侧固定箭头空位，中间三框锁定几何坐标绝对不偏移 */
+    /* 底部灵动胶囊栏：两侧固定箭头空位，中间严格 3 框固定坐标绝对不偏移 */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
@@ -1330,7 +1330,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v77.0</div>
+        <div class="pane-version-badge">v77.7</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1948,7 +1948,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v77.0</div>
+        <div class="pane-version-badge">v77.7</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1983,7 +1983,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v77.0</div>
+        <div class="pane-version-badge">v77.7</div>
       </div>
 
     </div>
@@ -2356,17 +2356,14 @@
       let rightHtml = '';
 
       if (currentVisibleDayIndex === 0) {
-        // 边界：在第一天时，左侧渲染隐形占位框，右侧渲染第 2 天
         leftHtml = `<div class="f-chip placeholder-chip"><span class="fc-d">&nbsp;</span><span class="fc-t">&nbsp;</span></div>`;
         const nextItem = displayMeta[1];
         rightHtml = `<div class="f-chip" data-day="${nextItem.id}" data-index="1"><span class="fc-d">${nextItem.d}</span><span class="fc-t">${nextItem.t}</span></div>`;
       } else if (currentVisibleDayIndex === displayMeta.length - 1) {
-        // 边界：在最后一天时，左侧渲染倒数第 2 天，右侧渲染隐形占位框
         const prevItem = displayMeta[displayMeta.length - 2];
         leftHtml = `<div class="f-chip" data-day="${prevItem.id}" data-index="${displayMeta.length - 2}"><span class="fc-d">${prevItem.d}</span><span class="fc-t">${prevItem.t}</span></div>`;
         rightHtml = `<div class="f-chip placeholder-chip"><span class="fc-d">&nbsp;</span><span class="fc-t">&nbsp;</span></div>`;
       } else {
-        // 常规：中间项左右各有相邻项
         const prevItem = displayMeta[currentVisibleDayIndex - 1];
         const nextItem = displayMeta[currentVisibleDayIndex + 1];
         leftHtml = `<div class="f-chip" data-day="${prevItem.id}" data-index="${currentVisibleDayIndex - 1}"><span class="fc-d">${prevItem.d}</span><span class="fc-t">${prevItem.t}</span></div>`;
@@ -2378,7 +2375,6 @@
 
       centerGroup.innerHTML = leftHtml + middleHtml + rightHtml;
 
-      // 边缘箭头变暗，但两侧占位空位雷打不动
       if (arrowLeft) arrowLeft.classList.toggle('disabled', currentVisibleDayIndex === 0);
       if (arrowRight) arrowRight.classList.toggle('disabled', currentVisibleDayIndex === displayMeta.length - 1);
     }
@@ -2961,7 +2957,7 @@
       { key: 'idcard', name: '身份证' },
       { key: 'disney', name: '东京迪士尼门票' },
       { key: 'vjw', name: 'VJW填报' },
-      { key: 'sim_jp', name: '日本 7 日高速流量卡 (1张)' },
+      { key: 'sim_jp', name: '日本 7 日流量卡 (1张)' },
       { key: 'sim_hk', name: '香港 1 日流量卡 (2张)' },
       { key: 'pbank', name: '充电宝' },
       { key: 'charger', name: '充电器（猪猪日本充电器）' },
