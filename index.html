@@ -65,6 +65,7 @@
       --itin-shadow: rgba(4, 120, 87, 0.22);
     }
 
+    /* 夜间模式样式变量 */
     body.is-night,
     body.is-night .top-timer-card {
       --bg: #0b1120 !important;
@@ -112,7 +113,7 @@
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.5;
-      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 68px);
+      padding: calc(env(safe-area-inset-top, 14px) + 12px) 0 calc(env(safe-area-inset-bottom, 24px) + 78px);
       max-width: 680px;
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
@@ -148,42 +149,61 @@
       opacity: 1;
     }
 
-    /* 方案：左侧透明毛玻璃浮岛列 (仅在行程板块显示，不遮挡文字) */
-    .left-glass-island {
+    /* 方案一：流光胶囊灵动岛 (仅在行程板块显示，位于底部导航上方) */
+    .dynamic-island-pill {
       position: fixed;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 58px);
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
       background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      padding: 6px 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      z-index: 9997;
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1.5px solid var(--itin-border);
+      border-radius: 30px;
+      padding: 6px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      z-index: 9996;
       display: none;
-      flex-direction: column;
-      gap: 4px;
-      transition: opacity 0.3s;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      cursor: pointer;
     }
-    .left-glass-island.visible {
+    .dynamic-island-pill.visible {
       display: flex;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
-    .island-jump-btn {
+    .island-status-text {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--itin-main);
+      white-space: nowrap;
+    }
+    .island-dots-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      max-width: 0;
+      overflow: hidden;
+      transition: max-width 0.35s ease;
+    }
+    .dynamic-island-pill.expanded .island-dots-row {
+      max-width: 260px;
+    }
+    .island-dot-btn {
       background: transparent;
       border: none;
       color: var(--text-sub);
-      font-size: 0.62rem;
+      font-size: 0.65rem;
       font-weight: 800;
-      padding: 5px 6px;
-      border-radius: 8px;
+      padding: 3px 7px;
+      border-radius: 12px;
       cursor: pointer;
-      text-align: center;
       transition: background 0.2s, color 0.2s;
-      white-space: nowrap;
     }
-    .island-jump-btn.active-step {
+    .island-dot-btn.active-step {
       background: var(--itin-main);
       color: #fff;
     }
@@ -1088,7 +1108,7 @@
     #scroll-top-btn {
       position: fixed;
       left: 18px;
-      bottom: calc(env(safe-area-inset-bottom, 12px) + 68px);
+      bottom: calc(env(safe-area-inset-bottom, 12px) + 78px);
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -1120,15 +1140,18 @@
   <div id="mini-toast">已就绪！即将打开航旅纵横Pro ✈️</div>
   <div id="scroll-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲</div>
 
-  <!-- 左侧透明毛玻璃浮岛列 (仅在行程板块显示，常驻不遮挡正文) -->
-  <div class="left-glass-island" id="left-glass-island">
-    <button class="island-jump-btn" id="step-d1" onclick="jumpToDayCard('d1')">9.30</button>
-    <button class="island-jump-btn" id="step-d2" onclick="jumpToDayCard('d2')">10.1</button>
-    <button class="island-jump-btn" id="step-d3" onclick="jumpToDayCard('d3')">10.2</button>
-    <button class="island-jump-btn" id="step-d4" onclick="jumpToDayCard('d4')">10.3</button>
-    <button class="island-jump-btn" id="step-d5" onclick="jumpToDayCard('d5')">10.4</button>
-    <button class="island-jump-btn" id="step-d6" onclick="jumpToDayCard('d6')">10.5</button>
-    <button class="island-jump-btn" id="step-d7" onclick="jumpToDayCard('d7')">10.6</button>
+  <!-- 方案一：底部流光胶囊灵动岛 (仅在行程板块显示，点击可展开 7 天快捷跳转) -->
+  <div class="dynamic-island-pill" id="dynamic-island-pill" onclick="toggleIslandExpand()">
+    <span class="island-status-text" id="island-status-text">📌 9.30 落地</span>
+    <div class="island-dots-row" id="island-dots-row">
+      <button class="island-dot-btn" id="island-d1" onclick="jumpToDayCard('d1'); event.stopPropagation();">9.30</button>
+      <button class="island-dot-btn" id="island-d2" onclick="jumpToDayCard('d2'); event.stopPropagation();">10.1</button>
+      <button class="island-dot-btn" id="island-d3" onclick="jumpToDayCard('d3'); event.stopPropagation();">10.2</button>
+      <button class="island-dot-btn" id="island-d4" onclick="jumpToDayCard('d4'); event.stopPropagation();">10.3</button>
+      <button class="island-dot-btn" id="island-d5" onclick="jumpToDayCard('d5'); event.stopPropagation();">10.4</button>
+      <button class="island-dot-btn" id="island-d6" onclick="jumpToDayCard('d6'); event.stopPropagation();">10.5</button>
+      <button class="island-dot-btn" id="island-d7" onclick="jumpToDayCard('d7'); event.stopPropagation();">10.6</button>
+    </div>
   </div>
 
   <!-- “牛来！”弹窗 (方案一：浮动大牛头) -->
@@ -1309,7 +1332,7 @@
         <!-- 交通板块底部的牛来！彩蛋 -->
         <div class="niulai-trigger" onclick="triggerNiulai()">牛来！</div>
 
-        <div class="pane-version-badge">v33.0</div>
+        <div class="pane-version-badge">v34.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1338,7 +1361,7 @@
           </div>
         </div>
 
-        <!-- 区域动线与据点总览 (地名已按要求修正) -->
+        <!-- 区域动线与据点总览 (地名已完美修正) -->
         <div class="sec-head">
           <span>🗺️ 区域动线与据点总览</span>
         </div>
@@ -1934,7 +1957,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v33.0</div>
+        <div class="pane-version-badge">v34.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1973,7 +1996,7 @@
         <!-- 代办板块底部的牛来！彩蛋 -->
         <div class="niulai-trigger" onclick="triggerNiulai()">牛来！</div>
 
-        <div class="pane-version-badge">v33.0</div>
+        <div class="pane-version-badge">v34.0</div>
       </div>
 
     </div>
@@ -2035,12 +2058,12 @@
         </tbody>
       </table>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-ana-bus')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--itin-main); color:#fff;" onclick="closeModal('modal-ana-bus')">关闭</button>
       </div>
     </div>
   </div>
 
-  <!-- 弹窗 2：伊豆大巴时刻表 1 -->
+  <!-- 弹窗 2：伊豆大巴时刻表 1 (运行日“仅周末”标红，线路/经由居中) -->
   <div class="modal-overlay" id="modal-izu-bus1" onclick="closeModal('modal-izu-bus1')">
     <div class="modal-sheet" id="sheet-izu-bus1" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2058,31 +2081,31 @@
           </tr>
         </thead>
         <tbody id="izu-bus1-tbody">
-          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I72 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I71 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线 15分)</span></td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线)</span></td></tr>
-          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
-          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="13:00"><td>13:00</td><td>13:15</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
-          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="14:20"><td>14:20</td><td>14:35</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往仙人掌公园</td></tr>
-          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
-          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 / I72 往仙人掌公园</td></tr>
+          <tr data-time="09:25"><td><strong>09:25</strong></td><td>09:41</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I72 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="10:00"><td><strong>10:00</strong></td><td>10:20</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I71 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="10:40"><td>10:40</td><td>10:55</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线 15分)</span></td></tr>
+          <tr data-time="10:45"><td>10:45</td><td>11:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="11:20"><td>11:20</td><td>11:35</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I77 往仙人掌公园<span class="bus-sub-route">(直达快线)</span></td></tr>
+          <tr data-time="11:40"><td>11:40</td><td>12:04</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
+          <tr data-time="11:45"><td>11:45</td><td>12:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="12:45"><td>12:45</td><td>13:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="13:00"><td>13:00</td><td>13:15</td><td style="color:#dc2626; font-weight:900;">仅周末</td><td style="text-align:center;">I78 往仙人掌公园</td></tr>
+          <tr data-time="13:45"><td>13:45</td><td>14:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="14:20"><td>14:20</td><td>14:35</td><td style="color:#dc2626; font-weight:900;">仅周末</td><td style="text-align:center;">I78 往仙人掌公园</td></tr>
+          <tr data-time="14:45"><td>14:45</td><td>15:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="15:45"><td>15:45</td><td>16:05</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I80 往仙人掌公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="16:20"><td>16:20</td><td>16:44</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I73 往仙人掌公园<span class="bus-sub-route">(经由池・南原)</span></td></tr>
+          <tr data-time="16:45"><td>16:45</td><td>17:01</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往仙人掌公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="17:15"><td>17:15</td><td>17:31</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 / I72 往仙人掌公园</td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:14px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-izu-bus1')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--itin-main); color:#fff;" onclick="closeModal('modal-izu-bus1')">关闭</button>
       </div>
     </div>
   </div>
 
-  <!-- 弹窗 3：伊豆大巴时刻表 2 -->
+  <!-- 弹窗 3：伊豆大巴时刻表 2 (运行日“仅周末”标红，线路/经由居中) -->
   <div class="modal-overlay" id="modal-izu-bus2" onclick="closeModal('modal-izu-bus2')">
     <div class="modal-sheet" id="sheet-izu-bus2" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -2100,20 +2123,20 @@
           </tr>
         </thead>
         <tbody id="izu-bus2-tbody">
-          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
-          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal 29分)</span></td></tr>
-          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
-          <tr data-time="12:05"><td>12:05</td><td>12:30</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
-          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="13:30"><td>13:30</td><td>13:55</td><td style="color:#f59e0b; font-weight:900;">仅周末</td><td style="text-align:left; padding-left:8px;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
-          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
-          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
-          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:left; padding-left:8px;">I70 往海洋公园<span class="bus-sub-route">(季节运行)</span></td></tr>
+          <tr data-time="09:48"><td>09:48</td><td>10:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
+          <tr data-time="10:45"><td>10:45</td><td>11:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal 29分)</span></td></tr>
+          <tr data-time="11:48"><td>11:48</td><td>12:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道 26分)</span></td></tr>
+          <tr data-time="12:05"><td>12:05</td><td>12:30</td><td style="color:#dc2626; font-weight:900;">仅周末</td><td style="text-align:center;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
+          <tr data-time="12:45"><td>12:45</td><td>13:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="13:30"><td>13:30</td><td>13:55</td><td style="color:#dc2626; font-weight:900;">仅周末</td><td style="text-align:center;">I78 往海洋公园<span class="bus-sub-route">(经由伊豆高原站)</span></td></tr>
+          <tr data-time="13:48"><td><strong>13:48</strong></td><td>14:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="14:45"><td><strong>14:45</strong></td><td>15:14</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I80 往海洋公园<span class="bus-sub-route">(经由Granpal)</span></td></tr>
+          <tr data-time="15:43"><td>15:43</td><td>16:09</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往海洋公园<span class="bus-sub-route">(经由樱花树道)</span></td></tr>
+          <tr data-time="16:30"><td>16:30</td><td>16:56</td><td style="color:#10b981; font-weight:800;">每日</td><td style="text-align:center;">I70 往海洋公园<span class="bus-sub-route">(季节运行)</span></td></tr>
         </tbody>
       </table>
       <div style="text-align:center; margin-top:14px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-izu-bus2')">关闭</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--itin-main); color:#fff;" onclick="closeModal('modal-izu-bus2')">关闭</button>
       </div>
     </div>
   </div>
@@ -2132,7 +2155,7 @@
         <p>• 页面在首次打开后即已完整缓存至移动端浏览器内存中。即使在飞机巡航模式或日本山区/地下无信号区域，均可随时秒开并流畅查阅！</p>
       </div>
       <div style="text-align:center; margin-top:16px;">
-        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--accent); color:#fff;" onclick="closeModal('modal-offline-info')">确定</button>
+        <button class="t-btn-pill active" style="padding:10px 28px; display:inline-block; background:var(--itin-main); color:#fff;" onclick="closeModal('modal-offline-info')">确定</button>
       </div>
     </div>
   </div>
@@ -2197,6 +2220,13 @@
       }
     }
 
+    let isIslandExpanded = false;
+    function toggleIslandExpand() {
+      isIslandExpanded = !isIslandExpanded;
+      const pill = document.getElementById('dynamic-island-pill');
+      pill.classList.toggle('expanded', isIslandExpanded);
+    }
+
     function triggerNiulai() {
       const modal = document.getElementById('niulai-modal');
       modal.style.display = 'flex';
@@ -2225,12 +2255,14 @@
       paneItinerary.classList.toggle('pane-dim', index !== 1);
       paneTodo.classList.toggle('pane-dim', index !== 2);
 
-      // 控制左侧透明毛玻璃浮岛列仅在行程板块显示
-      const glassIsland = document.getElementById('left-glass-island');
+      // 控制灵动岛仅在行程板块显示
+      const pill = document.getElementById('dynamic-island-pill');
       if (index === 1) {
-        glassIsland.classList.add('visible');
+        pill.classList.add('visible');
       } else {
-        glassIsland.classList.remove('visible');
+        pill.classList.remove('visible');
+        pill.classList.remove('expanded');
+        isIslandExpanded = false;
       }
 
       updateScrollTopColor();
@@ -2307,7 +2339,8 @@
       }
     }, { passive: true });
 
-    // 滚动监听：实时高亮左侧毛玻璃浮岛列当前所在日期
+    // 滚动监听：实时更新灵动岛文字与高亮状态
+    const dayNames = { d1: '9.30 落地', d2: '10.1 瞎逛', d3: '10.2 ANA', d4: '10.3 迪士尼', d5: '10.4 箱根', d6: '10.5 伊豆', d7: '10.6 回国' };
     window.addEventListener('scroll', () => {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       if (scrollY > 20) {
@@ -2325,9 +2358,14 @@
             activeDayId = card.getAttribute('data-day');
           }
         });
-        document.querySelectorAll('.island-jump-btn').forEach(btn => btn.classList.remove('active-step'));
-        const activeBtn = document.getElementById('step-' + activeDayId);
+        document.querySelectorAll('.island-dot-btn').forEach(btn => btn.classList.remove('active-step'));
+        const activeBtn = document.getElementById('island-' + activeDayId);
         if (activeBtn) activeBtn.classList.add('active-step');
+
+        const statusTxt = document.getElementById('island-status-text');
+        if (statusTxt && dayNames[activeDayId]) {
+          statusTxt.innerText = `📌 ${dayNames[activeDayId]}`;
+        }
       }
     }, { passive: true });
 
@@ -2423,6 +2461,9 @@
       if (currentPaneIndex !== 1) slideToPane(1);
       setTimeout(() => {
         smoothOpenDay(id);
+        const pill = document.getElementById('dynamic-island-pill');
+        pill.classList.remove('expanded');
+        isIslandExpanded = false;
       }, 50);
     }
 
@@ -3040,8 +3081,8 @@
 
     function updateDayNightMode() {
       const now = new Date();
-      const jstH = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', hour12: false }).format(now));
-      const isNight = (jstH < 6 || jstH >= 18);
+      const localH = now.getHours();
+      const isNight = (localH < 6 || localH >= 18);
       document.body.classList.toggle('is-night', isNight);
     }
 
