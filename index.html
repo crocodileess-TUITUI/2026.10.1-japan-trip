@@ -322,7 +322,7 @@
       user-select: none;
     }
 
-    /* 底部灵动胶囊栏（支持左右横向平滑拨动交互） */
+    /* 底部灵动胶囊栏（支持磁吸滚轮横向拨动切换） */
     .floating-chips-container {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
@@ -354,6 +354,7 @@
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
       overflow-x: auto;
       scrollbar-width: none;
+      scroll-snap-type: x mandatory;
     }
     .floating-chips-inner:active { cursor: grabbing; }
     .floating-chips-inner::-webkit-scrollbar { display: none; }
@@ -374,6 +375,7 @@
       line-height: 1.15;
       font-size: 0.58rem;
       opacity: 0.65;
+      scroll-snap-align: center;
     }
     .f-chip .fc-d { font-size: 0.52rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
     .f-chip .fc-t { font-size: 0.58rem; font-weight: 800; white-space: nowrap; }
@@ -1315,7 +1317,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v35.0</div>
+        <div class="pane-version-badge">v72.0</div>
       </div>
 
       <!-- PANE 1: 📅 行程 -->
@@ -1933,7 +1935,7 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v36.0</div>
+        <div class="pane-version-badge">v72.0</div>
       </div>
 
       <!-- PANE 2: 📌 代办 -->
@@ -1968,13 +1970,13 @@
           </div>
         </div>
 
-        <div class="pane-version-badge">v36.0</div>
+        <div class="pane-version-badge">v72.0</div>
       </div>
 
     </div>
   </div>
 
-  <!-- 底部灵动胶囊栏（支持左右横向拨动切换） -->
+  <!-- 底部灵动胶囊栏（支持磁吸滚轮横向拨动切换及高亮定位） -->
   <div class="floating-chips-container" id="floating-chips-container">
     <div class="floating-chips-inner" id="floating-chips-bar"></div>
   </div>
@@ -2289,7 +2291,7 @@
       }
     }, { passive: true });
 
-    /* 悬浮折叠胶囊核心逻辑（增设左右滑动拨动切换手势） */
+    /* 悬浮折叠胶囊核心逻辑：高精度磁吸滚动拨动 + 联动视图跳转 */
     const allDaysMeta = [
       { id: 'd1', d: '9.30', t: '落地' },
       { id: 'd2', d: '10.1', t: '瞎逛' },
@@ -2303,9 +2305,10 @@
     let currentVisibleDayIndex = 0;
     let isChipsFullyExpanded = false;
     let collapseTimer = null;
+    let isManualScrollingChips = false; // 节流锁
 
     function detectCurrentViewingDay() {
-      if (currentPaneIndex !== 1) return;
+      if (currentPaneIndex !== 1 || isManualScrollingChips) return;
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       const triggerPoint = scrollY + 220;
 
@@ -2365,7 +2368,7 @@
       }
     }
 
-    // 胶囊栏左右滑动拨动手势交互监听
+    // 胶囊栏磁吸左右拨动手势及触觉反馈逻辑
     const chipsBarContainer = document.getElementById('floating-chips-bar');
     let chipStartX = 0;
     let chipMovedX = 0;
@@ -2380,31 +2383,43 @@
     }, { passive: true });
 
     chipsBarContainer.addEventListener('touchend', e => {
-      const threshold = 30; // 触发左右拨动阈值
+      const threshold = 25; // 触发拨动阈值
       if (Math.abs(chipMovedX) > threshold) {
         const d6Title = (currentWeatherMode === 'sunny') ? '伊豆' : 'WALK';
         const displayMeta = allDaysMeta.map((item, idx) => idx === 5 ? { ...item, t: d6Title } : item);
 
         if (chipMovedX < 0) {
-          // 向左滑动：后一天 (Next Day)
+          // 向左拨：后一天
           if (currentVisibleDayIndex < displayMeta.length - 1) {
             currentVisibleDayIndex++;
+            if (navigator.vibrate) navigator.vibrate(12); // 触觉震动反馈
+            isManualScrollingChips = true;
             smoothOpenDay(displayMeta[currentVisibleDayIndex].id);
+            setTimeout(() => { isManualScrollingChips = false; }, 400);
           }
         } else {
-          // 向右滑动：前一天 (Prev Day)
+          // 向右拨：前一天
           if (currentVisibleDayIndex > 0) {
             currentVisibleDayIndex--;
+            if (navigator.vibrate) navigator.vibrate(12); // 触觉震动反馈
+            isManualScrollingChips = true;
             smoothOpenDay(displayMeta[currentVisibleDayIndex].id);
+            setTimeout(() => { isManualScrollingChips = false; }, 400);
           }
         }
         renderFloatingChips();
       } else {
-        // 未超过阈值则当作常规点击展开或定位
+        // 轻触点击切换
         const targetChip = e.target.closest('.f-chip');
         if (targetChip) {
           const dayId = targetChip.getAttribute('data-day');
+          const idx = Number(targetChip.getAttribute('data-index'));
+          currentVisibleDayIndex = idx;
+          if (navigator.vibrate) navigator.vibrate(8);
+          isManualScrollingChips = true;
           smoothOpenDay(dayId);
+          setTimeout(() => { isManualScrollingChips = false; }, 400);
+          renderFloatingChips();
           if (isChipsFullyExpanded) {
             isChipsFullyExpanded = false;
             renderFloatingChips();
@@ -3149,7 +3164,7 @@
       { name: "香港快运航班起飞 🛫", time: new Date("2026-09-30T15:10:00+08:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "15:10", desc: "香港 T2 ➔ 成田 T2" },
       { name: "成田 T2 落地 🛬", time: new Date("2026-09-30T20:40:00+09:00").getTime(), dayId: "d1", dateText: "9.30", timeText: "20:40", desc: "提取行李直达成田中" },
       { name: "ANA 机体见学报到 ✈️", time: new Date("2026-10-02T14:15:00+09:00").getTime(), dayId: "d3", dateText: "10.02", timeText: "14:15", desc: "新整备场大巴直达机库" },
-      { name: "东京迪士尼开园 🏰", time: new Date("2026-10-03T08:30:00+09:00").getTime(), dayId: "d4", dateText: "10.03", timeText: "08:30", desc: "万圣节特档抢刷 DPA" },
+      { name: "东京迪士尼开园 🏰", time: new Date("2026-10-03T08:30:00+09:00").getTime(), dayId: "d4", dateText: "10.03", timeText: "08:30", desc: "迪士尼 · 牛来！" },
       { name: "箱根顺时针巡游 🚠", time: new Date("2026-10-04T08:00:00+09:00").getTime(), dayId: "d5", dateText: "10.04", timeText: "08:00", desc: "海贼船 · 宿热海温泉" },
       { name: "伊豆大室山 / WALK 🌋", time: new Date("2026-10-05T08:00:00+09:00").getTime(), dayId: "d6", dateText: "10.05", timeText: "08:00", desc: "缆车登顶 / 都心漫步" },
       { name: "羽田起飞返港 ✈️", time: new Date("2026-10-06T01:00:00+09:00").getTime(), dayId: "d7", dateText: "10.06", timeText: "01:00", desc: "羽田 T3 启程回国" },
