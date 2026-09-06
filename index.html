@@ -157,7 +157,6 @@
       opacity: 1;
     }
 
-    /* Next Milestone 卡片 */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -214,7 +213,6 @@
     .timer-val.num-tick { transform: translateY(-2px); }
     .timer-lbl { font-size: 0.64rem; font-weight: 800; color: var(--milestone-sub-text); margin-top: 5px; }
 
-    /* 登机牌车票风展开卡片 */
     .milestone-future-box {
       margin-top: 14px;
       padding-top: 12px;
@@ -288,7 +286,6 @@
     .ticket-countdown-val { font-size: 0.76rem; font-weight: 900; color: var(--milestone-badge); font-variant-numeric: tabular-nums; }
     .ticket-jump-arrow { font-size: 0.65rem; color: var(--milestone-sub-text); }
 
-    /* 三栏视口 */
     .viewport-outer { width: 100%; overflow: hidden; position: relative; }
     .viewport-track {
       display: flex;
@@ -305,7 +302,6 @@
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 底置 Dock 导航 */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -365,7 +361,6 @@
     .dock-btn.active { color: #fff; }
     .dock-btn:active { transform: scale(0.92); }
 
-    /* 晴雨决策卡片 */
     .control-deck-card {
       background: #ffffff;
       border: 2px solid var(--itin-border);
@@ -456,7 +451,6 @@
 
     .sec-head { font-size: 0.96rem; font-weight: 900; margin: 16px 4px 10px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* 大交通卡片 */
     .transit-card {
       background: linear-gradient(145deg, var(--glass-card), var(--glass-bg));
       border: 1px solid var(--glass-border);
@@ -515,7 +509,7 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 方案 A Metro 轨交地图容器 */
+    /* 允许地图区域顺畅上下滚动 (pan-y)，仅锁死横向拖拽与长按 */
     .map-tabs-bar {
       display: flex;
       background: #f1f5f9;
@@ -553,7 +547,7 @@
       border: 1.5px solid var(--itin-border);
       box-shadow: 0 4px 18px rgba(0,0,0,0.04);
       transition: border-color 0.3s;
-      touch-action: none;
+      touch-action: pan-y !important;
       -webkit-user-drag: none;
       user-drag: none;
     }
@@ -567,7 +561,7 @@
       max-height: 270px; 
       transform-origin: center center; 
       pointer-events: none;
-      touch-action: none;
+      touch-action: pan-y !important;
       -webkit-user-drag: none;
       user-drag: none;
     }
@@ -653,21 +647,22 @@
       margin-bottom: 16px; 
       transition: opacity 0.25s, background 0.4s; 
       border-radius: 8px; 
-      padding: 4px 6px; 
+      padding: 2px 4px; 
     }
     .tl-node:last-child { margin-bottom: 0; }
-    /* 竖线穿心点：以 .tl-top 的首行中心为绝对基准 */
+    /* 严格对准 22px 高度时间胶囊的视觉正中心 (top: 11px, 圆点 8px, 半径 4px) */
     .tl-node::before {
       content: ''; 
       position: absolute; 
       left: -21px; 
-      top: 15px; 
+      top: 11px; 
       width: 8px; 
       height: 8px;
       border-radius: 50%; 
       border: 2px solid var(--glass-card); 
       transition: background 0.3s;
       box-sizing: content-box;
+      transform: translateY(-50%);
     }
     .tl-node.node-flash { background: var(--itin-soft); box-shadow: 0 0 18px var(--itin-shadow); }
 
@@ -714,21 +709,21 @@
     .tl-notes strong { color: var(--itin-main); display: block; margin-bottom: 4px; transition: color 0.3s; }
     .tl-note-line { display: block; margin-top: 5px; }
 
-    /* 独立“酒店退订”红底微卡 */
-    .hotel-cancel-highlight-node {
+    /* 酒店退订红底微卡节点：不破坏时间轴轴线 */
+    .hotel-cancel-node-box {
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.08) 0%, rgba(239, 68, 68, 0.02) 100%);
       border: 1.5px solid rgba(220, 38, 38, 0.32);
       border-radius: 12px;
-      padding: 8px 10px;
-      margin-top: 6px;
+      padding: 8px 10px !important;
+      margin-top: 4px;
     }
-    .hotel-cancel-highlight-node::before {
+    .hotel-cancel-node-box::before {
       background: #dc2626 !important;
       border-color: #fee2e2 !important;
       top: 19px !important;
     }
 
-    /* 方案 A 迪士尼心愿单与全项目库弹窗交互 */
+    /* 方案 A 迪士尼心愿单与全量项目库 */
     .disney-wish-header-pill {
       display: flex;
       align-items: center;
@@ -890,7 +885,10 @@
       border: 1px solid var(--modal-border); position: relative; -webkit-overflow-scrolling: touch;
       transition: background 0.35s, color 0.35s;
     }
-    .modal-handle { width: 38px; height: 4.5px; background: rgba(148, 163, 184, 0.4); border-radius: 4px; margin: 4px auto 14px; }
+    .modal-handle { 
+      width: 44px; height: 5px; background: rgba(148, 163, 184, 0.45); border-radius: 4px; margin: 4px auto 14px; 
+      cursor: grab;
+    }
 
     .bus-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.74rem; }
     .bus-table th, .bus-table td { border: 1px solid var(--modal-table-td-border); padding: 8px 6px; text-align: center; }
@@ -934,7 +932,6 @@
       margin-top: 2px;
     }
 
-    /* 独立应急备忘录卡片 */
     .footer-tools-card {
       padding: 16px;
       border-radius: var(--radius);
@@ -947,7 +944,6 @@
     .footer-tools-card p { margin-bottom: 6px; }
     .footer-tools-card a { color: var(--accent); text-decoration: none; font-weight: 800; padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,0.03); }
 
-    /* 离线就绪交互卡 */
     .offline-check-trigger {
       display: inline-flex;
       align-items: center;
@@ -969,7 +965,6 @@
     }
     .offline-dot.ready { background: var(--success); }
 
-    /* 回顶快捷按钮 */
     #scroll-top-btn {
       position: fixed;
       left: 18px;
@@ -1020,7 +1015,7 @@
         <div class="timer-box"><div class="timer-val" id="s">00</div><div class="timer-lbl">SECS</div></div>
       </div>
 
-      <!-- 登机牌车票风格后续展开 -->
+      <!-- 方案 1：登机牌车票风格展开列表 -->
       <div class="milestone-future-box">
         <button class="milestone-toggle-btn" id="future-toggle-btn" onclick="toggleFutureList()">
           <span id="future-toggle-text">展开查看后续倒计时行程</span> <span id="future-toggle-arrow">▾</span>
@@ -1173,7 +1168,7 @@
         </div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 (默认首屏直接就绪) -->
+      <!-- PANE 1: 📅 行程安排 -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 晴雨决策控制舱 -->
@@ -1209,30 +1204,24 @@
             
             <!-- 方案 A Metro风 晴天 1：全程概览 (成田到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-sun-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg">
-              <!-- 成田到家全段红色虚线 -->
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
-              <!-- 常规主干统一晴天色 -->
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 330,65 L 400,65" stroke="#f59e0b" stroke-width="4"/>
               <path class="metro-line" d="M 240,100 L 160,100 L 120,145 L 120,185 L 170,235" stroke="#f59e0b" stroke-width="4"/>
               
-              <!-- 羽田段红色虚线 -->
               <path class="metro-line" d="M 170,235 L 240,235 L 330,140" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
-              <!-- 成田T2 (红色高亮) -->
               <g class="metro-node" id="node-sun-all-nrt">
                 <circle cx="430" cy="35" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="430" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2</text>
               </g>
 
-              <!-- 家 (经典蓝色圆角矩形，突出大本营语言) -->
               <g class="metro-node" id="node-sun-all-home">
                 <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
                 <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
               </g>
 
-              <!-- 各站点字体字重完全统一 -->
               <g class="metro-node" id="node-sun-all-ana">
                 <circle cx="330" cy="100" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
                 <text x="344" y="104" text-anchor="start" font-size="11" font-weight="800" fill="var(--text-main)">ANA见学</text>
@@ -1248,7 +1237,6 @@
                 <text x="106" y="149" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">箱根</text>
               </g>
 
-              <!-- 热海 (统一字体与晴天色，不单独改色) -->
               <g class="metro-node" id="node-sun-all-atami">
                 <circle cx="120" cy="185" r="7" fill="#fff" stroke="#f59e0b" class="metro-station-outer"/>
                 <text x="106" y="189" text-anchor="end" font-size="11" font-weight="800" fill="var(--text-main)">热海</text>
@@ -1259,7 +1247,6 @@
                 <text x="170" y="252" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">伊豆</text>
               </g>
 
-              <!-- 羽田T3 (红色高亮) -->
               <g class="metro-node" id="node-sun-all-hnd">
                 <circle cx="330" cy="140" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="344" y="144" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
@@ -1287,37 +1274,37 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 (全站点，突出海贼船、大涌谷、大室山) -->
+            <!-- 方案 A Metro风 晴天 3：箱根·热海·伊豆 (海贼船、大涌谷、大室山独立突出，其余严格统一) -->
             <svg class="metro-map" id="map-svg-sun-resort" viewBox="15 10 470 260" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 105,45 L 175,45 L 245,45 L 245,95 L 175,95 L 105,95 L 105,145 L 175,145" stroke="#f59e0b" stroke-width="3.5"/>
               <path class="metro-line" d="M 175,145 L 255,145 L 255,190 L 340,190 L 340,230 L 420,230" stroke="#f59e0b" stroke-width="3.5"/>
 
               <g class="metro-node" id="node-sun-r-odawara">
                 <circle cx="45" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="45" y="32" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">小田原</text>
+                <text x="45" y="32" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-main)">小田原</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-yumoto">
                 <circle cx="105" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="105" y="32" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">箱根汤本</text>
+                <text x="105" y="32" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-main)">箱根汤本</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-motohakone">
                 <circle cx="175" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="175" y="32" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">元箱根港</text>
+                <text x="175" y="32" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-main)">元箱根港</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-torii">
                 <circle cx="245" cy="45" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="255" y="48" text-anchor="start" font-size="9.5" font-weight="500" fill="#64748b">平和鸟居</text>
+                <text x="255" y="48" text-anchor="start" font-size="9" font-weight="600" fill="var(--text-main)">平和鸟居</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-narukawa">
                 <circle cx="245" cy="95" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="255" y="98" text-anchor="start" font-size="9.5" font-weight="500" fill="#64748b">成川美术馆</text>
+                <text x="255" y="98" text-anchor="start" font-size="9" font-weight="600" fill="var(--text-main)">成川美术馆</text>
               </g>
 
-              <!-- 突出海贼船 ⚓ (表情在后) -->
+              <!-- 突出海贼船 ⚓ -->
               <g class="metro-node" id="node-sun-r-ship">
                 <circle cx="175" cy="95" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
                 <text x="175" y="81" text-anchor="middle" font-size="11.5" font-weight="900" fill="#b45309">海贼船 ⚓</text>
@@ -1331,12 +1318,12 @@
 
               <g class="metro-node" id="node-sun-r-sculpture">
                 <circle cx="105" cy="145" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="91" y="149" text-anchor="end" font-size="9.5" font-weight="500" fill="#64748b">雕刻之森</text>
+                <text x="91" y="149" text-anchor="end" font-size="9" font-weight="600" fill="var(--text-main)">雕刻之森</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-atami">
-                <circle cx="175" cy="145" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="175" y="164" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">热海</text>
+                <circle cx="175" cy="145" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="175" y="164" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-main)">热海</text>
               </g>
 
               <!-- 突出大室山 🌋 -->
@@ -1346,19 +1333,18 @@
               </g>
 
               <g class="metro-node" id="node-sun-r-cactus">
-                <circle cx="340" cy="190" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="352" y="194" text-anchor="start" font-size="9.5" font-weight="500" fill="#64748b">仙人掌</text>
+                <circle cx="340" cy="190" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="352" y="194" text-anchor="start" font-size="9" font-weight="600" fill="var(--text-main)">仙人掌</text>
               </g>
 
               <g class="metro-node" id="node-sun-r-jogasaki">
-                <circle cx="420" cy="230" r="5.5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
-                <text x="420" y="248" text-anchor="middle" font-size="9.5" font-weight="500" fill="#64748b">城崎海岸</text>
+                <circle cx="420" cy="230" r="5" fill="#fff" stroke="#f59e0b" stroke-width="2"/>
+                <text x="420" y="248" text-anchor="middle" font-size="9" font-weight="600" fill="var(--text-main)">城崎海岸</text>
               </g>
             </svg>
 
             <!-- 方案 A Metro风 雨天 1：全程概览 (成田到家全段红色虚线) -->
             <svg class="metro-map" id="map-svg-rain-all" viewBox="15 10 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-              <!-- 成田到家全段红色虚线 -->
               <path class="metro-line" d="M 430,35 L 340,35 L 240,100" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
               
               <path class="metro-line" d="M 240,100 L 330,100" stroke="#047857" stroke-width="4"/>
@@ -1366,16 +1352,13 @@
               <path class="metro-line" d="M 240,100 L 130,100 L 130,175" stroke="#047857" stroke-width="4"/>
               <path class="metro-line" d="M 130,175 L 240,175 L 240,225" stroke="#047857" stroke-width="4"/>
               
-              <!-- 羽田段红色虚线 -->
               <path class="metro-line" d="M 240,225 L 340,225 L 340,150" stroke="#ef4444" stroke-width="4" stroke-dasharray="5,4"/>
 
-              <!-- 成田T2 (红色高亮) -->
               <g class="metro-node" id="node-rain-all-nrt">
                 <circle cx="430" cy="35" r="7.5" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="430" y="21" text-anchor="middle" font-size="11" font-weight="800" fill="#ef4444">成田T2</text>
               </g>
 
-              <!-- 家 -->
               <g class="metro-node" id="node-rain-all-home">
                 <rect x="228" y="88" width="24" height="24" rx="6" fill="#2563eb" stroke="#fff" stroke-width="2"/>
                 <text x="240" y="104" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">家</text>
@@ -1401,7 +1384,6 @@
                 <text x="240" y="244" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">WALK</text>
               </g>
 
-              <!-- 羽田T3 (红色高亮) -->
               <g class="metro-node" id="node-rain-all-hnd">
                 <circle cx="340" cy="150" r="8" fill="#fff" stroke="#ef4444" stroke-width="3"/>
                 <text x="354" y="154" text-anchor="start" font-size="11" font-weight="800" fill="#ef4444">羽田T3</text>
@@ -1429,7 +1411,7 @@
               </g>
             </svg>
 
-            <!-- 方案 A Metro风 雨天 3：箱根·WALK (突出海贼船、大涌谷、中目黑、代官山，含公园) -->
+            <!-- 方案 A Metro风 雨天 3：箱根·WALK (突出海贼船、大涌谷、中目黑、代官山，含公园，其余统一) -->
             <svg class="metro-map" id="map-svg-rain-hw" viewBox="15 15 470 255" xmlns="http://www.w3.org/2000/svg" style="display:none;">
               <path class="metro-line" d="M 45,45 L 95,45 L 145,45 L 195,45 L 195,95 L 145,95 L 95,95 L 95,145 L 145,145 L 240,145" stroke="#047857" stroke-width="3.5"/>
               <path class="metro-line" d="M 240,145 L 240,195 L 295,195 L 350,195 L 400,195 L 445,195" stroke="#047857" stroke-width="3.5"/>
@@ -1437,27 +1419,27 @@
 
               <g class="metro-node" id="node-rain-hw-odawara">
                 <circle cx="45" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="45" y="32" text-anchor="middle" font-size="8.5" font-weight="500" fill="#64748b">小田原</text>
+                <text x="45" y="32" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">小田原</text>
               </g>
 
               <g class="metro-node" id="node-rain-hw-yumoto">
                 <circle cx="95" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="95" y="32" text-anchor="middle" font-size="8.5" font-weight="500" fill="#64748b">箱根汤本</text>
+                <text x="95" y="32" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">箱根汤本</text>
               </g>
 
               <g class="metro-node" id="node-rain-hw-motohakone">
                 <circle cx="145" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="145" y="32" text-anchor="middle" font-size="8.5" font-weight="500" fill="#64748b">元箱根港</text>
+                <text x="145" y="32" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">元箱根港</text>
               </g>
 
               <g class="metro-node" id="node-rain-hw-torii">
                 <circle cx="195" cy="45" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="204" y="48" text-anchor="start" font-size="8.5" font-weight="500" fill="#64748b">平和鸟居</text>
+                <text x="204" y="48" text-anchor="start" font-size="8.5" font-weight="600" fill="var(--text-main)">平和鸟居</text>
               </g>
 
               <g class="metro-node" id="node-rain-hw-narukawa">
                 <circle cx="195" cy="95" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="204" y="98" text-anchor="start" font-size="8.5" font-weight="500" fill="#64748b">成川美术馆</text>
+                <text x="204" y="98" text-anchor="start" font-size="8.5" font-weight="600" fill="var(--text-main)">成川美术馆</text>
               </g>
 
               <!-- 突出海贼船 ⚓ -->
@@ -1474,7 +1456,7 @@
 
               <g class="metro-node" id="node-rain-hw-sculpture">
                 <circle cx="95" cy="145" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="81" y="149" text-anchor="end" font-size="8.5" font-weight="500" fill="#64748b">雕刻之森</text>
+                <text x="81" y="149" text-anchor="end" font-size="8.5" font-weight="600" fill="var(--text-main)">雕刻之森</text>
               </g>
 
               <g class="metro-node" id="node-rain-hw-home">
@@ -1495,14 +1477,13 @@
               </g>
 
               <g class="metro-node" id="node-rain-hw-shibuya">
-                <circle cx="350" cy="195" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="350" y="213" text-anchor="middle" font-size="9" font-weight="500" fill="#64748b">涩谷</text>
+                <circle cx="350" cy="195" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="350" y="213" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">涩谷</text>
               </g>
 
-              <!-- 公园 -->
               <g class="metro-node" id="node-rain-hw-park">
-                <circle cx="400" cy="195" r="5.5" fill="#fff" stroke="#047857" stroke-width="2"/>
-                <text x="400" y="181" text-anchor="middle" font-size="9" font-weight="500" fill="#64748b">公园</text>
+                <circle cx="400" cy="195" r="5" fill="#fff" stroke="#047857" stroke-width="2"/>
+                <text x="400" y="181" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--text-main)">公园</text>
               </g>
 
               <!-- 羽田T3 (红标) -->
@@ -1566,8 +1547,8 @@
                 <div class="tl-desc">京成 Access 特急换乘市营地下铁绿线直达家中安顿。</div>
               </div>
               
-              <!-- 酒店退订 ⚠️ (严格融入时间轴穿心居中，独立红底色块，不影响上下) -->
-              <div class="tl-node hotel-cancel-highlight-node" id="tl-d1-5">
+              <!-- 酒店退订 ⚠️ (严格穿心居中时间轴，独立红底微卡) -->
+              <div class="tl-node hotel-cancel-node-box" id="tl-d1-5">
                 <div class="tl-top">
                   <span class="tl-time" style="background:var(--danger-soft); border-color:rgba(220,38,38,0.35); color:var(--danger); font-weight:900;">23:00 前</span>
                   <span class="tl-place" style="color:var(--danger); font-weight:900;">酒店退订 ⚠️</span>
@@ -1704,7 +1685,7 @@
                   <span style="font-size:1.1rem; color:var(--accent);">✦</span>
                 </div>
 
-                <!-- 与 12306 / 航旅纵横一致的 App 直接唤醒逻辑 -->
+                <!-- 与 12306 / 航旅纵横一致的原生 App 启动逻辑 -->
                 <div style="margin-top:8px;">
                   <button class="btn-action-pill" style="width:100%; justify-content:center; padding:9px 12px;" onclick="openDisneyApp()">
                     🏰 启动东京迪士尼官方 App ↗
@@ -1736,7 +1717,7 @@
           </div>
           <div class="day-body-inner">
             <div class="guideline-panel" id="d5-guideline">
-              <div class="guideline-header">📌 箱根核心准则</div>
+              <div class="guideline-header">📌 PS备注：</div>
               <div class="guideline-body">
                 <span class="guideline-item">1、天气一定一定要好</span>
                 <span class="guideline-item">2、买箱根二日周游券（咸鱼买，最少是二日游的，不管玩几天都赚，买横滨出发，要纸质版不要电子版），免费坐所有箱根的交通工具、小田原站→箱根汤本</span>
@@ -1761,10 +1742,11 @@
           </div>
           <div class="day-body-inner">
             <div class="guideline-panel" id="d6-guideline">
-              <div class="guideline-header">📌 伊豆核心准则</div>
+              <div class="guideline-header">📌 PS备注：</div>
               <div class="guideline-body">
                 <span class="guideline-item">1、天气一定一定要好</span>
-                <span class="guideline-item">2、8点就要出门，9：25第一班大巴发车，第二班是10：00</span>
+                <span class="guideline-item">2、8点就要出门。</span>
+                <span class="guideline-item">3、9：25第一班大巴发车，10：00第二班大巴发车</span>
               </div>
             </div>
             <div class="timeline" id="d6-timeline"></div>
@@ -2028,10 +2010,10 @@
     </div>
   </div>
 
-  <!-- 弹窗 5：迪士尼心愿单与全量项目库管理 (全量项目补充) -->
+  <!-- 弹窗 5：迪士尼心愿单与全量项目库管理 -->
   <div class="modal-overlay" id="modal-disney" onclick="closeModal('modal-disney')">
-    <div class="modal-sheet" onclick="event.stopPropagation()">
-      <div class="modal-handle"></div>
+    <div class="modal-sheet" id="sheet-disney-content" onclick="event.stopPropagation()">
+      <div class="modal-handle" id="handle-disney"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h4 style="font-size:0.95rem; font-weight:900;">🏰 东京迪士尼心愿单与项目库</h4>
         <span style="cursor:pointer; font-size:1.2rem; font-weight:bold;" onclick="closeModal('modal-disney')">✕</span>
@@ -2125,7 +2107,7 @@
       });
     }
 
-    // 触摸滑动拦截：地图与站点彻底黑名单化，不阻断点击
+    // 触摸滑动判定 (仅横向滑动视口，严格忽略地图区域及可点击元素)
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -2209,27 +2191,36 @@
       document.getElementById(id).style.display = 'none'; 
     }
 
+    // 弹窗手势隔离：仅允许在顶部拉手（modal-handle）区域下拉关闭，彻底防止选项目向上/向下滑动时误关弹窗
     function initSheetDrag(modalId) {
       const sheet = document.querySelector(`#${modalId} .modal-sheet`);
+      const handle = document.querySelector(`#${modalId} .modal-handle`);
       if (!sheet || sheet._dragInited) return;
       sheet._dragInited = true;
 
+      const dragTarget = handle || sheet;
       let sheetStartY = 0;
-      sheet.addEventListener('touchstart', e => {
+      let isDraggingHandle = false;
+
+      dragTarget.addEventListener('touchstart', e => {
         sheetStartY = e.touches[0].clientY;
+        isDraggingHandle = true;
       }, { passive: true });
 
-      sheet.addEventListener('touchmove', e => {
+      dragTarget.addEventListener('touchmove', e => {
+        if (!isDraggingHandle) return;
         const diffY = e.touches[0].clientY - sheetStartY;
         if (diffY > 0 && sheet.scrollTop <= 0) {
           sheet.style.transform = `translateY(${diffY}px)`;
         }
       }, { passive: true });
 
-      sheet.addEventListener('touchend', e => {
+      dragTarget.addEventListener('touchend', e => {
+        if (!isDraggingHandle) return;
+        isDraggingHandle = false;
         const diffY = e.changedTouches[0].clientY - sheetStartY;
         sheet.style.transition = 'transform 0.2s';
-        if (diffY > 100) {
+        if (diffY > 90) {
           closeModal(modalId);
           sheet.style.transform = 'none';
         } else {
@@ -2238,7 +2229,7 @@
       }, { passive: true });
     }
 
-    // 次级地图：精准计算并平滑滚动到屏幕正中
+    // 次级地图：精准计算并平滑滚动到屏幕正中 (50% 居中)
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
@@ -2304,7 +2295,7 @@
       });
     }
 
-    // 唤醒迪士尼官方 App (同 12306 / 航旅纵横逻辑)
+    // 唤醒迪士尼官方 App
     function openDisneyApp() {
       showToast("正在唤醒东京迪士尼度假区 App 🏰");
       const appUrl = "tokyodisneyresort://";
@@ -2318,7 +2309,7 @@
       }, 1000);
     }
 
-    // 0 延迟原生触控绑定
+    // 0 延迟原生触控绑定与穿透保护
     function attachFastMetroClick(elId, callback) {
       const el = document.getElementById(elId);
       if (!el) return;
@@ -2437,166 +2428,7 @@
       }
     }
 
-    const customDays = {
-      sunny: {
-        d5_title: "箱根",
-        d5_desc: "箱根 · 热海",
-        d5_nodes: [
-          { id: "tl-d5-2", time: "", place: "市区→地铁→小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "用周游券坐 or 浪漫特快（单独买票）" },
-          { id: "tl-d5-3", time: "", place: "小田原站→登山列车→箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "下车！" },
-          { id: "tl-d5-4", time: "", place: "箱根汤本站→巴士→元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "建议等座位，全是山路无座会挤得很难受，路途后半段开始能看到富士山" },
-          { id: "tl-d5-5", time: "", place: "平和鸟居/箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "人很多，步行往返共40分钟" },
-          { id: "tl-d5-6", time: "", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "出示周游券-200ren=1300ren 有观景台，芦之湖、平和鸟居和富士山同框" },
-          { id: "tl-d5-7", time: "", place: "元箱根港→海贼船→桃源台站 ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券是普通席免费，加钱升舱体验会好很多，什么舱都可以上甲板" },
-          { id: "tl-d5-8", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!" },
-          { id: "tl-d5-9", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
-          
-          { isDivider: true, title: "热海" },
-
-          { id: "tl-d5-10", time: "", place: "热海酒店", nav: "https://maps.google.com/?q=Hotel+Resorpia+Atami", desc: "记得带护照" },
-          { id: "tl-d5-11", time: "", place: "热海布丁本店", nav: "https://maps.google.com/?q=Atami+Purin", desc: "有限定口味，还有抹茶或者招牌都可以" },
-          { id: "tl-d5-12", time: "", place: "热海银座商业街", nav: "https://maps.google.com/?q=Atami+Ginza+Shopping+Street", desc: "饿了就吃，吃完就逛" },
-          { id: "tl-d5-13", time: "", place: "热海亲水公园", nav: "https://maps.google.com/?q=Atami+Shinsui+Park", desc: "商业街吃完可以来逛逛海边" },
-          { id: "tl-d5-14", time: "", place: "MOA美术馆", nav: "https://maps.google.com/?q=MOA+Museum+of+Art", desc: "门口公交直达，去程坐左边，返程坐右边；馆里有海景位，天气不好就不用去了" },
-          { id: "tl-d5-15", time: "", place: "来宫神社", nav: "https://maps.google.com/?q=Kinomiya+Shrine", desc: "免费 有棵2000多岁的大楠" }
-        ],
-        d6_title: "伊豆",
-        d6_desc: "大室山缆车 · 仙人掌公园 · 城崎海岸 · 羽田机场",
-        d6_nodes: [
-          { id: "tl-d6-2", time: "", place: "伊豆高原站→巴士→仙人掌公园站", nav: "https://maps.google.com/?q=Izu-Kogen+Station", desc: "大巴间隔时间很长<br><button class='btn-action-pill' onclick='openIzuBusModal(1)'>🚏 查看此段完整时刻表</button>" },
-          { id: "tl-d6-3", time: "", place: "上山缆车 🚠", nav: "https://maps.google.com/?q=Omuroyama", desc: "最后一个柱子两侧有拍照的机器，照片1200ren" },
-          { id: "tl-d6-4", time: "", place: "大室山", nav: "https://maps.google.com/?q=Mount+Omuro", desc: "你的名字取景地" },
-          { id: "tl-d6-5", time: "", place: "仙人掌公园", nav: "https://maps.google.com/?q=Izu+Shaboten+Zoo", desc: "如果缆车临时停运再考虑去，可以和动物互动" },
-          { id: "tl-d6-6", time: "", place: "仙人掌公园站→巴士→伊豆海洋公园", nav: "https://maps.google.com/?q=Izu+Ocean+Park", desc: "1、大巴间隔时间很长，海洋公园站离城崎海岸最近；<br>2、如果没赶上就坐大巴到伊豆高原站，走路过去<br><button class='btn-action-pill' onclick='openIzuBusModal(2)'>🚏 查看此段完整时刻表</button>" },
-          { id: "tl-d6-7", time: "", place: "城崎海岸", nav: "https://maps.google.com/?q=Kadowaki+Suspension+Bridge", desc: "门胁吊桥，海边散步，灯塔可以上去" },
-          { id: "tl-d6-8", time: "", place: "城崎海岸站→巴士→伊豆高原站", nav: "https://maps.google.com/?q=Jogasaki-Kaigan+Station", desc: "返回伊豆高原站" },
-          { id: "tl-d6-9", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "如果时间早可以接上“WALK”的行程" },
-          { id: "tl-d6-10", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "前往羽田办理托运值机，从容准备启程回国。" }
-        ]
-      },
-      rainy: {
-        d5_title: "箱根",
-        d5_desc: "箱根顺时针玩 · 天气不好回横滨家中安睡",
-        d5_nodes: [
-          { id: "tl-d5-r2", time: "", place: "市区→地铁→小田原站", nav: "https://maps.google.com/?q=Odawara+Station", desc: "用周游券坐 or 浪漫特快（单独买票）" },
-          { id: "tl-d5-r3", time: "", place: "小田原站→登山列车→箱根汤本站", nav: "https://maps.google.com/?q=Hakone-Yumoto+Station", desc: "下车！" },
-          { id: "tl-d5-r4", time: "", place: "箱根汤本站→巴士→元箱根港", nav: "https://maps.google.com/?q=Motohakone-port", desc: "建议等座位，全是山路无座会挤得很难受" },
-          { id: "tl-d5-r5", time: "", place: "平和鸟居/箱根神社 ⛩️", nav: "https://maps.google.com/?q=Hakone+Shrine", desc: "人很多，步行往返共40分钟" },
-          { id: "tl-d5-r6", time: "", place: "成川美术馆", nav: "https://maps.google.com/?q=Narukawa+Art+Museum", desc: "出示周游券-200ren=1300ren 有观景台" },
-          { id: "tl-d5-r7", time: "", place: "元箱根港→海贼船→桃源台站 ⚓", nav: "https://maps.google.com/?q=Togendai+Station", desc: "周游券普通席免费，可加钱升舱" },
-          { id: "tl-d5-r8", time: "", place: "桃源台站", nav: "https://maps.google.com/?q=Togendai+Station", desc: "下船换乘箱根空中缆车前往大涌谷" },
-          { id: "tl-d5-r9", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!" },
-          { id: "tl-d5-r10", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
-          { id: "tl-d5-r11", time: "回家", place: "回到家中", nav: "https://maps.google.com/?q=3-chōme-6-23+Minamiyamata,+Tsuzuki+Ward,+Yokohama,+Kanagawa+224-0029", desc: "已退订热海酒店，返回横滨家中安睡" }
-        ],
-        d6_title: "WALK",
-        d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田回国",
-        d6_nodes: [
-          { isDivider: true, title: "中目黑" },
-          { id: "tl-d6-r1", time: "", place: "Sidewalk Stand", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
-          { id: "tl-d6-r2", time: "", place: "TRASPARENTE - 糕点店Nakameguro", nav: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", desc: "奶茶布丁 推荐试一下" },
-          { id: "tl-d6-r3", time: "", place: "TRASPARENTE - 三明治店il Fiore", nav: "https://maps.google.com/?q=TRASPARENTE+il+Fiore", desc: "逛街代餐：<br>• 香肠卷心菜面包<br>• 虾仁土豆塔丁<br>• 鸡肉土豆佛卡夏" },
-          { id: "tl-d6-r4", time: "", place: "I'm donut ?", nav: "https://maps.google.com/?q=I'm+donut+Nakameguro", desc: "很多人吃的甜甜圈 只能cash" },
-          { id: "tl-d6-r5", time: "", place: "樱桥", nav: "https://maps.google.com/?q=Sakura-bashi+Nakameguro", desc: "周杰伦机位" },
-          { id: "tl-d6-r6", time: "", place: "dacō", nav: "https://maps.google.com/?q=dacō+Nakameguro", desc: "平价面包店" },
-          { id: "tl-d6-r7", time: "", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡，很多人喝，但是好像一般般" },
-          { id: "tl-d6-r8", time: "", place: "星巴克", nav: "https://maps.google.com/?q=Starbucks+Reserve+Roastery+Tokyo", desc: "亚洲最大星巴克，提前搜一下预约码" },
-
-          { isDivider: true, title: "代官山" },
-          { id: "tl-d6-r9", time: "", place: "茑屋书店", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "一个漂亮的小书店" },
-          { id: "tl-d6-r10", time: "", place: "Miffy café", nav: "https://maps.google.com/?q=Miffy+cafe+Daikanyama", desc: "米菲咖啡" },
-          { id: "tl-d6-11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
-
-          { isDivider: true, title: "涩谷" },
-          { id: "tl-d6-12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
-
-          { isDivider: true, title: "公园" },
-          { id: "tl-d6-13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" },
-          { id: "tl-d6-14", time: "回国", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续启程回国。" }
-        ]
-      }
-    };
-
-    function renderTour(mode) {
-      currentWeatherMode = mode;
-      const p = customDays[mode];
-
-      const itinPane = document.getElementById('pane-itinerary');
-      itinPane.classList.toggle('itin-rainy', mode === 'rainy');
-
-      document.getElementById('d5-title').innerHTML = p.d5_title;
-      document.getElementById('d5-desc').innerHTML = p.d5_desc;
-      document.getElementById('d5-timeline').innerHTML = p.d5_nodes.map(n => {
-        if (n.isDivider) {
-          return `
-            <div class="region-divider">
-              <span class="region-divider-badge">${n.title}</span>
-            </div>
-          `;
-        }
-        return `
-          <div class="tl-node" id="${n.id}">
-            <div class="tl-top">
-              ${n.time ? `<span class="tl-time">${n.time}</span>` : ''}
-              <span class="tl-place">${n.place}</span>
-              ${n.nav ? `<a class="btn-nav-pin" href="${n.nav}" target="_blank">🗺️</a>` : ''}
-            </div>
-            <div class="tl-desc">${n.desc}</div>
-          </div>
-        `;
-      }).join('');
-
-      document.getElementById('d6-title').innerHTML = p.d6_title;
-      document.getElementById('d6-desc').innerHTML = p.d6_desc;
-
-      const d6Guideline = document.getElementById('d6-guideline');
-      if (d6Guideline) {
-        d6Guideline.style.display = (mode === 'sunny') ? 'block' : 'none';
-      }
-
-      document.getElementById('d6-timeline').innerHTML = p.d6_nodes.map(n => {
-        if (n.isDivider) {
-          return `
-            <div class="region-divider">
-              <span class="region-divider-badge">${n.title}</span>
-            </div>
-          `;
-        }
-        return `
-          <div class="tl-node" id="${n.id}">
-            <div class="tl-top">
-              ${n.time ? `<span class="tl-time">${n.time}</span>` : ''}
-              <span class="tl-place">${n.place}</span>
-              ${n.nav ? `<a class="btn-nav-pin" href="${n.nav}" target="_blank">🗺️</a>` : ''}
-            </div>
-            <div class="tl-desc">${n.desc}</div>
-          </div>
-        `;
-      }).join('');
-
-      const chipD5 = document.getElementById('chip-d5');
-      const chipD6 = document.getElementById('chip-d6');
-
-      if (mode === 'sunny') {
-        chipD5.innerText = "10.4 箱根/热海";
-        chipD6.innerText = "10.5 伊豆";
-      } else {
-        chipD5.innerText = "10.4 箱根";
-        chipD6.innerText = "10.5 WALK";
-      }
-
-      updateMapTabsForWeather(mode);
-      updateScrollTopColor();
-      initAllMetroNodes();
-    }
-
-    function setWeatherMode(mode) {
-      document.getElementById('btn-sun').classList.toggle('active', mode === 'sunny');
-      document.getElementById('btn-rain').classList.toggle('active', mode === 'rainy');
-      renderTour(mode);
-    }
-
-    /* 方案 A 迪士尼心愿单与全量项目库管理数据逻辑 (全量丰富补充) */
+    /* 方案 A 迪士尼心愿单与全量项目库管理数据逻辑 (全量补充) */
     const allDisneyData = {
       land: [
         { id: 'l1', name: '美女与野兽：城堡奇缘', wait: '110-150分', star: '★★★★★', dpa: true, defaultWish: true },
@@ -3072,7 +2904,7 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
-    // 初始化运行
+    // 初始化
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
