@@ -31,6 +31,7 @@
       --island-text: #ffffff;
       --radius: 22px;
       
+      /* 昼夜动态基础色 */
       --milestone-bg: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
       --milestone-border: rgba(14, 165, 233, 0.4);
       --milestone-text: #0f172a;
@@ -41,6 +42,7 @@
       --milestone-sub-text: #475569;
       --milestone-item-bg: rgba(255, 255, 255, 0.85);
 
+      /* 弹窗昼夜基础色 */
       --modal-bg: #ffffff;
       --modal-text: #0f172a;
       --modal-border: rgba(0, 0, 0, 0.12);
@@ -51,6 +53,7 @@
       --modal-table-td-text: #0f172a;
     }
 
+    /* 黑夜模式变量 */
     body.is-night {
       --milestone-bg: linear-gradient(140deg, #090e17 0%, #172033 100%);
       --milestone-border: rgba(56, 189, 248, 0.38);
@@ -140,7 +143,7 @@
       opacity: 1;
     }
 
-    /* Next Milestone 卡片 */
+    /* Next Milestone 卡片 (昼夜自适应 + 高对比易读) */
     .top-card-container { padding: 0 14px; margin-bottom: 14px; }
     .top-timer-card {
       background: var(--milestone-bg);
@@ -262,7 +265,7 @@
     }
     .view-pane.pane-dim { opacity: 0.45; transform: scale(0.98); }
 
-    /* 三栏底置 Dock 导航 (优化左右两侧未选中按钮的高可读性实体色) */
+    /* 三栏底置 Dock 导航 */
     .dock-wrap {
       position: fixed;
       bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
@@ -285,7 +288,7 @@
       padding: 4px;
       display: flex;
       align-items: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.12);
       width: fit-content;
       position: relative;
     }
@@ -307,9 +310,8 @@
       z-index: 2;
       border: none;
       background: transparent;
-      /* 提高未选中按钮的文字不透明度与实体对比度，彻底解决左右两侧透底和可读性问题 */
-      color: #cbd5e1;
-      padding: 8px 16px;
+      color: rgba(255,255,255,0.65);
+      padding: 8px 14px;
       border-radius: 30px;
       font-size: 0.74rem;
       font-weight: 800;
@@ -320,10 +322,7 @@
       gap: 4px;
       transition: color 0.25s;
     }
-    @media (prefers-color-scheme: light) {
-      .dock-btn { color: #475569; }
-    }
-    .dock-btn.active { color: #fff !important; }
+    .dock-btn.active { color: #fff; }
     .dock-btn:active { transform: scale(0.92); }
 
     /* 晴雨决策与快捷日期胶囊控制舱 */
@@ -443,7 +442,7 @@
     .t-plane-icon { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 13px; }
     .t-duration-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 手绘质感 SVG 地图容器 */
+    /* 全新手绘质感 SVG 地图容器 */
     .map-tabs-bar {
       display: flex;
       background: var(--glass-bg);
@@ -891,7 +890,7 @@
         </div>
       </div>
 
-      <!-- PANE 1: 📅 行程安排 -->
+      <!-- PANE 1: 📅 行程安排 (原“逐日行程与独立地点导航”) -->
       <div class="view-pane" id="pane-itinerary">
         
         <!-- 晴雨决策与快捷日期胶囊控制舱 -->
@@ -928,7 +927,7 @@
             <button class="map-tab-btn" id="tab-map-metro" onclick="showSketchMap('metro')">🗼 都会圈·大本营</button>
           </div>
           <div class="offline-map-container" id="map-zoom-container">
-            <!-- 视图 1：全程大闭环 -->
+            <!-- 视图 1：全程大闭环 (全新手绘素描风格矢量，无指南针，全节点可点击精确居顶) -->
             <svg class="apple-sketch-map" id="map-svg-all" viewBox="0 0 540 270" xmlns="http://www.w3.org/2000/svg">
               <path class="map-sketch-line" d="M 470,45 C 410,65 340,90 270,115 C 210,135 180,165 150,180 C 145,210 160,225 165,235 C 160,245 150,255 150,260" stroke="var(--text-muted)" stroke-width="2.5" stroke-dasharray="3,3"/>
               <path class="map-sketch-line" d="M 470,45 Q 360,70 270,115" stroke="#f59e0b" stroke-width="3"/>
@@ -1246,7 +1245,7 @@
           </div>
         </div>
 
-        <!-- Day 5 -->
+        <!-- Day 5 (大涌谷文案精简，热海独立横线徽章) -->
         <div class="day-wrapper theme-sunny" id="d5">
           <div class="day-head">
             <div class="day-meta">
@@ -1258,6 +1257,7 @@
             </div>
           </div>
           <div class="day-body-inner">
+            <!-- 独立箱根准则专栏 -->
             <div class="guideline-panel sunny" id="d5-guideline">
               <div class="guideline-header">📌 箱根核心准则</div>
               <div class="guideline-body">
@@ -1271,7 +1271,7 @@
           </div>
         </div>
 
-        <!-- Day 6 -->
+        <!-- Day 6 (伊豆准则专栏，WALK独立分割线) -->
         <div class="day-wrapper theme-sunny" id="d6">
           <div class="day-head">
             <div class="day-meta">
@@ -1283,6 +1283,7 @@
             </div>
           </div>
           <div class="day-body-inner">
+            <!-- 独立伊豆准则专栏 -->
             <div class="guideline-panel sunny" id="d6-guideline">
               <div class="guideline-header">📌 伊豆核心准则</div>
               <div class="guideline-body">
@@ -1294,7 +1295,7 @@
           </div>
         </div>
 
-        <!-- Day 7 -->
+        <!-- Day 7 (描述更新为：羽田T3 · 香港T1 · 香港西九龙 · 广州南) -->
         <div class="day-wrapper" id="d7">
           <div class="day-head">
             <div class="day-meta">
@@ -1394,7 +1395,7 @@
         <span>✈️ 行程信息</span>
       </button>
       <button class="dock-btn active" id="dock-btn-itinerary" onclick="slideToPane(1)">
-        <span>📅 行程安排</span>
+        <span>📅 逐日行程</span>
       </button>
       <button class="dock-btn" id="dock-btn-todo" onclick="slideToPane(2)">
         <span>📌 待办事项</span>
@@ -1402,7 +1403,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 1：ANA 见学接驳车时刻表 -->
+  <!-- 弹窗 1：ANA 见学接驳车时刻表 (全汉化、删除“我的场次”、昼夜自适应) -->
   <div class="modal-overlay" id="modal-ana-bus" onclick="closeModal('modal-ana-bus')">
     <div class="modal-sheet" id="sheet-ana-bus" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -1437,7 +1438,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 2：伊豆大巴时刻表 1 -->
+  <!-- 弹窗 2：伊豆大巴时刻表 1 (汉化、无备注列、周末醒目徽章、昼夜自适应) -->
   <div class="modal-overlay" id="modal-izu-bus1" onclick="closeModal('modal-izu-bus1')">
     <div class="modal-sheet" id="sheet-izu-bus1" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -1475,7 +1476,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 3：伊豆大巴时刻表 2 -->
+  <!-- 弹窗 3：伊豆大巴时刻表 2 (汉化、无备注列、周末醒目徽章、昼夜自适应) -->
   <div class="modal-overlay" id="modal-izu-bus2" onclick="closeModal('modal-izu-bus2')">
     <div class="modal-sheet" id="sheet-izu-bus2" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
@@ -1515,6 +1516,7 @@
       setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
+    // 三板块独立记录滚动高度，切回时不回顶
     const paneScrollPositions = [0, 0, 0];
     let currentPaneIndex = 1;
 
@@ -1530,6 +1532,7 @@
     function slideToPane(index) {
       if (navigator.vibrate) navigator.vibrate([8, 16, 8]);
 
+      // 记录切走前的滚动位置
       paneScrollPositions[currentPaneIndex] = window.pageYOffset || document.documentElement.scrollTop;
 
       currentPaneIndex = index;
@@ -1547,6 +1550,7 @@
       paneItinerary.classList.toggle('pane-dim', index !== 1);
       paneTodo.classList.toggle('pane-dim', index !== 2);
 
+      // 恢复切入板块的对应高度
       requestAnimationFrame(() => {
         window.scrollTo({
           top: paneScrollPositions[index] || 0,
@@ -1555,6 +1559,7 @@
       });
     }
 
+    // 手势横向滑动处理
     let startX = 0, startY = 0, currentDeltaX = 0, isSwiping = false, ignoreSwipe = false;
     let touchStartTime = 0;
     const outer = document.getElementById('viewport-outer');
@@ -1667,6 +1672,7 @@
       }, { passive: true });
     }
 
+    // 地图与胶囊置顶跳转：充分考虑 iPhone 15 Pro 灵动岛安全区高裕度，绝对居顶并闪烁
     function jumpToNode(nodeId, dayId) {
       if (currentPaneIndex !== 1) slideToPane(1);
 
@@ -1759,6 +1765,7 @@
           { id: "tl-d5-8", time: "", place: "大涌谷站 🚠", nav: "https://maps.google.com/?q=Owakudani", desc: "活火山，硫磺味有点重，黑鸡蛋，吃一个多活7年!" },
           { id: "tl-d5-9", time: "", place: "雕刻之森美术馆", nav: "https://maps.google.com/?q=The+Hakone+Open-Air+Museum", desc: "有毕加索的画，出示周游券-100~200ren=1800ren" },
           
+          /* 热海专属高质感分割徽章 */
           { isDivider: true, title: "热海" },
 
           { id: "tl-d5-10", time: "", place: "热海酒店", nav: "https://maps.google.com/?q=Hotel+Resorpia+Atami", desc: "记得带护照" },
@@ -1800,6 +1807,7 @@
         d6_title: "WALK",
         d6_desc: "中目黑 · 代官山 · 涩谷 · 公园 · 晚间羽田撤离",
         d6_nodes: [
+          /* 中目黑专属分割线 */
           { isDivider: true, title: "中目黑" },
           { id: "tl-d6-r1", time: "", place: "Sidewalk Stand", nav: "https://maps.google.com/?q=Sidewalk+Stand+Nakameguro", desc: "偶遇陈冠希" },
           { id: "tl-d6-r2", time: "", place: "TRASPARENTE - 糕点店Nakameguro", nav: "https://maps.google.com/?q=TRASPARENTE+Nakameguro", desc: "奶茶布丁 推荐试一下" },
@@ -1810,14 +1818,17 @@
           { id: "tl-d6-r7", time: "", place: "豆虎", nav: "https://maps.google.com/?q=Mametora+Nakameguro", desc: "咖啡，很多人喝，但是好像一般般" },
           { id: "tl-d6-r8", time: "", place: "星巴克", nav: "https://maps.google.com/?q=Starbucks+Reserve+Roastery+Tokyo", desc: "亚洲最大星巴克，提前搜一下预约码" },
 
+          /* 代官山专属分割线 */
           { isDivider: true, title: "代官山" },
           { id: "tl-d6-r9", time: "", place: "茑屋书店", nav: "https://maps.google.com/?q=Daikanyama+T-Site", desc: "一个漂亮的小书店" },
           { id: "tl-d6-r10", time: "", place: "Miffy café", nav: "https://maps.google.com/?q=Miffy+cafe+Daikanyama", desc: "米菲咖啡" },
           { id: "tl-d6-11", time: "", place: "Allegory HomeTools", nav: "https://maps.google.com/?q=Allegory+HomeTools", desc: "平价餐具小店铺" },
 
+          /* 涩谷专属分割线 */
           { isDivider: true, title: "涩谷" },
           { id: "tl-d6-12", time: "", place: "涩谷", nav: "https://maps.google.com/?q=Shibuya+Scramble+Crossing", desc: "找找修丽可，中午逛累了找点吃的" },
 
+          /* 公园专属分割线 */
           { isDivider: true, title: "公园" },
           { id: "tl-d6-13", time: "", place: "新宿御苑/代代木公园", nav: "https://maps.google.com/?q=Shinjuku+Gyoen+National+Garden", desc: "阴天去刚好" },
           { id: "tl-d6-14", time: "撤离", place: "羽田机场 T3", nav: "https://maps.google.com/?q=Haneda+Airport+Terminal+3", desc: "提行李前往羽田 T3，从容办理乘机手续。" }
@@ -2015,6 +2026,7 @@
       } catch (e) {}
     }
 
+    // 仅游玩当天才对最近一班大巴开启倒计时并高亮
     function highlightNextBus(tbodyId, modalSheetId, targetDateStr) {
       try {
         const tbody = document.getElementById(tbodyId);
@@ -2081,6 +2093,7 @@
       highlightNextBus(`izu-bus${idx}-tbody`, `sheet-izu-bus${idx}`, '2026-10-05');
     }
 
+    // 后续倒计时行程列表
     const milestoneEvents = [
       { name: "广州南乘车启程 🚄", time: new Date("2026-09-30T10:28:00+08:00").getTime(), dayId: "d1" },
       { name: "香港快运航班起飞 🛫", time: new Date("2026-09-30T15:10:00+08:00").getTime(), dayId: "d1" },
@@ -2112,6 +2125,7 @@
 
     let currentDayTarget = "d1";
 
+    // 动态检查昼夜模式：06:00 - 18:00 为白天，其他为夜晚
     function updateDayNightMode() {
       const now = new Date();
       const jstH = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', hour: 'numeric', hour12: false }).format(now));
@@ -2176,10 +2190,12 @@
       dEl.innerText = String(days).padStart(2, '0');
       hEl.innerText = String(hours).padStart(2, '0');
       mEl.innerText = String(mins).padStart(2, '0');
+      
       sEl.innerText = String(secs).padStart(2, '0');
       sEl.classList.add('num-tick');
       setTimeout(() => sEl.classList.remove('num-tick'), 150);
 
+      // 渲染后续日程列表
       const futureEvents = milestoneEvents.filter(e => e.time > now);
       const listContainer = document.getElementById('future-schedule-list');
       if (listContainer) {
@@ -2199,6 +2215,7 @@
 
     function jumpToCurrentDay() { jumpToDayCard(currentDayTarget); }
 
+    // 初始化运行
     updateDayNightMode();
     renderTour('sunny');
     renderTodoList();
